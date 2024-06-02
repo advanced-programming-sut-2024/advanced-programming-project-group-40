@@ -3,10 +3,7 @@ package models;
 import models.cards.Card;
 import models.cards.Leader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.*;
 
 public class User {
     private String username;
@@ -133,5 +130,23 @@ public class User {
     }
     public void addPoint(int addingPoint){
         point += addingPoint;
+    }
+
+
+    //this function checks if two users are the same by checking the USERNAME & PASSWORD & EMAIL & NICKNAME & FACTION
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(nickName, user.nickName) &&
+                Objects.equals(faction, user.faction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password, email, nickName, faction);
     }
 }

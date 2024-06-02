@@ -1,5 +1,7 @@
 package models.cards;
 
+import java.util.Objects;
+
 public abstract class Card {
     protected final String name;
     protected final String boast;
@@ -24,4 +26,15 @@ public abstract class Card {
         return detail;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card card)) return false;
+        return Objects.equals(name, card.name) && Objects.equals(boast, card.boast) && Objects.equals(detail, card.detail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, boast, detail);
+    }
 }
