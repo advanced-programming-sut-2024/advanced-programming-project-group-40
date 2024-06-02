@@ -15,7 +15,8 @@ public class MatchTable {
     private User firstPlayer;
     private User secondPlayer;
     private boolean isFirstPlayerTurn;
-    private boolean opponentPassed;
+    private boolean secondPlayerPassed;
+    private boolean firstPlayerPassed;
     private int round;
     private Date date;
     private final ArrayList<Integer> firstPlayerPoints = new ArrayList<>();
@@ -83,32 +84,32 @@ public class MatchTable {
         boolean areCardsUnderWeather = isRowUnderWeather(rowNumber);
         boolean areCardsBoosted = isRowUnderBoost(user_id, rowNumber);
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
-        ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND,row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST,row);
-        if (areCardsUnderWeather){
-            for (Card card : row){
+        ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        if (areCardsUnderWeather) {
+            for (Card card : row) {
                 UnitCard unitCard = (UnitCard) card;
                 unitCard.setShowingPower(1);
             }
         }
-        for (Card card : row){
+        for (Card card : row) {
             UnitCard unitCard = (UnitCard) card;
-            if (tightBondCards.contains(card)){
-                unitCard.setShowingPower(unitCard.getShowingPower() * getNumberOfCards(card,tightBondCards));
+            if (tightBondCards.contains(card)) {
+                unitCard.setShowingPower(unitCard.getShowingPower() * getNumberOfCards(card, tightBondCards));
             }
         }
-        for (Card card : row){
+        for (Card card : row) {
             UnitCard unitCard = (UnitCard) card;
-            if (moralBoostCards.contains(card)){
-                unitCard.setShowingPower(unitCard.getShowingPower()+ moralBoostCards.size()-1);
-            }else {
-                unitCard.setShowingPower(unitCard.getShowingPower()+ moralBoostCards.size());
+            if (moralBoostCards.contains(card)) {
+                unitCard.setShowingPower(unitCard.getShowingPower() + moralBoostCards.size() - 1);
+            } else {
+                unitCard.setShowingPower(unitCard.getShowingPower() + moralBoostCards.size());
             }
         }
-        if (areCardsBoosted){
-            for (Card card : row){
+        if (areCardsBoosted) {
+            for (Card card : row) {
                 UnitCard unitCard = (UnitCard) card;
-                unitCard.setShowingPower(unitCard.getShowingPower()*2);
+                unitCard.setShowingPower(unitCard.getShowingPower() * 2);
             }
         }
     }
@@ -207,39 +208,88 @@ public class MatchTable {
     }
 
     public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
-        return null;
+        ArrayList<Card> randomCards = new ArrayList<>();
+        ArrayList<Card> copiedCards = new ArrayList<>(deck);
+        for (int i = 0; i < 10; i++) {
+            Card tempCard = copiedCards.get(Game.random.nextInt(0, copiedCards.size()));
+            randomCards.add(tempCard);
+            copiedCards.remove(tempCard);
+        }
+        return randomCards;
     }
 
     public void placeCard(Card card, int rowNumber) {
 
     }
 
-    public void addToCloseCombatRow(Card card) {
+    public void addToCloseCombatRow(int userID, Card card) {
 
     }
 
-    public void addToRangeRow(Card card) {
+    public void addToRangeRow(int userID, Card card) {
 
     }
 
-    public void addToSiegeRow(Card card) {
+    public void addToSiegeRow(int userID, Card card) {
 
     }
 
-    public void addToSpellCards(SpecialCard specialCard) {
+    public void addToSpellCards(int userID, SpecialCard specialCard) {
 
     }
 
-    public void addToInPlayCards(Card card) {
+    public void addToBoostCard(int userID, int rowID, Card card) {
+        switch (userID) {
+            case 0:
+                switch (rowID){
+                    case 0:
+                        firstPlayerCloseCombatBoostCard = card;
+                        break;
+                    case 1:
+                        firstPlayerRangedBoostCard = card;
+                        break;
+                    case 2:
+                        firstPlayerSiegeBoostCard = card;
+                        break;
+                }
+                break;
+            case 1:
+                switch (rowID){
+                    case 0:
+                        secondPlayerCloseCombatBoostCard = card;
+                        break;
+                    case 1:
+                        secondPlayerRangedBoostCard = card;
+                        break;
+                    case 2:
+                        secondPlayerSiegeBoostCard = card;
+                        break;
+                }
+                break;
+        }
+    }
+
+    public void addToInPlayCards(int userID, Card card) {
 
     }
 
-    public void addToDeadCards(Card card) {
+    public void addToDeadCards(int userID, Card card) {
 
     }
 
     public void updatePoints() {
-
+        //update everything
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 3; j++) {
+                setPlayerRowScore(i, j);
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            firstPlayerRowPoints.set(i, getPlayerRowScore(0, i));
+            secondPlayerRowPoints.set(i, getPlayerRowScore(1, i));
+        }
+        firstPlayerCurrentPoint = getPlayerTotalScore(0);
+        secondPlayerCurrentPoint = getPlayerTotalScore(1);
     }
 
     public void calculatePlayersPoints() {
@@ -263,19 +313,43 @@ public class MatchTable {
     }
 
     public boolean isRoundFinished() {
-        return true;
+        return secondPlayerPassed && firstPlayerPassed;
     }
 
     public boolean isMatchFinished() {
-        return true;
+        return firstPlayerCrystals == 2 || secondPlayerCrystals == 2;
     }
 
     public void clearMatchTable() {
+        int row = 0;
+        //for monsterFaction;
+        Card savedCard = null;
+        boolean isMonster = false;
+        if (Objects.equals(firstPlayer.getFaction(), "monsters")) {
+            isMonster = true;
+            row = Game.random.nextInt(0, 3);
+            savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
+        }
+        for (int i = 0; i < 3; i++) {
+            getRowByID(0, i).clear();
+        }
+        if (isMonster) getRowByID(0, row).add(savedCard);
 
+
+        isMonster = false;
+        if (Objects.equals(secondPlayer.getFaction(), "monsters")) {
+            isMonster = true;
+            row = Game.random.nextInt(0, 3);
+            savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
+        }
+        for (int i = 0; i < 3; i++) {
+            getRowByID(1, i).clear();
+        }
+        if (isMonster) getRowByID(1, row).add(savedCard);
     }
 
-    public void clearSpecialCards() {
-
+    public void clearSpellCards() {
+        spellCards.clear();
     }
 
     public void reduceCrystal() {
@@ -283,6 +357,8 @@ public class MatchTable {
     }
 
     public User winningUser() {
+        if (firstPlayerCrystals == 2) return firstPlayer;
+        if (secondPlayerCrystals == 2) return secondPlayer;
         return null;
     }
 
@@ -307,7 +383,7 @@ public class MatchTable {
         return false;
     }
 
-    //checks for comander horn in boost card place and
+    //checks for commander horn in boost card place and
     // for specials cards in the given row that give the commanders horn effect
     private boolean isRowUnderBoost(int user_id, int rowID) {
         ArrayList<Card> row = getRowByID(user_id, rowID);
@@ -376,6 +452,7 @@ public class MatchTable {
         };
         return row;
     }
+
     private int getNumberOfCards(Card card, ArrayList<Card> cards) {
         int num = 0;
         for (Card card1 : cards) {
@@ -383,6 +460,7 @@ public class MatchTable {
         }
         return num;
     }
+
     private int getNumberOfCardsWithName(String name, ArrayList<Card> cards) {
         int num = 0;
         for (Card card : cards) {
@@ -392,9 +470,9 @@ public class MatchTable {
     }
 
 
-    private ArrayList<Card> getCardsWithAbility(Ability ability,ArrayList<Card> cards){
+    private ArrayList<Card> getCardsWithAbility(Ability ability, ArrayList<Card> cards) {
         ArrayList<Card> retVal = new ArrayList<>();
-        for (Card card: cards){
+        for (Card card : cards) {
             UnitCard unitCard = (UnitCard) card;
             if (unitCard.getAbility() == ability) retVal.add(card);
         }
