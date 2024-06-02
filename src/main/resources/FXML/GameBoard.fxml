@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane prefHeight="700.0" prefWidth="1150.0" stylesheets="@../CSS/Test.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.GameMenu">
+
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <VBox prefHeight="709.0" prefWidth="245.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <Pane prefHeight="701.0" prefWidth="622.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+         <children>
+            <VBox layoutY="-1.0" prefHeight="272.0" prefWidth="622.0">
+               <children>
+                  <HBox fx:id="secondPlayerSiege" prefHeight="100.0" prefWidth="200.0" styleClass="siege" />
+                  <HBox fx:id="secondPlayerRanged" prefHeight="100.0" prefWidth="200.0" styleClass="ranged" />
+                  <HBox fx:id="secondPlayerCloseCombat" prefHeight="100.0" prefWidth="200.0" styleClass="closecombat" />
+               </children>
+            </VBox>
+            <VBox layoutY="321.0" prefHeight="272.0" prefWidth="622.0" stylesheets="@../CSS/Test.css">
+               <children>
+                  <HBox fx:id="firstPlayerCloseCombat" prefHeight="100.0" prefWidth="200.0" styleClass="closecombat" />
+                  <HBox fx:id="firstPlayerRanged" prefHeight="100.0" prefWidth="200.0" styleClass="ranged" />
+                  <HBox fx:id="firstPlayerSiege" prefHeight="100.0" prefWidth="200.0" styleClass="siege" />
+               </children>
+            </VBox>
+            <HBox fx:id="Hand" layoutY="593.0" prefHeight="108.0" prefWidth="622.0" styleClass="hand" />
+         </children>
+      </Pane>
+      <Pane prefHeight="701.0" prefWidth="282.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+         <children>
+            <Pane layoutX="-2.0" prefHeight="224.0" prefWidth="262.0" />
+            <Pane layoutY="462.0" prefHeight="239.0" prefWidth="282.0" />
+         </children>
+      </Pane>
+   </children>
+</GridPane>

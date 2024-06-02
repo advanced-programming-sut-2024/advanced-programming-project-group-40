@@ -1,0 +1,27 @@
+.closecombat{
+    -fx-background-image: url("../Assets/GameAssets/Rows/close_combat.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.siege{
+    -fx-background-image: url("../Assets/GameAssets/Rows/siege_combat.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.ranged{
+    -fx-background-image: url("../Assets/GameAssets/Rows/range_combat.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.root{
+    -fx-background-image: url("../Assets/GameAssets/Rows/GameBackground.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.hand{
+    -fx-background-image: url("../Assets/GameAssets/Rows/hand_row.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+
