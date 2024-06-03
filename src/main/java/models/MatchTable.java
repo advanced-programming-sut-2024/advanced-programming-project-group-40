@@ -50,6 +50,8 @@ public class MatchTable {
     private final ArrayList<SpecialCard> spellCards = new ArrayList<>();
     private Leader firstPlayerLeader;
     private Leader secondPlayerLeader;
+    private boolean isFirstPlayerLeaderUsed = false;
+    private boolean isSecondPlayerLeaderUsed = false;
 
 
     public MatchTable(User firstPlayer, User secondPlayer) {
