@@ -1,0 +1,41 @@
+.closecombat{
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/close_combat.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-spacing: 10px;
+}
+.siege{
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/siege_combat.png");
+    -fx-background-size: cover;
+    -fx-spacing: 10px;
+    -fx-background-repeat: no-repeat;
+}
+.ranged{
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/range_combat.png");
+    -fx-background-size: cover;
+    -fx-spacing: 10px;
+    -fx-background-repeat: no-repeat;
+}
+.root{
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/GameBackground.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.hand{
+    -fx-spacing: 10px;
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/hand_row.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.special{
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/special.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+.weather{
+    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/weather.png");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+}
+
+

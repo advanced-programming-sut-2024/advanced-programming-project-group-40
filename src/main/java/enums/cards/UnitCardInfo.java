@@ -6,6 +6,8 @@ import enums.Unit;
 import models.cards.UnitCard;
 
 public enum UnitCardInfo {
+    TEST("testCard",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST2("test2Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
     ;
     public final String name;
     public final int power;
