@@ -1,10 +1,12 @@
 package views;
 
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
 public class PreGameMenu extends PlayMenu {
     @Override
-    public void check(Scanner scanner) {
+    public void start(Stage primaryStage) throws Exception {
 
     }
 }
