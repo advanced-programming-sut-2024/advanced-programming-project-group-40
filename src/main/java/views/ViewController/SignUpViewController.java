@@ -1,5 +1,7 @@
 package views.ViewController;
 
+import controllers.SignUpMenuController;
+import controllers.UserInfoController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -40,57 +42,42 @@ public class SignUpViewController {
             email.setDisable(newValue.trim().isEmpty());
 
             // Validate the first text field and change its border color if necessary
-            validateTextField(username);
+            validateTextField(username, SignUpMenuController.isUsernameValid(username.getText()));
         });
 
 
-        // Add a listener to the first text field
         email.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Enable or disable the second text field based on the content of the first text field
             nickname.setDisable(newValue.trim().isEmpty());
 
-            // Validate the first text field and change its border color if necessary
-            validateTextField(email);
+            validateTextField(email, SignUpMenuController.isEmailValid(email.getText()));
         });
 
 
-        // Add a listener to the first text field
         nickname.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Enable or disable the second text field based on the content of the first text field
             password.setDisable(newValue.trim().isEmpty());
-            // Enable or disable the second text field based on the content of the first text field
             randomPass.setDisable(newValue.trim().isEmpty());
-
-            // Validate the first text field and change its border color if necessary
-            validateTextField(nickname);
         });
 
 
-        // Add a listener to the first text field
         password.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Enable or disable the second text field based on the content of the first text field
-            passwordConfirmation.setDisable(newValue.trim().isEmpty());
+            if (UserInfoController.isPasswordValid(password.getText()))
+                passwordConfirmation.setDisable(newValue.trim().isEmpty());
 
-            // Validate the first text field and change its border color if necessary
-            validateTextField(password);
+            validateTextField(password, SignUpMenuController.isPasswordValid(email.getText()));
         });
 
-        // Add a listener to the first text field
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Enable or disable the second text field based on the content of the first text field
             signUp.setDisable(newValue.trim().isEmpty());
 
-            // Validate the first text field and change its border color if necessary
-            validateTextField(password);
+            validateTextField(passwordConfirmation, SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()));
         });
     }
 
-    private void validateTextField(TextField textField) {
-        String text = textField.getText();
-        if (!text.matches("\\d*")) { // Check if the text contains only digits
-            textField.getStyleClass().add("error-border");
-        } else {
+    private void validateTextField(TextField textField, boolean valid) {
+        if (valid) {
             textField.getStyleClass().removeAll("error-border");
+        } else {
+            textField.getStyleClass().add("error-border");
         }
     }
 
