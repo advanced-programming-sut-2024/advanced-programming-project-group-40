@@ -8,6 +8,8 @@ module advanced.programming.project.group {
     opens views to javafx.fxml;
     exports views.ViewController;
     opens views.ViewController to javafx.fxml;
+    exports models;
+    opens models to javafx.fxml;
 
 //    opens Model to com.google.gson,com.fasterxml.jackson.databind;
 //    opens Model.GameComponent.Missile.Cluster to com.fasterxml.jackson.databind, com.google.gson;

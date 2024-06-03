@@ -1,12 +1,13 @@
-package enums.messages;
+package enums.AlertInfo.messages;
 
-public enum ProfileMenuMessages {
+public enum MainMenuMessages {
     ;
     private final String message;
 
-    ProfileMenuMessages(String message) {
+    MainMenuMessages(String message) {
         this.message = message;
     }
+
     @Override
     public String toString() {
         return message;

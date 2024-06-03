@@ -3,6 +3,7 @@ package views.ViewController;
 import controllers.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import models.Alert;
 import models.Result;
 
 public class LoginViewController {
@@ -12,7 +13,7 @@ public class LoginViewController {
     private TextField password;
 
     public void signInClicked() {
-        Result result = LoginMenuController.signIn(username.getText(), password.getText());
+        Alert alert = LoginMenuController.signIn(username.getText(), password.getText());
     }
 
 }

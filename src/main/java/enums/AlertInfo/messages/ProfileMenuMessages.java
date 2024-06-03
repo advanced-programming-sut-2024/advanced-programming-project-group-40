@@ -1,10 +1,10 @@
-package enums.messages;
+package enums.AlertInfo.messages;
 
-public enum RegisterMenuMessages {
+public enum ProfileMenuMessages {
     ;
     private final String message;
 
-    RegisterMenuMessages(String message) {
+    ProfileMenuMessages(String message) {
         this.message = message;
     }
     @Override

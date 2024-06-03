@@ -1,10 +1,10 @@
-package enums.messages;
+package enums.AlertInfo.messages;
 
-public enum PreGameMenuMessages {
+public enum GameMenuMessages {
     ;
     private final String message;
 
-    PreGameMenuMessages(String message) {
+    GameMenuMessages(String message) {
         this.message = message;
     }
 

@@ -1,19 +1,22 @@
 package controllers;
 
-import enums.messages.LoginMenuMessages;
+import javafx.scene.control.Alert.AlertType;
+import enums.AlertInfo.AlertHeader;
+import enums.AlertInfo.messages.LoginMenuMessages;
+import models.Alert;
 import models.Game;
 import models.Result;
 import models.User;
 
 public class LoginMenuController extends Controller {
 
-    public static Result signIn(String username, String password) {
+    public static Alert signIn(String username, String password) {
         User user;
         if ((user = Game.getUserByName(username)) == null)
-            return new Result(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
+            return new Alert(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_USERNAME.toString());
         if (!user.getPassword().equals(password))
-            return new Result(false, LoginMenuMessages.INCORRECT_PASSWORD.toString());
-        return new Result(true, LoginMenuMessages.STAY_LOGGED_IN.toString());
+            return new Alert(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_PASSWORD.toString());
+        return new Alert(AlertType.CONFIRMATION, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.STAY_LOGGED_IN.toString());
     }
 
     public static Result forgetPassword(String username, int questionNumber, String answer, String newPassword) {

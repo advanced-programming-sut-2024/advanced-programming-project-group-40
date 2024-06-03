@@ -1,4 +1,4 @@
-package enums.messages;
+package enums.AlertInfo.messages;
 
 public enum LoginMenuMessages {
     INCORRECT_USERNAME("Username is incorrect"),

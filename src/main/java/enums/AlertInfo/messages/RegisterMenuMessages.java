@@ -1,10 +1,10 @@
-package enums.messages;
+package enums.AlertInfo.messages;
 
-public enum SecurityQuestion {
+public enum RegisterMenuMessages {
     ;
     private final String message;
 
-    SecurityQuestion(String message) {
+    RegisterMenuMessages(String message) {
         this.message = message;
     }
     @Override
