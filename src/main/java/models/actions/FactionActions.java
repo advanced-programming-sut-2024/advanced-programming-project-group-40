@@ -15,8 +15,9 @@ public abstract class FactionActions {
     }
     private static MatchTable matchTable;
 
-    public static void doActionByName(String name, MatchTable currentMatchTable) {
+    public static void doActionByName(int userID,String name, MatchTable currentMatchTable) {
         matchTable = currentMatchTable;
+        //todo
     }
 
 }
