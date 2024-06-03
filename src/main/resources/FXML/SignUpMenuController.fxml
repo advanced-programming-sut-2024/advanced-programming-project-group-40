@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SignUpViewController">
+   <children>
+      <VBox alignment="CENTER" layoutX="345.0" layoutY="168.0" prefHeight="343.0" prefWidth="189.0" stylesheets="@../CSS/ButtonAndLabelStyle.css">
+         <children>
+            <Label text="Username" />
+            <TextField alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="[a-zA-Z0-9-]" />
+            <Label text="Email" />
+            <TextField alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="***@**.**" />
+            <Label text="Nickname" />
+            <TextField alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="anything you want:)" />
+            <Label text="Password" />
+            <TextField alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="[a-zA-Z0-9!@#$%^]" />
+            <TextField alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="confirmation" translateY="5.0" />
+            <Button mnemonicParsing="false" styleClass="button-no-background" stylesheets="@../CSS/ButtonAndLabelStyle.css" text="Get a random password" />
+            <Button mnemonicParsing="false" text="Sign up" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
