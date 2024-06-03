@@ -4,9 +4,10 @@ import enums.cards.UnitCardInfo;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import models.Game;
+import models.MatchTable;
 import models.cards.UnitCard;
 
 import java.net.URL;
@@ -82,11 +83,20 @@ public class GameMenu extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        UnitCard unitCard = new UnitCard(UnitCardInfo.TEST);
-        Hand.getChildren().add(unitCard);
-        unitCard = new UnitCard(UnitCardInfo.TEST2);
-        Hand.getChildren().add(unitCard);
-        firstplayerclosecombatspecial.getChildren().add(unitCard);
+        MatchTable matchTable = Game.getLoggedInUser().getMatchesPlayed().getLast();
+        secondPlayerName.setText(STR."\{matchTable.getSecondPlayer().getNickName()}");
+        firstPlayerName.setText(STR."\{matchTable.getFirstPlayer().getNickName()}");
+        firstPlayerFaction.setText(STR."\{matchTable.getFirstPlayer().getFaction()}");
+        secondPlayerFaction.setText(STR."\{matchTable.getSecondPlayer().getFaction()}");
+        //todo
+        //initialize faction and leader images for each player
+    }
 
+    private void update(){
+        MatchTable matchTable = Game.getLoggedInUser().getMatchesPlayed().getLast();
+        firstplayerdeckamount.setText(STR."\{matchTable.getFirstPlayerDeckCards().size()}");
+        secondplayerdeckamount.setText(STR."\{matchTable.getSecondPlayerDeckCards().size()}");
+        firstPlayerRemainingCards.setText(STR."\{matchTable.getFirstPlayerInPlayCards().size()}");
+        secondPlayerRemainingCards.setText(STR."\{matchTable.getSecondPlayerInPlayCards().size()}");
     }
 }
