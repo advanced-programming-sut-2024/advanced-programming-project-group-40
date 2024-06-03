@@ -1,9 +1,12 @@
 package views;
 
+import enums.cards.UnitCardInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import models.cards.Card;
+import models.cards.UnitCard;
 
 import java.net.URL;
 

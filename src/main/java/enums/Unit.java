@@ -1,6 +1,7 @@
 package enums;
 
 public enum Unit {
+    Test("test")
     ;
     private final String unit;
 

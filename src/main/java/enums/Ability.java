@@ -1,6 +1,7 @@
 package enums;
 
 public enum Ability {
+    Test("test"),
     TIGHT_BOND("Tight Bond"),
     MORAL_BOOST("Moral Boost")
 

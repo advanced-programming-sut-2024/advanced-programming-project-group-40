@@ -3,6 +3,7 @@ package enums;
 import models.cards.Card;
 
 public enum Factions {
+    Test("test")
     ;
     private final String name;
 
