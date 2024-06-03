@@ -2,13 +2,10 @@ package views.ViewController;
 
 import controllers.LoginMenuController;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import models.AlertMaker;
-import models.Game;
-import models.Result;
+import views.ForgetPasswordMenu;
+import views.LoginMenu;
 
 public class LoginViewController {
     @FXML
@@ -23,6 +20,13 @@ public class LoginViewController {
             LoginMenuController.stayLoggedInSelected();
     }
 
+    private void forgotPasswordClicked() {
+        try {
+            new ForgetPasswordMenu().start(LoginMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }
