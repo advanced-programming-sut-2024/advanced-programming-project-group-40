@@ -21,6 +21,7 @@ public class User {
     private final ArrayList<Card> deckCards = new ArrayList<>();
     private Leader leader;
     private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private boolean stayLoggedIn;
 
     public User(String username, String password, String email, String nickName, int questionNumber, String answer) {
         this.username = username;
@@ -28,6 +29,7 @@ public class User {
         this.email = email;
         this.nickName = nickName;
         this.securityQuestion.put(questionNumber, answer);
+        this.stayLoggedIn = false;
     }
 
     public int getRank() {
@@ -66,6 +68,14 @@ public class User {
         this.nickName = nickName;
     }
 
+    public boolean isStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public void setStayLoggedIn(boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
+
     public String getFaction() {
         return faction;
     }
@@ -89,6 +99,7 @@ public class User {
     public ArrayList<Card> getDeckCards() {
         return deckCards;
     }
+
     public int getPoint() {
         return point;
     }
@@ -113,22 +124,27 @@ public class User {
         return matchesPlayed;
     }
 
-    public void addToGamesPlayed(){
+    public void addToGamesPlayed() {
         gamesPlayed++;
     }
-    public void addToWin(){
+
+    public void addToWin() {
         won++;
     }
-    public void addToDraw(){
+
+    public void addToDraw() {
         draw++;
     }
-    public void addToLost(){
+
+    public void addToLost() {
         lost++;
     }
-    public void addToMatchesPlayed(MatchTable matchTable){
+
+    public void addToMatchesPlayed(MatchTable matchTable) {
         matchesPlayed.add(matchTable);
     }
-    public void addPoint(int addingPoint){
+
+    public void addPoint(int addingPoint) {
         point += addingPoint;
     }
 
