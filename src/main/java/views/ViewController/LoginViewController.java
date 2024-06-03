@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import models.AlertMaker;
 import views.ForgetPasswordMenu;
 import views.LoginMenu;
+import views.SignUpMenu;
 
 public class LoginViewController {
     @FXML
@@ -20,9 +21,17 @@ public class LoginViewController {
             LoginMenuController.stayLoggedInSelected();
     }
 
-    private void forgotPasswordClicked() {
+    public void forgetPasswordClicked() {
         try {
             new ForgetPasswordMenu().start(LoginMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void signUpClicked(){
+        try {
+            new SignUpMenu().start(LoginMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
