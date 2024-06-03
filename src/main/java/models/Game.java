@@ -11,7 +11,8 @@ public class Game {
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static User loggedInUser;
     private static Menu currentMenu = Menu.LoginMenu;
-    public static ArrayList<User> getUsersRanked(){
+
+    public static ArrayList<User> getUsersRanked() {
         return null;
     }
 
@@ -25,5 +26,13 @@ public class Game {
 
     public static Menu getCurrentMenu() {
         return currentMenu;
+    }
+
+    public static User getUserByName(String name) {
+        for (User user : allUsers) {
+            if (user.getUsername().equals(name))
+                return user;
+        }
+        return null;
     }
 }
