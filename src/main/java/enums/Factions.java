@@ -3,7 +3,10 @@ package enums;
 import models.cards.Card;
 
 public enum Factions {
-    Test("test")
+    Test("test"),
+    NORTHERN_REALMS("Realms Northern"),
+    MONSTERS("Monsters"),
+    SKELLIGE("Skellige"),
     ;
     private final String name;
 

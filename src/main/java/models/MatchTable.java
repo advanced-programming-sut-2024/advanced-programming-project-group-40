@@ -2,6 +2,7 @@ package models;
 
 import enums.Ability;
 import enums.Factions;
+import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
 import models.actions.LeaderActions;
 import models.cards.Card;
@@ -15,9 +16,9 @@ public class MatchTable {
     private User firstPlayer;
     private User secondPlayer;
     private boolean isFirstPlayerTurn;
-    private boolean secondPlayerPassed;
-    private boolean firstPlayerPassed;
-    private int round;
+    private boolean secondPlayerPassed = false;
+    private boolean firstPlayerPassed = false;
+    private int round = 1;
     private Date date;
     private final ArrayList<Integer> firstPlayerPoints = new ArrayList<>();
     private final ArrayList<Integer> secondPlayerPoints = new ArrayList<>();
@@ -25,7 +26,8 @@ public class MatchTable {
     private int secondPlayerCurrentPoint;
     private final ArrayList<Integer> firstPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
     private final ArrayList<Integer> secondPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
-
+    private final ArrayList<Card> firstPlayerDeckCards = new ArrayList<>();
+    private final ArrayList<Card> secondPlayerDeckCards = new ArrayList<>();
     private final ArrayList<Card> firstPlayerCloseCombatRow = new ArrayList<>(Collections.singletonList(null));
     private Card firstPlayerCloseCombatBoostCard;
     private final ArrayList<Card> secondPlayerCloseCombatRow = new ArrayList<>(Collections.singletonList(null));
@@ -45,16 +47,20 @@ public class MatchTable {
     private final ArrayList<Card> secondPlayerDeadCards = new ArrayList<>();
     private final ArrayList<Card> firstPlayerInPlayCards = new ArrayList<>();
     private final ArrayList<Card> secondPlayerInPlayCards = new ArrayList<>();
-    private int firstPlayerCrystals;
-    private int secondPlayerCrystals;
+    private int firstPlayerCrystals = 2;
+    private int secondPlayerCrystals = 2;
     private final ArrayList<SpecialCard> spellCards = new ArrayList<>();
     private Leader firstPlayerLeader;
     private Leader secondPlayerLeader;
+    private boolean isFirstPlayerLeaderUsed = false;
+    private boolean isSecondPlayerLeaderUsed = false;
 
 
     public MatchTable(User firstPlayer, User secondPlayer) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
+        firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
+        secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
     }
 
     //firstPlayer -> id=0
@@ -175,6 +181,22 @@ public class MatchTable {
         return firstPlayerInPlayCards;
     }
 
+    public ArrayList<Card> getFirstPlayerDeckCards() {
+        return firstPlayerDeckCards;
+    }
+
+    public ArrayList<Card> getSecondPlayerDeckCards() {
+        return secondPlayerDeckCards;
+    }
+
+    public User getFirstPlayer() {
+        return firstPlayer;
+    }
+
+    public User getSecondPlayer() {
+        return secondPlayer;
+    }
+
     public ArrayList<Card> getSecondPlayerInPlayCards() {
         return secondPlayerInPlayCards;
     }
@@ -207,6 +229,7 @@ public class MatchTable {
         return secondPlayerRowPoints;
     }
 
+    //gives some random card without removing them from the deck
     public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
         ArrayList<Card> randomCards = new ArrayList<>();
         ArrayList<Card> copiedCards = new ArrayList<>(deck);
@@ -218,63 +241,80 @@ public class MatchTable {
         return randomCards;
     }
 
-    public void placeCard(Card card, int rowNumber) {
-
+    //places card without removing it from its origin(we don't know where the origin is)
+    public void placeCard(Card card, int userID, int rowNumber) {
+        ArrayList<Card> row = getRowByID(userID, rowNumber);
+        row.add(card);
     }
 
-    public void addToCloseCombatRow(int userID, Card card) {
-
-    }
-
-    public void addToRangeRow(int userID, Card card) {
-
-    }
-
-    public void addToSiegeRow(int userID, Card card) {
-
-    }
-
-    public void addToSpellCards(int userID, SpecialCard specialCard) {
-
-    }
-
-    public void addToBoostCard(int userID, int rowID, Card card) {
-        switch (userID) {
-            case 0:
-                switch (rowID){
+    //places card without removing it from its origin(we don't know where the origin is)
+    public void placeBoostCard(Card card, int userID, int rowNumber) {
+        switch (card.getName()) {
+            case "Commander's Horn":
+                switch (userID) {
                     case 0:
-                        firstPlayerCloseCombatBoostCard = card;
+                        switch (rowNumber) {
+                            case 0:
+                                firstPlayerCloseCombatBoostCard = card;
+                                break;
+                            case 1:
+                                firstPlayerRangedBoostCard = card;
+                                break;
+                            case 2:
+                                firstPlayerSiegeBoostCard = card;
+                                break;
+                        }
                         break;
                     case 1:
-                        firstPlayerRangedBoostCard = card;
-                        break;
-                    case 2:
-                        firstPlayerSiegeBoostCard = card;
+                        switch (rowNumber) {
+                            case 0:
+                                secondPlayerCloseCombatBoostCard = card;
+                                break;
+                            case 1:
+                                secondPlayerRangedBoostCard = card;
+                                break;
+                            case 2:
+                                secondPlayerSiegeBoostCard = card;
+                                break;
+                        }
                         break;
                 }
                 break;
+            case "Mardroeme":
+                applyMardroeme(userID, rowNumber);
+                break;
+            default:
+
+        }
+    }
+
+    //places card without removing it from its origin(we don't know where the origin is)
+    public void addToSpellCards(SpecialCard specialCard) {
+        spellCards.add(specialCard);
+    }
+
+    //places card without removing it from its origin(we don't know where the origin is)
+    public void addToInPlayCards(int userID, Card card) {
+        switch (userID) {
+            case 0:
+                firstPlayerInPlayCards.add(card);
+                break;
             case 1:
-                switch (rowID){
-                    case 0:
-                        secondPlayerCloseCombatBoostCard = card;
-                        break;
-                    case 1:
-                        secondPlayerRangedBoostCard = card;
-                        break;
-                    case 2:
-                        secondPlayerSiegeBoostCard = card;
-                        break;
-                }
+                secondPlayerInPlayCards.add(card);
                 break;
         }
     }
 
-    public void addToInPlayCards(int userID, Card card) {
-
-    }
-
+    //places card without removing it from its origin(we don't know where the origin is)
     public void addToDeadCards(int userID, Card card) {
-
+        switch (userID) {
+            case 0:
+                firstPlayerDeckCards.add(card);
+                break;
+            case 1:
+                secondPlayerDeadCards.add(card);
+                break;
+        }
     }
 
     public void updatePoints() {
@@ -292,24 +332,89 @@ public class MatchTable {
         secondPlayerCurrentPoint = getPlayerTotalScore(1);
     }
 
-    public void calculatePlayersPoints() {
-
-    }
 
     public void leaderAction() {
         LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
     }
 
-    public void factionAction(Factions faction) {
-        FactionActions.doActionByName(faction.name(), this);
+    public void factionAction(int playerID, Factions faction) {
+        FactionActions.doActionByName(playerID, faction.name(), this);
     }
 
-    public void startTurn() {
+    public void startTurn(int userID) {
+        switch (userID) {
+            case 0:
+                isFirstPlayerTurn = true;
+                break;
+            case 1:
+                isFirstPlayerTurn = false;
+                break;
+        }
+    }
+
+    public void endTurn(int userID) {
+        switch (userID) {
+            case 0:
+                if (!secondPlayerPassed) isFirstPlayerTurn = false;
+                break;
+            case 1:
+                if (!firstPlayerPassed) isFirstPlayerTurn = true;
+                break;
+        }
 
     }
 
-    public void endTurn() {
+    public void pass(int userID) {
+        switch (userID) {
+            case 0:
+                firstPlayerPassed = true;
+                break;
+            case 1:
+                secondPlayerPassed = true;
+                break;
+        }
+        if (isRoundFinished()) finishRound();
+    }
 
+    private void finishRound() {
+        round++;
+        int firstPlayerScore = getPlayerTotalScore(0);
+        int secondPlayerScore = getPlayerTotalScore(1);
+        if (firstPlayerScore == secondPlayerScore) {
+            //nillfgardian empire ability
+            if (Objects.equals(firstPlayer.getFaction(), "Empire Nilfgaardian") &&
+                    !Objects.equals(secondPlayer.getFaction(), "Empire Nilfgaardian")) {
+                reduceCrystal(1);
+            } else if (!Objects.equals(firstPlayer.getFaction(), "Empire Nilfgaardian") &&
+                    Objects.equals(secondPlayer.getFaction(), "Empire Nilfgaardian")) {
+                reduceCrystal(0);
+            }
+
+        } else if (firstPlayerScore > secondPlayerScore) {
+            reduceCrystal(1);
+            if (Objects.equals(firstPlayer.getFaction(), "Realms Northern")) {
+                factionAction(0, Factions.NORTHERN_REALMS);
+            }
+            //monsters already handled in clear match table
+
+        } else {
+            reduceCrystal(0);
+            if (Objects.equals(secondPlayer.getFaction(), "Realms Northern")) {
+                factionAction(1, Factions.NORTHERN_REALMS);
+            }
+            //monsters already handled in clear match table
+
+        }
+        clearMatchTable();
+        //Skellige ability
+        if (round == 3) {
+            if (Objects.equals(firstPlayer.getFaction(), "Skellige")) {
+                factionAction(0, Factions.SKELLIGE);
+            }
+            if (Objects.equals(secondPlayer.getFaction(), "Skellige")) {
+                factionAction(1, Factions.SKELLIGE);
+            }
+        }
     }
 
     public boolean isRoundFinished() {
@@ -346,14 +451,31 @@ public class MatchTable {
             getRowByID(1, i).clear();
         }
         if (isMonster) getRowByID(1, row).add(savedCard);
+
+        //boost cards:
+        firstPlayerCloseCombatBoostCard = null;
+        firstPlayerSiegeBoostCard = null;
+        firstPlayerRangedBoostCard = null;
+        secondPlayerCloseCombatBoostCard = null;
+        secondPlayerSiegeBoostCard = null;
+        secondPlayerRangedBoostCard = null;
+
     }
 
     public void clearSpellCards() {
         spellCards.clear();
     }
 
-    public void reduceCrystal() {
+    public void reduceCrystal(int playerID) {
+        switch (playerID) {
+            case 0:
+                firstPlayerCrystals--;
+                break;
+            case 1:
+                secondPlayerCrystals--;
+                break;
 
+        }
     }
 
     public User winningUser() {
@@ -390,11 +512,11 @@ public class MatchTable {
         boolean x;
         switch (user_id) {
             case 0:
-                x = getaBoolean(rowID, firstPlayerCloseCombatBoostCard, firstPlayerRangedBoostCard, firstPlayerSiegeBoostCard);
+                x = isThereCommanderHorn(rowID, firstPlayerCloseCombatBoostCard, firstPlayerRangedBoostCard, firstPlayerSiegeBoostCard);
                 if (x) return true;
                 break;
             case 1:
-                x = getaBoolean(rowID, secondPlayerCloseCombatBoostCard, secondPlayerRangedBoostCard, secondPlayerSiegeBoostCard);
+                x = isThereCommanderHorn(rowID, secondPlayerCloseCombatBoostCard, secondPlayerRangedBoostCard, secondPlayerSiegeBoostCard);
                 if (x) return true;
                 break;
         }
@@ -409,9 +531,9 @@ public class MatchTable {
     }
 
     //checks for commander horn in the given boost card place
-    private boolean getaBoolean(int rowID, Card secondPlayerCloseCombatBoostCard,
-                                Card secondPlayerRangedBoostCard,
-                                Card secondPlayerSiegeBoostCard) {
+    private boolean isThereCommanderHorn(int rowID, Card secondPlayerCloseCombatBoostCard,
+                                         Card secondPlayerRangedBoostCard,
+                                         Card secondPlayerSiegeBoostCard) {
         switch (rowID) {
             case 0:
                 if (secondPlayerCloseCombatBoostCard != null) {
@@ -477,6 +599,25 @@ public class MatchTable {
             if (unitCard.getAbility() == ability) retVal.add(card);
         }
         return retVal;
+    }
+
+    private void applyMardroeme(int userID, int rowID) {
+        ArrayList<Card> row = getRowByID(userID, rowID);
+        int berserkerNum = 0;
+        ArrayList<Card> toRemove = new ArrayList<>();
+        for (Card card : row) {
+            UnitCard unitCard = (UnitCard) card;
+            if (unitCard.getAbility() == Ability.MARDROEME) {
+                berserkerNum++;
+                toRemove.add(unitCard);
+            }
+        }
+        row.removeAll(toRemove);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
+        for (int i = 0; i < berserkerNum; i++) {
+            row.add(unitCard);
+
+        }
     }
 
 }
