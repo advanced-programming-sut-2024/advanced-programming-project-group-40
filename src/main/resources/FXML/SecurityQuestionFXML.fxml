@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SecurityQuestionViewController">
+    <children>
+        <VBox layoutX="278.0" layoutY="139.0" prefHeight="241.0" prefWidth="324.0">
+            <children>
+                <Label fx:id="question1" contentDisplay="CENTER" prefHeight="40.0" prefWidth="412.0" text="Label">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="question2" contentDisplay="CENTER" prefHeight="41.0" prefWidth="401.0" text="Label">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="question3" contentDisplay="CENTER" prefHeight="41.0" prefWidth="366.0" text="Label">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="question4" contentDisplay="CENTER" prefHeight="41.0" prefWidth="388.0" text="Label">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Label fx:id="question5" contentDisplay="CENTER" prefHeight="41.0" prefWidth="384.0" text="Label">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

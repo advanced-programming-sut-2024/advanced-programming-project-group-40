@@ -1,17 +1,17 @@
 package views;
 
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class SignUpMenu extends PlayMenu{
-
+public class SecurityQuestionMenu extends Application {
     public static Stage stage;
     @Override
     public void start(Stage stage) throws Exception {
-        SignUpMenu.stage = stage;
-        Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/FXML/SignUpMenuFXML.fxml"));
+        SecurityQuestionMenu.stage = stage;
+        Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/FXML/SecurityQuestionFXML.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();
     }
