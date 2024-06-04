@@ -8,7 +8,7 @@ public abstract class UserInfoController extends Controller {
 
     private static SecureRandom random = new SecureRandom();
 
-    protected static boolean isUserNameUnique(String username) {
+    public static boolean isUsernameUnique(String username) {
         return Game.getUserByName(username) == null;
     }
 
@@ -45,7 +45,7 @@ public abstract class UserInfoController extends Controller {
         StringBuilder usernameBuilder = new StringBuilder(username);
         while (true) {
             usernameBuilder.append(number);
-            if (isUserNameUnique(usernameBuilder.toString())) {
+            if (isUsernameUnique(usernameBuilder.toString())) {
                 return usernameBuilder.toString();
             }
         }

@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SignUpViewController">
    <children>
-      <VBox alignment="CENTER" layoutX="247.0" layoutY="122.0" prefHeight="406.0" prefWidth="385.0" stylesheets="@../CSS/ButtonAndLabelStyle.css">
+      <VBox alignment="CENTER" layoutX="196.0" layoutY="136.0" prefHeight="406.0" prefWidth="488.0" stylesheets="@../CSS/ButtonAndLabelStyle.css">
          <children>
             <Label text="Username" translateY="-50.0">
                <font>
@@ -32,7 +32,11 @@
             <Button fx:id="randomPass" mnemonicParsing="false" styleClass="button-no-background" stylesheets="@../CSS/ButtonAndLabelStyle.css" text="Get a random password" underline="true" />
             <Button fx:id="signUp" mnemonicParsing="false" onMouseClicked="#signUpClicked" text="Sign up" translateY="15.0" />
             <Label translateY="20.0" />
-            <Label fx:id="errorLabel" text="Label" />
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="447.0" textFill="#bf0909">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
+            <Label fx:id="errorLabel2" alignment="CENTER" contentDisplay="CENTER" />
          </children>
       </VBox>
    </children>

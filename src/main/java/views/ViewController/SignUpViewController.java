@@ -1,8 +1,7 @@
 package views.ViewController;
 
-import controllers.LoginMenuController;
 import controllers.SignUpMenuController;
-import controllers.UserInfoController;
+import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 
 public class SignUpViewController {
+    @FXML
+    private Label errorLabel2;
     @FXML
     private Label errorLabel;
     @FXML
@@ -36,27 +37,36 @@ public class SignUpViewController {
         passwordConfirmation.setDisable(true);
         email.setDisable(true);
         nickname.setDisable(true);
-
         randomPass.setDisable(true);
         signUp.setDisable(true);
 
-
+        errorLabel.getStyleClass().add("error-label");
+        errorLabel2.getStyleClass().add("error-label");
         // Add a listener to the first text field
         username.textProperty().addListener((observable, oldValue, newValue) -> {
+            boolean validUsername = SignUpMenuController.isUsernameValid(username.getText()) || SignUpMenuController.isUsernameUnique(username.getText());
+            boolean uniqueUsername = SignUpMenuController.isUsernameUnique(username.getText());
             // Enable or disable the second text field based on the content of the first text field
-            if (SignUpMenuController.isUsernameValid(username.getText()))
+            if (validUsername && uniqueUsername) {
+                removeError(username);
                 email.setDisable(newValue.trim().isEmpty());
+            } else {
+                if (!validUsername)
+                    setError(username, SignUpMenuMessages.INVALID_USER.toString(), "");
+                else
+                    setError(username, SignUpMenuMessages.DUPLICATE_USER.toString(), "");
+            }
 
-            // Validate the first text field and change its border color if necessary
-            validateTextField(username, SignUpMenuController.isUsernameValid(username.getText()));
         });
 
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isEmailValid(email.getText()))
+            if (SignUpMenuController.isEmailValid(email.getText())) {
+                removeError(email);
                 nickname.setDisable(newValue.trim().isEmpty());
-
-            validateTextField(email, SignUpMenuController.isEmailValid(email.getText()));
+            } else {
+                setError(email, SignUpMenuMessages.INVALID_EMAIL.toString(), "");
+            }
         });
 
 
@@ -67,27 +77,46 @@ public class SignUpViewController {
 
 
         password.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isPasswordValid(password.getText()))
-                passwordConfirmation.setDisable(newValue.trim().isEmpty());
+            boolean validPassword = SignUpMenuController.isPasswordValid(password.getText());
+            boolean weakPassword = SignUpMenuController.isPasswordWeak(password.getText());
+            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(password.getText());
 
-            validateTextField(password, SignUpMenuController.isPasswordValid(email.getText()));
+            if (validPassword && weakPassword && weakAndShortPassword) {
+                removeError(password);
+                passwordConfirmation.setDisable(newValue.trim().isEmpty());
+            } else {
+                if (!validPassword)
+                    setError(password, SignUpMenuMessages.INVALID_PASSWORD.toString(), "");
+                else if (!weakPassword)
+                    setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.INVALID_PASSWORD.toString());
+                else
+                    setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
+            }
         });
 
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()))
+            if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText())) {
+                removeError(passwordConfirmation);
                 signUp.setDisable(newValue.trim().isEmpty());
-
-            validateTextField(passwordConfirmation, SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()));
+            } else {
+                setError(passwordConfirmation, SignUpMenuMessages.WRONG_PASSWORD_CONFIRMATION.toString(),"");
+            }
         });
     }
 
-    private void validateTextField(TextField textField, boolean valid) {
-        if (valid) {
-            textField.getStyleClass().removeAll("error-border");
-        } else {
-            textField.getStyleClass().add("error-border");
-        }
+    private void setError(TextField textField, String error, String error2) {
+        textField.getStyleClass().add("error-border");
+        errorLabel.setCenterShape(true);
+        errorLabel.setText(error);
+        errorLabel2.setText(error2);
     }
+
+    private void removeError(TextField textField) {
+        textField.getStyleClass().removeAll("error-border");
+        errorLabel.setText("");
+        errorLabel2.setText("");
+    }
+
 
     private void goToQuestionPage() {
         // todo
