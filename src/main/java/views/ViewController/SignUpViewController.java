@@ -8,8 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
+import views.SecurityQuestionMenu;
+import views.SignUpMenu;
 
 public class SignUpViewController {
     @FXML
@@ -101,7 +102,7 @@ public class SignUpViewController {
                 removeError(passwordConfirmation);
                 signUp.setDisable(newValue.trim().isEmpty());
             } else {
-                setError(passwordConfirmation, SignUpMenuMessages.WRONG_PASSWORD_CONFIRMATION.toString(), "");
+                setError(passwordConfirmation, SignUpMenuMessages.WRONG_CONFIRMATION.toString(), "");
             }
         });
     }
@@ -121,14 +122,20 @@ public class SignUpViewController {
 
 
     private void goToQuestionPage() {
-        // todo
+        try {
+            new SecurityQuestionMenu().start(SignUpMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void signUpClicked() {
-        AlertMaker alert = SignUpMenuController.signUp(username.getText(), password.getText(), passwordConfirmation.getText(), nickname.getText(), email.getText());
+    public void ContinueClicked() {
+        AlertMaker alert = SignUpMenuController.Continue(username.getText());
         alert.showAlert();
-        if (alert.isOK())
+        if (alert.isOK()) {
+            SignUpMenuController.creatUser(username.getText(), password.getText(), email.getText(), nickname.getText());
             goToQuestionPage();
+        }
     }
 
 
@@ -139,7 +146,6 @@ public class SignUpViewController {
         passwordConfirmation.setDisable(true);
         alert.showAlert();
         if (alert.isOK()) {
-            System.out.println("p[p[p[");
             password.setText(randomNewPassword);
             password.setDisable(false);
             passwordConfirmation.setText(randomNewPassword);
@@ -148,4 +154,5 @@ public class SignUpViewController {
             password.setDisable(false);
         }
     }
+
 }

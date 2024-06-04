@@ -21,7 +21,7 @@ public abstract class UserInfoController extends Controller {
     }
 
     public static boolean isEmailValid(String email) {
-        return email.matches("\\S+@(gmail|yahoo|email).com");
+        return email.matches("\\S+@\\S+.com");
     }
 
     public static boolean isPasswordValid(String password) {

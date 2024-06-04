@@ -1,10 +1,22 @@
 package views.ViewController;
 
+import controllers.SignUpMenuController;
 import enums.SecurityQuestion;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import models.AlertMaker;
 
 public class SecurityQuestionViewController {
+    @FXML
+    private Button signUp;
+    @FXML
+    private TextField confirmation;
+    @FXML
+    private TextField questionNumber;
+    @FXML
+    private TextField answer;
     @FXML
     private Label question1;
     @FXML
@@ -16,12 +28,23 @@ public class SecurityQuestionViewController {
     @FXML
     private Label question5;
 
-
     public void initialize() {
-        question1.setText(SecurityQuestion.FIRST_Q.toString());
-        question2.setText(SecurityQuestion.SECOND_Q.toString());
-        question3.setText(SecurityQuestion.THIRD_Q.toString());
-        question4.setText(SecurityQuestion.FOURTH_Q.toString());
-        question5.setText(SecurityQuestion.FIFTH_Q.toString());
+        question1.setText(SecurityQuestion.getQuestion(1));
+        question2.setText(SecurityQuestion.getQuestion(2));
+        question3.setText(SecurityQuestion.getQuestion(3));
+        question4.setText(SecurityQuestion.getQuestion(4));
+        question5.setText(SecurityQuestion.getQuestion(5));
+
+        signUp.setDisable(true);
+
+        confirmation.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!questionNumber.getText().isEmpty() && !answer.getText().isEmpty() && !confirmation.getText().isEmpty())
+                signUp.setDisable(false);
+        });
+    }
+
+    public void signUpClicked() {
+        AlertMaker alertMaker = SignUpMenuController.signUp(Integer.parseInt(questionNumber.getText()), answer.getText(), confirmation.getText());
+        alertMaker.showAlert();
     }
 }

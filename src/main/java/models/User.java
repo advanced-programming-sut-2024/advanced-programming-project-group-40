@@ -17,18 +17,18 @@ public class User {
     private int draw;
     private int lost;
     //    private final ArrayList<Card> allCards = new ArrayList<>();
-    private final HashMap<Integer, String> securityQuestion = new HashMap<>();
+    private  String SecurityAnswer;
+    private  int SecurityQuestionNumber;
     private final ArrayList<Card> deckCards = new ArrayList<>();
     private Leader leader;
     private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
-    public User(String username, String password, String email, String nickName, int questionNumber, String answer) {
+    public User(String username, String password, String email, String nickName) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.nickName = nickName;
-        this.securityQuestion.put(questionNumber, answer);
         this.stayLoggedIn = false;
     }
 
@@ -68,6 +68,22 @@ public class User {
         this.nickName = nickName;
     }
 
+    public String getSecurityAnswer() {
+        return SecurityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        SecurityAnswer = securityAnswer;
+    }
+
+    public void setSecurityQuestionNumber(int securityQuestionNumber) {
+        SecurityQuestionNumber = securityQuestionNumber;
+    }
+
+    public int getSecurityQuestionNumber() {
+        return SecurityQuestionNumber;
+    }
+
     public boolean isStayLoggedIn() {
         return stayLoggedIn;
     }
@@ -90,10 +106,6 @@ public class User {
 
     public void setLeader(Leader leader) {
         this.leader = leader;
-    }
-
-    public HashMap<Integer, String> getSecurityQuestion() {
-        return securityQuestion;
     }
 
     public ArrayList<Card> getDeckCards() {

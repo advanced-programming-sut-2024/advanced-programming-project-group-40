@@ -35,4 +35,7 @@ public class Game {
         }
         return null;
     }
+    public static void addNewUser(User newUser){
+        allUsers.add(newUser);
+    }
 }
