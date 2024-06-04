@@ -2,7 +2,7 @@ package enums.AlertInfo.messages;
 
 public enum SignUpMenuMessages {
     INVALID_USER("Invalid username format"),
-    DUPLICATE_USER("This username already exists. We can recommend a different one. Do you want that?\n"),
+    DUPLICATE_USER("This username already exists. We can recommend you "),
     INVALID_EMAIL("Invalid email format"),
     WEAK_PASSWORD("Weak password!"),
     SHORT_PASSWORD("It is too short"),
@@ -11,6 +11,7 @@ public enum SignUpMenuMessages {
     WRONG_PASSWORD_CONFIRMATION("The password confirmation is wrong"),
     SIGN_UP_SUCCESSFULLY("Are you sure about your information?"),
     RANDOM_PASSWORD("Your password is : "),
+
 
     ;
     private final String message;
