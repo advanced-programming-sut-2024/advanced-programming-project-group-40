@@ -1,13 +1,18 @@
 package views.ViewController;
 
+import controllers.LoginMenuController;
 import controllers.SignUpMenuController;
 import controllers.UserInfoController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import models.AlertMaker;
 
 public class SignUpViewController {
+    @FXML
+    private Label errorLabel;
     @FXML
     private Button randomPass;
     @FXML
@@ -39,7 +44,8 @@ public class SignUpViewController {
         // Add a listener to the first text field
         username.textProperty().addListener((observable, oldValue, newValue) -> {
             // Enable or disable the second text field based on the content of the first text field
-            email.setDisable(newValue.trim().isEmpty());
+            if (SignUpMenuController.isUsernameValid(username.getText()))
+                email.setDisable(newValue.trim().isEmpty());
 
             // Validate the first text field and change its border color if necessary
             validateTextField(username, SignUpMenuController.isUsernameValid(username.getText()));
@@ -47,7 +53,8 @@ public class SignUpViewController {
 
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
-            nickname.setDisable(newValue.trim().isEmpty());
+            if (SignUpMenuController.isEmailValid(email.getText()))
+                nickname.setDisable(newValue.trim().isEmpty());
 
             validateTextField(email, SignUpMenuController.isEmailValid(email.getText()));
         });
@@ -60,14 +67,15 @@ public class SignUpViewController {
 
 
         password.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (UserInfoController.isPasswordValid(password.getText()))
+            if (SignUpMenuController.isPasswordValid(password.getText()))
                 passwordConfirmation.setDisable(newValue.trim().isEmpty());
 
             validateTextField(password, SignUpMenuController.isPasswordValid(email.getText()));
         });
 
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
-            signUp.setDisable(newValue.trim().isEmpty());
+            if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()))
+                signUp.setDisable(newValue.trim().isEmpty());
 
             validateTextField(passwordConfirmation, SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()));
         });
@@ -81,5 +89,14 @@ public class SignUpViewController {
         }
     }
 
+    private void goToQuestionPage() {
+        // todo
+    }
 
+    public void signUpClicked(MouseEvent mouseEvent) {
+        AlertMaker alert = SignUpMenuController.signUp(username.getText(), password.getText(), passwordConfirmation.getText(), nickname.getText(), email.getText());
+        alert.showAlert();
+        if (alert.isYes())
+            goToQuestionPage();
+    }
 }

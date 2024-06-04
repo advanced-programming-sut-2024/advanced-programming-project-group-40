@@ -21,7 +21,7 @@ public class LoginViewController {
             LoginMenuController.stayLoggedInSelected();
     }
 
-    public void forgetPasswordClicked() {
+    public void goToForgetPassword() {
         try {
             new ForgetPasswordMenu().start(LoginMenu.stage);
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public class LoginViewController {
         }
     }
 
-    public void signUpClicked(){
+    public void goToSignUpMenu(){
         try {
             new SignUpMenu().start(LoginMenu.stage);
         } catch (Exception e) {

@@ -24,8 +24,12 @@ public abstract class UserInfoController extends Controller {
         return password.matches("[0-9a-zA-Z!@#$%^&*\\-]+");
     }
 
+    public static boolean isPasswordShort(String password) {
+   return password.length() > 7;
+    }
+
     public static boolean isPasswordWeak(String password) {
-        return password.matches("^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!@#$%^&*\\-]+)[0-9a-zA-Z!@#$%^&*\\-]+$") && password.length() > 7;
+        return password.matches("^(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*[0-9]+)(?=.*[!@#$%^&*\\-]+)[0-9a-zA-Z!@#$%^&*\\-]+$");
     }
 
     public static boolean isPasswordTheSame(String password, String confirmPassword) {
@@ -36,6 +40,16 @@ public abstract class UserInfoController extends Controller {
         return generatePassword();
     }
 
+    public static String generateUsername(String username) {
+        int number = 0;
+        StringBuilder usernameBuilder = new StringBuilder(username);
+        while (true) {
+            usernameBuilder.append(number);
+            if (isUserNameUnique(usernameBuilder.toString())) {
+                return usernameBuilder.toString();
+            }
+        }
+    }
 
     private static String generatePassword() {
         String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
