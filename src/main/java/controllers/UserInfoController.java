@@ -8,6 +8,10 @@ public abstract class UserInfoController extends Controller {
 
     private static SecureRandom random = new SecureRandom();
 
+    public static void changePassword(String password) {
+        Game.getLoggedInUser().setPassword(password);
+    }
+
     public static boolean isUsernameUnique(String username) {
         return Game.getUserByName(username) == null;
     }
@@ -25,7 +29,7 @@ public abstract class UserInfoController extends Controller {
     }
 
     public static boolean isPasswordShort(String password) {
-   return password.length() > 7;
+        return password.length() > 7;
     }
 
     public static boolean isPasswordWeak(String password) {

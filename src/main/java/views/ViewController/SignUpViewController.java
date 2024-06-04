@@ -1,8 +1,10 @@
 package views.ViewController;
 
 import controllers.SignUpMenuController;
+import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -28,7 +30,7 @@ public class SignUpViewController {
     private TextField email;
     @FXML
     private TextField username;
-
+    private String randomNewPassword;
 
     @FXML
     public void initialize() {
@@ -39,9 +41,9 @@ public class SignUpViewController {
         nickname.setDisable(true);
         randomPass.setDisable(true);
         signUp.setDisable(true);
-
         errorLabel.getStyleClass().add("error-label");
         errorLabel2.getStyleClass().add("error-label");
+        randomNewPassword = "";
         // Add a listener to the first text field
         username.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validUsername = SignUpMenuController.isUsernameValid(username.getText()) || SignUpMenuController.isUsernameUnique(username.getText());
@@ -86,9 +88,9 @@ public class SignUpViewController {
                 passwordConfirmation.setDisable(newValue.trim().isEmpty());
             } else {
                 if (!validPassword)
-                    setError(password, SignUpMenuMessages.INVALID_PASSWORD.toString(), "");
+                    setError(password, SignUpMenuMessages.INVALID_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
                 else if (!weakPassword)
-                    setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.INVALID_PASSWORD.toString());
+                    setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
                 else
                     setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
             }
@@ -99,7 +101,7 @@ public class SignUpViewController {
                 removeError(passwordConfirmation);
                 signUp.setDisable(newValue.trim().isEmpty());
             } else {
-                setError(passwordConfirmation, SignUpMenuMessages.WRONG_PASSWORD_CONFIRMATION.toString(),"");
+                setError(passwordConfirmation, SignUpMenuMessages.WRONG_PASSWORD_CONFIRMATION.toString(), "");
             }
         });
     }
@@ -122,10 +124,28 @@ public class SignUpViewController {
         // todo
     }
 
-    public void signUpClicked(MouseEvent mouseEvent) {
+    public void signUpClicked() {
         AlertMaker alert = SignUpMenuController.signUp(username.getText(), password.getText(), passwordConfirmation.getText(), nickname.getText(), email.getText());
         alert.showAlert();
-        if (alert.isYes())
+        if (alert.isOK())
             goToQuestionPage();
+    }
+
+
+    public void getRandomPasswordClicked() {
+        randomNewPassword = SignUpMenuController.getRandomPassword();
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.RANDOM_PASSWORD.toString() + randomNewPassword);
+        password.setDisable(true);
+        passwordConfirmation.setDisable(true);
+        alert.showAlert();
+        if (alert.isOK()) {
+            System.out.println("p[p[p[");
+            password.setText(randomNewPassword);
+            password.setDisable(false);
+            passwordConfirmation.setText(randomNewPassword);
+            passwordConfirmation.setDisable(false);
+        } else {
+            password.setDisable(false);
+        }
     }
 }

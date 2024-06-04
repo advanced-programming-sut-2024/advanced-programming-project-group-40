@@ -17,7 +17,7 @@ public class LoginViewController {
     public void signInClicked() {
         AlertMaker alert = LoginMenuController.signIn(username.getText(), password.getText());
         alert.showAlert();
-        if (alert.isYes())
+        if (alert.isOK())
             LoginMenuController.stayLoggedInSelected();
     }
 

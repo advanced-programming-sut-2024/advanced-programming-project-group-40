@@ -27,9 +27,9 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <TextField fx:id="password" alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="[a-zA-Z0-9!@#$%^]" />
-            <TextField fx:id="passwordConfirmation" alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="confirmation" translateY="5.0" />
-            <Button fx:id="randomPass" mnemonicParsing="false" styleClass="button-no-background" stylesheets="@../CSS/ButtonAndLabelStyle.css" text="Get a random password" underline="true" />
+            <PasswordField fx:id="password" alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="[a-zA-Z0-9!@#$%^]" />
+            <PasswordField fx:id="passwordConfirmation" alignment="CENTER" maxWidth="170.0" prefHeight="30.0" promptText="confirmation" translateY="5.0" />
+            <Button fx:id="randomPass" mnemonicParsing="false" styleClass="button-no-background" stylesheets="@../CSS/ButtonAndLabelStyle.css" text="Get a random password" underline="true" onMouseClicked="#getRandomPasswordClicked"/>
             <Button fx:id="signUp" mnemonicParsing="false" onMouseClicked="#signUpClicked" text="Sign up" translateY="15.0" />
             <Label translateY="20.0" />
             <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="447.0" textFill="#bf0909">

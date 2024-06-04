@@ -5,13 +5,13 @@ import javafx.scene.control.ButtonType;
 public class AlertMaker extends javafx.scene.control.Alert {
     private final String header;
     private final String message;
-    private boolean yes;
+    private boolean OK;
 
     public AlertMaker(AlertType alertType, String header, String message) {
         super(alertType);
         this.header = header;
         this.message = message;
-        this.yes = false;
+        this.OK = false;
     }
 
     public void showAlert() {
@@ -20,13 +20,13 @@ public class AlertMaker extends javafx.scene.control.Alert {
         this.setContentText(message);
         this.showAndWait().ifPresent(response -> {
             if (this.getAlertType().equals(AlertType.CONFIRMATION))
-                if (response == ButtonType.YES) {
-                    this.yes = true;
+                if (response == ButtonType.OK) {
+                    this.OK = true;
                 }
         });
     }
 
-    public boolean isYes() {
-        return yes;
+    public boolean isOK() {
+        return OK;
     }
 }
