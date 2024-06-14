@@ -18,6 +18,8 @@ import models.User;
 
 public class ForgetPasswordViewController {
     @FXML
+    private Button submit;
+    @FXML
     private VBox thirdVbox;
     @FXML
     private Label errorLabel;
@@ -39,11 +41,13 @@ public class ForgetPasswordViewController {
     private TextField answer;
     @FXML
     private PasswordField newPassword;
+    private boolean validPass;
     private User user;
 
     public void initialize() {
         secondVBox.setVisible(false);
         thirdVbox.setVisible(false);
+        validPass = false;
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
             boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
@@ -56,8 +60,8 @@ public class ForgetPasswordViewController {
             } else if (weakPassword) {
                 ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
+                validPass = true;
                 ErrorMaker.removeError(errorLabel, errorLabel2, newPassword);
-                change.setDisable(false);
             }
 
         });
@@ -71,7 +75,6 @@ public class ForgetPasswordViewController {
         } else {
             firstVBox.setVisible(false);
             secondVBox.setVisible(true);
-            change.setDisable(true);
             setSecurityQuestion();
         }
 //        }
@@ -85,12 +88,15 @@ public class ForgetPasswordViewController {
         if (!ForgetPasswordController.isAnswerValid(user, answer.getText())) {
             new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_SECURITY_ANSWER.toString()).showAlert();
         } else {
+            submit.setDisable(true);
             thirdVbox.setVisible(true);
         }
     }
 
     public void changeClicked() {
-//        if ()
+        if (validPass) {
+    // todo go to main menu
+        }
     }
 
 }
