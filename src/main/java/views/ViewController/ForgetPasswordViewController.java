@@ -1,7 +1,6 @@
 package views.ViewController;
 
 import controllers.ForgetPasswordController;
-import controllers.LoginMenuController;
 import controllers.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.LoginMenuMessages;
@@ -13,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.AlertMaker;
 import models.ErrorMaker;
-import models.Game;
 import models.User;
 
 public class ForgetPasswordViewController {
@@ -95,10 +93,21 @@ public class ForgetPasswordViewController {
 
     public void changeClicked() {
         if (validPass) {
-    // todo go to main menu
+            // todo go to main menu
         }
     }
 
+    public void getRandomPassword(MouseEvent mouseEvent) {
+        String randomNewPassword = SignUpMenuController.getRandomPassword();
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.RANDOM_PASSWORD.toString() + randomNewPassword);
+        randomPassword.setDisable(true);
+        alert.showAlert();
+        if (alert.isOK()) {
+            changeClicked();
+        } else {
+            randomPassword.setDisable(false);
+        }
+    }
 }
 
 
