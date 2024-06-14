@@ -26,6 +26,7 @@ public class AlertMaker extends javafx.scene.control.Alert {
         });
     }
 
+
     public boolean isOK() {
         return OK;
     }

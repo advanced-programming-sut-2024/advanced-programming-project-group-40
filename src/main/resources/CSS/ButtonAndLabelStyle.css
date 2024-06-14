@@ -4,7 +4,6 @@
     -fx-border-color: transparent; /* Remove border color */
     -fx-border-width: 0; /* Remove border width */
     -fx-text-fill: #C2E7E3; /* Set text color */
-    -fx-font-size: 14px;
     font-weight: bold;
     /* Set font size */
 }

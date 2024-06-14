@@ -8,11 +8,9 @@ import models.Game;
 import models.Result;
 import models.User;
 
-public class LoginMenuController extends Controller {
+public class LoginMenuController extends UserInfoController {
 
     public static AlertMaker signIn(String username, String password) {
-        System.out.println(username + "rgrg");
-        System.out.println(password);
         User user;
         if (username.isEmpty() || password.isEmpty())
             return new AlertMaker(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.EMPTY_FILED.toString());
@@ -36,9 +34,6 @@ public class LoginMenuController extends Controller {
         return null;
     }
 
-    public static boolean isAnswerValid(int questionNumber, String answer) {
-        return true;
-    }
 
     public static void setPassword(String password) {
 

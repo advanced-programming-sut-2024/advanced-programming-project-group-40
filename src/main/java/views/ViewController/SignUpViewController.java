@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import models.AlertMaker;
+import models.ErrorMaker;
 import views.SecurityQuestionMenu;
 import views.SignUpMenu;
 
@@ -51,13 +52,13 @@ public class SignUpViewController {
             boolean uniqueUsername = SignUpMenuController.isUsernameUnique(username.getText());
             // Enable or disable the second text field based on the content of the first text field
             if (validUsername && uniqueUsername) {
-                removeError(username);
+                ErrorMaker.removeError(errorLabel, errorLabel2, username);
                 email.setDisable(newValue.trim().isEmpty());
             } else {
                 if (!validUsername)
-                    setError(username, SignUpMenuMessages.INVALID_USER.toString(), "");
+                    ErrorMaker.setError(errorLabel, errorLabel2, username, SignUpMenuMessages.INVALID_USER.toString(), "");
                 else
-                    setError(username, SignUpMenuMessages.DUPLICATE_USER.toString(), "");
+                    ErrorMaker.setError(errorLabel, errorLabel2, username, SignUpMenuMessages.DUPLICATE_USER.toString(), "");
             }
 
         });
@@ -65,10 +66,10 @@ public class SignUpViewController {
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isEmailValid(email.getText())) {
-                removeError(email);
+                ErrorMaker.removeError(errorLabel, errorLabel2, email);
                 nickname.setDisable(newValue.trim().isEmpty());
             } else {
-                setError(email, SignUpMenuMessages.INVALID_EMAIL.toString(), "");
+                ErrorMaker.setError(errorLabel, errorLabel2, email, SignUpMenuMessages.INVALID_EMAIL.toString(), "");
             }
         });
 
@@ -84,40 +85,27 @@ public class SignUpViewController {
             boolean weakPassword = SignUpMenuController.isPasswordWeak(password.getText());
             boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(password.getText());
 
-            if (validPassword && weakPassword && weakAndShortPassword) {
-                removeError(password);
-                passwordConfirmation.setDisable(newValue.trim().isEmpty());
+
+            if (!validPassword) {
+                ErrorMaker.setError(errorLabel, errorLabel2, password, SignUpMenuMessages.INVALID_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
+            } else if (weakAndShortPassword) {
+                ErrorMaker.setError(errorLabel, errorLabel2, password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
+            } else if (weakPassword) {
+                ErrorMaker.setError(errorLabel, errorLabel2, password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
-                if (!validPassword)
-                    setError(password, SignUpMenuMessages.INVALID_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
-                else if (!weakPassword)
-                    setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
-                else
-                    setError(password, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
+                ErrorMaker.removeError(errorLabel, errorLabel2, password);
+                passwordConfirmation.setDisable(newValue.trim().isEmpty());
             }
         });
 
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText())) {
-                removeError(passwordConfirmation);
+                ErrorMaker.removeError(errorLabel, errorLabel2, passwordConfirmation);
                 signUp.setDisable(newValue.trim().isEmpty());
             } else {
-                setError(passwordConfirmation, SignUpMenuMessages.WRONG_CONFIRMATION.toString(), "");
+                ErrorMaker.setError(errorLabel, errorLabel2, passwordConfirmation, SignUpMenuMessages.WRONG_CONFIRMATION.toString(), "");
             }
         });
-    }
-
-    private void setError(TextField textField, String error, String error2) {
-        textField.getStyleClass().add("error-border");
-        errorLabel.setCenterShape(true);
-        errorLabel.setText(error);
-        errorLabel2.setText(error2);
-    }
-
-    private void removeError(TextField textField) {
-        textField.getStyleClass().removeAll("error-border");
-        errorLabel.setText("");
-        errorLabel2.setText("");
     }
 
 
