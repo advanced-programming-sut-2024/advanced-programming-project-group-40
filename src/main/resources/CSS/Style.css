@@ -27,11 +27,22 @@
     -fx-text-fill: #a80303;
 }
 
-.VBox{
+.Box{
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
     -fx-background-color: rgb(71, 107, 101,0.3);
+}
+
+.Question-Box{
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #F8EECB;
+    -fx-background-color: rgb(248, 238, 203,0.2);
+}
+
+.label.yellow {
+    -fx-text-fill: rgba(133, 110, 53, 0.99);
 }
 
 .text-field {

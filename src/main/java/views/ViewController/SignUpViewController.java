@@ -13,6 +13,8 @@ import models.ErrorMaker;
 import views.SecurityQuestionMenu;
 import views.SignUpMenu;
 
+import java.util.ArrayList;
+
 public class SignUpViewController {
     @FXML
     private Label usernameError;
@@ -37,18 +39,16 @@ public class SignUpViewController {
     @FXML
     private TextField username;
     private String randomNewPassword;
+    private ArrayList<Boolean> validFiled = new ArrayList<Boolean>();
+
+    {
+        for (int i = 0; i < 4; i++)
+            validFiled.add(false);
+    }
 
     @FXML
     public void initialize() {
-        // disable the second text field initially
-//        password.setDisable(true);
         passwordConfirmation.setDisable(true);
-//        email.setDisable(true);
-//        nickname.setDisable(true);
-//        randomPass.setDisable(true);
-//        signUp.setDisable(true);
-//        errorLabel.getStyleClass().add("error-label");
-//        errorLabel2.getStyleClass().add("error-label");
         randomNewPassword = "";
         // Add a listener to the first text field
         username.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -57,7 +57,9 @@ public class SignUpViewController {
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || username.getText().isEmpty()) {
                 ErrorMaker.removeError(usernameError, username);
+                validFiled.add(0, false);
             } else {
+                validFiled.add(0, true);
                 if (!validUsername)
                     ErrorMaker.setError(usernameError, username, SignUpMenuMessages.INVALID_USER.toString());
                 else
@@ -68,18 +70,13 @@ public class SignUpViewController {
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isEmailValid(email.getText()) || email.getText().isEmpty()) {
+                validFiled.add(1, true);
                 ErrorMaker.removeError(emailError, email);
             } else {
+                validFiled.add(1, false);
                 ErrorMaker.setError(emailError, email, SignUpMenuMessages.INVALID_EMAIL.toString());
             }
         });
-
-
-        nickname.textProperty().addListener((observable, oldValue, newValue) -> {
-            password.setDisable(newValue.trim().isEmpty());
-            randomPass.setDisable(newValue.trim().isEmpty());
-        });
-
 
         password.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validPassword = SignUpMenuController.isPasswordValid(password.getText());
@@ -87,14 +84,19 @@ public class SignUpViewController {
             boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(password.getText());
 
             if (password.getText().isEmpty()) {
+                validFiled.add(2, false);
                 ErrorMaker.removeError(passError, password);
             } else if (!validPassword) {
+                validFiled.add(2, false);
                 ErrorMaker.setError(passError, password, SignUpMenuMessages.INVALID_PASSWORD.toString());
             } else if (weakAndShortPassword) {
+                validFiled.add(2, false);
                 ErrorMaker.setError(passError, password, SignUpMenuMessages.SHORT_PASSWORD.toString());
             } else if (weakPassword) {
+                validFiled.add(2, false);
                 ErrorMaker.setError(passError, password, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
+                validFiled.add(2, true);
                 passwordConfirmation.setDisable(false);
                 ErrorMaker.removeError(passError, password);
             }
@@ -102,8 +104,10 @@ public class SignUpViewController {
 
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()) || passwordConfirmation.getText().isEmpty()) {
+                validFiled.add(3, true);
                 ErrorMaker.removeError(confirmationError, passwordConfirmation);
             } else {
+                validFiled.add(3, false);
                 ErrorMaker.setError(confirmationError, passwordConfirmation, SignUpMenuMessages.WRONG_CONFIRMATION.toString());
             }
         });
@@ -119,11 +123,13 @@ public class SignUpViewController {
     }
 
     public void ContinueClicked() {
-        AlertMaker alert = SignUpMenuController.Continue(username.getText());
-        alert.showAlert();
-        if (alert.isOK()) {
-            SignUpMenuController.creatUser(username.getText(), password.getText(), email.getText(), nickname.getText());
-            goToQuestionPage();
+        if (!validFiled.contains(false)) {
+            AlertMaker alert = SignUpMenuController.Continue(username.getText());
+            alert.showAlert();
+            if (alert.isOK()) {
+                SignUpMenuController.creatUser(username.getText(), password.getText(), email.getText(), nickname.getText());
+                goToQuestionPage();
+            }
         }
     }
 

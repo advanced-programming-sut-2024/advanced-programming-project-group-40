@@ -35,16 +35,14 @@ public class SecurityQuestionViewController {
         question4.setText(SecurityQuestion.getQuestion(4));
         question5.setText(SecurityQuestion.getQuestion(5));
 
-        signUp.setDisable(true);
 
-        confirmation.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!questionNumber.getText().isEmpty() && !answer.getText().isEmpty() && !confirmation.getText().isEmpty())
-                signUp.setDisable(false);
-        });
     }
 
     public void signUpClicked() {
-        AlertMaker alertMaker = SignUpMenuController.signUp(Integer.parseInt(questionNumber.getText()), answer.getText(), confirmation.getText());
-        alertMaker.showAlert();
+        if (!confirmation.getText().isEmpty() && !questionNumber.getText().isEmpty() && !answer.getText().isEmpty()) {
+
+            AlertMaker alertMaker = SignUpMenuController.signUp(Integer.parseInt(questionNumber.getText()), answer.getText(), confirmation.getText());
+            alertMaker.showAlert();
+        }
     }
 }

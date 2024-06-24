@@ -4,40 +4,41 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="680.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SecurityQuestionViewController">
+<AnchorPane prefHeight="680.0" prefWidth="880.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SecurityQuestionViewController">
     <children>
-        <VBox layoutX="278.0" layoutY="139.0" prefHeight="241.0" prefWidth="324.0">
+        <BorderPane layoutX="257.0" layoutY="107.0" prefHeight="443.0" prefWidth="357.0" styleClass="Box" />
+        <VBox layoutX="274.0" layoutY="125.0" prefHeight="214.0" prefWidth="326.0" styleClass="Question-Box">
             <children>
-                <Label fx:id="question1" contentDisplay="CENTER" prefHeight="40.0" prefWidth="412.0" text="Label">
+                <Label fx:id="question1" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="412.0" styleClass="yellow" text="Label" textFill="#d9bb85">
                     <font>
-                        <Font size="16.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="question2" contentDisplay="CENTER" prefHeight="41.0" prefWidth="401.0" text="Label">
+                <Label fx:id="question2" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="401.0" styleClass="yellow" text="Label">
                     <font>
-                        <Font size="16.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="question3" contentDisplay="CENTER" prefHeight="41.0" prefWidth="366.0" text="Label">
+                <Label fx:id="question3" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="366.0" styleClass="yellow" text="Label">
                     <font>
-                        <Font size="16.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="question4" contentDisplay="CENTER" prefHeight="41.0" prefWidth="388.0" text="Label">
+                <Label fx:id="question4" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="388.0" styleClass="yellow" text="Label">
                     <font>
-                        <Font size="16.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-                <Label fx:id="question5" contentDisplay="CENTER" prefHeight="41.0" prefWidth="384.0" text="Label">
+                <Label fx:id="question5" alignment="CENTER" contentDisplay="CENTER" prefHeight="41.0" prefWidth="384.0" styleClass="yellow" text="Label">
                     <font>
-                        <Font size="16.0" />
+                        <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
             </children>
         </VBox>
-      <TextField fx:id="answer"  alignment="CENTER" layoutX="365.0" layoutY="411.0" maxWidth="170.0" prefHeight="30.0" promptText="Answer" />
+      <TextField fx:id="answer" alignment="CENTER" layoutX="365.0" layoutY="411.0" maxWidth="170.0" prefHeight="30.0" promptText="Answer" />
       <TextField fx:id="questionNumber" alignment="CENTER" layoutX="483.0" layoutY="372.0" prefHeight="30.0" prefWidth="31.0" />
-      <Button fx:id="signUp" layoutX="411.0" layoutY="500.0" mnemonicParsing="false" onMouseClicked="#signUpClicked" text="Sign Up" />
+      <Button fx:id="signUp" layoutX="411.0" layoutY="500.0" mnemonicParsing="false" onMouseClicked="#signUpClicked" text="Sign Up" styleClass="button-regular"/>
       <TextField fx:id="confirmation" alignment="CENTER" layoutX="365.0" layoutY="450.0" maxWidth="170.0" prefHeight="30.0" promptText="Confirmation" />
       <Label layoutX="365.0" layoutY="377.0" text="Question number:">
          <font>
