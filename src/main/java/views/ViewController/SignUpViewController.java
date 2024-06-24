@@ -14,6 +14,7 @@ import views.SecurityQuestionMenu;
 import views.SignUpMenu;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SignUpViewController {
     @FXML
@@ -39,13 +40,13 @@ public class SignUpViewController {
     @FXML
     private TextField username;
     private String randomNewPassword;
-    private ArrayList<Boolean> validFiled = new ArrayList<Boolean>();
-
+    private HashMap<Integer,Boolean> validFiled = new HashMap<>();
     {
-        for (int i = 0; i < 4; i++)
-            validFiled.add(false);
+        validFiled.put(1,false);
+        validFiled.put(2,false);
+        validFiled.put(3,false);
+        validFiled.put(4,false);
     }
-
     @FXML
     public void initialize() {
         passwordConfirmation.setDisable(true);
@@ -57,9 +58,9 @@ public class SignUpViewController {
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || username.getText().isEmpty()) {
                 ErrorMaker.removeError(usernameError, username);
-                validFiled.add(0, false);
+                validFiled.put(1,true);
             } else {
-                validFiled.add(0, true);
+                validFiled.put(1,false);
                 if (!validUsername)
                     ErrorMaker.setError(usernameError, username, SignUpMenuMessages.INVALID_USER.toString());
                 else
@@ -70,10 +71,10 @@ public class SignUpViewController {
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isEmailValid(email.getText()) || email.getText().isEmpty()) {
-                validFiled.add(1, true);
+                validFiled.put(2, true);
                 ErrorMaker.removeError(emailError, email);
             } else {
-                validFiled.add(1, false);
+                validFiled.put(2, false);
                 ErrorMaker.setError(emailError, email, SignUpMenuMessages.INVALID_EMAIL.toString());
             }
         });
@@ -84,19 +85,19 @@ public class SignUpViewController {
             boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(password.getText());
 
             if (password.getText().isEmpty()) {
-                validFiled.add(2, false);
+                validFiled.put(3, false);
                 ErrorMaker.removeError(passError, password);
             } else if (!validPassword) {
-                validFiled.add(2, false);
+                validFiled.put(3, false);
                 ErrorMaker.setError(passError, password, SignUpMenuMessages.INVALID_PASSWORD.toString());
             } else if (weakAndShortPassword) {
-                validFiled.add(2, false);
+                validFiled.put(3, false);
                 ErrorMaker.setError(passError, password, SignUpMenuMessages.SHORT_PASSWORD.toString());
             } else if (weakPassword) {
-                validFiled.add(2, false);
+                validFiled.put(3, false);
                 ErrorMaker.setError(passError, password, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
-                validFiled.add(2, true);
+                validFiled.put(3, true);
                 passwordConfirmation.setDisable(false);
                 ErrorMaker.removeError(passError, password);
             }
@@ -104,10 +105,10 @@ public class SignUpViewController {
 
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()) || passwordConfirmation.getText().isEmpty()) {
-                validFiled.add(3, true);
+                validFiled.put(4, true);
                 ErrorMaker.removeError(confirmationError, passwordConfirmation);
             } else {
-                validFiled.add(3, false);
+                validFiled.put(4, false);
                 ErrorMaker.setError(confirmationError, passwordConfirmation, SignUpMenuMessages.WRONG_CONFIRMATION.toString());
             }
         });
@@ -123,7 +124,8 @@ public class SignUpViewController {
     }
 
     public void ContinueClicked() {
-        if (!validFiled.contains(false)) {
+        System.out.println(validFiled.values());
+        if (!validFiled.containsValue(false) && !nickname.getText().isEmpty()) {
             AlertMaker alert = SignUpMenuController.Continue(username.getText());
             alert.showAlert();
             if (alert.isOK()) {
