@@ -2,13 +2,12 @@ package enums.AlertInfo.messages;
 
 public enum SignUpMenuMessages {
     INVALID_USER("Invalid username format"),
-    DUPLICATE_USER("This username already exists. We can recommend you "),
+    DUPLICATE_USER("This username already exists."),
     INVALID_EMAIL("Invalid email format"),
-    WEAK_PASSWORD("Weak password!"),
-    SHORT_PASSWORD("It is too short"),
+    SHORT_PASSWORD("Weak password!\nIt's too short"),
     INVALID_PASSWORD("Invalid password!"),
-    PASSWORD_REQUIREMENTS("password must consist of at least one number,special character\n                       ,lowercase and uppercase character."),
-    WRONG_CONFIRMATION("Confirmation filed doesn't match'"),
+    PASSWORD_REQUIREMENTS("Weak password!\nPassword must consist of at\nleast one number,special\ncharacter,lowercase and\nuppercase alphabet."),
+    WRONG_CONFIRMATION("Incompatible passwords!"),
     CONTINUE("Are you sure about your information?"),
     RANDOM_PASSWORD("Your password is : "),
     INVALID_QUESTION_NUMBER("Invalid question number"),

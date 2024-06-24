@@ -47,20 +47,20 @@ public class ForgetPasswordViewController {
         thirdVbox.setVisible(false);
         validPass = false;
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
-            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
-            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
-
-            if (!validPassword) {
-                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.INVALID_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
-            } else if (weakAndShortPassword) {
-                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
-            } else if (weakPassword) {
-                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
-            } else {
-                validPass = true;
-                ErrorMaker.removeError(errorLabel, errorLabel2, newPassword);
-            }
+//            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
+//            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
+//            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
+//
+//            if (!validPassword) {
+//                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.INVALID_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
+//            } else if (weakAndShortPassword) {
+//                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
+//            } else if (weakPassword) {
+//                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
+//            } else {
+//                validPass = true;
+//                ErrorMaker.removeError(errorLabel, errorLabel2, newPassword);
+//            }
 
         });
     }

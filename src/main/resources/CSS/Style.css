@@ -1,0 +1,65 @@
+.Login-background {
+    -fx-background-image: url('/Images/Backgrounds/123.png');
+    -fx-background-size: cover;
+}
+
+.button-no-background {
+    -fx-background-color: transparent; /* Remove background color */
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: transparent; /* Remove border color */
+    -fx-border-width: 0; /* Remove border width */
+    -fx-text-fill: #C2E7E3; /* Set text color */
+    font-weight: bold;
+    /* Set font size */
+}
+
+.label {
+    -fx-text-fill: #C2E7E3;
+    -fx-font-family: "Merriweather"; /* Font family */
+}
+
+.error-border {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+}
+
+.error-label {
+    -fx-text-fill: #a80303;
+}
+
+.VBox{
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #C2E7E3;
+    -fx-background-color: rgb(71, 107, 101,0.3);
+}
+
+.text-field {
+    -fx-background-color: rgb(61, 89, 84,1); /* Background color */
+    -fx-text-fill: #a6c9c2; /* Text color (black) */
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-prompt-text-fill: #a6b9b4; /* Prompt text color (tomato) */
+}
+.text-field:focused {
+    -fx-border-width: 2px;
+    -fx-border-color: #C2E7E3; /* Border color when focused (tomato) */
+}
+
+.button-regular{
+    -fx-border-radius: 5px;
+    -fx-background-color: rgb(194, 231, 227,0.5); /* Background color */
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: #C2E7E3; /* Remove border color */
+    -fx-border-width: 3px; /* Remove border width */
+    -fx-text-fill: #3D5954FF; /* Set text color */
+}
+
+.button-regular:hover{
+    -fx-background-color: rgb(194, 231, 227,1); /* Remove background color */
+    -fx-text-fill: #3D5954FF; /* Set text color */
+
+}
+
+

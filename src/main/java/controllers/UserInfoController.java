@@ -17,7 +17,8 @@ public abstract class UserInfoController extends Controller {
     }
 
     public static boolean isUsernameValid(String username) {
-        return username.matches("[a-zA-Z0-9\\-]+");
+        System.out.println("=="+username.matches("^[a-zA-Z0-9-]+$"));
+        return username.matches("^[a-zA-Z0-9-]+$");
     }
 
     public static boolean isEmailValid(String email) {
@@ -25,7 +26,7 @@ public abstract class UserInfoController extends Controller {
     }
 
     public static boolean isPasswordValid(String password) {
-        return password.matches("[0-9a-zA-Z!@#$%^&*\\-]+");
+        return password.matches("^[0-9a-zA-Z!@#$%^&*-]+$");
     }
 
     public static boolean isPasswordShort(String password) {
