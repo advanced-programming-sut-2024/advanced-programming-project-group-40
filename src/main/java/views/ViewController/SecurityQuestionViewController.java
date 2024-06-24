@@ -1,6 +1,6 @@
 package views.ViewController;
 
-import controllers.SignUpMenuController;
+import controllers.MenuController.SignUpMenuController;
 import enums.SecurityQuestion;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

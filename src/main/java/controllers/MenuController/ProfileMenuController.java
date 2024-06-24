@@ -1,7 +1,6 @@
-package controllers;
+package controllers.MenuController;
 
 import models.Result;
-import models.User;
 
 public class ProfileMenuController extends UserInfoController {
     public static Result changeUsername(String username) {

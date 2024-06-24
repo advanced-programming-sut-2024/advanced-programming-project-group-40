@@ -1,8 +1,9 @@
-package controllers;
+package controllers.MenuController;
 
+import controllers.Controller;
 import models.Result;
 
-public class MainMenuController extends Controller{
+public class MainMenuController extends Controller {
     public static Result logout(){
         return null;
     }

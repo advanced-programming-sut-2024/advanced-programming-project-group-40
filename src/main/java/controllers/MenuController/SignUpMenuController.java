@@ -1,4 +1,4 @@
-package controllers;
+package controllers.MenuController;
 
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
@@ -19,9 +19,11 @@ public class SignUpMenuController extends UserInfoController {
         if (questionNumber > 5 || questionNumber < 1)
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.INVALID_QUESTION_NUMBER.toString());
         if (!answer.equals(confirmAnswer))
-//            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.WEAK_PASSWORD.toString());
+            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.WRONG_ANSWER_CONFIRMATION.toString());
         Game.getLoggedInUser().setSecurityQuestionNumber(questionNumber);
         Game.getLoggedInUser().setSecurityAnswer(answer);
+        Game.addNewUser(Game.getLoggedInUser());
+        Controller.DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
 

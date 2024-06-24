@@ -1,6 +1,6 @@
 package views.ViewController;
 
-import controllers.LoginMenuController;
+import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import models.AlertMaker;

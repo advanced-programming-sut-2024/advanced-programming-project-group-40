@@ -1,7 +1,7 @@
 package views.ViewController;
 
-import controllers.ForgetPasswordController;
-import controllers.SignUpMenuController;
+import controllers.MenuController.ForgetPasswordController;
+import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.AlertMaker;
-import models.ErrorMaker;
 import models.User;
 
 public class ForgetPasswordViewController {

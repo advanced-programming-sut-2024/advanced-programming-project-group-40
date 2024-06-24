@@ -1,5 +1,6 @@
-package controllers;
+package controllers.MenuController;
 
+import controllers.Controller;
 import models.Result;
 import models.User;
 import models.cards.Card;

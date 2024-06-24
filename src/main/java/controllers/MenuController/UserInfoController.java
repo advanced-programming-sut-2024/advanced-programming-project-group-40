@@ -1,5 +1,6 @@
-package controllers;
+package controllers.MenuController;
 
+import controllers.Controller;
 import models.Game;
 
 import java.security.SecureRandom;
@@ -17,7 +18,6 @@ public abstract class UserInfoController extends Controller {
     }
 
     public static boolean isUsernameValid(String username) {
-        System.out.println("=="+username.matches("^[a-zA-Z0-9-]+$"));
         return username.matches("^[a-zA-Z0-9-]+$");
     }
 

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.MenuController;
 
 import javafx.scene.control.Alert.AlertType;
 import enums.AlertInfo.AlertHeader;

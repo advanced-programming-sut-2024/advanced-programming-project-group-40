@@ -1,6 +1,6 @@
 package views.ViewController;
 
-import controllers.SignUpMenuController;
+import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
@@ -13,7 +13,6 @@ import models.ErrorMaker;
 import views.SecurityQuestionMenu;
 import views.SignUpMenu;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignUpViewController {
@@ -109,7 +108,7 @@ public class SignUpViewController {
                 ErrorMaker.removeError(confirmationError, passwordConfirmation);
             } else {
                 validFiled.put(4, false);
-                ErrorMaker.setError(confirmationError, passwordConfirmation, SignUpMenuMessages.WRONG_CONFIRMATION.toString());
+                ErrorMaker.setError(confirmationError, passwordConfirmation, SignUpMenuMessages.WRONG_PASS_CONFIRMATION.toString());
             }
         });
     }
