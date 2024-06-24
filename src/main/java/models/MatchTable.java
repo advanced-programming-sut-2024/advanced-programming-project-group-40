@@ -2,13 +2,11 @@ package models;
 
 import enums.Ability;
 import enums.Factions;
+import enums.Origin;
 import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
 import models.actions.LeaderActions;
-import models.cards.Card;
-import models.cards.Leader;
-import models.cards.SpecialCard;
-import models.cards.UnitCard;
+import models.cards.*;
 
 import java.util.*;
 
@@ -49,7 +47,7 @@ public class MatchTable {
     private final ArrayList<Card> secondPlayerInPlayCards = new ArrayList<>();
     private int firstPlayerCrystals = 2;
     private int secondPlayerCrystals = 2;
-    private final ArrayList<SpecialCard> spellCards = new ArrayList<>();
+    private final ArrayList<Card> spellCards = new ArrayList<>();
     private Leader firstPlayerLeader;
     private Leader secondPlayerLeader;
     private boolean isFirstPlayerLeaderUsed = false;
@@ -61,6 +59,10 @@ public class MatchTable {
         this.secondPlayer = secondPlayer;
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+    }
+
+    public boolean isFirstPlayerTurn() {
+        return isFirstPlayerTurn;
     }
 
     //firstPlayer -> id=0
@@ -209,7 +211,7 @@ public class MatchTable {
         return secondPlayerCrystals;
     }
 
-    public ArrayList<SpecialCard> getSpellCards() {
+    public ArrayList<Card> getSpellCards() {
         return spellCards;
     }
 
@@ -241,11 +243,71 @@ public class MatchTable {
         return randomCards;
     }
 
-    //places card without removing it from its origin(we don't know where the origin is)
-    public void placeCard(Card card, int userID, int rowNumber) {
-        ArrayList<Card> row = getRowByID(userID, rowNumber);
-        row.add(card);
+    //remove Card From Origin
+    public void removeCard(CardWrapper cardWrapper){
+        switch (cardWrapper.getOrigin()){
+            case Origin.FIRSTPLAYER_CLOSECOMBAT :
+                    firstPlayerCloseCombatRow.remove(cardWrapper.getCard());
+                break;
+            case Origin.FIRSTPLAYER_RANGED:
+                firstPlayerRangedRow.remove(cardWrapper.getCard());
+                break;
+            case Origin.FIRSTPLAYER_SIEGE:
+                firstPlayerSiegeRow.remove(cardWrapper.getCard());
+                break;
+            case Origin.SECONDPLAYER_CLOSECOMBAT:
+                secondPlayerCloseCombatRow.remove(cardWrapper.getCard());
+                break;
+            case Origin.SECONDPLAYER_RANGED :
+                secondPlayerRangedRow.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.SECONDPLAYER_SIEGE :
+                secondPlayerSiegeRow.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.FIRSTPLATER_DEAD:
+                firstPlayerDeadCards.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.SECONDPLAYER_DEAD:
+                secondPlayerDeadCards.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.FIRSTPLAYER_INPLAY:
+                firstPlayerInPlayCards.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.SECONDPLAYER_INPLAY:
+                secondPlayerInPlayCards.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.FIRSTPLAYER_DECK:
+                firstPlayerDeckCards.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.SECONDPLAYER_DECK:
+                secondPlayerDeckCards.remove(cardWrapper.getCard());
+
+                break;
+            case Origin.WEATHER:
+                spellCards.remove(cardWrapper.getCard());
+                break;
+            default:
+
+        }
     }
+
+
+    //places card
+    public void placeCard(CardWrapper cardWrapper, int userID, int rowNumber) {
+        ArrayList<Card> row = getRowByID(userID, rowNumber);
+        row.add(cardWrapper.getCard());
+        removeCard(cardWrapper);
+    }
+
+
+
 
     //places card without removing it from its origin(we don't know where the origin is)
     public void placeBoostCard(Card card, int userID, int rowNumber) {
@@ -288,33 +350,37 @@ public class MatchTable {
         }
     }
 
-    //places card without removing it from its origin(we don't know where the origin is)
-    public void addToSpellCards(SpecialCard specialCard) {
-        spellCards.add(specialCard);
+    //places card in spell cards
+    public void addToSpellCards(CardWrapper cardWrapper) {
+        spellCards.add(cardWrapper.getCard());
+        removeCard(cardWrapper);
+
     }
 
-    //places card without removing it from its origin(we don't know where the origin is)
-    public void addToInPlayCards(int userID, Card card) {
+    //places card to in play cards
+    public void addToInPlayCards(int userID, CardWrapper cardWrapper) {
         switch (userID) {
             case 0:
-                firstPlayerInPlayCards.add(card);
+                firstPlayerInPlayCards.add(cardWrapper.getCard());
                 break;
             case 1:
-                secondPlayerInPlayCards.add(card);
+                secondPlayerInPlayCards.add(cardWrapper.getCard());
                 break;
         }
+        removeCard(cardWrapper);
     }
 
-    //places card without removing it from its origin(we don't know where the origin is)
-    public void addToDeadCards(int userID, Card card) {
+    //places card to dead cards
+    public void addToDeadCards(int userID, CardWrapper cardWrapper) {
         switch (userID) {
             case 0:
-                firstPlayerDeckCards.add(card);
+                firstPlayerDeckCards.add(cardWrapper.getCard());
                 break;
             case 1:
-                secondPlayerDeadCards.add(card);
+                secondPlayerDeadCards.add(cardWrapper.getCard());
                 break;
         }
+        removeCard(cardWrapper);
     }
 
     public void updatePoints() {
