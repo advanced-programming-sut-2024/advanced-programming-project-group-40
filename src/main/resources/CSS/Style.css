@@ -76,8 +76,8 @@
     -fx-prompt-text-fill: #a6b9b4; /* Prompt text color (tomato) */
 }
 .text-field:focused {
-    -fx-pref-width: 190px; /* Set preferred width for button2 */
-    -fx-pref-height: 35px; /* Set preferred height for button2 */
+    /*-fx-pref-width: 190px; !* Set preferred width for button2 *!*/
+    /*-fx-pref-height: 35px; !* Set preferred height for button2 *!*/
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-width: 2px;

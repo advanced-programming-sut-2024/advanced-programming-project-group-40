@@ -36,7 +36,7 @@
       </VBox>
       <Label layoutX="364.0" layoutY="59.0" styleClass="label-header" text="GWENT">
          <font>
-            <Font name="System Bold" size="80.0" />
+            <Font size="80.0" />
          </font>
       </Label>
    </children>

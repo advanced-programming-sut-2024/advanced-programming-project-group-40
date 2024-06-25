@@ -12,10 +12,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.AlertMaker;
 import models.ErrorMaker;
+import models.Game;
 import models.User;
 import views.ForgetPasswordMenu;
 import views.LoginMenu;
+import views.MainMenu;
 import views.SignUpMenu;
+
+import java.util.ArrayList;
 
 public class ForgetPasswordViewController {
     @FXML
@@ -23,11 +27,7 @@ public class ForgetPasswordViewController {
     @FXML
     private VBox thirdVbox;
     @FXML
-    private Label errorLabel;
-    @FXML
     private Label errorLabel2;
-    @FXML
-    private Button change;
     @FXML
     private Button randomPassword;
     @FXML
@@ -49,6 +49,10 @@ public class ForgetPasswordViewController {
         secondVBox.setVisible(false);
         thirdVbox.setVisible(false);
         validPass = false;
+        ArrayList<User> all=Game.getAllUsers();
+        for (User user : all) {
+            System.out.println(user.getUsername());
+        }
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
             boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
@@ -65,20 +69,18 @@ public class ForgetPasswordViewController {
                 ErrorMaker.removeError(errorLabel2, newPassword);
             }
 
+
         });
     }
 
     public void submit1Clicked() {
-        if (!username.getText().equals("sarina")) {
-            // todo
-//        if ((user = Game.getUserByName(username.getText())) == null) {
+        if ((user = Game.getUserByName(username.getText())) == null) {
             new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_USERNAME.toString()).showAlert();
         } else {
             firstVBox.setVisible(false);
             secondVBox.setVisible(true);
             setSecurityQuestion();
         }
-//        }
     }
 
     public void setSecurityQuestion() {
@@ -96,7 +98,11 @@ public class ForgetPasswordViewController {
 
     public void changeClicked() {
         if (validPass) {
-            // todo go to main menu
+            try {
+                new MainMenu().start(ForgetPasswordMenu.stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

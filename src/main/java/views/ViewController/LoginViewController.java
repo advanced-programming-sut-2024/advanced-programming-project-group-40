@@ -4,9 +4,13 @@ import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import models.AlertMaker;
+import models.Game;
+import models.User;
 import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.SignUpMenu;
+
+import java.util.ArrayList;
 
 public class LoginViewController {
     @FXML
