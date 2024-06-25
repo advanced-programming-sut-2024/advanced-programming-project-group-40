@@ -1,0 +1,28 @@
+package views;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import models.Game;
+
+import java.util.Objects;
+
+
+public class ChoseFactionMenu extends PlayMenu {
+    public static Stage stage;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Game.setAllUsers(Objects.requireNonNull(Controller.DataSaver.loadUsers()));
+        ChoseFactionMenu.stage = stage;
+        Pane pane = FXMLLoader.load(ChoseFactionMenu.class.getResource("/FXML/ChoseFactionFXML.fxml"));
+        stage.setScene(new Scene(pane));
+        stage.show();
+    }
+}

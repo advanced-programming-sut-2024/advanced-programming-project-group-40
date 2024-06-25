@@ -3,7 +3,13 @@
     -fx-background-size: cover;
 }
 
+.Sign-Up-background {
+    -fx-background-image: url('/images/Backgrounds/123.png');
+    -fx-background-size: cover;
+}
+
 .button-no-background {
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-background-color: transparent; /* Remove background color */
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: transparent; /* Remove border color */
@@ -15,7 +21,7 @@
 
 .label {
     -fx-text-fill: #C2E7E3;
-    -fx-font-family: "Merriweather"; /* Font family */
+    -fx-font-family: "Cambria"; /* Font family */
 }
 
 .error-border {
@@ -25,28 +31,33 @@
 
 .error-label {
     -fx-text-fill: #a80303;
+    -fx-font-family: "Cambria"; /* Font family */
 }
 
 .Box{
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
-    -fx-background-color: rgb(71, 107, 101,0.3);
+    -fx-background-color: rgb(71, 107, 101,0.4);
 }
 
 .Question-Box{
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #F8EECB;
-    -fx-background-color: rgb(248, 238, 203,0.2);
+    -fx-background-color: rgb(248, 238, 203,0.4);
 }
 
 .label.yellow {
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-text-fill: rgba(133, 110, 53, 0.99);
 }
 
 .text-field {
-    -fx-background-color: rgb(61, 89, 84,1); /* Background color */
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-background-color: rgb(52, 91, 83); /* Background color */
     -fx-text-fill: #a6c9c2; /* Text color (black) */
     -fx-padding: 5px;
     -fx-border-radius: 5px;
@@ -54,23 +65,52 @@
     -fx-prompt-text-fill: #a6b9b4; /* Prompt text color (tomato) */
 }
 .text-field:focused {
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-border-width: 2px;
     -fx-border-color: #C2E7E3; /* Border color when focused (tomato) */
 }
 
 .button-regular{
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
     -fx-background-color: rgb(194, 231, 227,0.5); /* Background color */
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: #C2E7E3; /* Remove border color */
     -fx-border-width: 3px; /* Remove border width */
     -fx-text-fill: #3D5954FF; /* Set text color */
+    font-weight: bold;
 }
 
 .button-regular:hover{
+    -fx-font-family: "Cambria"; /* Font family */
     -fx-background-color: rgb(194, 231, 227,1); /* Remove background color */
     -fx-text-fill: #3D5954FF; /* Set text color */
+    font-weight: bold;
 
+}
+
+
+/* Default style for ImageView */
+.image-view {
+    -fx-effect: dropshadow( gaussian , rgb(179, 217, 209,0.75), 10,0,0,1 );
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+    -fx-border-radius: 5;
+    -fx-scale-x: 1; /* Default scale */
+    -fx-scale-y: 1; /* Default scale */
+    -fx-cursor: hand; /* Change cursor to hand */
+}
+
+/* Hover effect for ImageView */
+.image-view:hover {
+    -fx-scale-x: 1.1; /* Scale the image width by 1.5 */
+    -fx-scale-y: 1.1; /* Scale the image height by 1.5 */
+}
+
+/* Enlarged effect for ImageView */
+.image-view.enlarged {
+    -fx-scale-x: 1.1; /* Scale the image width by 1.5 */
+    -fx-scale-y: 1.1; /* Scale the image height by 1.5 */
 }
 
 
