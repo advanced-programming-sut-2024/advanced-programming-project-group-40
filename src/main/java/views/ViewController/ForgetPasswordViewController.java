@@ -11,7 +11,11 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.AlertMaker;
+import models.ErrorMaker;
 import models.User;
+import views.ForgetPasswordMenu;
+import views.LoginMenu;
+import views.SignUpMenu;
 
 public class ForgetPasswordViewController {
     @FXML
@@ -46,20 +50,20 @@ public class ForgetPasswordViewController {
         thirdVbox.setVisible(false);
         validPass = false;
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-//            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
-//            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
-//            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
-//
-//            if (!validPassword) {
-//                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.INVALID_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
-//            } else if (weakAndShortPassword) {
-//                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.SHORT_PASSWORD.toString());
-//            } else if (weakPassword) {
-//                ErrorMaker.setError(errorLabel, errorLabel2, newPassword, SignUpMenuMessages.WEAK_PASSWORD.toString(), SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
-//            } else {
-//                validPass = true;
-//                ErrorMaker.removeError(errorLabel, errorLabel2, newPassword);
-//            }
+            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
+            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
+            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
+
+            if (!validPassword) {
+                ErrorMaker.setError( errorLabel2, SignUpMenuMessages.INVALID_PASSWORD.toString());
+            } else if (weakAndShortPassword) {
+                ErrorMaker.setError( errorLabel2, SignUpMenuMessages.SHORT_PASSWORD.toString());
+            } else if (weakPassword) {
+                ErrorMaker.setError(errorLabel2,SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
+            } else {
+                validPass = true;
+                ErrorMaker.removeError(errorLabel2, newPassword);
+            }
 
         });
     }
@@ -105,6 +109,14 @@ public class ForgetPasswordViewController {
             changeClicked();
         } else {
             randomPassword.setDisable(false);
+        }
+    }
+
+    public void goToLoginMenu(MouseEvent mouseEvent) {
+        try {
+            new LoginMenu().start(ForgetPasswordMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

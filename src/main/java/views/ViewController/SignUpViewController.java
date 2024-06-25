@@ -8,8 +8,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
+import views.ForgetPasswordMenu;
+import views.LoginMenu;
 import views.SecurityQuestionMenu;
 import views.SignUpMenu;
 
@@ -61,9 +64,9 @@ public class SignUpViewController {
             } else {
                 validFiled.put(1,false);
                 if (!validUsername)
-                    ErrorMaker.setError(usernameError, username, SignUpMenuMessages.INVALID_USER.toString());
+                    ErrorMaker.setError(usernameError, SignUpMenuMessages.INVALID_USER.toString());
                 else
-                    ErrorMaker.setError(usernameError, username, SignUpMenuMessages.DUPLICATE_USER.toString());
+                    ErrorMaker.setError(usernameError, SignUpMenuMessages.DUPLICATE_USER.toString());
             }
         });
 
@@ -74,7 +77,7 @@ public class SignUpViewController {
                 ErrorMaker.removeError(emailError, email);
             } else {
                 validFiled.put(2, false);
-                ErrorMaker.setError(emailError, email, SignUpMenuMessages.INVALID_EMAIL.toString());
+                ErrorMaker.setError(emailError, SignUpMenuMessages.INVALID_EMAIL.toString());
             }
         });
 
@@ -88,13 +91,13 @@ public class SignUpViewController {
                 ErrorMaker.removeError(passError, password);
             } else if (!validPassword) {
                 validFiled.put(3, false);
-                ErrorMaker.setError(passError, password, SignUpMenuMessages.INVALID_PASSWORD.toString());
+                ErrorMaker.setError(passError, SignUpMenuMessages.INVALID_PASSWORD.toString());
             } else if (weakAndShortPassword) {
                 validFiled.put(3, false);
-                ErrorMaker.setError(passError, password, SignUpMenuMessages.SHORT_PASSWORD.toString());
+                ErrorMaker.setError(passError, SignUpMenuMessages.SHORT_PASSWORD.toString());
             } else if (weakPassword) {
                 validFiled.put(3, false);
-                ErrorMaker.setError(passError, password, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
+                ErrorMaker.setError(passError, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
                 validFiled.put(3, true);
                 passwordConfirmation.setDisable(false);
@@ -108,7 +111,7 @@ public class SignUpViewController {
                 ErrorMaker.removeError(confirmationError, passwordConfirmation);
             } else {
                 validFiled.put(4, false);
-                ErrorMaker.setError(confirmationError, passwordConfirmation, SignUpMenuMessages.WRONG_PASS_CONFIRMATION.toString());
+                ErrorMaker.setError(confirmationError, SignUpMenuMessages.WRONG_PASS_CONFIRMATION.toString());
             }
         });
     }
@@ -151,4 +154,11 @@ public class SignUpViewController {
         }
     }
 
+    public void goToLoginMenu(MouseEvent mouseEvent) {
+        try {
+            new LoginMenu().start(SignUpMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

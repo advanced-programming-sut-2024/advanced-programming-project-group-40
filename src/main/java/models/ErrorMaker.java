@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class ErrorMaker {
-    public static void setError(Label errorLabel,TextField textField, String error) {
+    public static void setError(Label errorLabel, String error) {
         errorLabel.setCenterShape(true);
         errorLabel.setText(error);
     }
