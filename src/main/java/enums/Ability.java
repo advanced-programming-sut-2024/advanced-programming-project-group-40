@@ -4,8 +4,8 @@ public enum Ability {
     Test("test"),
     MARDROEME("Mardroeme"),
     TIGHT_BOND("Tight Bond"),
-    MORAL_BOOST("Moral Boost")
-
+    MORAL_BOOST("Moral Boost"),
+    SPY("spy"),
     ;
     private final String ability;
 

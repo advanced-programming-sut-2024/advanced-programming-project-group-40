@@ -18,6 +18,7 @@ public class MatchTable {
     private boolean firstPlayerPassed = false;
     private int round = 1;
     private Date date;
+    private LeaderEffects leaderEffects = new LeaderEffects();
     private final ArrayList<Integer> firstPlayerPoints = new ArrayList<>();
     private final ArrayList<Integer> secondPlayerPoints = new ArrayList<>();
     private int firstPlayerCurrentPoint;
@@ -59,6 +60,8 @@ public class MatchTable {
         this.secondPlayer = secondPlayer;
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+
+
     }
 
     public boolean isFirstPlayerTurn() {
@@ -94,12 +97,29 @@ public class MatchTable {
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
         ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        for (Card card : row) {
+            UnitCard unitCard = (UnitCard) card;
+            unitCard.setShowingPower(unitCard.getConstantPower());
+        }
         if (areCardsUnderWeather) {
             for (Card card : row) {
                 UnitCard unitCard = (UnitCard) card;
-                unitCard.setShowingPower(1);
+                if (leaderEffects.isKingBran()) {
+                    unitCard.setShowingPower(unitCard.getShowingPower() / 2);
+                } else {
+                    unitCard.setShowingPower(1);
+                }
             }
         }
+        if (leaderEffects.isSpyDoublePower()) {
+            for (Card card : row) {
+                UnitCard unitCard = (UnitCard) card;
+                if (unitCard.getAbility() == Ability.SPY) {
+                    unitCard.setShowingPower(unitCard.getShowingPower() * 2);
+                }
+            }
+        }
+
         for (Card card : row) {
             UnitCard unitCard = (UnitCard) card;
             if (tightBondCards.contains(card)) {
@@ -129,6 +149,10 @@ public class MatchTable {
 
     public Date getDate() {
         return date;
+    }
+
+    public LeaderEffects getLeaderEffects() {
+        return leaderEffects;
     }
 
     public boolean isSecondPlayerPassed() {
@@ -284,10 +308,10 @@ public class MatchTable {
     }
 
     //remove Card From Origin
-    public void removeCard(CardWrapper cardWrapper){
-        switch (cardWrapper.getOrigin()){
-            case Origin.FIRSTPLAYER_CLOSECOMBAT :
-                    firstPlayerCloseCombatRow.remove(cardWrapper.getCard());
+    public void removeCard(CardWrapper cardWrapper) {
+        switch (cardWrapper.getOrigin()) {
+            case Origin.FIRSTPLAYER_CLOSECOMBAT:
+                firstPlayerCloseCombatRow.remove(cardWrapper.getCard());
                 break;
             case Origin.FIRSTPLAYER_RANGED:
                 firstPlayerRangedRow.remove(cardWrapper.getCard());
@@ -298,11 +322,11 @@ public class MatchTable {
             case Origin.SECONDPLAYER_CLOSECOMBAT:
                 secondPlayerCloseCombatRow.remove(cardWrapper.getCard());
                 break;
-            case Origin.SECONDPLAYER_RANGED :
+            case Origin.SECONDPLAYER_RANGED:
                 secondPlayerRangedRow.remove(cardWrapper.getCard());
 
                 break;
-            case Origin.SECONDPLAYER_SIEGE :
+            case Origin.SECONDPLAYER_SIEGE:
                 secondPlayerSiegeRow.remove(cardWrapper.getCard());
 
                 break;
@@ -345,8 +369,6 @@ public class MatchTable {
         row.add(cardWrapper.getCard());
         removeCard(cardWrapper);
     }
-
-
 
 
     //places card without removing it from its origin(we don't know where the origin is)
@@ -397,7 +419,7 @@ public class MatchTable {
 
     }
 
-    //places card to in play cards
+    //places card to inplay cards
     public void addToInPlayCards(int userID, CardWrapper cardWrapper) {
         switch (userID) {
             case 0:
@@ -405,6 +427,19 @@ public class MatchTable {
                 break;
             case 1:
                 secondPlayerInPlayCards.add(cardWrapper.getCard());
+                break;
+        }
+        removeCard(cardWrapper);
+    }
+
+    //places card to deck cards
+    public void addToDeckCards(int userID, CardWrapper cardWrapper) {
+        switch (userID) {
+            case 0:
+                firstPlayerDeckCards.add(cardWrapper.getCard());
+                break;
+            case 1:
+                secondPlayerDeadCards.add(cardWrapper.getCard());
                 break;
         }
         removeCard(cardWrapper);
@@ -590,6 +625,76 @@ public class MatchTable {
         return null;
     }
 
+    public static int getRowPower(LeaderEffects leaderEffects, boolean weather, boolean boost, ArrayList<Card> row) {
+        int[] nums = new int[row.size()];
+        ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        for (Card card : row) {
+            UnitCard unitCard = (UnitCard) card;
+            unitCard.setShowingPower(unitCard.getConstantPower());
+        }
+
+        if (!weather) {
+            for (Card card : row) {
+                UnitCard unitCard = (UnitCard) card;
+
+                nums[row.indexOf(card)] = unitCard.getConstantPower();
+            }
+        } else {
+            if (leaderEffects.isKingBran()) {
+                for (Card card : row) {
+
+                    nums[row.indexOf(card)] = nums[row.indexOf(card)] / 2;
+                }
+            } else {
+                Arrays.fill(nums, 1);
+            }
+
+        }
+        if (leaderEffects.isSpyDoublePower()) {
+            for (Card card : row) {
+                UnitCard unitCard = (UnitCard) card;
+                if (unitCard.getAbility() == Ability.SPY) {
+                    nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+                }
+            }
+        }
+        for (Card card : row) {
+            if (tightBondCards.contains(card)) {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] * getNumberOfCards(card, tightBondCards);
+            }
+        }
+        for (Card card : row) {
+            if (moralBoostCards.contains(card)) {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] + moralBoostCards.size() - 1;
+            } else {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] + moralBoostCards.size();
+            }
+        }
+        if (boost) {
+            for (Card card : row) {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+            }
+        }
+        int retVal = 0;
+        for (int num : nums) {
+            retVal += num;
+        }
+        return retVal;
+    }
+
+    public void shufleDeck(int playerID) {
+        switch (playerID) {
+            case 0:
+                Collections.shuffle(firstPlayerDeckCards);
+                break;
+            case 1:
+                Collections.shuffle(secondPlayerDeckCards);
+
+                break;
+        }
+
+    }
     //-----------------------------------------------------private Functions------------------------------------------//
 
 
@@ -681,7 +786,7 @@ public class MatchTable {
         return row;
     }
 
-    private int getNumberOfCards(Card card, ArrayList<Card> cards) {
+    private static int getNumberOfCards(Card card, ArrayList<Card> cards) {
         int num = 0;
         for (Card card1 : cards) {
             if (card1.equals(card)) num++;
@@ -698,7 +803,7 @@ public class MatchTable {
     }
 
 
-    private ArrayList<Card> getCardsWithAbility(Ability ability, ArrayList<Card> cards) {
+    private static ArrayList<Card> getCardsWithAbility(Ability ability, ArrayList<Card> cards) {
         ArrayList<Card> retVal = new ArrayList<>();
         for (Card card : cards) {
             UnitCard unitCard = (UnitCard) card;
@@ -725,5 +830,6 @@ public class MatchTable {
 
         }
     }
+
 
 }
