@@ -131,6 +131,46 @@ public class MatchTable {
         return date;
     }
 
+    public boolean isSecondPlayerPassed() {
+        return secondPlayerPassed;
+    }
+
+    public boolean isFirstPlayerPassed() {
+        return firstPlayerPassed;
+    }
+
+    public Card getFirstPlayerCloseCombatBoostCard() {
+        return firstPlayerCloseCombatBoostCard;
+    }
+
+    public Card getSecondPlayerCloseCombatBoostCard() {
+        return secondPlayerCloseCombatBoostCard;
+    }
+
+    public Card getFirstPlayerRangedBoostCard() {
+        return firstPlayerRangedBoostCard;
+    }
+
+    public Card getSecondPlayerRangedBoostCard() {
+        return secondPlayerRangedBoostCard;
+    }
+
+    public Card getFirstPlayerSiegeBoostCard() {
+        return firstPlayerSiegeBoostCard;
+    }
+
+    public Card getSecondPlayerSiegeBoostCard() {
+        return secondPlayerSiegeBoostCard;
+    }
+
+    public boolean isFirstPlayerLeaderUsed() {
+        return isFirstPlayerLeaderUsed;
+    }
+
+    public boolean isSecondPlayerLeaderUsed() {
+        return isSecondPlayerLeaderUsed;
+    }
+
     public ArrayList<Integer> getFirstPlayerPoints() {
         return firstPlayerPoints;
     }
