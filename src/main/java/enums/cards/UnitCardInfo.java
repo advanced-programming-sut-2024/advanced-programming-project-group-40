@@ -8,7 +8,10 @@ import models.cards.UnitCard;
 public enum UnitCardInfo {
     TEST("testCard",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
     TEST2("test2Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
-    BEAR("bear",8 ,0 ,Unit.Test ,"empty" ,"empty" ,Factions.Test ,Ability.Test );
+    BEAR("bear",8 ,0 ,Unit.Test ,"empty" ,"empty" ,Factions.Test ,Ability.Test ),
+    SPONGE_BOB("sponge bob",8,0,Unit.All,
+            "I\'m ready i\'m ready","believe me when i say your goofy ass is'nt ready for sponge bob",
+            Factions.NEUTRAL,Ability.Test);
     public final String name;
     public final int power;
     public final int maxCapacity;

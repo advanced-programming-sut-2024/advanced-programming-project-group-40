@@ -3,9 +3,11 @@ package models;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
+import enums.Unit;
 import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
 import models.actions.LeaderActions;
+import models.actions.UnitCardActions;
 import models.cards.*;
 
 import java.util.*;
@@ -363,13 +365,50 @@ public class MatchTable {
     }
 
 
-    //places card
+    //places card and acivates ability
     public void placeCard(CardWrapper cardWrapper, int userID, int rowNumber) {
+        ArrayList<Card> row = getRowByID(userID, rowNumber);
+
+
+        Ability ability = null;
+        if (cardWrapper.getCard() instanceof Hero) {
+            Hero hero = (Hero) cardWrapper.getCard();
+            ability = hero.getAbility();
+        } else if (cardWrapper.getCard() instanceof UnitCard) {
+            UnitCard unitCard = (UnitCard) cardWrapper.getCard();
+            ability = unitCard.getAbility();
+        }
+
+        if (ability != null) {
+            switch (ability) {
+                case SPY -> {
+                    UnitCardActions.doActionByName("spy", this);
+                    row.add(cardWrapper.getCard());
+                }
+                case MUSTER -> {
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(),userID,rowNumber, "muster", this);
+                }
+                case SCORCH -> {
+                }
+
+                case SCORCH_ALL -> {
+                    UnitCardActions.doActionByName("scorch all", this);
+                    row.add(cardWrapper.getCard());
+                }
+                default -> {
+                    row.add(cardWrapper.getCard());
+                }
+            }
+        }
+        removeCard(cardWrapper);
+    }
+
+    //places card without acivating ability
+    public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
         row.add(cardWrapper.getCard());
         removeCard(cardWrapper);
     }
-
 
     //places card without removing it from its origin(we don't know where the origin is)
     public void placeBoostCard(Card card, int userID, int rowNumber) {
@@ -577,7 +616,23 @@ public class MatchTable {
             savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
         }
         for (int i = 0; i < 3; i++) {
+            Card replaceCard = null;
+            Card deleteCard = null;
+            for (Card card : getRowByID(0, i)) {
+                if (card instanceof Hero) {
+                    Hero hero = (Hero) card;
+                    if (hero.getAbility() == Ability.TRANSFORMER) {
+                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        deleteCard = card;
+                        break;
+                    }
+
+                }
+            }
+            if (deleteCard != null) getRowByID(0, i).remove(deleteCard);
+            firstPlayerDeadCards.addAll(getRowByID(0, i));
             getRowByID(0, i).clear();
+            if (replaceCard != null) getRowByID(0, i).add(replaceCard);
         }
         if (isMonster) getRowByID(0, row).add(savedCard);
 
@@ -589,7 +644,23 @@ public class MatchTable {
             savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
         }
         for (int i = 0; i < 3; i++) {
+            Card replaceCard = null;
+            Card deleteCard = null;
+            for (Card card : getRowByID(1, i)) {
+                if (card instanceof Hero) {
+                    Hero hero = (Hero) card;
+                    if (hero.getAbility() == Ability.TRANSFORMER) {
+                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        deleteCard = card;
+                        break;
+                    }
+
+                }
+            }
+            if (deleteCard != null) getRowByID(1, i).remove(deleteCard);
+            secondPlayerDeadCards.addAll(getRowByID(1, i));
             getRowByID(1, i).clear();
+            if (replaceCard != null) getRowByID(1, i).add(replaceCard);
         }
         if (isMonster) getRowByID(1, row).add(savedCard);
 
@@ -695,6 +766,27 @@ public class MatchTable {
         }
 
     }
+
+    //gives a row by player and row id
+    public ArrayList<Card> getRowByID(int user_id, int rowID) {
+        ArrayList<Card> row = null;
+        row = switch (user_id) {
+            case 0 -> switch (rowID) {
+                case 0 -> firstPlayerCloseCombatRow;
+                case 1 -> firstPlayerRangedRow;
+                case 2 -> firstPlayerSiegeRow;
+                default -> row;
+            };
+            case 1 -> switch (rowID) {
+                case 0 -> secondPlayerCloseCombatRow;
+                case 1 -> secondPlayerRangedRow;
+                case 2 -> secondPlayerSiegeRow;
+                default -> row;
+            };
+            default -> null;
+        };
+        return row;
+    }
     //-----------------------------------------------------private Functions------------------------------------------//
 
 
@@ -765,26 +857,6 @@ public class MatchTable {
         return false;
     }
 
-    //gives a row by player and row id
-    private ArrayList<Card> getRowByID(int user_id, int rowID) {
-        ArrayList<Card> row = null;
-        row = switch (user_id) {
-            case 0 -> switch (rowID) {
-                case 0 -> firstPlayerCloseCombatRow;
-                case 1 -> firstPlayerRangedRow;
-                case 2 -> firstPlayerSiegeRow;
-                default -> row;
-            };
-            case 1 -> switch (rowID) {
-                case 0 -> secondPlayerCloseCombatRow;
-                case 1 -> secondPlayerRangedRow;
-                case 2 -> secondPlayerSiegeRow;
-                default -> row;
-            };
-            default -> null;
-        };
-        return row;
-    }
 
     private static int getNumberOfCards(Card card, ArrayList<Card> cards) {
         int num = 0;

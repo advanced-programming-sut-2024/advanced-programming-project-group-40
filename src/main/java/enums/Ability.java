@@ -5,6 +5,10 @@ public enum Ability {
     MARDROEME("Mardroeme"),
     TIGHT_BOND("Tight Bond"),
     MORAL_BOOST("Moral Boost"),
+    TRANSFORMER("transformer"),
+    SCORCH("scorch"),
+    MUSTER("muster"),
+    SCORCH_ALL("scorch all"),
     SPY("spy"),
     ;
     private final String ability;
