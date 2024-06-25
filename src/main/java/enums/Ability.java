@@ -12,6 +12,7 @@ public enum Ability {
     Ability(String name) {
         this.ability = name;
     }
+
     @Override
     public String toString() {
         return ability;
