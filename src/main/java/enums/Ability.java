@@ -8,7 +8,6 @@ public enum Ability {
     TRANSFORMER("transformer"),
     SCORCH("scorch"),
     MUSTER("muster"),
-    SCORCH_ALL("scorch all"),
     SPY("spy"),
     ;
     private final String ability;

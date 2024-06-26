@@ -111,7 +111,6 @@ public abstract class UnitCardActions {
                 matchTable.addToInPlayCards(0, new CardWrapper(randomUnitcard, Origin.FIRSTPLATER_DEAD));
 
             }
-            i = 0;
         } else {
             while (i < 2 && !matchTable.getSecondPlayerDeadCards().isEmpty()) {
                 i++;
@@ -129,7 +128,75 @@ public abstract class UnitCardActions {
     }
 
     private static void scorch(int rowNumber) {
+        UnitCard highestDamageCard = null;
+        if (matchTable.isFirstPlayerTurn()) {
+            int damage = MatchTable.getRowPowerNoHero(matchTable.getLeaderEffects(),
+                    matchTable.isRowUnderWeather(rowNumber),
+                    matchTable.isRowUnderBoost(1, rowNumber),
+                    matchTable.getRowByID(1, rowNumber));
+            if (damage > 10) {
 
+                ArrayList<Card> row = matchTable.getRowByID(1, rowNumber);
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (highestDamageCard == null) highestDamageCard = unitCard;
+                        else {
+                            if (unitCard.getShowingPower() > highestDamageCard.getShowingPower()) {
+                                highestDamageCard = unitCard;
+                            }
+                        }
+                    }
+                }
+                Origin origin = switch (rowNumber) {
+                    case 0 -> Origin.SECONDPLAYER_CLOSECOMBAT;
+                    case 1 -> Origin.SECONDPLAYER_RANGED;
+                    case 2 -> Origin.SECONDPLAYER_SIEGE;
+                    default -> null;
+                };
+
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
+                            matchTable.addToDeadCards(1, new CardWrapper(unitCard,
+                                    origin));
+                        }
+                    }
+                }
+            }
+        } else {
+            int damage = MatchTable.getRowPowerNoHero(matchTable.getLeaderEffects(),
+                    matchTable.isRowUnderWeather(rowNumber),
+                    matchTable.isRowUnderBoost(0, rowNumber),
+                    matchTable.getRowByID(0, rowNumber));
+            if (damage > 10) {
+                ArrayList<Card> row = matchTable.getRowByID(0, rowNumber);
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (highestDamageCard == null) highestDamageCard = unitCard;
+                        else {
+                            if (unitCard.getShowingPower() > highestDamageCard.getShowingPower()) {
+                                highestDamageCard = unitCard;
+                            }
+                        }
+                    }
+                }
+                Origin origin = switch (rowNumber) {
+                    case 0 -> Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    case 1 -> Origin.FIRSTPLAYER_RANGED;
+                    case 2 -> Origin.FIRSTPLAYER_SIEGE;
+                    default -> null;
+                };
+
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
+                            matchTable.addToDeadCards(0, new CardWrapper(unitCard,
+                                    origin));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static void scorchAll() {
@@ -183,6 +250,80 @@ public abstract class UnitCardActions {
 
     }
 
+    private static void scorchAllEnemy() {
+        UnitCard highestDamageCard = null;
+        if (matchTable.isFirstPlayerTurn()) {
+            for (int j = 0; j < 3; j++) {
+                ArrayList<Card> row = matchTable.getRowByID(1, j);
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (highestDamageCard == null) highestDamageCard = unitCard;
+                        else {
+                            if (unitCard.getShowingPower() > highestDamageCard.getShowingPower()) {
+                                highestDamageCard = unitCard;
+                            }
+                        }
+                    }
+                }
+            }
+            Origin origin = null;
+            for (int j = 0; j < 3; j++) {
+                origin = switch (j) {
+                    case 0 -> Origin.SECONDPLAYER_CLOSECOMBAT;
+                    case 1 -> Origin.SECONDPLAYER_RANGED;
+                    case 2 -> Origin.SECONDPLAYER_SIEGE;
+                    default -> origin;
+                };
+                ArrayList<Card> row = matchTable.getRowByID(1, j);
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
+                            matchTable.addToDeadCards(1, new CardWrapper(unitCard,
+                                    origin));
+                        }
+                    }
+                }
+
+            }
+        } else {
+
+            for (int j = 0; j < 3; j++) {
+                ArrayList<Card> row = matchTable.getRowByID(0, j);
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (highestDamageCard == null) highestDamageCard = unitCard;
+                        else {
+                            if (unitCard.getShowingPower() > highestDamageCard.getShowingPower()) {
+                                highestDamageCard = unitCard;
+                            }
+                        }
+                    }
+                }
+            }
+            Origin origin = null;
+            for (int j = 0; j < 3; j++) {
+                origin = switch (j) {
+                    case 0 -> Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    case 1 -> Origin.FIRSTPLAYER_RANGED;
+                    case 2 -> Origin.FIRSTPLAYER_SIEGE;
+                    default -> origin;
+                };
+                ArrayList<Card> row = matchTable.getRowByID(0, j);
+                for (Card card : row) {
+                    if (card instanceof UnitCard unitCard) {
+                        if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
+                            matchTable.addToDeadCards(0, new CardWrapper(unitCard,
+                                    origin));
+                        }
+                    }
+                }
+
+            }
+        }
+
+
+    }
+
     private static void berserker() {
         //filled
     }
@@ -200,9 +341,6 @@ public abstract class UnitCardActions {
     public static void doActionByName(String name, MatchTable currentMatchTable) {
         matchTable = currentMatchTable;
         switch (name) {
-            case "scorch all":
-                scorchAll();
-                break;
             case "spy":
                 spy();
                 break;
@@ -214,6 +352,27 @@ public abstract class UnitCardActions {
         switch (name) {
             case "muster":
                 muster(placedCard, userID, rowNumber);
+                break;
+            case "scorch":
+                doScorch(placedCard);
+                break;
+        }
+
+    }
+
+    private static void doScorch(Card placedCard) {
+        switch (placedCard.getName()) {
+            case "Clan Dimun Pirate":
+                scorchAllEnemy();
+                break;
+            case "Schirru":
+                scorch(3);
+                break;
+            case "Toad":
+                scorch(2);
+                break;
+            case "Scorch":
+                scorchAll();
                 break;
         }
 

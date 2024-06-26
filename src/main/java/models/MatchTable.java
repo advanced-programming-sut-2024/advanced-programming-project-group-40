@@ -62,9 +62,10 @@ public class MatchTable {
         this.secondPlayer = secondPlayer;
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
-
+        initializeMatchTable();
 
     }
+
 
     public boolean isFirstPlayerTurn() {
         return isFirstPlayerTurn;
@@ -100,46 +101,74 @@ public class MatchTable {
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
         ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
         for (Card card : row) {
-            UnitCard unitCard = (UnitCard) card;
-            unitCard.setShowingPower(unitCard.getConstantPower());
+            if (card instanceof UnitCard unitCard) {
+                unitCard.setShowingPower(unitCard.getConstantPower());
+            }
+            if (card instanceof Hero hero) {
+                hero.setShowingPower(hero.getConstantPower());
+            }
         }
         if (areCardsUnderWeather) {
             for (Card card : row) {
-                UnitCard unitCard = (UnitCard) card;
-                if (leaderEffects.isKingBran()) {
-                    unitCard.setShowingPower(unitCard.getShowingPower() / 2);
-                } else {
-                    unitCard.setShowingPower(1);
+                if (card instanceof UnitCard unitCard) {
+                    if (leaderEffects.isKingBran()) {
+                        unitCard.setShowingPower(unitCard.getShowingPower() / 2);
+                    } else {
+                        unitCard.setShowingPower(1);
+                    }
+                }
+                if (card instanceof Hero hero) {
+                    if (leaderEffects.isKingBran()) {
+                        hero.setShowingPower(hero.getShowingPower() / 2);
+                    } else {
+                        hero.setShowingPower(1);
+                    }
                 }
             }
         }
         if (leaderEffects.isSpyDoublePower()) {
             for (Card card : row) {
-                UnitCard unitCard = (UnitCard) card;
-                if (unitCard.getAbility() == Ability.SPY) {
-                    unitCard.setShowingPower(unitCard.getShowingPower() * 2);
+                if (card instanceof UnitCard unitCard) {
+                    if (unitCard.getAbility() == Ability.SPY) {
+                        unitCard.setShowingPower(unitCard.getShowingPower() * 2);
+                    }
+                }
+                if (card instanceof Hero hero) {
+                    if (hero.getAbility() == Ability.SPY) {
+                        hero.setShowingPower(hero.getShowingPower() * 2);
+                    }
                 }
             }
         }
 
         for (Card card : row) {
-            UnitCard unitCard = (UnitCard) card;
-            if (tightBondCards.contains(card)) {
-                unitCard.setShowingPower(unitCard.getShowingPower() * getNumberOfCards(card, tightBondCards));
+            if (card instanceof UnitCard unitCard) {
+                if (tightBondCards.contains(card)) {
+                    unitCard.setShowingPower(unitCard.getShowingPower() * getNumberOfCards(card, tightBondCards));
+                }
             }
         }
         for (Card card : row) {
-            UnitCard unitCard = (UnitCard) card;
-            if (moralBoostCards.contains(card)) {
-                unitCard.setShowingPower(unitCard.getShowingPower() + moralBoostCards.size() - 1);
-            } else {
-                unitCard.setShowingPower(unitCard.getShowingPower() + moralBoostCards.size());
+            if (card instanceof UnitCard unitCard) {
+                if (moralBoostCards.contains(card)) {
+                    unitCard.setShowingPower(unitCard.getShowingPower() + moralBoostCards.size() - 1);
+                } else {
+                    unitCard.setShowingPower(unitCard.getShowingPower() + moralBoostCards.size());
+                }
+            }
+            if (card instanceof Hero hero) {
+                if (moralBoostCards.contains(card)) {
+                    hero.setShowingPower(hero.getShowingPower() + moralBoostCards.size() - 1);
+                } else {
+                    hero.setShowingPower(hero.getShowingPower() + moralBoostCards.size());
+                }
             }
         }
         if (areCardsBoosted) {
             for (Card card : row) {
-                UnitCard unitCard = (UnitCard) card;
-                unitCard.setShowingPower(unitCard.getShowingPower() * 2);
+                if (card instanceof UnitCard unitCard) {
+                    unitCard.setShowingPower(unitCard.getShowingPower() * 2);
+                }
             }
         }
     }
@@ -383,17 +412,18 @@ public class MatchTable {
             switch (ability) {
                 case SPY -> {
                     UnitCardActions.doActionByName("spy", this);
+                    int inverseUserID = -1;
+                    if (userID == 1) inverseUserID = 0;
+                    else inverseUserID = 1;
+                    row = getRowByID(inverseUserID, rowNumber);
                     row.add(cardWrapper.getCard());
                 }
                 case MUSTER -> {
-                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(),userID,rowNumber, "muster", this);
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
-                }
-
-                case SCORCH_ALL -> {
-                    UnitCardActions.doActionByName("scorch all", this);
                     row.add(cardWrapper.getCard());
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "scorch", this);
                 }
                 default -> {
                     row.add(cardWrapper.getCard());
@@ -453,7 +483,11 @@ public class MatchTable {
 
     //places card in spell cards
     public void addToSpellCards(CardWrapper cardWrapper) {
-        spellCards.add(cardWrapper.getCard());
+        if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
+            spellCards.clear();
+        } else {
+            spellCards.add(cardWrapper.getCard());
+        }
         removeCard(cardWrapper);
 
     }
@@ -696,25 +730,25 @@ public class MatchTable {
         return null;
     }
 
-    public static int getRowPower(LeaderEffects leaderEffects, boolean weather, boolean boost, ArrayList<Card> row) {
+    public static int getRowPower(LeaderEffects leaderEffects,
+                                  boolean weather,
+                                  boolean boost,
+                                  ArrayList<Card> row) {
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
         ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
-        for (Card card : row) {
-            UnitCard unitCard = (UnitCard) card;
-            unitCard.setShowingPower(unitCard.getConstantPower());
-        }
-
-        if (!weather) {
-            for (Card card : row) {
-                UnitCard unitCard = (UnitCard) card;
-
-                nums[row.indexOf(card)] = unitCard.getConstantPower();
+        for (int i = 0; i < nums.length; i++) {
+            Card card = row.get(i);
+            if (card instanceof UnitCard unitCard) {
+                nums[i] = unitCard.getConstantPower();
             }
-        } else {
+            if (card instanceof Hero hero) {
+                nums[i] = hero.getConstantPower();
+            }
+        }
+        if (weather) {
             if (leaderEffects.isKingBran()) {
                 for (Card card : row) {
-
                     nums[row.indexOf(card)] = nums[row.indexOf(card)] / 2;
                 }
             } else {
@@ -724,9 +758,15 @@ public class MatchTable {
         }
         if (leaderEffects.isSpyDoublePower()) {
             for (Card card : row) {
-                UnitCard unitCard = (UnitCard) card;
-                if (unitCard.getAbility() == Ability.SPY) {
-                    nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+                if (card instanceof UnitCard unitCard) {
+                    if (unitCard.getAbility() == Ability.SPY) {
+                        nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+                    }
+                }
+                if (card instanceof Hero hero) {
+                    if (hero.getAbility() == Ability.SPY) {
+                        nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+                    }
                 }
             }
         }
@@ -750,6 +790,72 @@ public class MatchTable {
         int retVal = 0;
         for (int num : nums) {
             retVal += num;
+        }
+        return retVal;
+    }
+
+    public static int getRowPowerNoHero(LeaderEffects leaderEffects,
+                                        boolean weather,
+                                        boolean boost,
+                                        ArrayList<Card> row) {
+        int[] nums = new int[row.size()];
+        ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        for (int i = 0; i < nums.length; i++) {
+            Card card = row.get(i);
+            if (card instanceof UnitCard unitCard) {
+                nums[i] = unitCard.getConstantPower();
+            }
+            if (card instanceof Hero hero) {
+                nums[i] = hero.getConstantPower();
+            }
+        }
+        if (weather) {
+            if (leaderEffects.isKingBran()) {
+                for (Card card : row) {
+                    nums[row.indexOf(card)] = nums[row.indexOf(card)] / 2;
+                }
+            } else {
+                Arrays.fill(nums, 1);
+            }
+
+        }
+        if (leaderEffects.isSpyDoublePower()) {
+            for (Card card : row) {
+                if (card instanceof UnitCard unitCard) {
+                    if (unitCard.getAbility() == Ability.SPY) {
+                        nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+                    }
+                }
+                if (card instanceof Hero hero) {
+                    if (hero.getAbility() == Ability.SPY) {
+                        nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+                    }
+                }
+            }
+        }
+        for (Card card : row) {
+            if (tightBondCards.contains(card)) {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] * getNumberOfCards(card, tightBondCards);
+            }
+        }
+        for (Card card : row) {
+            if (moralBoostCards.contains(card)) {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] + moralBoostCards.size() - 1;
+            } else {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] + moralBoostCards.size();
+            }
+        }
+        if (boost) {
+            for (Card card : row) {
+                nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
+            }
+        }
+        int retVal = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (row.get(i) instanceof UnitCard){
+                retVal += nums[i];
+            }
         }
         return retVal;
     }
@@ -787,11 +893,9 @@ public class MatchTable {
         };
         return row;
     }
-    //-----------------------------------------------------private Functions------------------------------------------//
-
 
     // closeCombat:0 Range:1 Siege:2
-    private boolean isRowUnderWeather(int rowID) {
+    public boolean isRowUnderWeather(int rowID) {
         for (Card card : spellCards) {
             switch (card.getName()) {
                 case "Biting Frost":
@@ -803,6 +907,9 @@ public class MatchTable {
                 case "Torrential Rain":
                     if (rowID == 2) return true;
                     break;
+                case "Skellige Storm":
+                    if (rowID == 2 || rowID == 1) return true;
+                    break;
             }
         }
         return false;
@@ -810,7 +917,7 @@ public class MatchTable {
 
     //checks for commander horn in boost card place and
     // for specials cards in the given row that give the commanders horn effect
-    private boolean isRowUnderBoost(int user_id, int rowID) {
+    public boolean isRowUnderBoost(int user_id, int rowID) {
         ArrayList<Card> row = getRowByID(user_id, rowID);
         boolean x;
         switch (user_id) {
@@ -832,6 +939,8 @@ public class MatchTable {
 
         return false;
     }
+    //-----------------------------------------------------private Functions------------------------------------------//
+
 
     //checks for commander horn in the given boost card place
     private boolean isThereCommanderHorn(int rowID, Card secondPlayerCloseCombatBoostCard,
@@ -878,8 +987,12 @@ public class MatchTable {
     private static ArrayList<Card> getCardsWithAbility(Ability ability, ArrayList<Card> cards) {
         ArrayList<Card> retVal = new ArrayList<>();
         for (Card card : cards) {
-            UnitCard unitCard = (UnitCard) card;
-            if (unitCard.getAbility() == ability) retVal.add(card);
+            if (card instanceof UnitCard unitCard) {
+                if (unitCard.getAbility() == ability) retVal.add(card);
+            }
+            if (card instanceof Hero hero) {
+                if (hero.getAbility() == ability) retVal.add(card);
+            }
         }
         return retVal;
     }
@@ -903,5 +1016,25 @@ public class MatchTable {
         }
     }
 
+    private void initializeMatchTable() {
+        boolean firstScotail;
+        boolean secondScotail;
+        if (Objects.equals(firstPlayer.getFaction(), "scoiatael")) {
+            firstScotail = true;
+        } else firstScotail = false;
+        if (Objects.equals(secondPlayer.getFaction(), "scoiatael")) {
+            secondScotail = true;
+        } else secondScotail = false;
+
+        if (firstScotail && !secondScotail) {
+            isFirstPlayerTurn = true;
+        } else if (!firstScotail && secondScotail) {
+            isFirstPlayerTurn = false;
+        } else {
+            isFirstPlayerTurn = Game.random.nextBoolean();
+        }
+        //todo
+
+    }
 
 }
