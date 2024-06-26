@@ -7,6 +7,8 @@ public enum Factions {
     NORTHERN_REALMS("Realms Northern"),
     MONSTERS("Monsters"),
     SKELLIGE("Skellige"),
+    NEUTRAL("neutral"),
+    SCOIATAEL("scoiatael"),
     ;
     private final String name;
 
