@@ -329,11 +329,19 @@ public class MatchTable {
     //gives some random card without removing them from the deck
     public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
         ArrayList<Card> randomCards = new ArrayList<>();
-        ArrayList<Card> copiedCards = new ArrayList<>(deck);
-        for (int i = 0; i < 10; i++) {
-            Card tempCard = copiedCards.get(Game.random.nextInt(0, copiedCards.size()));
+        int i =0;
+        int size = deck.size();
+        while (i<10){
+            if (deck.isEmpty()){
+                return randomCards;
+            }
+            Card tempCard = deck.get(Game.random.nextInt(size));
+            System.out.println(deck.indexOf(tempCard));
+            System.out.println(size);
+            size--;
             randomCards.add(tempCard);
-            copiedCards.remove(tempCard);
+            deck.remove(tempCard);
+            i++;
         }
         return randomCards;
     }
@@ -951,6 +959,17 @@ public class MatchTable {
 
         return false;
     }
+    public void initilizeTable() {
+        ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards);
+        ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards);
+        for (Card card : firstPlayerCards){
+            addToInPlayCards(0,new CardWrapper(card,Origin.FIRSTPLAYER_DECK));
+        }
+        for (Card card : secondPlayerCards){
+            addToInPlayCards(1,new CardWrapper(card,Origin.SECONDPLAYER_DECK));
+        }
+    }
+
     //-----------------------------------------------------private Functions------------------------------------------//
 
 
