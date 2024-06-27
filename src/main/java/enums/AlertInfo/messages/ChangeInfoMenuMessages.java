@@ -1,6 +1,10 @@
 package enums.AlertInfo.messages;
 
 public enum ChangeInfoMenuMessages   {
+    WRONG_PASSWORD("Wrong password!"),
+    SAME_USERNAME("Your new username is the same as your old username"),
+    SAME_EMAIL("Your new email is the same as your old email"),
+    SAME_PASSWORD("Your new password is the same as your old password"),
     INVALID_USER("Invalid username format"),
     DUPLICATE_USER("This username has already taken"),
     INVALID_EMAIL("Invalid email format"),
