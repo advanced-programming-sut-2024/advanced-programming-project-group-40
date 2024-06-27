@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import models.Game;
 
 import java.util.Objects;
+
 import java.util.Scanner;
 
 public class LoginMenu extends PlayMenu {

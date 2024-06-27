@@ -10,4 +10,6 @@ public class ExitMenu extends PlayMenu {
     public void start(Stage primaryStage) throws Exception {
 
     }
+
+
 }

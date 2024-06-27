@@ -1,9 +1,14 @@
 package enums;
 
 public enum Ability {
+    Test("test"),
+    MARDROEME("Mardroeme"),
     TIGHT_BOND("Tight Bond"),
-    MORAL_BOOST("Moral Boost")
-
+    MORAL_BOOST("Moral Boost"),
+    TRANSFORMER("transformer"),
+    SCORCH("scorch"),
+    MUSTER("muster"),
+    SPY("spy"),
     ;
     private final String ability;
 
