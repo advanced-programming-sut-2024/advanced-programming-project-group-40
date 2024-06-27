@@ -64,9 +64,8 @@ public class  ForgetPasswordViewController {
                 ErrorMaker.setError(errorLabel2,SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
                 validPass = true;
-                ErrorMaker.removeError(errorLabel2, newPassword);
+                ErrorMaker.removeError(errorLabel2);
             }
-
 
         });
     }
@@ -96,6 +95,8 @@ public class  ForgetPasswordViewController {
 
     public void changeClicked() {
         if (validPass) {
+            user.setPassword(newPassword.getText());
+            Game.setLoggedInUser(user);
             try {
                 new MainMenu().start(ForgetPasswordMenu.stage);
             } catch (Exception e) {

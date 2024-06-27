@@ -26,14 +26,6 @@ public class LoginMenuController extends UserInfoController {
         Game.getLoggedInUser().setStayLoggedIn(true);
     }
 
-    public static Result forgetPassword(String username, int questionNumber, String answer, String newPassword) {
-        return null;
-    }
-
-    public static Result goToRegisterMenu() {
-        return null;
-    }
-
 
     public static void setPassword(String password) {
 
