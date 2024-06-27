@@ -99,7 +99,7 @@ public class MatchTable {
         boolean areCardsBoosted = isRowUnderBoost(user_id, rowNumber);
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
         for (Card card : row) {
             if (card instanceof UnitCard unitCard) {
                 unitCard.setShowingPower(unitCard.getConstantPower());
@@ -748,7 +748,7 @@ public class MatchTable {
                                   ArrayList<Card> row) {
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
         for (int i = 0; i < nums.length; i++) {
             Card card = row.get(i);
             if (card instanceof UnitCard unitCard) {
@@ -812,7 +812,7 @@ public class MatchTable {
                                         ArrayList<Card> row) {
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
         for (int i = 0; i < nums.length; i++) {
             Card card = row.get(i);
             if (card instanceof UnitCard unitCard) {
@@ -1021,7 +1021,7 @@ public class MatchTable {
             }
         }
         row.removeAll(toRemove);
-        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.ALBRICH);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
 

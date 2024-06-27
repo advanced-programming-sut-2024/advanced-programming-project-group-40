@@ -1,52 +1,52 @@
 .closecombat{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/close_combat.png");
+    -fx-background-image: url("../Assets/PlaceHolders/close_combat.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
     -fx-spacing: 10px;
 }
 .siege{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/siege_combat.png");
+    -fx-background-image: url("../Assets/PlaceHolders/siege_combat.png");
     -fx-background-size: cover;
     -fx-spacing: 10px;
     -fx-background-repeat: no-repeat;
 }
 .ranged{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/range_combat.png");
+    -fx-background-image: url("../Assets/PlaceHolders/range_combat.png");
     -fx-background-size: cover;
     -fx-spacing: 10px;
     -fx-background-repeat: no-repeat;
 }
 .root{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/GameBackground.png");
+    -fx-background-image: url("../Assets/PlaceHolders/GameBackground.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }
 .hand{
-    -fx-spacing: 10px;
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/hand_row.png");
+    -fx-spacing: 3px;
+    -fx-background-image: url("../Assets/PlaceHolders/hand_row.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }
 .special{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/special.png");
+    -fx-background-image: url("../Assets/PlaceHolders/special.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }
 .weather{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/weather.png");
+    -fx-background-image: url("../Assets/PlaceHolders/weather.png");
     -fx-background-size: contain;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
 .leaderholder{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/leader.png");
+    -fx-background-image: url("../Assets/PlaceHolders/leader.png");
     -fx-background-size: cover;
 
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
 .leaderbutton{
-    -fx-background-image: url("../Assets/GameAssets/Buttons/leader_unused.png");
+    -fx-background-image: url("../Assets/Buttons/leader_unused.png");
     -fx-background-position: center;
     -fx-background-size: cover;
     -fx-background-color: transparent;
@@ -54,14 +54,14 @@
     -fx-background-radius: 50%;
 }
 .discard{
-    -fx-background-image: url("../Assets/GameAssets/PlaceHolders/discard.png");
+    -fx-background-image: url("../Assets/PlaceHolders/discard.png");
     -fx-background-size: cover;
 
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
 .deck{
-    -fx-background-image: url("../Assets/GameAssets/Realms/N.png");
+    -fx-background-image: url("../Assets/Factions/faction_neutral.png");
     -fx-background-size: contain;
 
     -fx-background-position: center;
@@ -73,7 +73,7 @@
     -fx-opacity: 0.45;
 }
 .cardimage{
-    -fx-background-image: url("../Assets/GameAssets/InfoHolder/CardsImage.png");
+    -fx-background-image: url("../Assets/InfoHolder/CardsImage.png");
     -fx-background-size: contain;
 
     -fx-background-position: center;
@@ -81,7 +81,7 @@
 }
 
 .crystal{
-    -fx-background-image: url("../Assets/GameAssets/InfoHolder/ruby_red.png");
+    -fx-background-image: url("../Assets/InfoHolder/ruby_red.png");
     -fx-background-position: center;
     -fx-background-size: cover;
     /*-fx-background-color: transparent;*/
@@ -89,7 +89,7 @@
     -fx-background-radius: 50%;
 }
 .factionimage{
-    -fx-background-image: url("../Assets/GameAssets/InfoHolder/CardsImage.png");
+    -fx-background-image: url("../Assets/InfoHolder/CardsImage.png");
     -fx-background-size: contain;
 
     -fx-background-position: center;

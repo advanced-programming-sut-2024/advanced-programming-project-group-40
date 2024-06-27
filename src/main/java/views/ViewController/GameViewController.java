@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -103,6 +104,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL url = Main.class.getResource("/FXML/GameBoard.fxml");
+        assert url != null;
         Scene scene = new Scene(FXMLLoader.load(url));
         stage.setScene(scene);
         stage.show();
@@ -116,8 +118,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         secondPlayerFaction.setText(STR."\{matchTable.getSecondPlayer().getFaction()}");*/
         //todo
         //initialize faction and leader images for each player
-        UnitCard card1 = new UnitCard(UnitCardInfo.SPONGE_BOB);
-        UnitCard card2 = new UnitCard(UnitCardInfo.TEST2);
+        UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
+        UnitCard card2 = new UnitCard(UnitCardInfo.ALBRICH);
         Hand.getChildren().add(card1);
         firstPlayerCloseCombat.getChildren().add(card2);
         InitiateCardEvents();
@@ -154,4 +156,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         secondPlayerRemainingCards.setText(STR."\{matchTable.getSecondPlayerInPlayCards().size()}");*/
     }
 
+    public void awoga(MouseEvent mouseEvent) {
+    }
 }

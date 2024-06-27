@@ -18,6 +18,7 @@ import models.cards.UnitCard;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameView extends PlayMenu{
@@ -26,8 +27,8 @@ public class GameView extends PlayMenu{
     }
     @Override
     public void start(Stage stage) throws Exception {
-        MainMenu.stage = stage;
-        Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/GameBoard.fxml"));
+        GameView.stage = stage;
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(GameView.class.getResource("/FXML/GameBoard.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }
