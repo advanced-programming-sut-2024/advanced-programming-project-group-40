@@ -9,5 +9,4 @@ import java.util.regex.Matcher;
 
 public abstract class PlayMenu extends Application {
     public static Stage stage;
-
 }

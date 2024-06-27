@@ -29,18 +29,18 @@ public class MatchTable {
     private final ArrayList<Integer> secondPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
     private final ArrayList<Card> firstPlayerDeckCards = new ArrayList<>();
     private final ArrayList<Card> secondPlayerDeckCards = new ArrayList<>();
-    private final ArrayList<Card> firstPlayerCloseCombatRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> firstPlayerCloseCombatRow = new ArrayList<>();
     private Card firstPlayerCloseCombatBoostCard;
-    private final ArrayList<Card> secondPlayerCloseCombatRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> secondPlayerCloseCombatRow = new ArrayList<>();
     private Card secondPlayerCloseCombatBoostCard;
 
-    private final ArrayList<Card> firstPlayerRangedRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> firstPlayerRangedRow = new ArrayList<>();
     private Card firstPlayerRangedBoostCard;
-    private final ArrayList<Card> secondPlayerRangedRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> secondPlayerRangedRow = new ArrayList<>();
     private Card secondPlayerRangedBoostCard;
-    private final ArrayList<Card> firstPlayerSiegeRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> firstPlayerSiegeRow = new ArrayList<>();
     private Card firstPlayerSiegeBoostCard;
-    private final ArrayList<Card> secondPlayerSiegeRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> secondPlayerSiegeRow = new ArrayList<>();
     private Card secondPlayerSiegeBoostCard;
 
 
@@ -99,7 +99,7 @@ public class MatchTable {
         boolean areCardsBoosted = isRowUnderBoost(user_id, rowNumber);
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
         for (Card card : row) {
             if (card instanceof UnitCard unitCard) {
                 unitCard.setShowingPower(unitCard.getConstantPower());
@@ -329,11 +329,19 @@ public class MatchTable {
     //gives some random card without removing them from the deck
     public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
         ArrayList<Card> randomCards = new ArrayList<>();
-        ArrayList<Card> copiedCards = new ArrayList<>(deck);
-        for (int i = 0; i < 10; i++) {
-            Card tempCard = copiedCards.get(Game.random.nextInt(0, copiedCards.size()));
+        int i =0;
+        int size = deck.size();
+        while (i<10){
+            if (deck.isEmpty()){
+                return randomCards;
+            }
+            Card tempCard = deck.get(Game.random.nextInt(size));
+            System.out.println(deck.indexOf(tempCard));
+            System.out.println(size);
+            size--;
             randomCards.add(tempCard);
-            copiedCards.remove(tempCard);
+            deck.remove(tempCard);
+            i++;
         }
         return randomCards;
     }
@@ -748,7 +756,7 @@ public class MatchTable {
                                   ArrayList<Card> row) {
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
         for (int i = 0; i < nums.length; i++) {
             Card card = row.get(i);
             if (card instanceof UnitCard unitCard) {
@@ -812,7 +820,7 @@ public class MatchTable {
                                         ArrayList<Card> row) {
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
-        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORAL_BOOST, row);
+        ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
         for (int i = 0; i < nums.length; i++) {
             Card card = row.get(i);
             if (card instanceof UnitCard unitCard) {
@@ -951,6 +959,17 @@ public class MatchTable {
 
         return false;
     }
+    public void initilizeTable() {
+        ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards);
+        ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards);
+        for (Card card : firstPlayerCards){
+            addToInPlayCards(0,new CardWrapper(card,Origin.FIRSTPLAYER_DECK));
+        }
+        for (Card card : secondPlayerCards){
+            addToInPlayCards(1,new CardWrapper(card,Origin.SECONDPLAYER_DECK));
+        }
+    }
+
     //-----------------------------------------------------private Functions------------------------------------------//
 
 
@@ -1021,7 +1040,7 @@ public class MatchTable {
             }
         }
         row.removeAll(toRemove);
-        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.ALBRICH);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
 

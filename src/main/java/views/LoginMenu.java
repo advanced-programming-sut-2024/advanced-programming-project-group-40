@@ -21,7 +21,7 @@ public class LoginMenu extends PlayMenu {
     public void start(Stage stage) throws Exception {
 //        Game.setAllUsers(Objects.requireNonNull(DataSaver.loadUsers()));
         LoginMenu.stage = stage;
-        Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/FXML/LoginMenuFXML.fxml"));
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(LoginMenu.class.getResource("/FXML/LoginMenuFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }
