@@ -1,5 +1,6 @@
 package views.ViewController;
 
+import controllers.Generator;
 import controllers.MenuController.ForgetPasswordController;
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
@@ -17,13 +18,10 @@ import models.User;
 import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.MainMenu;
-import views.SignUpMenu;
 
 import java.util.ArrayList;
 
-public class ForgetPasswordViewController {
-    @FXML
-    private Button submit;
+public class  ForgetPasswordViewController {
     @FXML
     private VBox thirdVbox;
     @FXML
@@ -91,7 +89,7 @@ public class ForgetPasswordViewController {
         if (!ForgetPasswordController.isAnswerValid(user, answer.getText())) {
             new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_SECURITY_ANSWER.toString()).showAlert();
         } else {
-            submit.setDisable(true);
+            answer.setDisable(true);
             thirdVbox.setVisible(true);
         }
     }
@@ -107,11 +105,13 @@ public class ForgetPasswordViewController {
     }
 
     public void getRandomPassword(MouseEvent mouseEvent) {
-        String randomNewPassword = SignUpMenuController.getRandomPassword();
+        String randomNewPassword = Generator.getRandomPassword();
         AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.RANDOM_PASSWORD.toString() + randomNewPassword);
         randomPassword.setDisable(true);
         alert.showAlert();
         if (alert.isOK()) {
+            validPass=true;
+            newPassword.setText(randomNewPassword);
             changeClicked();
         } else {
             randomPassword.setDisable(false);

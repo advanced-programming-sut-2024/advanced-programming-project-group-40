@@ -1,5 +1,6 @@
 package controllers.MenuController;
 
+import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.scene.control.Alert;
@@ -10,7 +11,7 @@ import models.User;
 public class SignUpMenuController extends UserInfoController {
     public static AlertMaker Continue(String username) {
         if (!isUsernameUnique(username))
-            return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + generateUsername(username));
+            return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + Generator.generateUsername(username));
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.CONTINUE.toString());
     }
 

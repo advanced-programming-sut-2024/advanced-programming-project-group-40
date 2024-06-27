@@ -1,5 +1,6 @@
 package views.ViewController;
 
+import controllers.Generator;
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
@@ -30,10 +31,6 @@ public class SignUpViewController {
     private Label passError;
     @FXML
     private Label confirmationError;
-    @FXML
-    private Button randomPass;
-    @FXML
-    private Button signUp;
     @FXML
     private TextField nickname;
     @FXML
@@ -89,17 +86,14 @@ public class SignUpViewController {
             boolean weakPassword = SignUpMenuController.isPasswordWeak(password.getText());
             boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(password.getText());
 
+            validFiled.put(3, false);
             if (password.getText().isEmpty()) {
-                validFiled.put(3, false);
                 ErrorMaker.removeError(passError, password);
             } else if (!validPassword) {
-                validFiled.put(3, false);
                 ErrorMaker.setError(passError, SignUpMenuMessages.INVALID_PASSWORD.toString());
             } else if (weakAndShortPassword) {
-                validFiled.put(3, false);
                 ErrorMaker.setError(passError, SignUpMenuMessages.SHORT_PASSWORD.toString());
             } else if (weakPassword) {
-                validFiled.put(3, false);
                 ErrorMaker.setError(passError, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
                 validFiled.put(3, true);
@@ -133,7 +127,6 @@ public class SignUpViewController {
     }
 
     public void ContinueClicked() {
-        System.out.println(validFiled.values());
         if (!validFiled.containsValue(false) && !nickname.getText().isEmpty()) {
             AlertMaker alert = SignUpMenuController.Continue(username.getText());
             alert.showAlert();
@@ -146,7 +139,7 @@ public class SignUpViewController {
 
 
     public void getRandomPasswordClicked() {
-        randomNewPassword = SignUpMenuController.getRandomPassword();
+        randomNewPassword = Generator.getRandomPassword();
         AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.RANDOM_PASSWORD.toString() + randomNewPassword);
         password.setDisable(true);
         passwordConfirmation.setDisable(true);

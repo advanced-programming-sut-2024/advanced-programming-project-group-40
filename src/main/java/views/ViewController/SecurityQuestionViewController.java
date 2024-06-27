@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 public class SecurityQuestionViewController {
     @FXML
-    private Button signUp;
-    @FXML
     private TextField confirmation;
     @FXML
     private TextField questionNumber;

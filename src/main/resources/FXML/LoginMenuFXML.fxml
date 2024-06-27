@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.LoginViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1150.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.LoginViewController">
    <children>
       <VBox alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="300.0" prefWidth="296.0" styleClass="Box">
          <children>
