@@ -6,7 +6,6 @@ import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -14,7 +13,6 @@ import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 import models.User;
-import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
 import views.SignUpMenu;
@@ -59,7 +57,7 @@ public class SignUpViewController {
             boolean uniqueUsername = SignUpMenuController.isUsernameUnique(username.getText());
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || username.getText().isEmpty()) {
-                ErrorMaker.removeError(usernameError, username);
+                ErrorMaker.removeError(usernameError);
                 validFiled.put(1,true);
             } else {
                 validFiled.put(1,false);
@@ -74,7 +72,7 @@ public class SignUpViewController {
         email.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isEmailValid(email.getText()) || email.getText().isEmpty()) {
                 validFiled.put(2, true);
-                ErrorMaker.removeError(emailError, email);
+                ErrorMaker.removeError(emailError);
             } else {
                 validFiled.put(2, false);
                 ErrorMaker.setError(emailError, SignUpMenuMessages.INVALID_EMAIL.toString());
@@ -88,7 +86,7 @@ public class SignUpViewController {
 
             validFiled.put(3, false);
             if (password.getText().isEmpty()) {
-                ErrorMaker.removeError(passError, password);
+                ErrorMaker.removeError(passError);
             } else if (!validPassword) {
                 ErrorMaker.setError(passError, SignUpMenuMessages.INVALID_PASSWORD.toString());
             } else if (weakAndShortPassword) {
@@ -98,14 +96,14 @@ public class SignUpViewController {
             } else {
                 validFiled.put(3, true);
                 passwordConfirmation.setDisable(false);
-                ErrorMaker.removeError(passError, password);
+                ErrorMaker.removeError(passError);
             }
         });
 
         passwordConfirmation.textProperty().addListener((observable, oldValue, newValue) -> {
             if (SignUpMenuController.isPasswordTheSame(password.getText(), passwordConfirmation.getText()) || passwordConfirmation.getText().isEmpty()) {
                 validFiled.put(4, true);
-                ErrorMaker.removeError(confirmationError, passwordConfirmation);
+                ErrorMaker.removeError(confirmationError);
             } else {
                 validFiled.put(4, false);
                 ErrorMaker.setError(confirmationError, SignUpMenuMessages.WRONG_PASS_CONFIRMATION.toString());

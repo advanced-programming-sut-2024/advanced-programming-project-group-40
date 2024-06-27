@@ -85,8 +85,8 @@
 }
 
 .button-regular{
-    -fx-pref-width: 98px; /* Set preferred width for button2 */
-    -fx-pref-height: 13px; /* Set preferred height for button2 */
+    -fx-pref-width: 98px;
+    -fx-pref-height: 13px;]
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
