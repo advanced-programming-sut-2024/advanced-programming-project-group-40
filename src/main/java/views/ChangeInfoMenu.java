@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ChangeInfoMenu extends PlayMenu{
-    public static Stage stage;
     public static void main(String[] args) {
         launch(args);
     }

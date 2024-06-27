@@ -40,8 +40,5 @@ public abstract class UserInfoController extends Controller {
         return password.equals(confirmPassword);
     }
 
-    public static boolean isAnswerValid(User user, String answer) {
-        return answer.equals(user.getSecurityAnswer());
-    }
 
 }

@@ -6,8 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class ForgetPasswordMenu extends Application {
-    public static Stage stage;
+public class ForgetPasswordMenu extends PlayMenu {
     @Override
     public void start(Stage stage) throws Exception {
         ForgetPasswordMenu.stage = stage;
