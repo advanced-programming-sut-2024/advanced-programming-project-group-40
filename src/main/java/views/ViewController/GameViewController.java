@@ -6,8 +6,10 @@ import enums.Origin;
 import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -18,19 +20,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
 
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
 import models.User;
-import models.UserInputHandler.ClickCommand;
+import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.UnitCard;
+import views.Main;
 import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
     private static MatchTable matchTable;
@@ -127,41 +130,22 @@ public class GameViewController extends PlayMenu implements Initializable {
         //todo
         //initialize faction and leader images for each player
 
-        User tempUser = new User("a","a","a","a");
+        User tempUser = new User("a", "a", "a", "a");
 
         tempUser.setFaction("as");
         Game.getLoggedInUser().setFaction("we");
         matchTable = new MatchTable(Game.getLoggedInUser(), tempUser);
-        UnitCard card1 = new UnitCard(UnitCardInfo.SPONGE_BOB);
-        UnitCard card2 = new UnitCard(UnitCardInfo.TEST2);
-        UnitCard card3 = new UnitCard(UnitCardInfo.TEST);
-        UnitCard card4 = new UnitCard(UnitCardInfo.BEAR);
-        /*UnitCard card5 = new UnitCard(UnitCardInfo.TEST3);
-        UnitCard card6 = new UnitCard(UnitCardInfo.TEST4);
-        UnitCard card7 = new UnitCard(UnitCardInfo.TEST5);
-        UnitCard card8 = new UnitCard(UnitCardInfo.TEST6);
-        UnitCard card9 = new UnitCard(UnitCardInfo.TEST7);
-        UnitCard card10 = new UnitCard(UnitCardInfo.TEST8);
-        UnitCard card11 = new UnitCard(UnitCardInfo.TEST9);
-        UnitCard card12 = new UnitCard(UnitCardInfo.TEST10);
-        UnitCard card13 = new UnitCard(UnitCardInfo.TEST11);
-        UnitCard card14 = new UnitCard(UnitCardInfo.TEST12);*/
+        UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
+        UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
+        UnitCard card3 = new UnitCard(UnitCardInfo.ICE_GIANT);
+        UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
+
 
         matchTable.getFirstPlayerRangedRow().add(card4);
         Game.getLoggedInUser().getDeckCards().add(card1);
         Game.getLoggedInUser().getDeckCards().add(card2);
         Game.getLoggedInUser().getDeckCards().add(card3);
-        /*Game.getLoggedInUser().getDeckCards().add(card4);
-        Game.getLoggedInUser().getDeckCards().add(card5);
-        Game.getLoggedInUser().getDeckCards().add(card6);
-        Game.getLoggedInUser().getDeckCards().add(card7);
-        Game.getLoggedInUser().getDeckCards().add(card8);
-        Game.getLoggedInUser().getDeckCards().add(card9);
-        Game.getLoggedInUser().getDeckCards().add(card10);
-        Game.getLoggedInUser().getDeckCards().add(card11);
-        Game.getLoggedInUser().getDeckCards().add(card12);
-        Game.getLoggedInUser().getDeckCards().add(card13);
-        Game.getLoggedInUser().getDeckCards().add(card14);*/
+
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(matchTable);
@@ -189,36 +173,50 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(card.getName());
-                ClickCommand clickCommand = new ClickCommand(card, card.getParent().getId(), this);
-                clickCommand.excute();
+                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
+                cardClickCommand.excute();
             });
         }
     }
 
     public void highLightRow(Origin origin) {
         switch (origin) {
-            case WEATHER -> {
-                spellCards.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
-            }
-
-            case FIRSTPLAYER_SIEGE -> {
-                firstPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
-            }
-            case FIRSTPLAYER_RANGED -> {
-                firstPlayerRanged.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
-            }
-            case FIRSTPLAYER_CLOSECOMBAT -> {
-                firstPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
-            }
-            case SECONDPLAYER_SIEGE -> {
-                secondPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            case SECONDPLAYER_CLOSECOMBAT -> {
+                secondPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
             }
             case SECONDPLAYER_RANGED -> {
                 secondPlayerRanged.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
             }
-            case SECONDPLAYER_CLOSECOMBAT -> {
-                secondPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            case SECONDPLAYER_SIEGE -> {
+                secondPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
             }
+            case FIRSTPLAYER_CLOSECOMBAT -> {
+                firstPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            }
+            case FIRSTPLAYER_RANGED -> {
+                firstPlayerRanged.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            }
+            case FIRSTPLAYER_SIEGE -> {
+                firstPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+
+            }
+            case WEATHER -> {
+                spellCards.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            }
+            case FIRSTPLAYER_AGILE -> {
+                firstPlayerRanged.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+                firstPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            }
+            case SECONDPLAYER_AGILE -> {
+                secondPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+                secondPlayerRanged.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            }
+            case FIRSTPLAYER_ALL -> {
+                firstPlayerRanged.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+                firstPlayerCloseCombat.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+                firstPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
+            }
+
         }
     }
 
@@ -230,8 +228,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         secondPlayerSiege.setEffect(null);
         secondPlayerRanged.setEffect(null);
         secondPlayerCloseCombat.setEffect(null);
-
-
     }
 
     private void update() {
@@ -304,7 +300,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         InitiateCardEvents();
 
     }
-
 
 
     public void awoga(MouseEvent mouseEvent) {

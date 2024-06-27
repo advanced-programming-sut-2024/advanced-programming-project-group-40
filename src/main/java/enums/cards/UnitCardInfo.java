@@ -130,8 +130,8 @@ public enum UnitCardInfo {
     OLGIERD_VON_EVERC("Olgierd Von Everc", 6, 1, Unit.AGILE, Factions.NEUTRAL, Ability.MORALE_BOOST),
     VESEMIR("Vesemir", 6, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE),
     VILLENTRETENMERTH("Villentretenmerth", 7, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.SCORCH),
-    ZOLTAN_CHIVAY("Zoltan Chivay", 5, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE);
-
+    ZOLTAN_CHIVAY("Zoltan Chivay", 5, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE),
+    BEAR("bear",8,0,Unit.All,Factions.NEUTRAL,Ability.NONE);
 
     public final String name;
     public final int power;

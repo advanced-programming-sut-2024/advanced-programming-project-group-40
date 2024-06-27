@@ -27,99 +27,98 @@ public class GameMenuController extends Controller {
         if (isSelectable(selectedCard1)) {
             GameMenuController.selectedCard = selectedCard1;
             gameViewController.unHighlight();
-            if (selectedCard instanceof UnitCard unitCard){
-                if (unitCard.getAbility() == Ability.SPY){
-                    switch (unitCard.getUnit()){
-                        case AGILE -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_RANGED);
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-                        }
-                        case CLOSE_COMBAT -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-                        }
-                        case SIEGE -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_SIEGE);
+            Origin origin = GetDestination();
+            gameViewController.highLightRow(origin);
 
-                        }
-                        case RANGED -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_RANGED);
-                        }
-                    }
-                }else {
-                    switch (unitCard.getUnit()){
-                        case AGILE -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_RANGED);
-
-                        }
-                        case CLOSE_COMBAT -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-                        }
-                        case SIEGE -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_SIEGE);
-
-                        }
-                        case RANGED -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_RANGED);
-
-                        }
-                    }
-                }
-
-            }
-            if (selectedCard instanceof Hero hero){
-                if (hero.getAbility() == Ability.SPY){
-                    switch (hero.getUnit()){
-                        case AGILE -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_RANGED);
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-                        }
-                        case CLOSE_COMBAT -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-                        }
-                        case SIEGE -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_SIEGE);
-
-                        }
-                        case RANGED -> {
-                            gameViewController.highLightRow(Origin.SECONDPLAYER_RANGED);
-                        }
-                    }
-                }else {
-                    switch (hero.getUnit()){
-                        case AGILE -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_RANGED);
-
-                        }
-                        case CLOSE_COMBAT -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-                        }
-                        case SIEGE -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_SIEGE);
-
-                        }
-                        case RANGED -> {
-                            gameViewController.highLightRow(Origin.FIRSTPLAYER_RANGED);
-
-                        }
-                    }
-                }
-            }
-            if (selectedCard instanceof SpecialCard specialCard){
-                if (Objects.equals(specialCard.getName(), "Commander's horn")){
-                    gameViewController.highLightRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-                    gameViewController.highLightRow(Origin.FIRSTPLAYER_RANGED);
-                    gameViewController.highLightRow(Origin.FIRSTPLAYER_SIEGE);
-                }
-                else {
-                    gameViewController.highLightRow(Origin.WEATHER);
-
-                }
-            }
         }
     }
 
+    private static Origin GetDestination() {
+        if (selectedCard instanceof UnitCard unitCard){
+            if (unitCard.getAbility() == Ability.SPY){
+                switch (unitCard.getUnit()){
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
+                }
+            }else {
+                switch (unitCard.getUnit()){
+                    case AGILE -> {
+                        return Origin.FIRSTPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                }
+            }
+
+        }
+        if (selectedCard instanceof Hero hero){
+            if (hero.getAbility() == Ability.SPY){
+                switch (hero.getUnit()){
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
+                }
+            }else {
+                switch (hero.getUnit()){
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                }
+            }
+        }
+        if (selectedCard instanceof SpecialCard specialCard){
+            if (Objects.equals(specialCard.getName(), "Commander's horn")){
+                return Origin.FIRSTPLAYER_ALL;
+            }
+            else {
+                return Origin.WEATHER;
+
+            }
+        }
+        else return null;
+    }
 
 
     private static boolean isSelectable(Card selectedCard) {
@@ -207,4 +206,13 @@ public class GameMenuController extends Controller {
         return true;
     }
 
+
+    public static void ClickedOnRow(Origin origin) {
+        Origin destination = GetDestination();
+        if (selectedCard != null){
+            if (origin.isSubOrigin(destination)){
+
+            }
+        }
+    }
 }
