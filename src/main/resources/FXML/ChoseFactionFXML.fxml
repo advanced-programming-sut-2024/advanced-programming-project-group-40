@@ -7,27 +7,27 @@
    <children>
       <ImageView fx:id="image1" fitHeight="278.0" fitWidth="174.0" layoutX="205.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view">
          <image>
-            <Image url="@../images/Cards/Factions/faction_monsters.jpg" />
+            <Image url="@../Assets/Factions/faction_monsters.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="image2" fitHeight="278.0" fitWidth="174.0" layoutX="551.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Cards/Factions/faction_nilfgaard.jpg" />
+            <Image url="@../Assets/Factions/faction_nilfgaard.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="image3" fitHeight="278.0" fitWidth="174.0" layoutX="319.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Cards/Factions/faction_realms.jpg" />
+            <Image url="@../Assets/Factions/faction_realms.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="image4" fitHeight="278.0" fitWidth="174.0" layoutX="664.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Cards/Factions/faction_scoiatael.jpg" />
+            <Image url="@../Assets/Factions/faction_scoiatael.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="image5" fitHeight="278.0" fitWidth="174.0" layoutX="438.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Cards/Factions/faction_skellige.jpg" />
+            <Image url="@../Assets/Factions/faction_skellige.jpg" />
          </image>
       </ImageView>
    </children>

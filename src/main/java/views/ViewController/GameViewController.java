@@ -12,8 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+
+
 import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
@@ -109,6 +113,11 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        URL url = Main.class.getResource("/FXML/GameBoard.fxml");
+        assert url != null;
+        Scene scene = new Scene(FXMLLoader.load(url));
+        stage.setScene(scene);
+        stage.show();
 
     }
 
@@ -117,7 +126,9 @@ public class GameViewController extends PlayMenu implements Initializable {
 
         //todo
         //initialize faction and leader images for each player
-        User tempUser = new User("a", "a", "a", "a");
+
+        User tempUser = new User("a","a","a","a");
+
         tempUser.setFaction("as");
         Game.getLoggedInUser().setFaction("we");
         matchTable = new MatchTable(Game.getLoggedInUser(), tempUser);
@@ -293,6 +304,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         InitiateCardEvents();
 
     }
+
 
 
     public void awoga(MouseEvent mouseEvent) {

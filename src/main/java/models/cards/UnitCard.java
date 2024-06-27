@@ -13,7 +13,7 @@ public class UnitCard extends Card{
     private final Factions faction;
     private final Ability ability;
     public UnitCard(UnitCardInfo unitCardInfo) {
-        super(unitCardInfo.name, unitCardInfo.boast, unitCardInfo.detail);
+        super(unitCardInfo.name);
         this.constantPower = unitCardInfo.power;
         this.showingPower = constantPower;
         this.maxCapacity = unitCardInfo.maxCapacity;

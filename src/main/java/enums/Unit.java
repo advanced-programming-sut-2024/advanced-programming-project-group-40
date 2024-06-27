@@ -1,12 +1,11 @@
 package enums;
 
 public enum Unit {
-    CLOSE_COMBAT("close combat"),
-    RANGED("ranged"),
-    SIEGE("siege"),
-    AGILE("agile"),
-    All("all"),
-    Test("test")
+    CLOSE_COMBAT("Close Combat"),
+    RANGED("Ranged"),
+    SIEGE("Siege"),
+    AGILE("Agile"),
+    All("All"),
     ;
     private final String unit;
 
