@@ -9,7 +9,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String nickName;
+    private String nickname;
     private String faction = "Nilfgaardian Empire";
     private int point;
     private int gamesPlayed;
@@ -17,8 +17,8 @@ public class User {
     private int draw;
     private int lost;
     //    private final ArrayList<Card> allCards = new ArrayList<>();
-    private  String SecurityAnswer;
-    private  int SecurityQuestionNumber;
+    private String SecurityAnswer;
+    private int SecurityQuestionNumber;
     private final ArrayList<Card> deckCards = new ArrayList<>();
     private Leader leader;
     private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
@@ -28,12 +28,27 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.nickName = nickName;
+        this.nickname = nickName;
         this.stayLoggedIn = false;
     }
 
     public int getRank() {
         return 0;
+    }
+
+    public int getHighestScore() {
+        // todo check if player one is the desired user
+        int highestScore = 0;
+        for (MatchTable match : matchesPlayed) {
+            if (match.getPlayerTotalScore(0) > highestScore) {
+                highestScore = match.getPlayerTotalScore(0);
+            }
+        }
+        return highestScore;
+    }
+
+    public int getNumberOfMatches(){
+        return matchesPlayed.size();
     }
 
     public String getUsername() {
@@ -60,12 +75,12 @@ public class User {
         this.email = email;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getSecurityAnswer() {
@@ -169,12 +184,12 @@ public class User {
         return Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
-                Objects.equals(nickName, user.nickName) &&
+                Objects.equals(nickname, user.nickname) &&
                 Objects.equals(faction, user.faction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password, email, nickName, faction);
+        return Objects.hash(username, password, email, nickname, faction);
     }
 }

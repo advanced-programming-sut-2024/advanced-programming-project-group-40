@@ -2,6 +2,10 @@
     -fx-background-image: url('/Images/Backgrounds/witcherBackground.jpg');
     -fx-background-size: cover;
 }
+.faction-background{
+    -fx-background-image: url('/Images/789.jpg');
+    -fx-background-size: cover;
+}
 
 .Sign-Up-background {
     -fx-background-image: url('/images/Backgrounds/123.png');
@@ -86,7 +90,7 @@
 
 .button-regular{
     -fx-pref-width: 98px;
-    -fx-pref-height: 13px;]
+    -fx-pref-height: 13px;
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
