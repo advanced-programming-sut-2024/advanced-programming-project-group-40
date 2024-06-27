@@ -14,7 +14,4 @@ public enum Menu {
     Menu(PlayMenu menu){
         this.menu = menu;
     }
-    public void checkCommand(Scanner scanner){
-        this.menu.check(scanner);
-    }
 }

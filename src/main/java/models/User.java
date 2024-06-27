@@ -17,17 +17,19 @@ public class User {
     private int draw;
     private int lost;
     //    private final ArrayList<Card> allCards = new ArrayList<>();
-    private final HashMap<Integer, String> securityQuestion = new HashMap<>();
+    private  String SecurityAnswer;
+    private  int SecurityQuestionNumber;
     private final ArrayList<Card> deckCards = new ArrayList<>();
     private Leader leader;
     private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private boolean stayLoggedIn;
 
-    public User(String username, String password, String email, String nickName, int questionNumber, String answer) {
+    public User(String username, String password, String email, String nickName) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.nickName = nickName;
-        this.securityQuestion.put(questionNumber, answer);
+        this.stayLoggedIn = false;
     }
 
     public int getRank() {
@@ -66,6 +68,30 @@ public class User {
         this.nickName = nickName;
     }
 
+    public String getSecurityAnswer() {
+        return SecurityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        SecurityAnswer = securityAnswer;
+    }
+
+    public void setSecurityQuestionNumber(int securityQuestionNumber) {
+        SecurityQuestionNumber = securityQuestionNumber;
+    }
+
+    public int getSecurityQuestionNumber() {
+        return SecurityQuestionNumber;
+    }
+
+    public boolean isStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public void setStayLoggedIn(boolean stayLoggedIn) {
+        this.stayLoggedIn = stayLoggedIn;
+    }
+
     public String getFaction() {
         return faction;
     }
@@ -82,13 +108,10 @@ public class User {
         this.leader = leader;
     }
 
-    public HashMap<Integer, String> getSecurityQuestion() {
-        return securityQuestion;
-    }
-
     public ArrayList<Card> getDeckCards() {
         return deckCards;
     }
+
     public int getPoint() {
         return point;
     }
@@ -113,22 +136,27 @@ public class User {
         return matchesPlayed;
     }
 
-    public void addToGamesPlayed(){
+    public void addToGamesPlayed() {
         gamesPlayed++;
     }
-    public void addToWin(){
+
+    public void addToWin() {
         won++;
     }
-    public void addToDraw(){
+
+    public void addToDraw() {
         draw++;
     }
-    public void addToLost(){
+
+    public void addToLost() {
         lost++;
     }
-    public void addToMatchesPlayed(MatchTable matchTable){
+
+    public void addToMatchesPlayed(MatchTable matchTable) {
         matchesPlayed.add(matchTable);
     }
-    public void addPoint(int addingPoint){
+
+    public void addPoint(int addingPoint) {
         point += addingPoint;
     }
 

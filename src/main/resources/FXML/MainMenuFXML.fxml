@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="750.0" prefWidth="1050.0" styleClass="MainMenu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.MainViewController">
+   <children>
+      <VBox alignment="CENTER" layoutX="130.0" layoutY="132.0" prefHeight="452.0" prefWidth="278.0" styleClass="Box">
+         <children>
+            <Label text="Main Menu" translateY="-100.0">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Start Game" translateY="-50.0" onMouseClicked="#goToGameMenu">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Profile" onMouseClicked="#goToProfileMenu">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Sign Out" translateY="50.0" onMouseClicked="#SignOut">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

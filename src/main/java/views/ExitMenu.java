@@ -1,12 +1,14 @@
 package views;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
-public class ExitMenu extends PlayMenu  {
+public class ExitMenu extends PlayMenu {
+
     @Override
-    public void check(Scanner scanner) {
+    public void start(Stage primaryStage) throws Exception {
+
     }
 
 

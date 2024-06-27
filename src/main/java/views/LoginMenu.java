@@ -1,12 +1,29 @@
 package views;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import Controller.DataSaver;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import models.Game;
+
+import java.util.Objects;
+
 import java.util.Scanner;
 
 public class LoginMenu extends PlayMenu {
+    public static Stage stage;
+    public static void main(String[] args) {
+        launch(args);
+    }
     @Override
-    public void check(Scanner scanner) {
-
+    public void start(Stage stage) throws Exception {
+//        Game.setAllUsers(Objects.requireNonNull(DataSaver.loadUsers()));
+        LoginMenu.stage = stage;
+        Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/FXML/LoginMenuFXML.fxml"));
+        stage.setScene(new Scene(pane));
+        stage.show();
     }
 }

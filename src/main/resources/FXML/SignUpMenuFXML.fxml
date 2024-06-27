@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SignUpViewController">
+   <children>
+      <VBox alignment="CENTER" layoutX="377.0" layoutY="69.0" prefHeight="578.0" prefWidth="275.0" styleClass="Box">
+         <children>
+            <Label styleClass="label-header" text="Sign Up" textFill="#c2e7e3" translateY="-25.0">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+            <Label text="Username" translateX="-50.0" translateY="-10.0">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font></Label>
+            <TextField fx:id="username" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="[a-zA-Z0-9-]" translateY="-10.0" />
+            <Label fx:id="usernameError" prefHeight="18.0" prefWidth="170.0" styleClass="error-label" translateX="5.0" translateY="-10.0" />
+            <Label text="Email" translateX="-65.0" translateY="-5.0">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <TextField fx:id="email" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="***@**.**" translateY="-5.0" />
+            <Label fx:id="emailError" prefHeight="18.0" prefWidth="170.0" styleClass="error-label" translateX="5.0" translateY="-5.0" />
+            <Label text="Nickname" translateX="-50.0">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <TextField fx:id="nickname" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="anything you want:)" />
+            <Label text="Password" translateX="-50.0" translateY="20.0">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
+            <PasswordField fx:id="password" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="[a-zA-Z0-9!@#$%^]" translateY="20.0" />
+            <Label fx:id="passError" maxWidth="160.0" prefWidth="170.0" styleClass="error-label" translateY="20.0" />
+            <PasswordField fx:id="passwordConfirmation" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="confirmation" translateY="20.0" />
+            <Label fx:id="confirmationError" maxWidth="170.0" prefWidth="170.0" styleClass="error-label" translateX="5.0" translateY="20.0" />
+            <Button fx:id="randomPass" mnemonicParsing="false" onMouseClicked="#getRandomPasswordClicked" styleClass="button-no-background" stylesheets="@../CSS/Style.css" text="Get a random password" translateY="20.0" underline="true" />
+            <Button fx:id="signUp" mnemonicParsing="false" onMouseClicked="#ContinueClicked" styleClass="button-regular" stylesheets="@../CSS/Style.css" text="Continue" translateY="30.0" />
+            <Label translateY="20.0" />
+         </children>
+      </VBox>
+      <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Icnos/Back.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

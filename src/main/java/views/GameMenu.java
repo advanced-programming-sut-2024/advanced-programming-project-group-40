@@ -1,5 +1,6 @@
 package views;
 
+
 import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -90,9 +91,8 @@ public class GameMenu extends PlayMenu implements Initializable {
     @FXML
     private HBox secondPlayerRanged;
 
-
     @Override
-    public void check(Scanner scanner) {
+    public void start(Stage primaryStage) throws Exception {
 
     }
 
