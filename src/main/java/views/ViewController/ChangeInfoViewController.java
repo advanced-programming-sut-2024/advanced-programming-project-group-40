@@ -1,6 +1,8 @@
 package views.ViewController;
 
+import controllers.MenuController.ChangeInfoController;
 import controllers.MenuController.SignUpMenuController;
+import enums.AlertInfo.messages.ChangeInfoMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 
@@ -35,16 +38,16 @@ public class ChangeInfoViewController {
     @FXML
     private Button change;
 
-    private HashMap<Integer,Boolean> validFiled = new HashMap<>();
+    private HashMap<Integer, Boolean> validFiled = new HashMap<>();
 
     {
-        validFiled.put(1,false);
-        validFiled.put(2,false);
-        validFiled.put(3,false);
-        validFiled.put(4,false);
+        validFiled.put(1, false);
+        validFiled.put(2, false);
+        validFiled.put(3, false);
+        validFiled.put(4, false);
     }
 
-    public void initialize(){
+    public void initialize() {
         newPassword.setDisable(true);
 
         // Add a listener to the first text field
@@ -54,9 +57,9 @@ public class ChangeInfoViewController {
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || newUsername.getText().isEmpty()) {
                 ErrorMaker.removeError(usernameError);
-                validFiled.put(1,true);
-            }  else {
-                validFiled.put(1,false);
+                validFiled.put(1, true);
+            } else {
+                validFiled.put(1, false);
                 if (!validUsername)
                     ErrorMaker.setError(usernameError, SignUpMenuMessages.INVALID_USER.toString());
                 else
@@ -75,40 +78,41 @@ public class ChangeInfoViewController {
             }
         });
 
-        oldPassword.textProperty().addListener((observable, oldValue, oldValue) -> {
-            boolean validPassword = SignUpMenuController.isPasswordValid(oldPassword.getText());
-            boolean weakPassword = SignUpMenuController.isPasswordWeak(oldPassword.getText());
-            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(oldPassword.getText());
+        newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
+            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
+            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
 
             validFiled.put(3, false);
-            if (oldPassword.getText().isEmpty()) {
-                ErrorMaker.removeError(oldPassError);
+            if (newPassword.getText().isEmpty()) {
+                ErrorMaker.removeError(newPasswordError);
             } else if (!validPassword) {
-                ErrorMaker.setError(oldPassError, SignUpMenuMessages.INVALID_PASSWORD.toString());
+                ErrorMaker.setError(newPasswordError, SignUpMenuMessages.INVALID_PASSWORD.toString());
             } else if (weakAndShortPassword) {
-                ErrorMaker.setError(oldPassError, SignUpMenuMessages.SHORT_PASSWORD.toString());
+                ErrorMaker.setError(newPasswordError, SignUpMenuMessages.SHORT_PASSWORD.toString());
             } else if (weakPassword) {
-                ErrorMaker.setError(oldPassError, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
+                ErrorMaker.setError(newPasswordError, SignUpMenuMessages.PASSWORD_REQUIREMENTS.toString());
             } else {
                 validFiled.put(3, true);
                 newPassword.setDisable(false);
-                ErrorMaker.removeError(oldPassError);
+                ErrorMaker.removeError(newPasswordError);
             }
         });
 
-        newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isPasswordTheSame(newPassword.getText(), passwordConfirmation.getText()) || passwordConfirmation.getText().isEmpty()) {
+        oldPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (oldPassword.getText().isEmpty() || oldPassword.equals(Game.getLoggedInUser().getPassword())) {
                 validFiled.put(4, true);
-                ErrorMaker.removeError(confirmationError);
+                ErrorMaker.removeError(oldPassError);
             } else {
                 validFiled.put(4, false);
-                ErrorMaker.setError(confirmationError, SignUpMenuMessages.WRONG_PASS_CONFIRMATION.toString());
+                ErrorMaker.setError(oldPassError, ChangeInfoMenuMessages.WRONG_PASSWORD.toString());
             }
         });
     }
 
 
     public void changeClicked(MouseEvent mouseEvent) {
-        newUsername.getText().equals(Game.getLoggedInUser().getUsername());
+        AlertMaker alertMaker = ChangeInfoController.changeCheck(newUsername, newEmail, oldPassword, newPassword);
+        alertMaker.showAlert();
     }
 }
