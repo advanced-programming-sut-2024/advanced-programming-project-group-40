@@ -18,3 +18,4 @@ public class ChangeInfoMenu extends PlayMenu{
         stage.show();
     }
 }
+
