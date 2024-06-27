@@ -14,7 +14,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class LoginMenu extends PlayMenu {
-    public static Stage stage;
     public static void main(String[] args) {
         launch(args);
     }

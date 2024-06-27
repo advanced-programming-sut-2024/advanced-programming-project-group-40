@@ -13,7 +13,7 @@
                   <Font size="40.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Start Game" translateY="-50.0" onMouseClicked="#goToGameMenu">
+            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Start Game" translateY="-50.0" onMouseClicked="#goToGameMenu" >
                <font>
                   <Font size="20.0" />
                </font></Button>

@@ -1,24 +1,33 @@
-package views;
-
+package views.ViewController;
 
 import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import models.MatchTable;
 import models.UserInputHandler.ClickCommand;
 import models.cards.Card;
 import models.cards.UnitCard;
+import views.GameView;
+import views.Main;
+import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
-public class GameMenu extends PlayMenu implements Initializable {
+public class GameViewController extends PlayMenu implements Initializable {
+
+
     private static MatchTable matchTable;
 
 
@@ -27,7 +36,7 @@ public class GameMenu extends PlayMenu implements Initializable {
     }
 
     public static void setMatchTable(MatchTable matchTable) {
-        GameMenu.matchTable = matchTable;
+        GameViewController.matchTable = matchTable;
     }
 
     @FXML
@@ -93,7 +102,10 @@ public class GameMenu extends PlayMenu implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        URL url = Main.class.getResource("/FXML/GameBoard.fxml");
+        Scene scene = new Scene(FXMLLoader.load(url));
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
@@ -141,4 +153,5 @@ public class GameMenu extends PlayMenu implements Initializable {
         firstPlayerRemainingCards.setText(STR."\{matchTable.getFirstPlayerInPlayCards().size()}");
         secondPlayerRemainingCards.setText(STR."\{matchTable.getSecondPlayerInPlayCards().size()}");*/
     }
+
 }

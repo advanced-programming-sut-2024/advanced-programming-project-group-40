@@ -6,8 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class SecurityQuestionMenu extends Application {
-    public static Stage stage;
+public class SecurityQuestionMenu extends PlayMenu {
     @Override
     public void start(Stage stage) throws Exception {
         SecurityQuestionMenu.stage = stage;
