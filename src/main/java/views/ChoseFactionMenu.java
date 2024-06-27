@@ -11,7 +11,6 @@ import java.util.Objects;
 
 
 public class ChoseFactionMenu extends PlayMenu {
-    public static Stage stage;
 
     public static void main(String[] args) {
         launch(args);

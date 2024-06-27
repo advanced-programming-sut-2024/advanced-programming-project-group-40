@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 
 public class SignUpMenu extends PlayMenu{
 
-    public static Stage stage;
     @Override
     public void start(Stage stage) throws Exception {
         SignUpMenu.stage = stage;
