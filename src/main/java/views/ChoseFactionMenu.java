@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class ChoseFactionMenu extends PlayMenu {
 
+
     public static void main(String[] args) {
         launch(args);
     }
