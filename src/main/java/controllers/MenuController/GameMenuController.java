@@ -7,36 +7,43 @@ import javafx.geometry.Orientation;
 import models.MatchTable;
 import models.Result;
 import models.User;
-import models.cards.Card;
-import models.cards.Hero;
-import models.cards.SpecialCard;
-import models.cards.UnitCard;
+import models.cards.*;
 import views.ViewController.GameViewController;
 
 import java.util.Collections;
 import java.util.Objects;
 
 public class GameMenuController extends Controller {
+    private static MatchTable matchTable;
+
+    public static MatchTable getMatchTable() {
+        return matchTable;
+    }
+
+    public static void setMatchTable(MatchTable matchTable) {
+        GameMenuController.matchTable = matchTable;
+    }
+
     private static Card selectedCard;
 
     public static Card getSelectedCard() {
         return selectedCard;
     }
 
-    public static void setSelectedCard(Card selectedCard1,GameViewController gameViewController) {
+    public static void setSelectedCard(Card selectedCard1, GameViewController gameViewController) {
         if (isSelectable(selectedCard1)) {
             GameMenuController.selectedCard = selectedCard1;
             gameViewController.unHighlight();
             Origin origin = GetDestination();
             gameViewController.highLightRow(origin);
-
+            System.out.println("selected");
         }
     }
 
     private static Origin GetDestination() {
-        if (selectedCard instanceof UnitCard unitCard){
-            if (unitCard.getAbility() == Ability.SPY){
-                switch (unitCard.getUnit()){
+        if (selectedCard instanceof UnitCard unitCard) {
+            if (unitCard.getAbility() == Ability.SPY) {
+                switch (unitCard.getUnit()) {
                     case AGILE -> {
                         return Origin.SECONDPLAYER_AGILE;
                     }
@@ -51,8 +58,8 @@ public class GameMenuController extends Controller {
                         return Origin.SECONDPLAYER_RANGED;
                     }
                 }
-            }else {
-                switch (unitCard.getUnit()){
+            } else {
+                switch (unitCard.getUnit()) {
                     case AGILE -> {
                         return Origin.FIRSTPLAYER_AGILE;
                     }
@@ -71,9 +78,9 @@ public class GameMenuController extends Controller {
             }
 
         }
-        if (selectedCard instanceof Hero hero){
-            if (hero.getAbility() == Ability.SPY){
-                switch (hero.getUnit()){
+        if (selectedCard instanceof Hero hero) {
+            if (hero.getAbility() == Ability.SPY) {
+                switch (hero.getUnit()) {
                     case AGILE -> {
                         return Origin.SECONDPLAYER_AGILE;
                     }
@@ -88,8 +95,8 @@ public class GameMenuController extends Controller {
                         return Origin.SECONDPLAYER_RANGED;
                     }
                 }
-            }else {
-                switch (hero.getUnit()){
+            } else {
+                switch (hero.getUnit()) {
                     case AGILE -> {
                         return Origin.SECONDPLAYER_AGILE;
 
@@ -108,16 +115,14 @@ public class GameMenuController extends Controller {
                 }
             }
         }
-        if (selectedCard instanceof SpecialCard specialCard){
-            if (Objects.equals(specialCard.getName(), "Commander's horn")){
+        if (selectedCard instanceof SpecialCard specialCard) {
+            if (Objects.equals(specialCard.getName(), "Commander's horn")) {
                 return Origin.FIRSTPLAYER_ALL;
-            }
-            else {
+            } else {
                 return Origin.WEATHER;
 
             }
-        }
-        else return null;
+        } else return null;
     }
 
 
@@ -206,13 +211,46 @@ public class GameMenuController extends Controller {
         return true;
     }
 
+    private static int getRowID(Origin origin) {
+        switch (origin) {
+            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
+                return 0;
+            }
+            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
+                return 1;
+            }
+            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
+                return 2;
+            }
+        }
+        return -1;
+    }
 
     public static void ClickedOnRow(Origin origin) {
         Origin destination = GetDestination();
-        if (selectedCard != null){
-            if (origin.isSubOrigin(destination)){
-
+        if (selectedCard != null) {
+            if (origin.isSubOrigin(destination)) {
+                if (selectedCard.isSpy()) {
+                    matchTable.placeCard(new CardWrapper(selectedCard, origin), 1, getRowID(origin));
+                } else {
+                    matchTable.placeCard(new CardWrapper(selectedCard, origin), 0, getRowID(origin));
+                }
+                selectedCard = null;
             }
+        }
+    }
+
+    public static void ClickedOnBoost(int rowID) {
+        if (selectedCard instanceof SpecialCard ){
+                matchTable.placeBoostCard(new CardWrapper(selectedCard,Origin.FIRSTPLAYER_INPLAY),0,rowID);
+                selectedCard = null;
+        }
+    }
+
+    public static void clickedOnWeather() {
+        if (selectedCard instanceof SpecialCard ){
+            matchTable.addToSpellCards(selectedCard);
+            selectedCard=null;
         }
     }
 }
