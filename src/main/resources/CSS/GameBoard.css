@@ -22,7 +22,7 @@
     -fx-background-repeat: no-repeat;
 }
 .hand{
-    -fx-spacing: 10px;
+    -fx-spacing: 3px;
     -fx-background-image: url("../Assets/GameAssets/PlaceHolders/hand_row.png");
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;

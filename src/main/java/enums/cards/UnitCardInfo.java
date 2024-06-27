@@ -8,6 +8,17 @@ import models.cards.UnitCard;
 public enum UnitCardInfo {
     TEST("testCard",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
     TEST2("test2Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST3("test3Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST4("test4Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST5("test5Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST6("test6Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST7("test7Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST8("test8Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST9("test9Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST10("test10Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST11("test11Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+    TEST12("test12Card",0,0,Unit.Test,"kys","test",Factions.Test,Ability.Test),
+
     BEAR("bear",8 ,0 ,Unit.Test ,"empty" ,"empty" ,Factions.Test ,Ability.Test ),
     SPONGE_BOB("sponge bob",8,0,Unit.All,
             "I'm ready i'm ready","believe me when i say your goofy ass isn't ready for sponge bob",
