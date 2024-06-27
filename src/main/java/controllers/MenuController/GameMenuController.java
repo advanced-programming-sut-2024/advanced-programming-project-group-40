@@ -1,11 +1,22 @@
 package controllers.MenuController;
 
 import controllers.Controller;
+import models.MatchTable;
 import models.Result;
 import models.User;
 import models.cards.Card;
 
+import java.util.Collections;
+
 public class GameMenuController extends Controller {
+
+    public static Result intiateDeck(MatchTable matchTable){
+        matchTable.getFirstPlayerDeckCards().addAll(matchTable.getFirstPlayer().getDeckCards());
+        matchTable.getSecondPlayerDeckCards().addAll(matchTable.getSecondPlayer().getDeckCards());
+        matchTable.initilizeTable();
+
+        return null;
+    }
     public static Result vetoCards(String number) {
         return null;
     }
