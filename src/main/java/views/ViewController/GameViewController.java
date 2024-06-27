@@ -110,8 +110,8 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*secondPlayerName.setText(STR."\{matchTable.getSecondPlayer().getNickName()}");
-        firstPlayerName.setText(STR."\{matchTable.getFirstPlayer().getNickName()}");
+        /*secondPlayerName.setText(STR."\{matchTable.getSecondPlayer().getNickname()}");
+        firstPlayerName.setText(STR."\{matchTable.getFirstPlayer().getNickname()}");
         firstPlayerFaction.setText(STR."\{matchTable.getFirstPlayer().getFaction()}");
         secondPlayerFaction.setText(STR."\{matchTable.getSecondPlayer().getFaction()}");*/
         //todo
