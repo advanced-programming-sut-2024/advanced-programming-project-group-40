@@ -16,6 +16,7 @@ public class ChoseFactionMenu extends PlayMenu {
         launch(args);
     }
 
+
     @Override
     public void start(Stage stage) throws Exception {
         ChoseFactionMenu.stage = stage;
