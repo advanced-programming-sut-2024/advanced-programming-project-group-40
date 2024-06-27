@@ -653,15 +653,21 @@ public class MatchTable {
             Card replaceCard = null;
             Card deleteCard = null;
             for (Card card : getRowByID(0, i)) {
-                if (card instanceof Hero) {
-                    Hero hero = (Hero) card;
+                if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
                         replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
                         deleteCard = card;
                         break;
                     }
-
                 }
+                if (card instanceof UnitCard unitCard) {
+                    if (unitCard.getAbility() == Ability.TRANSFORMER) {
+                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        deleteCard = card;
+                        break;
+                    }
+                }
+
             }
             if (deleteCard != null) getRowByID(0, i).remove(deleteCard);
             firstPlayerDeadCards.addAll(getRowByID(0, i));
@@ -681,14 +687,20 @@ public class MatchTable {
             Card replaceCard = null;
             Card deleteCard = null;
             for (Card card : getRowByID(1, i)) {
-                if (card instanceof Hero) {
-                    Hero hero = (Hero) card;
+                if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
                         replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
                         deleteCard = card;
                         break;
                     }
 
+                }
+                if (card instanceof UnitCard unitCard) {
+                    if (unitCard.getAbility() == Ability.TRANSFORMER) {
+                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        deleteCard = card;
+                        break;
+                    }
                 }
             }
             if (deleteCard != null) getRowByID(1, i).remove(deleteCard);
