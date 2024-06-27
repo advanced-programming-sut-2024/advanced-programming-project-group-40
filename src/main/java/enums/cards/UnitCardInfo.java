@@ -133,7 +133,6 @@ public enum UnitCardInfo {
     ZOLTAN_CHIVAY("Zoltan Chivay", 5, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE);
 
 
-
     public final String name;
     public final int power;
     public final int maxCapacity;

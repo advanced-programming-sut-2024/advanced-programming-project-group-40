@@ -29,18 +29,18 @@ public class MatchTable {
     private final ArrayList<Integer> secondPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
     private final ArrayList<Card> firstPlayerDeckCards = new ArrayList<>();
     private final ArrayList<Card> secondPlayerDeckCards = new ArrayList<>();
-    private final ArrayList<Card> firstPlayerCloseCombatRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> firstPlayerCloseCombatRow = new ArrayList<>();
     private Card firstPlayerCloseCombatBoostCard;
-    private final ArrayList<Card> secondPlayerCloseCombatRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> secondPlayerCloseCombatRow = new ArrayList<>();
     private Card secondPlayerCloseCombatBoostCard;
 
-    private final ArrayList<Card> firstPlayerRangedRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> firstPlayerRangedRow = new ArrayList<>();
     private Card firstPlayerRangedBoostCard;
-    private final ArrayList<Card> secondPlayerRangedRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> secondPlayerRangedRow = new ArrayList<>();
     private Card secondPlayerRangedBoostCard;
-    private final ArrayList<Card> firstPlayerSiegeRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> firstPlayerSiegeRow = new ArrayList<>();
     private Card firstPlayerSiegeBoostCard;
-    private final ArrayList<Card> secondPlayerSiegeRow = new ArrayList<>(Collections.singletonList(null));
+    private final ArrayList<Card> secondPlayerSiegeRow = new ArrayList<>();
     private Card secondPlayerSiegeBoostCard;
 
 
