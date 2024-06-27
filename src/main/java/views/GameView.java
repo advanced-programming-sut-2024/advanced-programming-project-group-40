@@ -31,5 +31,6 @@ public class GameView extends PlayMenu{
         Pane pane = FXMLLoader.load(Objects.requireNonNull(GameView.class.getResource("/FXML/GameBoard.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
+
     }
 }
