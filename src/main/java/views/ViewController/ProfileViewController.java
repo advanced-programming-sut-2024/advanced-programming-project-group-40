@@ -54,57 +54,57 @@ public class ProfileViewController {
 
     public void initialize() {
         User user = Game.getLoggedInUser();
-        username.setText(user.getUsername());
-        nickname.setText(user.getNickname());
-        highestScore.setText(Integer.toString(user.getHighestScore()));
-        rank.setText(Integer.toString(user.getRank()));
-        numberOfGames.setText(Integer.toString(user.getNumberOfMatches()));
-        draw.setText(Integer.toString(user.getDraw()));
-        won.setText(Integer.toString(user.getWon()));
-        lost.setText(Integer.toString(user.getLost()));
+//        username.setText(user.getUsername());
+//        nickname.setText(user.getNickname());
+//        highestScore.setText(Integer.toString(user.getHighestScore()));
+//        rank.setText(Integer.toString(user.getRank()));
+//        numberOfGames.setText(Integer.toString(user.getNumberOfMatches()));
+//        draw.setText(Integer.toString(user.getDraw()));
+//        won.setText(Integer.toString(user.getWon()));
+//        lost.setText(Integer.toString(user.getLost()));
 
-        int num = 0;
-        for (MatchTable matchTable : user.getMatchesPlayed()) {
-            // todo  is competitor == second player?
-            Label competitorLabel = new Label(matchTable.getSecondPlayerPoints().toString());
-            competitorLabel.setPrefHeight(46);
-            competitorLabel.setPrefWidth(124);
-            competitorLabel.setAlignment(Pos.CENTER);
-            competitor.getChildren().add(competitorLabel);
-
-            Label dateLabel = new Label(matchTable.getDate().toString());
-            dateLabel.setPrefHeight(46);
-            dateLabel.setPrefWidth(124);
-            dateLabel.setAlignment(Pos.CENTER);
-            date.getChildren().add(dateLabel);
-
-            Label R1 = new Label(matchTable.getSecondPlayerPoints().get(0).toString());
-            R1.setPrefHeight(46);
-            R1.setPrefWidth(124);
-            R1.setAlignment(Pos.CENTER);
-            competitorPoints1.getChildren().add(R1);
-
-            Label R2 = new Label(matchTable.getSecondPlayerPoints().get(1).toString());
-            R2.setPrefHeight(46);
-            R2.setPrefWidth(124);
-            R2.setAlignment(Pos.CENTER);
-            competitorPoints2.getChildren().add(R2);
-
-            Label R3 = new Label(matchTable.getSecondPlayerPoints().get(2).toString());
-            R3.setPrefHeight(46);
-            R3.setPrefWidth(124);
-            R3.setAlignment(Pos.CENTER);
-            competitorPoints3.getChildren().add(R3);
-
-
-
-
-
-
-            num++;
-            if (num == 5)
-                break;
-        }
+//        int num = 0;
+//        for (MatchTable matchTable : user.getMatchesPlayed()) {
+//            // todo  is competitor == second player?
+//            Label competitorLabel = new Label(matchTable.getSecondPlayerPoints().toString());
+//            competitorLabel.setPrefHeight(46);
+//            competitorLabel.setPrefWidth(124);
+//            competitorLabel.setAlignment(Pos.CENTER);
+//            competitor.getChildren().add(competitorLabel);
+//
+//            Label dateLabel = new Label(matchTable.getDate().toString());
+//            dateLabel.setPrefHeight(46);
+//            dateLabel.setPrefWidth(124);
+//            dateLabel.setAlignment(Pos.CENTER);
+//            date.getChildren().add(dateLabel);
+//
+//            Label R1 = new Label(matchTable.getSecondPlayerPoints().get(0).toString());
+//            R1.setPrefHeight(46);
+//            R1.setPrefWidth(124);
+//            R1.setAlignment(Pos.CENTER);
+//            competitorPoints1.getChildren().add(R1);
+//
+//            Label R2 = new Label(matchTable.getSecondPlayerPoints().get(1).toString());
+//            R2.setPrefHeight(46);
+//            R2.setPrefWidth(124);
+//            R2.setAlignment(Pos.CENTER);
+//            competitorPoints2.getChildren().add(R2);
+//
+//            Label R3 = new Label(matchTable.getSecondPlayerPoints().get(2).toString());
+//            R3.setPrefHeight(46);
+//            R3.setPrefWidth(124);
+//            R3.setAlignment(Pos.CENTER);
+//            competitorPoints3.getChildren().add(R3);
+//
+//
+//
+//
+//
+//
+//            num++;
+//            if (num == 5)
+//                break;
+//        }
 
     }
 }

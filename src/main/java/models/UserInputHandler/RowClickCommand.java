@@ -14,7 +14,7 @@ public class RowClickCommand extends Command {
 
     @Override
     public void excute() {
-        GameMenuController.ClickedOnRow(origin);
+//        GameMenuController.ClickedOnRow(origin);
 
     }
 }
