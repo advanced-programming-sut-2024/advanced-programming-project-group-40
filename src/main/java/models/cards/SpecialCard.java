@@ -6,7 +6,7 @@ public class SpecialCard extends Card{
     private final int maxCapacity;
 
     public SpecialCard(SpecialCardInfo specialCardInfo) {
-        super(specialCardInfo.name);
+        super(specialCardInfo.name, specialCardInfo.planeImage, specialCardInfo.cardImage);
         this.maxCapacity = specialCardInfo.maxCapacity;
     }
 

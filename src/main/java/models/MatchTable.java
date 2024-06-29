@@ -3,7 +3,6 @@ package models;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
-import enums.Unit;
 import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
 import models.actions.LeaderActions;
@@ -340,53 +339,53 @@ public class MatchTable {
 
     //remove Card From Origin
     public void removeCard(CardWrapper cardWrapper) {
-        switch (cardWrapper.getOrigin()) {
+        switch (cardWrapper.origin()) {
             case Origin.FIRSTPLAYER_CLOSECOMBAT:
-                firstPlayerCloseCombatRow.remove(cardWrapper.getCard());
+                firstPlayerCloseCombatRow.remove(cardWrapper.card());
                 break;
             case Origin.FIRSTPLAYER_RANGED:
-                firstPlayerRangedRow.remove(cardWrapper.getCard());
+                firstPlayerRangedRow.remove(cardWrapper.card());
                 break;
             case Origin.FIRSTPLAYER_SIEGE:
-                firstPlayerSiegeRow.remove(cardWrapper.getCard());
+                firstPlayerSiegeRow.remove(cardWrapper.card());
                 break;
             case Origin.SECONDPLAYER_CLOSECOMBAT:
-                secondPlayerCloseCombatRow.remove(cardWrapper.getCard());
+                secondPlayerCloseCombatRow.remove(cardWrapper.card());
                 break;
             case Origin.SECONDPLAYER_RANGED:
-                secondPlayerRangedRow.remove(cardWrapper.getCard());
+                secondPlayerRangedRow.remove(cardWrapper.card());
 
                 break;
             case Origin.SECONDPLAYER_SIEGE:
-                secondPlayerSiegeRow.remove(cardWrapper.getCard());
+                secondPlayerSiegeRow.remove(cardWrapper.card());
 
                 break;
             case Origin.FIRSTPLATER_DEAD:
-                firstPlayerDeadCards.remove(cardWrapper.getCard());
+                firstPlayerDeadCards.remove(cardWrapper.card());
 
                 break;
             case Origin.SECONDPLAYER_DEAD:
-                secondPlayerDeadCards.remove(cardWrapper.getCard());
+                secondPlayerDeadCards.remove(cardWrapper.card());
 
                 break;
             case Origin.FIRSTPLAYER_INPLAY:
-                firstPlayerInPlayCards.remove(cardWrapper.getCard());
+                firstPlayerInPlayCards.remove(cardWrapper.card());
 
                 break;
             case Origin.SECONDPLAYER_INPLAY:
-                secondPlayerInPlayCards.remove(cardWrapper.getCard());
+                secondPlayerInPlayCards.remove(cardWrapper.card());
 
                 break;
             case Origin.FIRSTPLAYER_DECK:
-                firstPlayerDeckCards.remove(cardWrapper.getCard());
+                firstPlayerDeckCards.remove(cardWrapper.card());
 
                 break;
             case Origin.SECONDPLAYER_DECK:
-                secondPlayerDeckCards.remove(cardWrapper.getCard());
+                secondPlayerDeckCards.remove(cardWrapper.card());
 
                 break;
             case Origin.WEATHER:
-                spellCards.remove(cardWrapper.getCard());
+                spellCards.remove(cardWrapper.card());
                 break;
             default:
 
@@ -400,11 +399,11 @@ public class MatchTable {
 
 
         Ability ability = null;
-        if (cardWrapper.getCard() instanceof Hero) {
-            Hero hero = (Hero) cardWrapper.getCard();
+        if (cardWrapper.card() instanceof Hero) {
+            Hero hero = (Hero) cardWrapper.card();
             ability = hero.getAbility();
-        } else if (cardWrapper.getCard() instanceof UnitCard) {
-            UnitCard unitCard = (UnitCard) cardWrapper.getCard();
+        } else if (cardWrapper.card() instanceof UnitCard) {
+            UnitCard unitCard = (UnitCard) cardWrapper.card();
             ability = unitCard.getAbility();
         }
 
@@ -416,17 +415,17 @@ public class MatchTable {
                     if (userID == 1) inverseUserID = 0;
                     else inverseUserID = 1;
                     row = getRowByID(inverseUserID, rowNumber);
-                    row.add(cardWrapper.getCard());
+                    row.add(cardWrapper.card());
                 }
                 case MUSTER -> {
-                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.card(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
-                    row.add(cardWrapper.getCard());
-                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "scorch", this);
+                    row.add(cardWrapper.card());
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.card(), userID, rowNumber, "scorch", this);
                 }
                 default -> {
-                    row.add(cardWrapper.getCard());
+                    row.add(cardWrapper.card());
                 }
             }
         }
@@ -436,7 +435,7 @@ public class MatchTable {
     //places card without acivating ability
     public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
-        row.add(cardWrapper.getCard());
+        row.add(cardWrapper.card());
         removeCard(cardWrapper);
     }
 
@@ -483,10 +482,10 @@ public class MatchTable {
 
     //places card in spell cards
     public void addToSpellCards(CardWrapper cardWrapper) {
-        if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
+        if (Objects.equals(cardWrapper.card().getName(), "Clear Weather")) {
             spellCards.clear();
         } else {
-            spellCards.add(cardWrapper.getCard());
+            spellCards.add(cardWrapper.card());
         }
         removeCard(cardWrapper);
 
@@ -496,10 +495,10 @@ public class MatchTable {
     public void addToInPlayCards(int userID, CardWrapper cardWrapper) {
         switch (userID) {
             case 0:
-                firstPlayerInPlayCards.add(cardWrapper.getCard());
+                firstPlayerInPlayCards.add(cardWrapper.card());
                 break;
             case 1:
-                secondPlayerInPlayCards.add(cardWrapper.getCard());
+                secondPlayerInPlayCards.add(cardWrapper.card());
                 break;
         }
         removeCard(cardWrapper);
@@ -509,10 +508,10 @@ public class MatchTable {
     public void addToDeckCards(int userID, CardWrapper cardWrapper) {
         switch (userID) {
             case 0:
-                firstPlayerDeckCards.add(cardWrapper.getCard());
+                firstPlayerDeckCards.add(cardWrapper.card());
                 break;
             case 1:
-                secondPlayerDeadCards.add(cardWrapper.getCard());
+                secondPlayerDeadCards.add(cardWrapper.card());
                 break;
         }
         removeCard(cardWrapper);
@@ -522,10 +521,10 @@ public class MatchTable {
     public void addToDeadCards(int userID, CardWrapper cardWrapper) {
         switch (userID) {
             case 0:
-                firstPlayerDeckCards.add(cardWrapper.getCard());
+                firstPlayerDeckCards.add(cardWrapper.card());
                 break;
             case 1:
-                secondPlayerDeadCards.add(cardWrapper.getCard());
+                secondPlayerDeadCards.add(cardWrapper.card());
                 break;
         }
         removeCard(cardWrapper);

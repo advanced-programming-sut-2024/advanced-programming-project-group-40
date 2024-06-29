@@ -10,15 +10,15 @@ import java.util.Objects;
 
 public abstract class Card extends Rectangle {
     protected final String name;
-    protected final Image planeImage;
-    protected final Image cardImage;
-    public Card(String name, URL cardImageURL, URL planeImageURL, Image planeImage, Image cardImage) {
+    protected final String planeImage;
+    protected final String cardImage;
+    public Card(String name, String planeImage, String cardImage) {
+        this.planeImage = planeImage;
+        this.cardImage = cardImage;
         this.setWidth(65);
         this.setHeight(90);
         this.setFill(new Color(0.5,0.5,0.5,0.5));
         this.name = name;
-        this.planeImage = planeImage;
-        this.cardImage = cardImage;
     }
 
     public String getName() {
