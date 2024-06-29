@@ -252,5 +252,6 @@ public class GameMenuController extends Controller {
             matchTable.addToSpellCards(selectedCard);
             selectedCard=null;
         }
+
     }
 }
