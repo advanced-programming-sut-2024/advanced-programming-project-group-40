@@ -128,7 +128,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
         UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
         UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
-        UnitCard card3 = new UnitCard(UnitCardInfo.ICE_GIANT);
+        UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
