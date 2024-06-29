@@ -157,8 +157,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(1, new CardWrapper(unitCard,
-                                    origin));
+                            matchTable.addToDeadCards(1,unitCard);
                         }
                     }
                 }
@@ -190,8 +189,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(0, new CardWrapper(unitCard,
-                                    origin));
+                            matchTable.addToDeadCards(0,unitCard);
                         }
                     }
                 }
@@ -239,8 +237,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(i, new CardWrapper(unitCard,
-                                    origin));
+                            matchTable.addToDeadCards(i,unitCard);
                         }
                     }
                 }
@@ -278,8 +275,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(1, new CardWrapper(unitCard,
-                                    origin));
+                            matchTable.addToDeadCards(1, unitCard);
                         }
                     }
                 }
@@ -312,8 +308,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(0, new CardWrapper(unitCard,
-                                    origin));
+                            matchTable.addToDeadCards(0,unitCard);
                         }
                     }
                 }

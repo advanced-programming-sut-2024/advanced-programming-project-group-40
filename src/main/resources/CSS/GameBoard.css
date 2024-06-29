@@ -24,6 +24,7 @@
 .hand{
     -fx-spacing: 3px;
     -fx-background-image: url("../Assets/PlaceHolders/hand_row.png");
+
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
 }

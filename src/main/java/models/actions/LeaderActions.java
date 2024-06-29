@@ -15,13 +15,11 @@ public abstract class LeaderActions {
     private static void theSiegeMaster() {
         if (matchTable.isFirstPlayerTurn()) {
             if (matchTable.getFirstPlayerDeckCards().contains(SpecialCardInfo.getSpecialCardByName("impenetrable fog"))) {
-                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("impenetrable fog"),
-                        Origin.FIRSTPLAYER_DECK));
+                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("impenetrable fog"),Origin.NULL));
             }
         } else {
             if (matchTable.getSecondPlayerDeckCards().contains(SpecialCardInfo.getSpecialCardByName("impenetrable fog"))) {
-                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("impenetrable fog"),
-                        Origin.SECONDPLAYER_DECK));
+                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("impenetrable fog"),Origin.NULL));
             }
         }
 
@@ -84,13 +82,11 @@ public abstract class LeaderActions {
     private static void theWhiteFlame() {
         if (matchTable.isFirstPlayerTurn()) {
             if (matchTable.getFirstPlayerDeckCards().contains(SpecialCardInfo.getSpecialCardByName("Torrential Rain"))) {
-                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Torrential Rain"),
-                        Origin.FIRSTPLAYER_DECK));
+                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Torrential Rain"),Origin.NULL));
             }
         } else {
             if (matchTable.getSecondPlayerDeckCards().contains(SpecialCardInfo.getSpecialCardByName("Torrential Rain"))) {
-                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Torrential Rain"),
-                        Origin.SECONDPLAYER_DECK));
+                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Torrential Rain"),Origin.NULL));
             }
         }
     }
@@ -208,13 +204,12 @@ public abstract class LeaderActions {
     private static void purebloodElf() {
         if (matchTable.isFirstPlayerTurn()) {
             if (matchTable.getFirstPlayerDeckCards().contains(SpecialCardInfo.getSpecialCardByName("Biting Frost"))) {
-                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Biting Frost"),
-                        Origin.FIRSTPLAYER_DECK));
+                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Biting Frost"),Origin.NULL));
+
             }
         } else {
             if (matchTable.getSecondPlayerDeckCards().contains(SpecialCardInfo.getSpecialCardByName("Biting Frost"))) {
-                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Biting Frost"),
-                        Origin.SECONDPLAYER_DECK));
+                matchTable.addToSpellCards(new CardWrapper(SpecialCardInfo.getSpecialCardByName("Biting Frost"),Origin.NULL));
             }
         }
     }
