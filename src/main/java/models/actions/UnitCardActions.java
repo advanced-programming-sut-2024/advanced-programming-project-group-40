@@ -103,21 +103,21 @@ public abstract class UnitCardActions {
         int i = 0;
         Card randomUnitcard;
         if (matchTable.isFirstPlayerTurn()) {
-            while (i < 2 && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
+            while (i < 2 && !matchTable.getFirstPlayerDeckCards().isEmpty()) {
                 i++;
-                randomUnitcard = matchTable.getFirstPlayerDeadCards().get(
-                        Game.random.nextInt(0, matchTable.getFirstPlayerDeadCards().size())
+                randomUnitcard = matchTable.getFirstPlayerDeckCards().get(
+                        Game.random.nextInt(0, matchTable.getFirstPlayerDeckCards().size())
                 );
-                matchTable.addToInPlayCards(0, new CardWrapper(randomUnitcard, Origin.FIRSTPLATER_DEAD));
+                matchTable.addToInPlayCards(0, new CardWrapper(randomUnitcard, Origin.FIRSTPLAYER_DECK));
 
             }
         } else {
-            while (i < 2 && !matchTable.getSecondPlayerDeadCards().isEmpty()) {
+            while (i < 2 && !matchTable.getSecondPlayerDeckCards().isEmpty()) {
                 i++;
-                randomUnitcard = matchTable.getSecondPlayerDeadCards().get(
-                        Game.random.nextInt(0, matchTable.getSecondPlayerDeadCards().size())
+                randomUnitcard = matchTable.getSecondPlayerDeckCards().get(
+                        Game.random.nextInt(0, matchTable.getSecondPlayerDeckCards().size())
                 );
-                matchTable.addToInPlayCards(1, new CardWrapper(randomUnitcard, Origin.SECONDPLAYER_DEAD));
+                matchTable.addToInPlayCards(1, new CardWrapper(randomUnitcard, Origin.SECONDPLAYER_DECK));
 
             }
         }

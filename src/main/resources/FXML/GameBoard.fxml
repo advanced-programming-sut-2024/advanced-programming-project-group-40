@@ -111,6 +111,12 @@
                <HBox fx:id="firstplayersiegespecial" onMouseClicked="#siegeBoostClicked" prefHeight="100.0" prefWidth="200.0" />
             </children></StackPane>
       </VBox>
+      <Label fx:id="SecondPlayerSiegeNum" layoutX="14.0" layoutY="41.0" text="Label" textFill="WHITE" />
+      <Label fx:id="SecondPlayerRangedNum" layoutX="14.0" layoutY="141.0" text="Label" textFill="WHITE" />
+      <Label fx:id="SecondPlayerCloseCombatNum" layoutX="14.0" layoutY="238.0" text="Label" textFill="WHITE" />
+      <Label fx:id="FirstPlayerCloseCombatNum" layoutX="14.0" layoutY="341.0" text="Label" textFill="WHITE" />
+      <Label fx:id="FirstPlayerRangedNum" layoutX="14.0" layoutY="441.0" text="Label" textFill="WHITE" />
+      <Label fx:id="FirstPlayerSiegeNum" layoutX="14.0" layoutY="542.0" text="Label" textFill="WHITE" />
    </Pane>
    <Pane prefHeight="699.0" prefWidth="231.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
       <Pane layoutX="-2.0" prefHeight="239.0" prefWidth="231.0">

@@ -21,8 +21,7 @@ public class MatchTable {
     private int round = 1;
     private Date date;
     private LeaderEffects leaderEffects = new LeaderEffects();
-    private final ArrayList<Integer> firstPlayerPoints = new ArrayList<>();
-    private final ArrayList<Integer> secondPlayerPoints = new ArrayList<>();
+
     private int firstPlayerCurrentPoint;
     private int secondPlayerCurrentPoint;
     private final ArrayList<Integer> firstPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
@@ -218,6 +217,26 @@ public class MatchTable {
         return secondPlayerSiegeBoostCard;
     }
 
+    public void setFirstPlayerTurn(boolean firstPlayerTurn) {
+        isFirstPlayerTurn = firstPlayerTurn;
+    }
+
+    public void setSecondPlayerPassed(boolean secondPlayerPassed) {
+        this.secondPlayerPassed = secondPlayerPassed;
+    }
+
+    public void setFirstPlayerPassed(boolean firstPlayerPassed) {
+        this.firstPlayerPassed = firstPlayerPassed;
+    }
+
+    public void setFirstPlayerLeaderUsed(boolean firstPlayerLeaderUsed) {
+        isFirstPlayerLeaderUsed = firstPlayerLeaderUsed;
+    }
+
+    public void setSecondPlayerLeaderUsed(boolean secondPlayerLeaderUsed) {
+        isSecondPlayerLeaderUsed = secondPlayerLeaderUsed;
+    }
+
     public boolean isFirstPlayerLeaderUsed() {
         return isFirstPlayerLeaderUsed;
     }
@@ -226,13 +245,7 @@ public class MatchTable {
         return isSecondPlayerLeaderUsed;
     }
 
-    public ArrayList<Integer> getFirstPlayerPoints() {
-        return firstPlayerPoints;
-    }
 
-    public ArrayList<Integer> getSecondPlayerPoints() {
-        return secondPlayerPoints;
-    }
 
     public int getFirstPlayerCurrentPoint() {
         return firstPlayerCurrentPoint;
@@ -371,6 +384,7 @@ public class MatchTable {
                     row.add(cardWrapper.getCard());
                 }
                 case MUSTER -> {
+                    row.add(cardWrapper.getCard());
                     UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
@@ -995,11 +1009,11 @@ public class MatchTable {
         boolean x;
         switch (user_id) {
             case 0:
-                x = isThereCommanderHorn(rowID, firstPlayerCloseCombatBoostCard, firstPlayerRangedBoostCard, firstPlayerSiegeBoostCard);
+                x = isThereCommanderHorn(user_id,rowID);
                 if (x) return true;
                 break;
             case 1:
-                x = isThereCommanderHorn(rowID, secondPlayerCloseCombatBoostCard, secondPlayerRangedBoostCard, secondPlayerSiegeBoostCard);
+                x = isThereCommanderHorn(user_id,rowID);
                 if (x) return true;
                 break;
         }
@@ -1028,25 +1042,36 @@ public class MatchTable {
 
 
     //checks for commander horn in the given boost card place
-    private boolean isThereCommanderHorn(int rowID, Card secondPlayerCloseCombatBoostCard,
-                                         Card secondPlayerRangedBoostCard,
-                                         Card secondPlayerSiegeBoostCard) {
-        switch (rowID) {
+    private boolean isThereCommanderHorn(int userID,int rowID) {
+        switch (userID) {
             case 0:
-                if (secondPlayerCloseCombatBoostCard != null) {
-                    if (Objects.equals(secondPlayerCloseCombatBoostCard.getName(), "Commander's Horn")) return true;
+                switch (rowID){
+                    case 0:
+                        if (firstPlayerCloseCombatBoostCard != null) return true;
+                        break;
+                    case 1:
+                        if (firstPlayerRangedBoostCard != null) return true;
+                        break;
+                    case 2:
+                        if (firstPlayerSiegeBoostCard != null) return true;
+
+                        break;
                 }
                 break;
             case 1:
-                if (secondPlayerRangedBoostCard != null) {
-                    if (Objects.equals(secondPlayerRangedBoostCard.getName(), "Commander's Horn")) return true;
+                switch (rowID){
+                    case 0:
+                        if (secondPlayerCloseCombatBoostCard != null) return true;
+                        break;
+                    case 1:
+                        if (secondPlayerRangedBoostCard != null) return true;
+                        break;
+                    case 2:
+                        if (secondPlayerSiegeBoostCard != null) return true;
+                        break;
                 }
                 break;
-            case 2:
-                if (secondPlayerSiegeBoostCard != null) {
-                    if (Objects.equals(secondPlayerSiegeBoostCard.getName(), "Commander's Horn")) return true;
-                }
-                break;
+
         }
         return false;
     }

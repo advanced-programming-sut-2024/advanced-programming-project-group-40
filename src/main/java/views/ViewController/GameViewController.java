@@ -39,6 +39,18 @@ import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
     @FXML
+    private Label SecondPlayerSiegeNum;
+    @FXML
+    private Label SecondPlayerRangedNum;
+    @FXML
+    private Label FirstPlayerCloseCombatNum;
+    @FXML
+    private Label SecondPlayerCloseCombatNum;
+    @FXML
+    private Label FirstPlayerRangedNum;
+    @FXML
+    private Label FirstPlayerSiegeNum;
+    @FXML
     private GridPane pane;
     @FXML
     private Label secondPlayerFaction;
@@ -130,21 +142,37 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
         UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
+        UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
+        UnitCard card10 = new UnitCard(UnitCardInfo.DOL_BLATHANNA_SCOUT);
+        UnitCard card11 = new UnitCard(UnitCardInfo.LIGHT_LONGSHIP);
+        UnitCard card12 = new UnitCard(UnitCardInfo.PLAGUE_MAIDEN);
+        UnitCard card13 = new UnitCard(UnitCardInfo.OLAF);
+        UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
+        UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
+        UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
+        UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
+
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SKELLIGE_STORM);
         SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
 
-
+        GameMenuController.getMatchTable().setFirstPlayerTurn(true);
         GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
         Game.getLoggedInUser().getDeckCards().add(card1);
         Game.getLoggedInUser().getDeckCards().add(card2);
-        Game.getLoggedInUser().getDeckCards().add(card3);
         Game.getLoggedInUser().getDeckCards().add(card5);
+        GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
         Game.getLoggedInUser().getDeckCards().add(card6);
         Game.getLoggedInUser().getDeckCards().add(card7);
         Game.getLoggedInUser().getDeckCards().add(card8);
-
+        Game.getLoggedInUser().getDeckCards().add(card9);
+        Game.getLoggedInUser().getDeckCards().add(card10);
+        Game.getLoggedInUser().getDeckCards().add(card11);
+        Game.getLoggedInUser().getDeckCards().add(card12);
+        Game.getLoggedInUser().getDeckCards().add(card13);
+        Game.getLoggedInUser().getDeckCards().add(card14);
+        Game.getLoggedInUser().getDeckCards().add(card15);
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
@@ -231,10 +259,17 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     private void update() {
+        GameMenuController.getMatchTable().updatePoints();
         firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
         secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
         firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerInPlayCards().size()}");
         secondPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerInPlayCards().size()}");
+        FirstPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(0).toString());
+        FirstPlayerRangedNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(1).toString());
+        FirstPlayerSiegeNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(2).toString());
+        SecondPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(0).toString());
+        SecondPlayerRangedNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(1).toString());
+        SecondPlayerSiegeNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(2).toString());
 
         if (GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard() != null) {
             firstplayerclosecombatspecial.getChildren().clear();
