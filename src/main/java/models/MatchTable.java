@@ -1087,13 +1087,13 @@ public class MatchTable {
         ArrayList<Card> toRemove = new ArrayList<>();
         for (Card card : row) {
             UnitCard unitCard = (UnitCard) card;
-            if (unitCard.getAbility() == Ability.MARDROEME) {
+            if (unitCard.getAbility() == Ability.BERSERKER) {
                 berserkerNum++;
                 toRemove.add(unitCard);
             }
         }
         row.removeAll(toRemove);
-        UnitCard unitCard = new UnitCard(UnitCardInfo.ALBRICH);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
 
