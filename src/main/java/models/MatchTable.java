@@ -347,8 +347,6 @@ public class MatchTable {
     }
 
 
-
-
     //places card and acivates ability
     public void placeCard(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
@@ -392,6 +390,7 @@ public class MatchTable {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
         row.add(cardWrapper.getCard());
     }
+
     public void removeCard(CardWrapper cardWrapper) {
         switch (cardWrapper.getOrigin()) {
             case Origin.FIRSTPLAYER_CLOSECOMBAT:
@@ -424,7 +423,6 @@ public class MatchTable {
                 break;
             case Origin.FIRSTPLAYER_INPLAY:
                 firstPlayerInPlayCards.remove(cardWrapper.getCard());
-                System.out.println("sex");
                 break;
             case Origin.SECONDPLAYER_INPLAY:
                 secondPlayerInPlayCards.remove(cardWrapper.getCard());
@@ -445,6 +443,7 @@ public class MatchTable {
 
         }
     }
+
     //places card
     public void placeBoostCard(CardWrapper cardWrapper, int userID, int rowNumber) {
         switch (cardWrapper.getCard().getName()) {
@@ -487,6 +486,7 @@ public class MatchTable {
 
         }
     }
+
     public void placeBoostCard(Card card, int userID, int rowNumber) {
         switch (card.getName()) {
             case "Commander's Horn":
@@ -529,14 +529,17 @@ public class MatchTable {
     }
 
     //places card in spell cards
-    public void addToSpellCards(Card card) {
-        if (Objects.equals(card.getName(), "Clear Weather")) {
-            spellCards.add(card);
-            firstPlayerDeadCards.addAll(spellCards);
+    public void addToSpellCards(CardWrapper cardWrapper) {
+        if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
+            spellCards.add(cardWrapper.getCard());
+            removeCard(cardWrapper);
+            while (!spellCards.isEmpty()){
+                addToDeadCards(0,new CardWrapper(spellCards.getLast(),Origin.WEATHER));
+            }
         } else {
-            spellCards.add(card);
+            spellCards.add(cardWrapper.getCard());
+            removeCard(cardWrapper);
         }
-
     }
 
     //places card to inplay cards
@@ -567,14 +570,26 @@ public class MatchTable {
     public void addToDeadCards(int userID, Card card) {
         switch (userID) {
             case 0:
-                spellCards.remove(card);
-                firstPlayerDeckCards.add(card);
+                firstPlayerDeadCards.add(card);
                 break;
             case 1:
                 secondPlayerDeadCards.add(card);
                 break;
         }
     }
+
+    public void addToDeadCards(int userID, CardWrapper cardWrapper) {
+        switch (userID) {
+            case 0:
+                firstPlayerDeadCards.add(cardWrapper.getCard());
+                break;
+            case 1:
+                secondPlayerDeadCards.add(cardWrapper.getCard());
+                break;
+        }
+        removeCard(cardWrapper);
+    }
+
 
     public void updatePoints() {
         //update everything
