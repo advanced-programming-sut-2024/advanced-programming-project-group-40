@@ -116,10 +116,10 @@ public class GameViewController extends PlayMenu implements Initializable {
         secondPlayerFaction.setText(STR."\{matchTable.getSecondPlayer().getFaction()}");*/
         //todo
         //initialize faction and leader images for each player
-        UnitCard card1 = new UnitCard(UnitCardInfo.SPONGE_BOB);
-        UnitCard card2 = new UnitCard(UnitCardInfo.TEST2);
-        Hand.getChildren().add(card1);
-        firstPlayerCloseCombat.getChildren().add(card2);
+//        UnitCard card1 = new UnitCard(UnitCardInfo.SPONGE_BOB);
+//        UnitCard card2 = new UnitCard(UnitCardInfo.TEST2);
+//        Hand.getChildren().add(card1);
+//        firstPlayerCloseCombat.getChildren().add(card2);
         InitiateCardEvents();
 
     }
@@ -141,8 +141,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                ClickCommand clickCommand = new ClickCommand(card, card.getParent().getId());
-                clickCommand.excute();
+//                ClickCommand clickCommand = new ClickCommand(card, card.getParent().getId());
+//                clickCommand.excute();
             });
         }
     }
