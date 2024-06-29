@@ -153,6 +153,7 @@ public enum UnitCardInfo {
         this.ability = ability;
     }
 
+
     public static UnitCard getRegularCardByName(String name) {
         return null;
     }
