@@ -329,10 +329,10 @@ public class MatchTable {
     //gives some random card without removing them from the deck
     public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
         ArrayList<Card> randomCards = new ArrayList<>();
-        int i =0;
+        int i = 0;
         int size = deck.size();
-        while (i<10){
-            if (deck.isEmpty()){
+        while (i < 10) {
+            if (deck.isEmpty()) {
                 return randomCards;
             }
             Card tempCard = deck.get(Game.random.nextInt(size));
@@ -346,7 +346,52 @@ public class MatchTable {
         return randomCards;
     }
 
-    //remove Card From Origin
+
+
+
+    //places card and acivates ability
+    public void placeCard(CardWrapper cardWrapper, int userID, int rowNumber) {
+        ArrayList<Card> row = getRowByID(userID, rowNumber);
+
+
+        Ability ability = null;
+        if (cardWrapper.getCard() instanceof Hero) {
+            Hero hero = (Hero) cardWrapper.getCard();
+            ability = hero.getAbility();
+        } else if (cardWrapper.getCard() instanceof UnitCard) {
+            UnitCard unitCard = (UnitCard) cardWrapper.getCard();
+            ability = unitCard.getAbility();
+        }
+        if (ability != null) {
+            switch (ability) {
+                case SPY -> {
+                    UnitCardActions.doActionByName("spy", this);
+                    int inverseUserID = -1;
+                    if (userID == 1) inverseUserID = 0;
+                    else inverseUserID = 1;
+                    row = getRowByID(inverseUserID, rowNumber);
+                    row.add(cardWrapper.getCard());
+                }
+                case MUSTER -> {
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
+                }
+                case SCORCH -> {
+                    row.add(cardWrapper.getCard());
+                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "scorch", this);
+                }
+                default -> {
+                    row.add(cardWrapper.getCard());
+                }
+            }
+        }
+
+    }
+
+    //places card without acivating ability
+    public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
+        ArrayList<Card> row = getRowByID(userID, rowNumber);
+        row.add(cardWrapper.getCard());
+    }
     public void removeCard(CardWrapper cardWrapper) {
         switch (cardWrapper.getOrigin()) {
             case Origin.FIRSTPLAYER_CLOSECOMBAT:
@@ -379,7 +424,7 @@ public class MatchTable {
                 break;
             case Origin.FIRSTPLAYER_INPLAY:
                 firstPlayerInPlayCards.remove(cardWrapper.getCard());
-
+                System.out.println("sex");
                 break;
             case Origin.SECONDPLAYER_INPLAY:
                 secondPlayerInPlayCards.remove(cardWrapper.getCard());
@@ -400,55 +445,48 @@ public class MatchTable {
 
         }
     }
+    //places card
+    public void placeBoostCard(CardWrapper cardWrapper, int userID, int rowNumber) {
+        switch (cardWrapper.getCard().getName()) {
+            case "Commander’s horn":
+                switch (userID) {
+                    case 0:
+                        switch (rowNumber) {
+                            case 0:
+                                firstPlayerCloseCombatBoostCard = cardWrapper.getCard();
+                                break;
+                            case 1:
+                                firstPlayerRangedBoostCard = cardWrapper.getCard();
+                                break;
+                            case 2:
+                                firstPlayerSiegeBoostCard = cardWrapper.getCard();
+                                break;
+                        }
+                        break;
+                    case 1:
+                        switch (rowNumber) {
+                            case 0:
+                                secondPlayerCloseCombatBoostCard = cardWrapper.getCard();
+                                break;
+                            case 1:
+                                secondPlayerRangedBoostCard = cardWrapper.getCard();
+                                break;
+                            case 2:
+                                secondPlayerSiegeBoostCard = cardWrapper.getCard();
 
+                                break;
+                        }
+                        break;
+                }
+                removeCard(cardWrapper);
+                break;
+            case "Mardroeme":
+                applyMardroeme(userID, rowNumber);
+                break;
+            default:
 
-    //places card and acivates ability
-    public void placeCard(CardWrapper cardWrapper, int userID, int rowNumber) {
-        ArrayList<Card> row = getRowByID(userID, rowNumber);
-
-
-        Ability ability = null;
-        if (cardWrapper.getCard() instanceof Hero) {
-            Hero hero = (Hero) cardWrapper.getCard();
-            ability = hero.getAbility();
-        } else if (cardWrapper.getCard() instanceof UnitCard) {
-            UnitCard unitCard = (UnitCard) cardWrapper.getCard();
-            ability = unitCard.getAbility();
         }
-
-        if (ability != null) {
-            switch (ability) {
-                case SPY -> {
-                    UnitCardActions.doActionByName("spy", this);
-                    int inverseUserID = -1;
-                    if (userID == 1) inverseUserID = 0;
-                    else inverseUserID = 1;
-                    row = getRowByID(inverseUserID, rowNumber);
-                    row.add(cardWrapper.getCard());
-                }
-                case MUSTER -> {
-                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
-                }
-                case SCORCH -> {
-                    row.add(cardWrapper.getCard());
-                    UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "scorch", this);
-                }
-                default -> {
-                    row.add(cardWrapper.getCard());
-                }
-            }
-        }
-        removeCard(cardWrapper);
     }
-
-    //places card without acivating ability
-    public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
-        ArrayList<Card> row = getRowByID(userID, rowNumber);
-        row.add(cardWrapper.getCard());
-        removeCard(cardWrapper);
-    }
-
-    //places card without removing it from its origin(we don't know where the origin is)
     public void placeBoostCard(Card card, int userID, int rowNumber) {
         switch (card.getName()) {
             case "Commander's Horn":
@@ -476,6 +514,7 @@ public class MatchTable {
                                 break;
                             case 2:
                                 secondPlayerSiegeBoostCard = card;
+
                                 break;
                         }
                         break;
@@ -490,13 +529,13 @@ public class MatchTable {
     }
 
     //places card in spell cards
-    public void addToSpellCards(CardWrapper cardWrapper) {
-        if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
-            spellCards.clear();
+    public void addToSpellCards(Card card) {
+        if (Objects.equals(card.getName(), "Clear Weather")) {
+            spellCards.add(card);
+            firstPlayerDeadCards.addAll(spellCards);
         } else {
-            spellCards.add(cardWrapper.getCard());
+            spellCards.add(card);
         }
-        removeCard(cardWrapper);
 
     }
 
@@ -510,7 +549,6 @@ public class MatchTable {
                 secondPlayerInPlayCards.add(cardWrapper.getCard());
                 break;
         }
-        removeCard(cardWrapper);
     }
 
     //places card to deck cards
@@ -523,20 +561,19 @@ public class MatchTable {
                 secondPlayerDeadCards.add(cardWrapper.getCard());
                 break;
         }
-        removeCard(cardWrapper);
     }
 
     //places card to dead cards
-    public void addToDeadCards(int userID, CardWrapper cardWrapper) {
+    public void addToDeadCards(int userID, Card card) {
         switch (userID) {
             case 0:
-                firstPlayerDeckCards.add(cardWrapper.getCard());
+                spellCards.remove(card);
+                firstPlayerDeckCards.add(card);
                 break;
             case 1:
-                secondPlayerDeadCards.add(cardWrapper.getCard());
+                secondPlayerDeadCards.add(card);
                 break;
         }
-        removeCard(cardWrapper);
     }
 
     public void updatePoints() {
@@ -873,7 +910,7 @@ public class MatchTable {
         }
         int retVal = 0;
         for (int i = 0; i < nums.length; i++) {
-            if (row.get(i) instanceof UnitCard){
+            if (row.get(i) instanceof UnitCard) {
                 retVal += nums[i];
             }
         }
@@ -959,14 +996,15 @@ public class MatchTable {
 
         return false;
     }
+
     public void initilizeTable() {
         ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards);
         ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards);
-        for (Card card : firstPlayerCards){
-            addToInPlayCards(0,new CardWrapper(card,Origin.FIRSTPLAYER_DECK));
+        for (Card card : firstPlayerCards) {
+            addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
         }
-        for (Card card : secondPlayerCards){
-            addToInPlayCards(1,new CardWrapper(card,Origin.SECONDPLAYER_DECK));
+        for (Card card : secondPlayerCards) {
+            addToInPlayCards(1, new CardWrapper(card, Origin.SECONDPLAYER_DECK));
         }
     }
 

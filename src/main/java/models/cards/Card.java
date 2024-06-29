@@ -1,5 +1,6 @@
 package models.cards;
 
+import enums.Ability;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -32,5 +33,15 @@ public abstract class Card extends Rectangle {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public boolean isSpy() {
+        if (this instanceof UnitCard unitCard){
+            return unitCard.getAbility() == Ability.SPY;
+        }
+        if (this instanceof Hero hero){
+            return hero.getAbility() == Ability.SPY;
+        }
+        return false;
     }
 }

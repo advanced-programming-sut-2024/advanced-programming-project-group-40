@@ -16,6 +16,28 @@ public enum Origin {
     FIRSTPLATER_DEAD(),
     SECONDPLAYER_DEAD(),
     WEATHER(),
-    NULL()
-    ;
+    FIRSTPLAYER_AGILE(),
+    SECONDPLAYER_AGILE(),
+    FIRSTPLAYER_ALL(),
+
+    NULL();
+
+    public boolean isSubOrigin(Origin destination) {
+        if (this == destination) return true;
+        if (destination == Origin.FIRSTPLAYER_AGILE &&
+                (this == Origin.FIRSTPLAYER_CLOSECOMBAT || this == Origin.FIRSTPLAYER_RANGED)) {
+            return true;
+        }
+        if (destination == Origin.SECONDPLAYER_AGILE &&
+                (this == Origin.SECONDPLAYER_CLOSECOMBAT || this == Origin.SECONDPLAYER_RANGED)) {
+            return true;
+        }
+        if (destination == Origin.FIRSTPLAYER_ALL &&
+                (this == Origin.FIRSTPLAYER_CLOSECOMBAT ||
+                        this == Origin.FIRSTPLAYER_RANGED ||
+                        this == Origin.FIRSTPLAYER_SIEGE)) {
+            return true;
+        }
+        return false;
+    }
 }
