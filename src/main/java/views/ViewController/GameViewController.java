@@ -133,7 +133,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SKELLIGE_STORM);
-        SpecialCard card8 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
+        SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
 
 
         GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
