@@ -36,7 +36,6 @@ public class GameMenuController extends Controller {
             gameViewController.unHighlight();
             Origin origin = GetDestination();
             gameViewController.highLightRow(origin);
-            System.out.println("selected");
         }
     }
 
@@ -241,16 +240,21 @@ public class GameMenuController extends Controller {
     }
 
     public static void ClickedOnBoost(int rowID) {
-        if (selectedCard instanceof SpecialCard ){
-                matchTable.placeBoostCard(new CardWrapper(selectedCard,Origin.FIRSTPLAYER_INPLAY),0,rowID);
-                selectedCard = null;
+        if (selectedCard instanceof SpecialCard) {
+            matchTable.placeBoostCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, rowID);
+            selectedCard = null;
         }
     }
 
     public static void clickedOnWeather() {
-        if (selectedCard instanceof SpecialCard ){
-            matchTable.addToSpellCards(selectedCard);
-            selectedCard=null;
+        for (Card card : matchTable.getSpellCards()){
+            System.out.println(card.getName());
+        }
+        if (selectedCard instanceof SpecialCard &&
+                !Objects.equals(selectedCard.getName(), "Commander’s horn")) {
+            matchTable.addToSpellCards(new CardWrapper(selectedCard,Origin.FIRSTPLAYER_INPLAY));
+
+            selectedCard = null;
         }
     }
 }
