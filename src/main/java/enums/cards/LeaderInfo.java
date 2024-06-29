@@ -28,9 +28,13 @@ public enum LeaderInfo {
     KING_BRAN("King Bran", Factions.SKELLIGE);
     ;
     public final String name;
+    public final String planeImage;
+    public final String cardImage;
     public final Factions faction;
-    LeaderInfo(String name, Factions faction) {
+    LeaderInfo(String name, String planeImage, String cardImage, Factions faction) {
         this.name = name;
+        this.planeImage = planeImage;
+        this.cardImage = cardImage;
         this.faction = faction;
     }
     public static Leader getLeaderByName(String name){

@@ -15,9 +15,13 @@ public enum SpecialCardInfo {
     DECOY("Decoy", 3);
     ;
     public final String name;
+    public final String planeImage;
+    public final String cardImage;
     public final int maxCapacity;
-    SpecialCardInfo(String name, int maxCapacity) {
+    SpecialCardInfo(String name, String planeImage, String cardImage, int maxCapacity) {
         this.name = name;
+        this.planeImage = planeImage;
+        this.cardImage = cardImage;
         this.maxCapacity = maxCapacity;
     }
     public static SpecialCard getSpecialCardByName(String name){

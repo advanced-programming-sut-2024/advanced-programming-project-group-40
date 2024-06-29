@@ -34,13 +34,17 @@ public enum HeroInfo {
     YENNEFER_OF_VENGERBERG("Yennefer of Vengerberg", 7, Unit.RANGED, Factions.NEUTRAL, Ability.MEDIC)
     ;
     public final String name;
+    public final String planeImage;
+    public final String cardImage;
     public final int power;
     public final Unit unit;
     public final Factions faction;
     public final Ability ability;
 
-    HeroInfo(String name, int power, Unit unit, Factions faction, Ability ability) {
+    HeroInfo(String name, String planeImage, String cardImage, int power, Unit unit, Factions faction, Ability ability) {
         this.name = name;
+        this.planeImage = planeImage;
+        this.cardImage = cardImage;
         this.power = power;
         this.unit = unit;
         this.faction = faction;
