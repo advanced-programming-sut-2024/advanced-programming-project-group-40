@@ -130,7 +130,8 @@ public enum UnitCardInfo {
     OLGIERD_VON_EVERC("Olgierd Von Everc", "/Assets/Cards/Plane/neutral_olgierd.jpg", "/Assets/Cards/Detailed/neutral_olgierd.jpg", 6, 1, Unit.AGILE, Factions.NEUTRAL, Ability.MORALE_BOOST),
     VESEMIR("Vesemir", "/Assets/Cards/Plane/neutral_vesemir.jpg", "/Assets/Cards/Detailed/neutral_vesemir.jpg", 6, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE),
     VILLENTRETENMERTH("Villentretenmerth", "/Assets/Cards/Plane/neutral_villen.jpg", "/Assets/Cards/Detailed/", 7, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.SCORCH),
-    ZOLTAN_CHIVAY("Zoltan Chivay", "/Assets/Cards/Plane/neutral_zoltan.jpg", "/Assets/Cards/Detailed/neutral_zoltan.jpg", 5, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE);
+    ZOLTAN_CHIVAY("Zoltan Chivay", "/Assets/Cards/Plane/neutral_zoltan.jpg", "/Assets/Cards/Detailed/neutral_zoltan.jpg", 5, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE),
+    BEAR("Bear","/Assets/Cards/Plane/neutral_zoltan.jpg" ,"/Assets/Cards/Detailed/neutral_zoltan.jpg" ,8,0 ,Unit.All ,Factions.NEUTRAL , Ability.NONE);
 
 
     public final String name;

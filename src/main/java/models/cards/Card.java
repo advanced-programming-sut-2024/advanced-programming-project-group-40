@@ -1,7 +1,9 @@
 package models.cards;
 
+import enums.Ability;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -17,7 +19,7 @@ public abstract class Card extends Rectangle {
         this.cardImage = cardImage;
         this.setWidth(65);
         this.setHeight(90);
-        this.setFill(new Color(0.5,0.5,0.5,0.5));
+        setFill(new ImagePattern((new Image(Card.class.getResource(planeImage).toExternalForm()))));
         this.name = name;
     }
 
@@ -38,4 +40,15 @@ public abstract class Card extends Rectangle {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    public boolean isSpy() {
+        if (this instanceof UnitCard unitCard){
+            return unitCard.getAbility() == Ability.SPY;
+        }
+        if (this instanceof Hero hero){
+            return hero.getAbility() == Ability.SPY;
+        }
+        return false;
+    }
+
 }
