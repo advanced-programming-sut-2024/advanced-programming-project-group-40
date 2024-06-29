@@ -5,5 +5,5 @@ import enums.Origin;
 
 //wraps the card with the data of its origin
 
-public record CardWrapper(Card card, Origin origin) {
+public record CardWrapper(Card getCard, Origin getOrigin) {
 }
