@@ -1,7 +1,6 @@
 package models;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 
 public class ErrorMaker {
     public static void setError(Label errorLabel, String error) {
@@ -9,7 +8,7 @@ public class ErrorMaker {
         errorLabel.setText(error);
     }
 
-    public static void removeError(Label errorLabel, TextField textField) {
+    public static void removeError(Label errorLabel) {
         errorLabel.setText("");
     }
 }
