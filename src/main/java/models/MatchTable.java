@@ -481,6 +481,7 @@ public class MatchTable {
                 break;
             case "Mardroeme":
                 applyMardroeme(userID, rowNumber);
+                removeCard(cardWrapper);
                 break;
             default:
 
