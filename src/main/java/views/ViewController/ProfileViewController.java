@@ -79,18 +79,16 @@ public class ProfileViewController {
         won.setText(Integer.toString(user.getWon()));
         lost.setText(Integer.toString(user.getLost()));
 
-        email.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isEmailValid(email.getText()) || email.getText().isEmpty()) {
-                validFiled.put(2, true);
-                ErrorMaker.removeError(emailError);
-            } else {
-                validFiled.put(2, false);
-                ErrorMaker.setError(emailError, SignUpMenuMessages.INVALID_EMAIL.toString());
-            }
+        numberOfGameHistory.textProperty().addListener((observable, oldValue, newValue) -> {
+            changeChart(user, Integer.parseInt(numberOfGameHistory.getText()));
         });
+        changeChart(user, 5);
 
 
-        int num = 0;
+    }
+
+    private void changeChart(User user, int number) {
+        // todo check they are from new to old
         for (MatchTable matchTable : user.getMatchesPlayed()) {
             // todo  is competitor == second player?
             Label competitorLabel = new Label(matchTable.getSecondPlayerPoints().toString());
@@ -162,10 +160,9 @@ public class ProfileViewController {
             winner.getChildren().add(W);
 
 
-            num++;
-            if (num == 5)
+            number--;
+            if (number == 0)
                 break;
         }
-
     }
 }
