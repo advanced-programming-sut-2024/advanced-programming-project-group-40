@@ -8,7 +8,7 @@ public class Leader extends Card {
     private final Factions faction;
 
     public Leader(LeaderInfo leaderInfo) {
-        super(leaderInfo.name);
+        super(leaderInfo.name, leaderInfo.planeImage, leaderInfo.cardImage, 1);
         this.faction = leaderInfo.faction;
     }
 
