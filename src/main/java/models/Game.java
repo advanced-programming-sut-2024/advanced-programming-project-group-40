@@ -1,6 +1,10 @@
 package models;
 
 import enums.Menu;
+import enums.cards.HeroInfo;
+import enums.cards.SpecialCardInfo;
+import enums.cards.UnitCardInfo;
+import models.cards.*;
 import views.PlayMenu;
 
 import java.util.ArrayList;
@@ -9,8 +13,11 @@ import java.util.Random;
 public class Game {
     public static final Random random = new Random();
     private static ArrayList<User> allUsers = new ArrayList<>();
+    private static final ArrayList<Card> allCards = new ArrayList<>();
+    private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static User loggedInUser;
     private static Menu currentMenu = Menu.LoginMenu;
+
 
     public static ArrayList<User> getUsersRanked() {
         return null;
@@ -50,5 +57,27 @@ public class Game {
     }
     public static ArrayList<User> getAllUsers() {
      return allUsers;
+    }
+    public static void setAllCards() {
+        for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
+            for (int i = 0; i < unitCardInfo.maxCapacity; i++) {
+                UnitCard unitCard = new UnitCard(unitCardInfo);
+                unitCard.setCardNumber(i);
+                allCards.add(unitCard);
+            }
+        }
+        for (HeroInfo heroInfo : HeroInfo.values()) {
+            allCards.add(new Hero(heroInfo));
+        }
+        for (SpecialCardInfo specialCardInfo : SpecialCardInfo.values()) {
+            for (int i = 0; i < specialCardInfo.maxCapacity; i++) {
+                SpecialCard specialCard = new SpecialCard(specialCardInfo);
+                specialCard.setCardNumber(i);
+                allCards.add(specialCard);
+            }
+        }
+    }
+    public static ArrayList<Card> getAllCards() {
+        return allCards;
     }
 }
