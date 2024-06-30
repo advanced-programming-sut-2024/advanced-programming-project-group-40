@@ -385,6 +385,7 @@ public class MatchTable {
                 }
                 case MUSTER -> {
                     row.add(cardWrapper.getCard());
+                    removeCard(cardWrapper);
                     UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
@@ -553,6 +554,7 @@ public class MatchTable {
                 addToDeadCards(0, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
             }
         } else if (Objects.equals(cardWrapper.getCard().getName(), "Scorch")) {
+            removeCard(cardWrapper);
             UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), -1, -1, "scorch", this);
 
         } else {
@@ -571,6 +573,7 @@ public class MatchTable {
                 secondPlayerInPlayCards.add(cardWrapper.getCard());
                 break;
         }
+        removeCard(cardWrapper);
     }
 
     //places card to deck cards

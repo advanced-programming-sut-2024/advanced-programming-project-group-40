@@ -35,6 +35,7 @@ import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
@@ -152,11 +153,31 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
         UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
         UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
-
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
         SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
+        //test
+        HashSet<Card> cards = new HashSet<>();
+        cards.add(card1);
+        cards.add(card2);
+        cards.add(card3);
+        cards.add(card4);
+        cards.add(card5);
+        cards.add(card6);
+        cards.add(card7);
+        cards.add(card8);
+        cards.add(card9);
+        cards.add(card10);
+        cards.add(card11);
+        cards.add(card12);
+        cards.add(card13);
+        cards.add(card14);
+        cards.add(card15);
+        System.out.println("cum shit n piss"+cards.size());
+
+        //////////////////////////
+
 
         GameMenuController.getMatchTable().setFirstPlayerTurn(true);
         GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
