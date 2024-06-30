@@ -93,6 +93,29 @@ public class MatchTable {
         return retVal;
     }
 
+    public void doDecoy(CardWrapper decoy , CardWrapper cardToSwap){
+        this.placeCard(decoy
+                ,0
+                ,getRowID(cardToSwap.getOrigin()));
+
+        this.addToInPlayCards(0,cardToSwap);
+
+    }
+    private static int getRowID(Origin origin) {
+        switch (origin) {
+            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
+                return 0;
+            }
+            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
+                return 1;
+            }
+            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
+                return 2;
+            }
+        }
+        return -1;
+    }
+
     public void setPlayerRowScore(int user_id, int rowNumber) {
         boolean areCardsUnderWeather = isRowUnderWeather(rowNumber);
         boolean areCardsBoosted = isRowUnderBoost(user_id, rowNumber);
@@ -396,9 +419,11 @@ public class MatchTable {
                     row.add(cardWrapper.getCard());
                 }
             }
+            removeCard(cardWrapper);
+        } else {
+            row.add(cardWrapper.getCard());
+            removeCard(cardWrapper);
         }
-        removeCard(cardWrapper);
-
     }
 
     //places card without acivating ability

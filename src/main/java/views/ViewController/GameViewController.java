@@ -148,12 +148,12 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card10 = new UnitCard(UnitCardInfo.DOL_BLATHANNA_SCOUT);
         UnitCard card11 = new UnitCard(UnitCardInfo.LIGHT_LONGSHIP);
         UnitCard card12 = new UnitCard(UnitCardInfo.PLAGUE_MAIDEN);
-        UnitCard card13 = new UnitCard(UnitCardInfo.OLAF);
+        UnitCard card13 = new UnitCard(UnitCardInfo.DECOY);
         UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
         UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
         UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
         UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
-        SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
+        SpecialCard card5 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
         SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
