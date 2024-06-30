@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
 import models.User;
+import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
@@ -226,6 +227,9 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(STR."name:\{card.getName()}");
+                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
+                cardClickCommand.excute();
+
 
             });
         }
