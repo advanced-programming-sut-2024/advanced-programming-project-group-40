@@ -52,8 +52,8 @@ public class ChangeInfoViewController {
 
         // Add a listener to the first text field
         newUsername.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean validUsername = SignUpMenuController.isUsernameValid(newUsername.getText());
-            boolean uniqueUsername = SignUpMenuController.isUsernameUnique(newPassword.getText());
+            boolean validUsername = ChangeInfoController.isUsernameValid(newUsername.getText());
+            boolean uniqueUsername = ChangeInfoController.isUsernameUnique(newPassword.getText());
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || newUsername.getText().isEmpty()) {
                 ErrorMaker.removeError(usernameError);
@@ -69,7 +69,7 @@ public class ChangeInfoViewController {
 
 
         newEmail.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isEmailValid(newEmail.getText()) || newEmail.getText().isEmpty()) {
+            if (ChangeInfoController.isEmailValid(newEmail.getText()) || newEmail.getText().isEmpty()) {
                 validFiled.put(2, true);
                 ErrorMaker.removeError(emailError);
             } else {
@@ -79,9 +79,9 @@ public class ChangeInfoViewController {
         });
 
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
-            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
-            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
+            boolean validPassword = ChangeInfoController.isPasswordValid(newPassword.getText());
+            boolean weakPassword = ChangeInfoController.isPasswordWeak(newPassword.getText());
+            boolean weakAndShortPassword = ChangeInfoController.isPasswordShort(newPassword.getText());
 
             validFiled.put(3, false);
             if (newPassword.getText().isEmpty()) {
@@ -100,7 +100,7 @@ public class ChangeInfoViewController {
         });
 
         oldPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (oldPassword.getText().isEmpty() || oldPassword.equals(Game.getLoggedInUser().getPassword())) {
+            if (oldPassword.getText().isEmpty() || ChangeInfoController.correctPassword(oldPassword.getText())) {
                 validFiled.put(4, true);
                 ErrorMaker.removeError(oldPassError);
             } else {
