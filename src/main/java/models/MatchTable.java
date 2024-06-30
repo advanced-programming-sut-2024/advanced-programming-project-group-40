@@ -430,7 +430,6 @@ public class MatchTable {
     public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
         row.add(cardWrapper.getCard());
-        removeCard(cardWrapper);
     }
 
     public void removeCard(CardWrapper cardWrapper) {
