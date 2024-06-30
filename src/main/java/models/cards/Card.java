@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.Objects;
 
 public abstract class Card extends Rectangle {
-    private int cardNumber;
     protected final String name;
     protected final String planeImage;
     protected final String cardImage;
@@ -52,11 +51,4 @@ public abstract class Card extends Rectangle {
         return false;
     }
 
-    public int getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(int cardNumber) {
-        this.cardNumber = cardNumber;
-    }
 }

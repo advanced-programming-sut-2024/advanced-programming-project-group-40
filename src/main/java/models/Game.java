@@ -1,10 +1,6 @@
 package models;
 
 import enums.Menu;
-import enums.cards.HeroInfo;
-import enums.cards.SpecialCardInfo;
-import enums.cards.UnitCardInfo;
-import models.cards.*;
 import views.PlayMenu;
 
 import java.util.ArrayList;
@@ -13,13 +9,8 @@ import java.util.Random;
 public class Game {
     public static final Random random = new Random();
     private static ArrayList<User> allUsers = new ArrayList<>();
-    private static final ArrayList<Card> allCards = Game.setAllCards();
-    private static final ArrayList<Leader> allLeaders = new ArrayList<>();
-    private static final ArrayList<Card> selectedCards = new ArrayList<>();
-
-    private static User loggedInUser = new User("", "", "", "");
+    private static User loggedInUser;
     private static Menu currentMenu = Menu.LoginMenu;
-
 
     public static ArrayList<User> getUsersRanked() {
         return null;
@@ -59,25 +50,5 @@ public class Game {
     }
     public static ArrayList<User> getAllUsers() {
      return allUsers;
-    }
-    public static ArrayList<Card> setAllCards() {
-        ArrayList<Card> allCards = new ArrayList<>();
-        for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
-            UnitCard unitCard = new UnitCard(unitCardInfo);
-            allCards.add(new UnitCard(unitCardInfo));
-        }
-        for (HeroInfo heroInfo : HeroInfo.values()) {
-            allCards.add(new Hero(heroInfo));
-        }
-        for (SpecialCardInfo specialCardInfo : SpecialCardInfo.values()) {
-            allCards.add(new SpecialCard(specialCardInfo));
-        }
-        return allCards;
-    }
-    public static ArrayList<Card> getAllCards() {
-        return allCards;
-    }
-    public static void addToSelectedCards(Card card){
-        selectedCards.add(card);
     }
 }

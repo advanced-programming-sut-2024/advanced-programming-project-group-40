@@ -20,13 +20,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+
 public class GameView extends PlayMenu{
     public static void main(String[] args) {
         launch(args);
     }
     @Override
     public void start(Stage stage) throws Exception {
-        GameView.stage = stage;
+        MainMenu.stage = stage;
         Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/GameBoard.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();

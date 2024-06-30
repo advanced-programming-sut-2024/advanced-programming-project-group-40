@@ -37,6 +37,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
     @FXML
@@ -145,15 +146,15 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
         UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
-        UnitCard card10 = new UnitCard(UnitCardInfo.DOL_BLATHANNA_SCOUT);
-        UnitCard card11 = new UnitCard(UnitCardInfo.LIGHT_LONGSHIP);
-        UnitCard card12 = new UnitCard(UnitCardInfo.PLAGUE_MAIDEN);
-        UnitCard card13 = new UnitCard(UnitCardInfo.OLAF);
+        UnitCard card10 = new UnitCard(UnitCardInfo.CRONE_WHISPESS);
+        UnitCard card11 = new UnitCard(UnitCardInfo.CRONE_WEAVESS);
+        UnitCard card12 = new UnitCard(UnitCardInfo.CRONE_BREWESS);
+        UnitCard card13 = new UnitCard(UnitCardInfo.DECOY);
         UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
         UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
         UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
         UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
-        SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
+        SpecialCard card5 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
         SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
@@ -198,10 +199,12 @@ public class GameViewController extends PlayMenu implements Initializable {
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
+
         secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
         firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
         firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
         secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+
 
         update();
     }
@@ -226,6 +229,8 @@ public class GameViewController extends PlayMenu implements Initializable {
                 System.out.println(STR."name:\{card.getName()}");
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
+
+
             });
         }
     }
@@ -387,6 +392,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 
+
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
         update();
@@ -444,3 +450,4 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 }
+
