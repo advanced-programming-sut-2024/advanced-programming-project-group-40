@@ -2,10 +2,14 @@
     -fx-background-image: url('/Images/Backgrounds/witcherBackground.jpg');
     -fx-background-size: cover;
 }
-.faction-background{
-    -fx-background-image: url('/Images/789.jpg');
+
+
+.profile-menu-background{
+    -fx-background-image: url('/Images/Backgrounds/ProfileMenuBackground2.jpg');
     -fx-background-size: cover;
 }
+
+
 
 .Sign-Up-background {
     -fx-background-image: url('/images/Backgrounds/123.png');
@@ -52,6 +56,23 @@
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
     -fx-background-color: rgb(71, 107, 101,0.5);
+}
+
+.scroll-pane{
+    /*-fx-font-family: "Cambria"; !* Font family *!*/
+    -fx-border-color: transparent;
+    /*-fx-background-color: rgb(71, 107, 101,0.2);*/
+    -fx-background-color: lightblue; /* Remove background color */
+}
+
+.scroll-pane .view-port{
+    -fx-background-color: lightblue; /* Remove background color */
+
+}
+
+.remove-background{
+    -fx-background-color: transparent; /* Remove background color */
+    -fx-background-insets: 0; /* Remove background insets */
 }
 
 .Question-Box{
@@ -146,8 +167,4 @@
 }
 
 
-.board{
-    -fx-border-color: #F8EECB;
-
-}
 

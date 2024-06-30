@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="profile-menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
    <children>
-      <ScrollPane layoutX="65.0" layoutY="312.0" prefHeight="327.0" prefWidth="880.0">
+      <ScrollPane layoutX="65.0" layoutY="312.0" prefHeight="327.0" prefWidth="910.0" styleClass="scroll-pane">
          <content>
             <HBox prefHeight="500.0" prefWidth="863.0">
                <children>
@@ -39,7 +38,7 @@
                         <VBox fx:id="date" maxHeight="450.0" prefHeight="450.0" prefWidth="84.0" styleClass="Box" />
                      </children>
                   </VBox>
-                  <VBox prefHeight="500.0" prefWidth="143.0">
+                  <VBox prefHeight="500.0" prefWidth="143.0" styleClass="board">
                      <children>
                         <VBox alignment="CENTER" prefHeight="50.0" prefWidth="96.0">
                            <children>
@@ -177,13 +176,6 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <HBox layoutX="866.0" layoutY="114.0" prefHeight="106.0" prefWidth="130.0">
-         <children>
-            <VBox prefHeight="162.0" prefWidth="81.0" />
-            <VBox prefHeight="162.0" prefWidth="85.0" />
-         </children>
-      </HBox>
-      <ImageView fitHeight="100.0" fitWidth="94.0" layoutX="866.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <Pane layoutX="243.0" layoutY="36.0" prefHeight="183.0" prefWidth="600.0">
          <children>
             <Label layoutX="9.0" layoutY="12.0" prefHeight="31.0" prefWidth="81.0" text="Username:">
