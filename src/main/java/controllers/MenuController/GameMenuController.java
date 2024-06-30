@@ -302,22 +302,26 @@ public class GameMenuController extends Controller {
                 matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
                 gameViewController.update();
                 if (isMedic) {
-                    gameViewController.getFirstPlayerDiscard().getChildren().clear();
-                    tempStage = new Stage();
-                    tempStage.setHeight(140);
-                    tempStage.setWidth(800);
-                    tempStage.setResizable(false);
-                    HBox hBox = new HBox();
-                    Scene scene = new Scene(hBox);
-                    hBox.getChildren().addAll(matchTable.getFirstPlayerDeadCards());
-                    hBox.setId("tempRow");
-                    tempStage.setScene(scene);
-                    tempStage.show();
+                    MakeMedicWindow(gameViewController);
                 }
                 selectedCard = null;
             }
         }
 
+    }
+
+    private static void MakeMedicWindow(GameViewController gameViewController) {
+        gameViewController.getFirstPlayerDiscard().getChildren().clear();
+        tempStage = new Stage();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        hBox.getChildren().addAll(matchTable.getFirstPlayerDeadCards());
+        hBox.setId("tempRow");
+        tempStage.setScene(scene);
+        tempStage.show();
     }
 
     public static void ClickedOnBoost(int rowID) {
