@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 
 public class GameView extends PlayMenu{
     public static void main(String[] args) {
