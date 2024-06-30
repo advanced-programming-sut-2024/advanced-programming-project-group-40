@@ -1,18 +1,28 @@
 package views.ViewController;
 
+import controllers.MenuController.SignUpMenuController;
+import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import models.ErrorMaker;
 import models.Game;
 import models.MatchTable;
 import models.User;
+import views.LoginMenu;
+import views.MainMenu;
+import views.ProfileMenu;
+import views.SignUpMenu;
+
+import java.util.ArrayList;
 
 public class ProfileViewController {
+    public TextField numberOfGameHistory;
     @FXML
     private VBox competitor;
-    @FXML
-    private Label competitorName1;
     @FXML
     private VBox date;
     @FXML
@@ -50,6 +60,14 @@ public class ProfileViewController {
     @FXML
     private Label lost;
 
+    public void goToLoginMenu(MouseEvent mouseEvent) {
+        try {
+            new MainMenu().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void initialize() {
         User user = Game.getLoggedInUser();
         username.setText(user.getUsername());
@@ -60,6 +78,17 @@ public class ProfileViewController {
         draw.setText(Integer.toString(user.getDraw()));
         won.setText(Integer.toString(user.getWon()));
         lost.setText(Integer.toString(user.getLost()));
+
+        email.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (SignUpMenuController.isEmailValid(email.getText()) || email.getText().isEmpty()) {
+                validFiled.put(2, true);
+                ErrorMaker.removeError(emailError);
+            } else {
+                validFiled.put(2, false);
+                ErrorMaker.setError(emailError, SignUpMenuMessages.INVALID_EMAIL.toString());
+            }
+        });
+
 
         int num = 0;
         for (MatchTable matchTable : user.getMatchesPlayed()) {
