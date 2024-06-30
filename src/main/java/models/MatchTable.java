@@ -246,7 +246,6 @@ public class MatchTable {
     }
 
 
-
     public int getFirstPlayerCurrentPoint() {
         return firstPlayerCurrentPoint;
     }
@@ -382,6 +381,7 @@ public class MatchTable {
                     else inverseUserID = 1;
                     row = getRowByID(inverseUserID, rowNumber);
                     row.add(cardWrapper.getCard());
+                    removeCard(cardWrapper);
                 }
                 case MUSTER -> {
                     row.add(cardWrapper.getCard());
@@ -396,6 +396,7 @@ public class MatchTable {
                 }
             }
         }
+        removeCard(cardWrapper);
 
     }
 
@@ -548,9 +549,12 @@ public class MatchTable {
         if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
             spellCards.add(cardWrapper.getCard());
             removeCard(cardWrapper);
-            while (!spellCards.isEmpty()){
-                addToDeadCards(0,new CardWrapper(spellCards.getLast(),Origin.WEATHER));
+            while (!spellCards.isEmpty()) {
+                addToDeadCards(0, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
             }
+        } else if (Objects.equals(cardWrapper.getCard().getName(), "Scorch")) {
+            UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), -1, -1, "scorch", this);
+
         } else {
             spellCards.add(cardWrapper.getCard());
             removeCard(cardWrapper);
@@ -1009,11 +1013,11 @@ public class MatchTable {
         boolean x;
         switch (user_id) {
             case 0:
-                x = isThereCommanderHorn(user_id,rowID);
+                x = isThereCommanderHorn(user_id, rowID);
                 if (x) return true;
                 break;
             case 1:
-                x = isThereCommanderHorn(user_id,rowID);
+                x = isThereCommanderHorn(user_id, rowID);
                 if (x) return true;
                 break;
         }
@@ -1042,10 +1046,10 @@ public class MatchTable {
 
 
     //checks for commander horn in the given boost card place
-    private boolean isThereCommanderHorn(int userID,int rowID) {
+    private boolean isThereCommanderHorn(int userID, int rowID) {
         switch (userID) {
             case 0:
-                switch (rowID){
+                switch (rowID) {
                     case 0:
                         if (firstPlayerCloseCombatBoostCard != null) return true;
                         break;
@@ -1059,7 +1063,7 @@ public class MatchTable {
                 }
                 break;
             case 1:
-                switch (rowID){
+                switch (rowID) {
                     case 0:
                         if (secondPlayerCloseCombatBoostCard != null) return true;
                         break;

@@ -224,12 +224,20 @@ public class GameMenuController extends Controller {
         }
         return -1;
     }
+    private static Origin getCardOrigin(){
+        Origin origin;
+        switch (selectedCard.getParent().getId()){
+
+            default -> {origin = Origin.NULL;}
+        }
+        return origin;
+    }
 
     public static void ClickedOnRow(Origin origin) {
         Origin destination = GetDestination();
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
-                matchTable.placeCard(new CardWrapper(selectedCard, origin), 0, getRowID(origin));
+                matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
                 selectedCard = null;
             }
         }
@@ -243,9 +251,6 @@ public class GameMenuController extends Controller {
     }
 
     public static void clickedOnWeather() {
-        for (Card card : matchTable.getSpellCards()) {
-            System.out.println(card.getName());
-        }
         if (selectedCard instanceof SpecialCard &&
                 !Objects.equals(selectedCard.getName(), "Commander’s horn")) {
             matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY));

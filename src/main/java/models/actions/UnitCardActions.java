@@ -157,7 +157,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(1,unitCard);
+                            matchTable.addToDeadCards(1, unitCard);
                         }
                     }
                 }
@@ -189,7 +189,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(0,unitCard);
+                            matchTable.addToDeadCards(0, unitCard);
                         }
                     }
                 }
@@ -234,12 +234,17 @@ public abstract class UnitCardActions {
                     };
                 }
                 ArrayList<Card> row = matchTable.getRowByID(i, j);
+                ArrayList<CardWrapper> toRemoveCards = new ArrayList<>();
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(i,unitCard);
+                            toRemoveCards.add(new CardWrapper(card, origin));
+
                         }
                     }
+                }
+                for (CardWrapper cardWrapper : toRemoveCards) {
+                    matchTable.addToDeadCards(i,cardWrapper);
                 }
             }
         }
@@ -308,7 +313,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(0,unitCard);
+                            matchTable.addToDeadCards(0, unitCard);
                         }
                     }
                 }

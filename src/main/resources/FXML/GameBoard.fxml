@@ -46,6 +46,11 @@
             </Label>
             <StackPane fx:id="secondPLayerCrystal1" layoutX="95.0" layoutY="41.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
             <StackPane fx:id="secondPLayerCrystal2" layoutX="127.0" layoutY="41.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
+            <Label fx:id="secondPlayerTotalScore" layoutX="178.0" layoutY="59.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
          </Pane>
       </StackPane>
       <Pane prefHeight="221.0" prefWidth="192.0" styleClass="weather">
@@ -66,6 +71,11 @@
             </Label>
             <StackPane fx:id="firstPLayerCrystal1" layoutX="96.0" layoutY="35.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
             <StackPane fx:id="firstPLayerCrystal2" layoutX="128.0" layoutY="35.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
+            <Label fx:id="firstPlayerTotalScore" layoutX="178.0" layoutY="59.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
          </Pane>
       </StackPane>
       <Pane prefHeight="200.0" prefWidth="200.0">
@@ -89,27 +99,33 @@
          <StackPane prefHeight="200.0" prefWidth="92.0" styleClass="special">
             <children>
                <HBox fx:id="secondplayersiegespecial" prefHeight="100.0" prefWidth="200.0" />
-            </children></StackPane>
+            </children>
+         </StackPane>
          <StackPane prefHeight="200.0" prefWidth="200.0" styleClass="special">
             <children>
                <HBox fx:id="secondplayerrangedspecial" prefHeight="100.0" prefWidth="200.0" />
-            </children></StackPane>
+            </children>
+         </StackPane>
          <StackPane prefHeight="200.0" prefWidth="200.0" styleClass="special">
             <children>
                <HBox fx:id="secondplayerclosecombatspecial" prefHeight="100.0" prefWidth="200.0" />
-            </children></StackPane>
+            </children>
+         </StackPane>
          <StackPane prefHeight="200.0" prefWidth="103.0" styleClass="special">
             <children>
                <HBox fx:id="firstplayerclosecombatspecial" onMouseClicked="#closeCombatBoostClicked" prefHeight="100.0" prefWidth="200.0" />
-            </children></StackPane>
+            </children>
+         </StackPane>
          <StackPane prefHeight="200.0" prefWidth="200.0" styleClass="special">
             <children>
                <HBox fx:id="firstplayerrangedspecial" onMouseClicked="#rangedBoostClicked" prefHeight="100.0" prefWidth="200.0" />
-            </children></StackPane>
+            </children>
+         </StackPane>
          <StackPane prefHeight="200.0" prefWidth="200.0" styleClass="special">
             <children>
                <HBox fx:id="firstplayersiegespecial" onMouseClicked="#siegeBoostClicked" prefHeight="100.0" prefWidth="200.0" />
-            </children></StackPane>
+            </children>
+         </StackPane>
       </VBox>
       <Label fx:id="SecondPlayerSiegeNum" layoutX="14.0" layoutY="41.0" text="Label" textFill="WHITE" />
       <Label fx:id="SecondPlayerRangedNum" layoutX="14.0" layoutY="141.0" text="Label" textFill="WHITE" />
