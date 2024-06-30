@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
 import models.User;
+import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
@@ -152,9 +153,9 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
         UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
-        UnitCard card10 = new UnitCard(UnitCardInfo.DOL_BLATHANNA_SCOUT);
-        UnitCard card11 = new UnitCard(UnitCardInfo.LIGHT_LONGSHIP);
-        UnitCard card12 = new UnitCard(UnitCardInfo.PLAGUE_MAIDEN);
+        UnitCard card10 = new UnitCard(UnitCardInfo.CRONE_WHISPESS);
+        UnitCard card11 = new UnitCard(UnitCardInfo.CRONE_WEAVESS);
+        UnitCard card12 = new UnitCard(UnitCardInfo.CRONE_BREWESS);
         UnitCard card13 = new UnitCard(UnitCardInfo.DECOY);
         UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
         UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
@@ -233,6 +234,9 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(STR."name:\{card.getName()}");
+                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
+                cardClickCommand.excute();
+
 
             });
         }

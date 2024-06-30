@@ -96,7 +96,7 @@ public class ProfileViewController {
         // todo check they are from new to old
         for (MatchTable matchTable : user.getMatchesPlayed()) {
             // todo  is competitor == second player?
-            Label competitorLabel = new Label(matchTable.getSecondPlayerPoints().toString());
+            Label competitorLabel = new Label(matchTable.getSecondPlayerRowPoints().toString());
 
             competitorLabel.setPrefHeight(46);
             competitorLabel.setPrefWidth(124);
@@ -109,38 +109,41 @@ public class ProfileViewController {
             dateLabel.setAlignment(Pos.CENTER);
             date.getChildren().add(dateLabel);
 
-            Label R1 = new Label(matchTable.getSecondPlayerPoints().get(0).toString());
+
+            Label R1 = new Label(matchTable.getSecondPlayerRowPoints().get(0).toString());
             R1.setPrefHeight(46);
             R1.setPrefWidth(124);
             R1.setAlignment(Pos.CENTER);
             competitorPoints1.getChildren().add(R1);
 
-            Label R2 = new Label(matchTable.getSecondPlayerPoints().get(1).toString());
+
+            Label R2 = new Label(matchTable.getSecondPlayerRowPoints().get(1).toString());
             R2.setPrefHeight(46);
             R2.setPrefWidth(124);
             R2.setAlignment(Pos.CENTER);
             competitorPoints2.getChildren().add(R2);
 
-            Label R3 = new Label(matchTable.getSecondPlayerPoints().get(2).toString());
+
+            Label R3 = new Label(matchTable.getSecondPlayerRowPoints().get(2).toString());
             R3.setPrefHeight(46);
             R3.setPrefWidth(124);
             R3.setAlignment(Pos.CENTER);
             competitorPoints3.getChildren().add(R3);
 
 
-            Label R1y = new Label(matchTable.getFirstPlayerPoints().get(0).toString());
+            Label R1y = new Label(matchTable.getFirstPlayerRowPoints().get(0).toString());
             R1y.setPrefHeight(46);
             R1y.setPrefWidth(124);
             R1y.setAlignment(Pos.CENTER);
             userPoints1.getChildren().add(R1y);
 
-            Label R2y = new Label(matchTable.getFirstPlayerPoints().toString());
+            Label R2y = new Label(matchTable.getFirstPlayerRowPoints().toString());
             R2y.setPrefHeight(46);
             R2y.setPrefWidth(124);
             R2y.setAlignment(Pos.CENTER);
             userPoints2.getChildren().add(R2y);
 
-            Label R3y = new Label(matchTable.getFirstPlayerPoints().toString());
+            Label R3y = new Label(matchTable.getFirstPlayerRowPoints().toString());
             R3y.setPrefHeight(46);
             R3y.setPrefWidth(124);
             R3y.setAlignment(Pos.CENTER);
