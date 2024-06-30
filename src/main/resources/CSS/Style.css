@@ -194,4 +194,9 @@ profile-menu-scroll-pane {
     -fx-border-width: 1px; /* Remove border width */
 }
 
+.pane-menu{
+    -fx-background-color: rgb(49, 38, 29,0.5);
+    -fx-border-color: #f8eecb; /* Remove border color */
+
+}
 

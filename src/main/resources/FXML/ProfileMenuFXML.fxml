@@ -3,7 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="profile-menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
@@ -21,12 +20,7 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font></Label>
                            </children></HBox>
-                        <VBox fx:id="competitor" alignment="TOP_CENTER" maxHeight="450.0" prefHeight="450.0" prefWidth="217.0">
-
-                           <children>
-                              <Label fx:id="competitorName1" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="124.0" text="Label" />
-
-                           </children></VBox>
+                        <VBox fx:id="competitor" alignment="TOP_CENTER" maxHeight="450.0" prefHeight="450.0" prefWidth="217.0" />
                      </children>
                   </VBox>
 
@@ -188,7 +182,7 @@
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Pane layoutX="243.0" layoutY="36.0" prefHeight="183.0" prefWidth="600.0">
+      <Pane layoutX="251.0" layoutY="39.0" prefHeight="183.0" prefWidth="496.0" styleClass="pane-menu">
          <children>
             <Label layoutX="9.0" layoutY="12.0" prefHeight="31.0" prefWidth="81.0" text="Username:">
                <font>
