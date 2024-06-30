@@ -13,7 +13,7 @@ public class Hero extends Card {
     private final Factions faction;
     private final Ability ability;
     public Hero(HeroInfo heroInfo) {
-        super(heroInfo.name, heroInfo.planeImage, heroInfo.cardImage);
+        super(heroInfo.name, heroInfo.planeImage, heroInfo.cardImage, 1);
         this.constantPower = heroInfo.power;
         this.showingPower = constantPower;
         this.unit = heroInfo.unit;

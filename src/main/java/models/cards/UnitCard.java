@@ -8,15 +8,13 @@ import enums.cards.UnitCardInfo;
 public class UnitCard extends Card{
     private final int constantPower;
     private int showingPower;
-    private final int maxCapacity;
     private final Unit unit;
     private final Factions faction;
     private final Ability ability;
     public UnitCard(UnitCardInfo unitCardInfo) {
-        super(unitCardInfo.name, unitCardInfo.planeImage, unitCardInfo.cardImage);
+        super(unitCardInfo.name, unitCardInfo.planeImage, unitCardInfo.cardImage, unitCardInfo.maxCapacity);
         this.constantPower = unitCardInfo.power;
         this.showingPower = constantPower;
-        this.maxCapacity = unitCardInfo.maxCapacity;
         this.unit = unitCardInfo.unit;
         this.faction = unitCardInfo.faction;
         this.ability = unitCardInfo.ability;

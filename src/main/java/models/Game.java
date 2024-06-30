@@ -15,7 +15,9 @@ public class Game {
     private static ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Card> allCards = Game.setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
-    private static User loggedInUser;
+    private static final ArrayList<Card> selectedCards = new ArrayList<>();
+
+    private static User loggedInUser = new User("", "", "", "");
     private static Menu currentMenu = Menu.LoginMenu;
 
 
@@ -61,27 +63,21 @@ public class Game {
     public static ArrayList<Card> setAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
-//            for (int i = 0; i < unitCardInfo.maxCapacity; i++) {
-//                UnitCard unitCard = new UnitCard(unitCardInfo);
-//                unitCard.setCardNumber(i);
-//                allCards.add(unitCard);
-//            }
+            UnitCard unitCard = new UnitCard(unitCardInfo);
             allCards.add(new UnitCard(unitCardInfo));
         }
         for (HeroInfo heroInfo : HeroInfo.values()) {
             allCards.add(new Hero(heroInfo));
         }
         for (SpecialCardInfo specialCardInfo : SpecialCardInfo.values()) {
-//            for (int i = 0; i < specialCardInfo.maxCapacity; i++) {
-//                SpecialCard specialCard = new SpecialCard(specialCardInfo);
-//                specialCard.setCardNumber(i);
-//                allCards.add(specialCard);
-//            }
             allCards.add(new SpecialCard(specialCardInfo));
         }
         return allCards;
     }
     public static ArrayList<Card> getAllCards() {
         return allCards;
+    }
+    public static void addToSelectedCards(Card card){
+        selectedCards.add(card);
     }
 }

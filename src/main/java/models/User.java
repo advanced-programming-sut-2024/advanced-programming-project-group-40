@@ -16,7 +16,6 @@ public class User {
     private int won;
     private int draw;
     private int lost;
-    //    private final ArrayList<Card> allCards = new ArrayList<>();
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private final ArrayList<Card> deckCards = new ArrayList<>();
