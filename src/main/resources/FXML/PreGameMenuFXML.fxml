@@ -17,33 +17,33 @@
        </ScrollPane>
       <VBox alignment="TOP_CENTER" layoutX="423.0" layoutY="150.0" prefHeight="532.0" prefWidth="159.0">
          <children>
-            <Label text="Label" />
+            <Label text="Leader" />
             <ImageView fitHeight="150.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true" />
-            <Label text="Label" />
+            <Label text="Total Cards in Deck" />
             <HBox alignment="CENTER" prefHeight="16.0" prefWidth="159.0">
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                   <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                </children></HBox>
-             <Label text="Label" />
+             <Label text="Number of Unit Cards" />
              <HBox alignment="CENTER" prefHeight="16.0" prefWidth="159.0">
                  <children>
                      <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                      <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                  </children></HBox>
-             <Label text="Label" />
+             <Label text="Special Cards" />
              <HBox alignment="CENTER" prefHeight="16.0" prefWidth="159.0">
                  <children>
                      <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                      <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                  </children></HBox>
-             <Label text="Label" />
+             <Label text="Total Unit Cards Strength" />
              <HBox alignment="CENTER" prefHeight="16.0" prefWidth="159.0">
                  <children>
                      <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                      <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                  </children></HBox>
-             <Label text="Label" />
+             <Label text="Hero Cards" />
              <HBox alignment="CENTER" prefHeight="16.0" prefWidth="159.0">
                  <children>
                      <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
@@ -53,14 +53,14 @@
 
          </children>
       </VBox>
-      <Label layoutX="43.0" layoutY="127.0" text="Label" />
-      <Label layoutX="897.0" layoutY="127.0" text="Label" />
+      <Label layoutX="43.0" layoutY="127.0" text="Card Collection" />
+      <Label layoutX="882.0" layoutY="127.0" text="Cards in Deck" />
       <ImageView fitHeight="66.0" fitWidth="62.0" layoutX="448.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="524.0" layoutY="38.0" text="Label" />
-      <Label layoutX="401.0" layoutY="110.0" text="Label" />
-      <Label layoutX="489.0" layoutY="110.0" text="Label" />
-      <Label layoutX="568.0" layoutY="110.0" text="Label" />
-      <Label layoutX="489.0" layoutY="86.0" text="Label" />
+      <Label layoutX="355.0" layoutY="110.0" text="Upload Deck" />
+      <Label layoutX="463.0" layoutY="110.0" text="Change faction" />
+      <Label layoutX="582.0" layoutY="110.0" text="Download Deck" />
+      <Label layoutX="408.0" layoutY="91.0" prefHeight="18.0" prefWidth="189.0" text="Draw a card from your deck whenever you win a round." />
 
    </children>
 </AnchorPane>
