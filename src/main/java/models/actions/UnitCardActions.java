@@ -31,15 +31,15 @@ public abstract class UnitCardActions {
     }
 
     private static void muster(Card card, int userID, int rowNumber) {
-        Pattern pattern = Pattern.compile("(?<name>.+):");
-        String musterName="";
+        Pattern pattern = Pattern.compile("(?<string>.+)(?=:)");
+        String musterName;
         if (!card.getName().contains(":")) {
             musterName = card.getName();
         } else {
             Matcher matcher = pattern.matcher(card.getName());
-            if (matcher.find()) musterName = matcher.group("name");
+            musterName = matcher.group("string");
         }
-        String tempMusterName="";
+        String tempMusterName;
         ArrayList<CardWrapper> cardsToPlay = new ArrayList<>();
         if (userID == 0) {
             for (Card card1 : matchTable.getFirstPlayerDeckCards()) {
@@ -47,7 +47,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    if (matcher.find()) tempMusterName = matcher.group("name");
+                    tempMusterName = matcher.group("string");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.FIRSTPLAYER_DECK));
@@ -58,7 +58,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    if (matcher.find()) tempMusterName = matcher.group("name");
+                    tempMusterName = matcher.group("string");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.FIRSTPLAYER_INPLAY));
@@ -66,6 +66,7 @@ public abstract class UnitCardActions {
             }
             for (CardWrapper cardWrapper : cardsToPlay) {
                 matchTable.placeCardNoAbility(cardWrapper, userID, rowNumber);
+
             }
         } else {
             for (Card card1 : matchTable.getSecondPlayerDeckCards()) {
@@ -73,7 +74,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    if (matcher.find()) tempMusterName = matcher.group("name");
+                    tempMusterName = matcher.group("string");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.SECONDPLAYER_DECK));
@@ -84,7 +85,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    if (matcher.find()) tempMusterName = matcher.group("string");
+                    tempMusterName = matcher.group("string");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.SECONDPLAYER_INPLAY));
