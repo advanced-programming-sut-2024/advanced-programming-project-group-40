@@ -26,9 +26,11 @@ import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
 import models.User;
+import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
+import views.GameView;
 import views.Main;
 import views.PlayMenu;
 
@@ -38,6 +40,19 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
+
+
+    private static MatchTable matchTable;
+
+
+    public static MatchTable getMatchTable() {
+        return matchTable;
+    }
+
+    public static void setMatchTable(MatchTable matchTable) {
+        GameViewController.matchTable = matchTable;
+    }
+
     @FXML
     private GridPane pane;
     @FXML
@@ -128,12 +143,12 @@ public class GameViewController extends PlayMenu implements Initializable {
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
         UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
         UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
-        UnitCard card3 = new UnitCard(UnitCardInfo.ICE_GIANT);
+        UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SKELLIGE_STORM);
-        SpecialCard card8 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
+        SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
 
 
         GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
@@ -148,8 +163,8 @@ public class GameViewController extends PlayMenu implements Initializable {
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
-//        secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickName()}");
-//        firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickName()}");
+        secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
+        firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
         firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
         secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
         update();
@@ -173,8 +188,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(STR."name:\{card.getName()}");
-//                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
-//                cardClickCommand.excute();
+                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
+                cardClickCommand.excute();
             });
         }
     }
@@ -261,42 +276,51 @@ public class GameViewController extends PlayMenu implements Initializable {
             secondplayersiegespecial.getChildren().clear();
             secondplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard());
         }
-
+        //f inplay
         if (!GameMenuController.getMatchTable().getFirstPlayerInPlayCards().isEmpty()) {
             Hand.getChildren().clear();
             System.out.println(Hand.getChildren());
             Hand.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerInPlayCards());
         }
-
+        //fs
         if (!GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().isEmpty()) {
             firstPlayerCloseCombat.getChildren().clear();
             firstPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow());
         }
+        //fr
         if (!GameMenuController.getMatchTable().getFirstPlayerRangedRow().isEmpty()) {
             firstPlayerRanged.getChildren().clear();
             firstPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerRangedRow());
         }
+        //fs
         if (!GameMenuController.getMatchTable().getFirstPlayerSiegeRow().isEmpty()) {
             firstPlayerSiege.getChildren().clear();
             firstPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerSiegeRow());
         }
-
+        //sc
         if (!GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow().isEmpty()) {
             secondPlayerCloseCombat.getChildren().clear();
             secondPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow());
         }
+        //sr
         if (!GameMenuController.getMatchTable().getSecondPlayerRangedRow().isEmpty()) {
             secondPlayerRanged.getChildren().clear();
             secondPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerRangedRow());
         }
+        //ss
         if (!GameMenuController.getMatchTable().getSecondPlayerSiegeRow().isEmpty()) {
             secondPlayerSiege.getChildren().clear();
             secondPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerSiegeRow());
         }
-        if (!GameMenuController.getMatchTable().getSpellCards().isEmpty()) {
+        //spell
+        if (!(GameMenuController.getMatchTable().getSpellCards().isEmpty()&&
+                spellCards.getChildren().isEmpty())) {
             spellCards.getChildren().clear();
             spellCards.getChildren().addAll(GameMenuController.getMatchTable().getSpellCards());
-            System.out.println(firstPlayerDiscard);
+        }
+        if (!GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty()){
+            firstPlayerDiscard.getChildren().clear();
+            firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
         }
         InitiateCardEvents();
 
@@ -306,61 +330,61 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void awoga(MouseEvent mouseEvent) {
         update();
     }
-//
-//    public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
-//        update();
-//    }
-//
-//    public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
-//        update();
-//    }
-//
-//
-//    public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-//        update();
-//    }
-//
-//    public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-//        update();
-//    }
-//
-//    public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
-//        update();
-//    }
-//
-//    public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
-//        update();
-//    }
-//
-//    public void closeCombatBoostClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnBoost(0);
-//        update();
-//    }
-//
-//    public void rangedBoostClicked(MouseEvent mouseEvent) {
-//        System.out.println("here");
-//        GameMenuController.ClickedOnBoost(1);
-//        System.out.println(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
-//        if (GameMenuController.getMatchTable().getFirstPlayerInPlayCards().contains(new SpecialCard(SpecialCardInfo.COMMANDERS_HORN))){
-//            System.out.println("kys");
-//        }
-//        System.out.println(firstplayerrangedspecial.getChildren());
-//        update();
-//    }
-//
-//    public void siegeBoostClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnBoost(2);
-//        update();
-//    }
-//
-//    public void weatherClicked(MouseEvent mouseEvent) {
-//        GameMenuController.clickedOnWeather();
-//        update();
-//    }
+
+    public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+        update();
+    }
+
+    public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+        update();
+    }
+
+
+    public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
+        update();
+    }
+
+    public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
+        update();
+    }
+
+    public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
+        update();
+    }
+
+    public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
+        update();
+    }
+
+    public void closeCombatBoostClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnBoost(0);
+        update();
+    }
+
+    public void rangedBoostClicked(MouseEvent mouseEvent) {
+        System.out.println("here");
+        GameMenuController.ClickedOnBoost(1);
+        System.out.println(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
+        if (GameMenuController.getMatchTable().getFirstPlayerInPlayCards().contains(new SpecialCard(SpecialCardInfo.COMMANDERS_HORN))){
+            System.out.println("kys");
+        }
+        System.out.println(firstplayerrangedspecial.getChildren());
+        update();
+    }
+
+    public void siegeBoostClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnBoost(2);
+        update();
+    }
+
+    public void weatherClicked(MouseEvent mouseEvent) {
+        GameMenuController.clickedOnWeather();
+        update();
+    }
 }
