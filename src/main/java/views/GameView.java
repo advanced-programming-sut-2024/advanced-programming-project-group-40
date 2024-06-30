@@ -1,6 +1,9 @@
 package views;
 
 
+import enums.cards.UnitCardInfo;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
@@ -16,9 +19,8 @@ public class GameView extends PlayMenu{
     @Override
     public void start(Stage stage) throws Exception {
         GameView.stage = stage;
-        Pane pane = FXMLLoader.load(Objects.requireNonNull(GameView.class.getResource("/FXML/GameBoard.fxml")));
+        Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/GameBoard.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();
-
     }
 }

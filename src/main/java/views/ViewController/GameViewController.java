@@ -29,6 +29,7 @@ import models.User;
 import models.cards.Card;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
+import views.GameView;
 import views.Main;
 import views.PlayMenu;
 
@@ -38,6 +39,19 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
+
+
+    private static MatchTable matchTable;
+
+
+    public static MatchTable getMatchTable() {
+        return matchTable;
+    }
+
+    public static void setMatchTable(MatchTable matchTable) {
+        GameViewController.matchTable = matchTable;
+    }
+
     @FXML
     private GridPane pane;
     @FXML
