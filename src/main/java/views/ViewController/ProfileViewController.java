@@ -1,5 +1,6 @@
 package views.ViewController;
 
+
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
@@ -17,9 +18,11 @@ import views.MainMenu;
 import views.ProfileMenu;
 import views.SignUpMenu;
 
+
 import java.util.ArrayList;
 
 public class ProfileViewController {
+
     public TextField numberOfGameHistory;
     @FXML
     private VBox competitor;
@@ -60,6 +63,7 @@ public class ProfileViewController {
     @FXML
     private Label lost;
 
+
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
             new MainMenu().start(ProfileMenu.stage);
@@ -79,6 +83,7 @@ public class ProfileViewController {
         won.setText(Integer.toString(user.getWon()));
         lost.setText(Integer.toString(user.getLost()));
 
+
         numberOfGameHistory.textProperty().addListener((observable, oldValue, newValue) -> {
             changeChart(user, Integer.parseInt(numberOfGameHistory.getText()));
         });
@@ -92,6 +97,7 @@ public class ProfileViewController {
         for (MatchTable matchTable : user.getMatchesPlayed()) {
             // todo  is competitor == second player?
             Label competitorLabel = new Label(matchTable.getSecondPlayerPoints().toString());
+
             competitorLabel.setPrefHeight(46);
             competitorLabel.setPrefWidth(124);
             competitorLabel.setAlignment(Pos.CENTER);
@@ -120,6 +126,7 @@ public class ProfileViewController {
             R3.setPrefWidth(124);
             R3.setAlignment(Pos.CENTER);
             competitorPoints3.getChildren().add(R3);
+
 
             Label R1y = new Label(matchTable.getFirstPlayerPoints().get(0).toString());
             R1y.setPrefHeight(46);
@@ -164,5 +171,6 @@ public class ProfileViewController {
             if (number == 0)
                 break;
         }
+
     }
 }

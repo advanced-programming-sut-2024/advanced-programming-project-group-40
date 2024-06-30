@@ -20,6 +20,6 @@ public class CardClickCommand extends Command {
 
     @Override
     public void excute() {
-        GameMenuController.setSelectedCard(card, gameViewController);
+        GameMenuController.ClickedOnCard(card, gameViewController);
     }
 }

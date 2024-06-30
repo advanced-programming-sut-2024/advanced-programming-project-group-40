@@ -19,7 +19,7 @@ public abstract class Card extends Rectangle {
         this.cardImage = cardImage;
         this.setWidth(65);
         this.setHeight(90);
-        setFill(new ImagePattern((new Image(Card.class.getResource(planeImage).toExternalForm()))));
+        setFill(new ImagePattern((new Image(Card.class.getResource(cardImage).toExternalForm()))));
         this.name = name;
     }
 

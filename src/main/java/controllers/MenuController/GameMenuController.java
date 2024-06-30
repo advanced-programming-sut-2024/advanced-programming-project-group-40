@@ -3,14 +3,11 @@ package controllers.MenuController;
 import controllers.Controller;
 import enums.Ability;
 import enums.Origin;
-import javafx.geometry.Orientation;
 import models.MatchTable;
 import models.Result;
-import models.User;
 import models.cards.*;
 import views.ViewController.GameViewController;
 
-import java.util.Collections;
 import java.util.Objects;
 
 public class GameMenuController extends Controller {
@@ -30,13 +27,18 @@ public class GameMenuController extends Controller {
         return selectedCard;
     }
 
-    public static void setSelectedCard(Card selectedCard1, GameViewController gameViewController) {
+    public static void ClickedOnCard(Card selectedCard1, GameViewController gameViewController) {
         if (isSelectable(selectedCard1)) {
-            GameMenuController.selectedCard = selectedCard1;
+            selectedCard = selectedCard1;
             gameViewController.unHighlight();
             Origin origin = GetDestination();
             gameViewController.highLightRow(origin);
-            System.out.println("selected");
+        } else {
+            if (Objects.equals(selectedCard.getName(), "Decoy")) {
+                matchTable.doDecoy(new CardWrapper(selectedCard,getCardOrigin(selectedCard)),
+                        new CardWrapper(selectedCard1,getCardOrigin(selectedCard1)));
+                selectedCard = null;
+            }
         }
     }
 
@@ -74,6 +76,7 @@ public class GameMenuController extends Controller {
                         return Origin.FIRSTPLAYER_RANGED;
 
                     }
+                    case All -> {return Origin.FIRSTPLAYER_ALL;}
                 }
             }
 
@@ -211,6 +214,7 @@ public class GameMenuController extends Controller {
         return true;
     }
 
+
     private static int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
@@ -226,11 +230,51 @@ public class GameMenuController extends Controller {
         return -1;
     }
 
+    private static Origin getCardOrigin(Card card) {
+        Origin origin;
+        switch (card.getParent().getId()) {
+            case "firstPlayerCloseCombat" -> {
+                origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
+            }
+            case "firstPlayerRanged" -> {
+                origin = Origin.FIRSTPLAYER_RANGED;
+            }
+            case "firstPlayerSiege" -> {
+                origin = Origin.FIRSTPLAYER_SIEGE;
+            }
+            case "secondPlayerCloseCombat" -> {
+                origin = Origin.SECONDPLAYER_CLOSECOMBAT;
+            }
+            case "secondPlayerRanged" -> {
+                origin = Origin.SECONDPLAYER_RANGED;
+            }
+            case "secondPlayerSiege" -> {
+                origin = Origin.SECONDPLAYER_SIEGE;
+            }
+            case "spellCards" -> {
+                origin = Origin.WEATHER;
+            }
+            case "firstPlayerDiscard" -> {
+                origin = Origin.FIRSTPLATER_DEAD;
+            }
+            case "secondPlayerDiscard" -> {
+                origin = Origin.SECONDPLAYER_DEAD;
+            }
+            case "Hand" -> {
+                origin = Origin.FIRSTPLAYER_INPLAY;
+            }
+            default -> {
+                origin = Origin.NULL;
+            }
+        }
+        return origin;
+    }
+
     public static void ClickedOnRow(Origin origin) {
         Origin destination = GetDestination();
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
-                matchTable.placeCard(new CardWrapper(selectedCard, origin), 0, getRowID(origin));
+                matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
                 selectedCard = null;
             }
         }
@@ -244,9 +288,6 @@ public class GameMenuController extends Controller {
     }
 
     public static void clickedOnWeather() {
-        for (Card card : matchTable.getSpellCards()) {
-            System.out.println(card.getName());
-        }
         if (selectedCard instanceof SpecialCard &&
                 !Objects.equals(selectedCard.getName(), "Commander’s horn")) {
             matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY));
@@ -255,3 +296,4 @@ public class GameMenuController extends Controller {
         }
     }
 }
+
