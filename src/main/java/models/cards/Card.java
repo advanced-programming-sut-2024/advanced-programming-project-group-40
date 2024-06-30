@@ -1,19 +1,25 @@
 package models.cards;
 
 import enums.Ability;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
+import java.net.URL;
 import java.util.Objects;
 
 public abstract class Card extends Rectangle {
     protected final String name;
-
-    public Card(String name) {
+    protected final String planeImage;
+    protected final String cardImage;
+    public Card(String name, String planeImage, String cardImage) {
+        this.planeImage = planeImage;
+        this.cardImage = cardImage;
         this.setWidth(65);
         this.setHeight(90);
-        this.setFill(new Color(0.5,0.5,0.5,0.5));
+        setFill(new ImagePattern((new Image(Card.class.getResource(planeImage).toExternalForm()))));
         this.name = name;
     }
 
@@ -44,4 +50,5 @@ public abstract class Card extends Rectangle {
         }
         return false;
     }
+
 }
