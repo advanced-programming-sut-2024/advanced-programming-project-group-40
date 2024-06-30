@@ -43,7 +43,7 @@ public abstract class LeaderActions {
 
     private static void lordCommanderOfTheNorth() {
         if (matchTable.isFirstPlayerTurn()) {
-            if (matchTable.getSecondPlayerPoints().get(2) >= 10) {
+            if (matchTable.getSecondPlayerRowPoints().get(2) >= 10) {
                 UnitCard cardToDelete = null;
                 for (Card card : matchTable.getSecondPlayerSiegeRow()) {
                     if (cardToDelete == null) cardToDelete = (UnitCard) card;
@@ -54,7 +54,7 @@ public abstract class LeaderActions {
                 matchTable.getSecondPlayerSiegeRow().remove(cardToDelete);
             }
         } else {
-            if (matchTable.getFirstPlayerPoints().get(2) >= 10) {
+            if (matchTable.getFirstPlayerRowPoints().get(2) >= 10) {
                 UnitCard cardToDelete = null;
                 for (Card card : matchTable.getFirstPlayerSiegeRow()) {
                     if (cardToDelete == null) cardToDelete = (UnitCard) card;
@@ -69,11 +69,11 @@ public abstract class LeaderActions {
 
     private static void sonOfMedell() {
         if (matchTable.isFirstPlayerTurn()) {
-            if (matchTable.getSecondPlayerPoints().get(1) >= 10) {
+            if (matchTable.getSecondPlayerRowPoints().get(1) >= 10) {
                 removeStrongestRangedPlayer1();
             }
         } else {
-            if (matchTable.getFirstPlayerPoints().get(1) >= 10) {
+            if (matchTable.getFirstPlayerRowPoints().get(1) >= 10) {
                 removeStrongestRangedPlayer2();
             }
         }
@@ -98,8 +98,9 @@ public abstract class LeaderActions {
     }
 
     private static void emperorOfNilfgaard() {
-        //todo
-        //kys
+        matchTable.setSecondPlayerLeaderUsed(true);
+        matchTable.getLeaderEffects().setKingBran(false);
+        matchTable.getLeaderEffects().setSpyDoublePower(false);
     }
 
     private static void theRelentless() {
@@ -174,11 +175,11 @@ public abstract class LeaderActions {
 
     private static void queenOfDolBlathanna() {
         if (matchTable.isFirstPlayerTurn()) {
-            if (matchTable.getSecondPlayerPoints().getFirst() >= 10) {
+            if (matchTable.getSecondPlayerRowPoints().getFirst() >= 10) {
                 removeStrongestRangedPlayer1();
             }
         } else {
-            if (matchTable.getFirstPlayerPoints().getFirst() >= 10) {
+            if (matchTable.getFirstPlayerRowPoints().getFirst() >= 10) {
                 removeStrongestRangedPlayer2();
             }
         }
