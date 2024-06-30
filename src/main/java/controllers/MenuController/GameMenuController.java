@@ -214,6 +214,7 @@ public class GameMenuController extends Controller {
         return true;
     }
 
+
     private static int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
@@ -295,3 +296,4 @@ public class GameMenuController extends Controller {
         }
     }
 }
+

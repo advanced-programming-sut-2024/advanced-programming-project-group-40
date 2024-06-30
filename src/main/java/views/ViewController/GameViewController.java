@@ -26,7 +26,6 @@ import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
 import models.User;
-import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
@@ -37,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
     @FXML
@@ -198,10 +198,12 @@ public class GameViewController extends PlayMenu implements Initializable {
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
+
         secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
         firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
         firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
         secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+
 
         update();
     }
@@ -224,8 +226,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(STR."name:\{card.getName()}");
-                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
-                cardClickCommand.excute();
+
             });
         }
     }
@@ -387,6 +388,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 
+
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
         update();
@@ -444,3 +446,4 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 }
+

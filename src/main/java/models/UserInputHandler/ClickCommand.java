@@ -1,3 +1,4 @@
+
 package models.UserInputHandler;
 
 import controllers.MenuController.GameMenuController;
@@ -22,6 +23,8 @@ public class ClickCommand extends Command {
 
     @Override
     public void excute() {
+
         GameMenuController.ClickedOnCard(card,gameViewController);
     }
 }
+
