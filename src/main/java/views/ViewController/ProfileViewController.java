@@ -66,7 +66,7 @@ public class ProfileViewController {
         int num = 0;
         for (MatchTable matchTable : user.getMatchesPlayed()) {
             // todo  is competitor == second player?
-            Label competitorLabel = new Label(matchTable.getSecondPlayerPoints().toString());
+            Label competitorLabel = new Label(matchTable.getSecondPlayerRowPoints().toString());
             competitorLabel.setPrefHeight(46);
             competitorLabel.setPrefWidth(124);
             competitorLabel.setAlignment(Pos.CENTER);
@@ -78,19 +78,19 @@ public class ProfileViewController {
             dateLabel.setAlignment(Pos.CENTER);
             date.getChildren().add(dateLabel);
 
-            Label R1 = new Label(matchTable.getSecondPlayerPoints().get(0).toString());
+            Label R1 = new Label(matchTable.getSecondPlayerRowPoints().get(0).toString());
             R1.setPrefHeight(46);
             R1.setPrefWidth(124);
             R1.setAlignment(Pos.CENTER);
             competitorPoints1.getChildren().add(R1);
 
-            Label R2 = new Label(matchTable.getSecondPlayerPoints().get(1).toString());
+            Label R2 = new Label(matchTable.getSecondPlayerRowPoints().get(1).toString());
             R2.setPrefHeight(46);
             R2.setPrefWidth(124);
             R2.setAlignment(Pos.CENTER);
             competitorPoints2.getChildren().add(R2);
 
-            Label R3 = new Label(matchTable.getSecondPlayerPoints().get(2).toString());
+            Label R3 = new Label(matchTable.getSecondPlayerRowPoints().get(2).toString());
             R3.setPrefHeight(46);
             R3.setPrefWidth(124);
             R3.setAlignment(Pos.CENTER);
