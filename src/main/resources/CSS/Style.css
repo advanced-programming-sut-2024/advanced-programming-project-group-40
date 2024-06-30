@@ -2,6 +2,10 @@
     -fx-background-image: url('/Images/Backgrounds/witcherBackground.jpg');
     -fx-background-size: cover;
 }
+.faction-background{
+    -fx-background-image: url('/Images/789.jpg');
+    -fx-background-size: cover;
+}
 
 
 .profile-menu-background {
@@ -54,6 +58,7 @@
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
+
     -fx-background-color: rgb(71, 107, 101, 0.5);
 }
 
@@ -62,6 +67,7 @@
 .remove-background {
     -fx-background-color: transparent; /* Remove background color */
     -fx-background-insets: 0; /* Remove background insets */
+
 }
 
 .Question-Box {
@@ -100,6 +106,7 @@
 }
 
 .button-regular {
+
     -fx-pref-width: 98px;
     -fx-pref-height: 13px;
     -fx-font-size: 16px;

@@ -22,12 +22,14 @@
                                  </font></Label>
                            </children></HBox>
                         <VBox fx:id="competitor" alignment="TOP_CENTER" maxHeight="450.0" prefHeight="450.0" prefWidth="217.0">
+
                            <children>
                               <Label fx:id="competitorName1" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="124.0" text="Label" />
 
                            </children></VBox>
                      </children>
                   </VBox>
+
                   <VBox prefHeight="500.0" prefWidth="62.0" styleClass="Something">
                      <children>
                         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" styleClass="Something">
@@ -58,6 +60,7 @@
                                        <font>
                                           <Font name="System Bold" size="13.0" />
                                        </font></Label>
+
                                  </children>
                               </HBox>
                            </children>
@@ -66,10 +69,12 @@
                            <children>
                               <VBox fx:id="competitorPoints1" prefHeight="502.0" prefWidth="70.0" />
                               <VBox fx:id="userPoints1" prefHeight="502.0" prefWidth="70.0" />
+
                            </children>
                         </HBox>
                      </children>
                   </VBox>
+
                   <VBox prefHeight="500.0" prefWidth="141.0" styleClass="Something">
                      <children>
                         <VBox alignment="CENTER" prefHeight="49.0" prefWidth="96.0">
@@ -88,10 +93,12 @@
                                        <font>
                                           <Font size="13.0" />
                                        </font></Label>
+
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
+
                         <HBox prefHeight="442.0" prefWidth="160.0">
                            <children>
                               <VBox fx:id="userPoints2" prefHeight="502.0" prefWidth="70.0" />
@@ -117,12 +124,14 @@
                                        <font>
                                           <Font size="13.0" />
                                        </font></Label>
+
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
                         <HBox prefHeight="442.0" prefWidth="100.0">
                            <children>
+
                               <VBox fx:id="userPoints3" prefHeight="502.0" prefWidth="70.0" />
                               <VBox fx:id="competitorPoints3" prefHeight="502.0" prefWidth="70.0" />
                            </children></HBox>
@@ -166,6 +175,7 @@
                                  </font></Label>
                            </children></HBox>
                         <VBox fx:id="winner" maxHeight="450.0" prefHeight="502.0" prefWidth="75.0" />
+
                      </children>
                   </VBox>
 
@@ -173,6 +183,7 @@
             </HBox>
          </content>
       </ScrollPane>
+
       <TextField fx:id="numberOfGameHistory" layoutX="505.0" layoutY="248.0" prefWidth="38.0" />
       <Label layoutX="394.0" layoutY="254.0" text="Game History">
          <font>

@@ -34,10 +34,27 @@ import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
+    @FXML
+    private Label firstPlayerTotalScore;
+    @FXML
+    private Label secondPlayerTotalScore;
+    @FXML
+    private Label SecondPlayerSiegeNum;
+    @FXML
+    private Label SecondPlayerRangedNum;
+    @FXML
+    private Label FirstPlayerCloseCombatNum;
+    @FXML
+    private Label SecondPlayerCloseCombatNum;
+    @FXML
+    private Label FirstPlayerRangedNum;
+    @FXML
+    private Label FirstPlayerSiegeNum;
     @FXML
     private GridPane pane;
     @FXML
@@ -118,9 +135,6 @@ public class GameViewController extends PlayMenu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //todo
-        //initialize faction and leader images for each player
-
         User tempUser = new User("a", "a", "a", "a");
 
         tempUser.setFaction("as");
@@ -128,30 +142,69 @@ public class GameViewController extends PlayMenu implements Initializable {
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
         UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
         UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
-        UnitCard card3 = new UnitCard(UnitCardInfo.ICE_GIANT);
+        UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
-        SpecialCard card5 = new SpecialCard(SpecialCardInfo.COMMANDERS_HORN);
+        UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
+        UnitCard card10 = new UnitCard(UnitCardInfo.DOL_BLATHANNA_SCOUT);
+        UnitCard card11 = new UnitCard(UnitCardInfo.LIGHT_LONGSHIP);
+        UnitCard card12 = new UnitCard(UnitCardInfo.PLAGUE_MAIDEN);
+        UnitCard card13 = new UnitCard(UnitCardInfo.DECOY);
+        UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
+        UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
+        UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
+        UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
+        SpecialCard card5 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
-        SpecialCard card7 = new SpecialCard(SpecialCardInfo.SKELLIGE_STORM);
-        SpecialCard card8 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
+        SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
+        SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
+        //test
+        HashSet<Card> cards = new HashSet<>();
+        cards.add(card1);
+        cards.add(card2);
+        cards.add(card3);
+        cards.add(card4);
+        cards.add(card5);
+        cards.add(card6);
+        cards.add(card7);
+        cards.add(card8);
+        cards.add(card9);
+        cards.add(card10);
+        cards.add(card11);
+        cards.add(card12);
+        cards.add(card13);
+        cards.add(card14);
+        cards.add(card15);
+        System.out.println("cum shit n piss"+cards.size());
+
+        //////////////////////////
 
 
+        GameMenuController.getMatchTable().setFirstPlayerTurn(true);
         GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
         Game.getLoggedInUser().getDeckCards().add(card1);
         Game.getLoggedInUser().getDeckCards().add(card2);
-        Game.getLoggedInUser().getDeckCards().add(card3);
         Game.getLoggedInUser().getDeckCards().add(card5);
+        GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
         Game.getLoggedInUser().getDeckCards().add(card6);
         Game.getLoggedInUser().getDeckCards().add(card7);
         Game.getLoggedInUser().getDeckCards().add(card8);
-
+        Game.getLoggedInUser().getDeckCards().add(card9);
+        Game.getLoggedInUser().getDeckCards().add(card10);
+        Game.getLoggedInUser().getDeckCards().add(card11);
+        Game.getLoggedInUser().getDeckCards().add(card12);
+        Game.getLoggedInUser().getDeckCards().add(card13);
+        Game.getLoggedInUser().getDeckCards().add(card14);
+        Game.getLoggedInUser().getDeckCards().add(card15);
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
-//        secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickName()}");
-//        firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickName()}");
-//        firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
-//        secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+
+        secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
+        firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
+        firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
+        secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+
+
         update();
     }
 
@@ -230,11 +283,19 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     private void update() {
+        GameMenuController.getMatchTable().updatePoints();
         firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
         secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
         firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerInPlayCards().size()}");
         secondPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerInPlayCards().size()}");
-
+        FirstPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(0).toString());
+        FirstPlayerRangedNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(1).toString());
+        FirstPlayerSiegeNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(2).toString());
+        SecondPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(0).toString());
+        SecondPlayerRangedNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(1).toString());
+        SecondPlayerSiegeNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(2).toString());
+        firstPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(0)}");
+        secondPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(1)}");
         if (GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard() != null) {
             firstplayerclosecombatspecial.getChildren().clear();
             firstplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard());
@@ -260,42 +321,63 @@ public class GameViewController extends PlayMenu implements Initializable {
             secondplayersiegespecial.getChildren().clear();
             secondplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard());
         }
-
-        if (!GameMenuController.getMatchTable().getFirstPlayerInPlayCards().isEmpty()) {
+        //f inplay
+        if (!(GameMenuController.getMatchTable().getFirstPlayerInPlayCards().isEmpty() &&
+                Hand.getChildren().isEmpty())) {
             Hand.getChildren().clear();
-            System.out.println(Hand.getChildren());
             Hand.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerInPlayCards());
         }
-
-        if (!GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().isEmpty()) {
+        //fs
+        if (!(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().isEmpty() &&
+                firstPlayerCloseCombat.getChildren().isEmpty())) {
             firstPlayerCloseCombat.getChildren().clear();
             firstPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow());
         }
-        if (!GameMenuController.getMatchTable().getFirstPlayerRangedRow().isEmpty()) {
+        //fr
+        if (!(GameMenuController.getMatchTable().getFirstPlayerRangedRow().isEmpty() &&
+                firstPlayerRanged.getChildren().isEmpty())) {
             firstPlayerRanged.getChildren().clear();
             firstPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerRangedRow());
         }
-        if (!GameMenuController.getMatchTable().getFirstPlayerSiegeRow().isEmpty()) {
+        //fs
+        if (!(GameMenuController.getMatchTable().getFirstPlayerSiegeRow().isEmpty() &&
+                firstPlayerSiege.getChildren().isEmpty())) {
             firstPlayerSiege.getChildren().clear();
             firstPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerSiegeRow());
         }
-
-        if (!GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow().isEmpty()) {
+        //sc
+        if (!(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow().isEmpty() &&
+                secondPlayerCloseCombat.getChildren().isEmpty())) {
             secondPlayerCloseCombat.getChildren().clear();
             secondPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow());
         }
-        if (!GameMenuController.getMatchTable().getSecondPlayerRangedRow().isEmpty()) {
+        //sr
+        if (!(GameMenuController.getMatchTable().getSecondPlayerRangedRow().isEmpty() &&
+                secondPlayerRanged.getChildren().isEmpty())) {
             secondPlayerRanged.getChildren().clear();
             secondPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerRangedRow());
         }
-        if (!GameMenuController.getMatchTable().getSecondPlayerSiegeRow().isEmpty()) {
+        //ss
+        if (!(GameMenuController.getMatchTable().getSecondPlayerSiegeRow().isEmpty() &&
+                secondPlayerSiege.getChildren().isEmpty())) {
             secondPlayerSiege.getChildren().clear();
             secondPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerSiegeRow());
         }
-        if (!GameMenuController.getMatchTable().getSpellCards().isEmpty()) {
+        //spell
+        if (!(GameMenuController.getMatchTable().getSpellCards().isEmpty() &&
+                spellCards.getChildren().isEmpty())) {
             spellCards.getChildren().clear();
             spellCards.getChildren().addAll(GameMenuController.getMatchTable().getSpellCards());
-            System.out.println(firstPlayerDiscard);
+        }
+        if (!(GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty() &&
+                firstPlayerDiscard.getChildren().isEmpty())) {
+            firstPlayerDiscard.getChildren().clear();
+            firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
+        }
+        if (!(GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty() &&
+                secondPlayerDiscard.getChildren().isEmpty())) {
+            secondPlayerDiscard.getChildren().clear();
+            secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
         }
         InitiateCardEvents();
 
@@ -306,60 +388,62 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 
-//    public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
-//        update();
-//    }
-//
-//    public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
-//        update();
-//    }
-//
-//
-//    public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-//        update();
-//    }
-//
-//    public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-//        update();
-//    }
-//
-//    public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
-//        update();
-//    }
-//
-//    public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
-//        update();
-//    }
-//
-//    public void closeCombatBoostClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnBoost(0);
-//        update();
-//    }
-//
-//    public void rangedBoostClicked(MouseEvent mouseEvent) {
-//        System.out.println("here");
-//        GameMenuController.ClickedOnBoost(1);
-//        System.out.println(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
-//        if (GameMenuController.getMatchTable().getFirstPlayerInPlayCards().contains(new SpecialCard(SpecialCardInfo.COMMANDERS_HORN))){
-//            System.out.println("kys");
-//        }
-//        System.out.println(firstplayerrangedspecial.getChildren());
-//        update();
-//    }
-//
-//    public void siegeBoostClicked(MouseEvent mouseEvent) {
-//        GameMenuController.ClickedOnBoost(2);
-//        update();
-//    }
-//
-//    public void weatherClicked(MouseEvent mouseEvent) {
-//        GameMenuController.clickedOnWeather();
-//        update();
-//    }
+
+    public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+        update();
+    }
+
+    public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+        update();
+    }
+
+
+    public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
+        update();
+    }
+
+    public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
+        update();
+    }
+
+    public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
+        update();
+    }
+
+    public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
+        update();
+    }
+
+    public void closeCombatBoostClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnBoost(0);
+        update();
+    }
+
+    public void rangedBoostClicked(MouseEvent mouseEvent) {
+        System.out.println("here");
+        GameMenuController.ClickedOnBoost(1);
+        System.out.println(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
+        if (GameMenuController.getMatchTable().getFirstPlayerInPlayCards().contains(new SpecialCard(SpecialCardInfo.COMMANDERS_HORN))) {
+            System.out.println("kys");
+        }
+        System.out.println(firstplayerrangedspecial.getChildren());
+        update();
+    }
+
+    public void siegeBoostClicked(MouseEvent mouseEvent) {
+        GameMenuController.ClickedOnBoost(2);
+        update();
+    }
+
+    public void weatherClicked(MouseEvent mouseEvent) {
+        GameMenuController.clickedOnWeather();
+        update();
+    }
 }
+

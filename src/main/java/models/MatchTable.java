@@ -21,8 +21,7 @@ public class MatchTable {
     private int round = 1;
     private Date date;
     private LeaderEffects leaderEffects = new LeaderEffects();
-    private final ArrayList<Integer> firstPlayerPoints = new ArrayList<>();
-    private final ArrayList<Integer> secondPlayerPoints = new ArrayList<>();
+
     private int firstPlayerCurrentPoint;
     private int secondPlayerCurrentPoint;
     private final ArrayList<Integer> firstPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
@@ -92,6 +91,29 @@ public class MatchTable {
             retVal += ((UnitCard) card).getShowingPower();
         }
         return retVal;
+    }
+
+    public void doDecoy(CardWrapper decoy , CardWrapper cardToSwap){
+        this.placeCard(decoy
+                ,0
+                ,getRowID(cardToSwap.getOrigin()));
+
+        this.addToInPlayCards(0,cardToSwap);
+
+    }
+    private static int getRowID(Origin origin) {
+        switch (origin) {
+            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
+                return 0;
+            }
+            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
+                return 1;
+            }
+            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
+                return 2;
+            }
+        }
+        return -1;
     }
 
     public void setPlayerRowScore(int user_id, int rowNumber) {
@@ -218,6 +240,26 @@ public class MatchTable {
         return secondPlayerSiegeBoostCard;
     }
 
+    public void setFirstPlayerTurn(boolean firstPlayerTurn) {
+        isFirstPlayerTurn = firstPlayerTurn;
+    }
+
+    public void setSecondPlayerPassed(boolean secondPlayerPassed) {
+        this.secondPlayerPassed = secondPlayerPassed;
+    }
+
+    public void setFirstPlayerPassed(boolean firstPlayerPassed) {
+        this.firstPlayerPassed = firstPlayerPassed;
+    }
+
+    public void setFirstPlayerLeaderUsed(boolean firstPlayerLeaderUsed) {
+        isFirstPlayerLeaderUsed = firstPlayerLeaderUsed;
+    }
+
+    public void setSecondPlayerLeaderUsed(boolean secondPlayerLeaderUsed) {
+        isSecondPlayerLeaderUsed = secondPlayerLeaderUsed;
+    }
+
     public boolean isFirstPlayerLeaderUsed() {
         return isFirstPlayerLeaderUsed;
     }
@@ -226,13 +268,6 @@ public class MatchTable {
         return isSecondPlayerLeaderUsed;
     }
 
-    public ArrayList<Integer> getFirstPlayerPoints() {
-        return firstPlayerPoints;
-    }
-
-    public ArrayList<Integer> getSecondPlayerPoints() {
-        return secondPlayerPoints;
-    }
 
     public int getFirstPlayerCurrentPoint() {
         return firstPlayerCurrentPoint;
@@ -347,8 +382,6 @@ public class MatchTable {
     }
 
 
-
-
     //places card and acivates ability
     public void placeCard(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
@@ -371,8 +404,11 @@ public class MatchTable {
                     else inverseUserID = 1;
                     row = getRowByID(inverseUserID, rowNumber);
                     row.add(cardWrapper.getCard());
+                    removeCard(cardWrapper);
                 }
                 case MUSTER -> {
+                    row.add(cardWrapper.getCard());
+                    removeCard(cardWrapper);
                     UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
@@ -383,8 +419,11 @@ public class MatchTable {
                     row.add(cardWrapper.getCard());
                 }
             }
+            removeCard(cardWrapper);
+        } else {
+            row.add(cardWrapper.getCard());
+            removeCard(cardWrapper);
         }
-
     }
 
     //places card without acivating ability
@@ -392,6 +431,7 @@ public class MatchTable {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
         row.add(cardWrapper.getCard());
     }
+
     public void removeCard(CardWrapper cardWrapper) {
         switch (cardWrapper.getOrigin()) {
             case Origin.FIRSTPLAYER_CLOSECOMBAT:
@@ -424,7 +464,6 @@ public class MatchTable {
                 break;
             case Origin.FIRSTPLAYER_INPLAY:
                 firstPlayerInPlayCards.remove(cardWrapper.getCard());
-                System.out.println("sex");
                 break;
             case Origin.SECONDPLAYER_INPLAY:
                 secondPlayerInPlayCards.remove(cardWrapper.getCard());
@@ -445,6 +484,7 @@ public class MatchTable {
 
         }
     }
+
     //places card
     public void placeBoostCard(CardWrapper cardWrapper, int userID, int rowNumber) {
         switch (cardWrapper.getCard().getName()) {
@@ -482,11 +522,13 @@ public class MatchTable {
                 break;
             case "Mardroeme":
                 applyMardroeme(userID, rowNumber);
+                removeCard(cardWrapper);
                 break;
             default:
 
         }
     }
+
     public void placeBoostCard(Card card, int userID, int rowNumber) {
         switch (card.getName()) {
             case "Commander's Horn":
@@ -529,14 +571,21 @@ public class MatchTable {
     }
 
     //places card in spell cards
-    public void addToSpellCards(Card card) {
-        if (Objects.equals(card.getName(), "Clear Weather")) {
-            spellCards.add(card);
-            firstPlayerDeadCards.addAll(spellCards);
-        } else {
-            spellCards.add(card);
-        }
+    public void addToSpellCards(CardWrapper cardWrapper) {
+        if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
+            spellCards.add(cardWrapper.getCard());
+            removeCard(cardWrapper);
+            while (!spellCards.isEmpty()) {
+                addToDeadCards(0, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
+            }
+        } else if (Objects.equals(cardWrapper.getCard().getName(), "Scorch")) {
+            removeCard(cardWrapper);
+            UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), -1, -1, "scorch", this);
 
+        } else {
+            spellCards.add(cardWrapper.getCard());
+            removeCard(cardWrapper);
+        }
     }
 
     //places card to inplay cards
@@ -549,6 +598,7 @@ public class MatchTable {
                 secondPlayerInPlayCards.add(cardWrapper.getCard());
                 break;
         }
+        removeCard(cardWrapper);
     }
 
     //places card to deck cards
@@ -567,14 +617,26 @@ public class MatchTable {
     public void addToDeadCards(int userID, Card card) {
         switch (userID) {
             case 0:
-                spellCards.remove(card);
-                firstPlayerDeckCards.add(card);
+                firstPlayerDeadCards.add(card);
                 break;
             case 1:
                 secondPlayerDeadCards.add(card);
                 break;
         }
     }
+
+    public void addToDeadCards(int userID, CardWrapper cardWrapper) {
+        switch (userID) {
+            case 0:
+                firstPlayerDeadCards.add(cardWrapper.getCard());
+                break;
+            case 1:
+                secondPlayerDeadCards.add(cardWrapper.getCard());
+                break;
+        }
+        removeCard(cardWrapper);
+    }
+
 
     public void updatePoints() {
         //update everything
@@ -979,11 +1041,11 @@ public class MatchTable {
         boolean x;
         switch (user_id) {
             case 0:
-                x = isThereCommanderHorn(rowID, firstPlayerCloseCombatBoostCard, firstPlayerRangedBoostCard, firstPlayerSiegeBoostCard);
+                x = isThereCommanderHorn(user_id, rowID);
                 if (x) return true;
                 break;
             case 1:
-                x = isThereCommanderHorn(rowID, secondPlayerCloseCombatBoostCard, secondPlayerRangedBoostCard, secondPlayerSiegeBoostCard);
+                x = isThereCommanderHorn(user_id, rowID);
                 if (x) return true;
                 break;
         }
@@ -1012,25 +1074,36 @@ public class MatchTable {
 
 
     //checks for commander horn in the given boost card place
-    private boolean isThereCommanderHorn(int rowID, Card secondPlayerCloseCombatBoostCard,
-                                         Card secondPlayerRangedBoostCard,
-                                         Card secondPlayerSiegeBoostCard) {
-        switch (rowID) {
+    private boolean isThereCommanderHorn(int userID, int rowID) {
+        switch (userID) {
             case 0:
-                if (secondPlayerCloseCombatBoostCard != null) {
-                    if (Objects.equals(secondPlayerCloseCombatBoostCard.getName(), "Commander's Horn")) return true;
+                switch (rowID) {
+                    case 0:
+                        if (firstPlayerCloseCombatBoostCard != null) return true;
+                        break;
+                    case 1:
+                        if (firstPlayerRangedBoostCard != null) return true;
+                        break;
+                    case 2:
+                        if (firstPlayerSiegeBoostCard != null) return true;
+
+                        break;
                 }
                 break;
             case 1:
-                if (secondPlayerRangedBoostCard != null) {
-                    if (Objects.equals(secondPlayerRangedBoostCard.getName(), "Commander's Horn")) return true;
+                switch (rowID) {
+                    case 0:
+                        if (secondPlayerCloseCombatBoostCard != null) return true;
+                        break;
+                    case 1:
+                        if (secondPlayerRangedBoostCard != null) return true;
+                        break;
+                    case 2:
+                        if (secondPlayerSiegeBoostCard != null) return true;
+                        break;
                 }
                 break;
-            case 2:
-                if (secondPlayerSiegeBoostCard != null) {
-                    if (Objects.equals(secondPlayerSiegeBoostCard.getName(), "Commander's Horn")) return true;
-                }
-                break;
+
         }
         return false;
     }
@@ -1072,13 +1145,13 @@ public class MatchTable {
         ArrayList<Card> toRemove = new ArrayList<>();
         for (Card card : row) {
             UnitCard unitCard = (UnitCard) card;
-            if (unitCard.getAbility() == Ability.MARDROEME) {
+            if (unitCard.getAbility() == Ability.BERSERKER) {
                 berserkerNum++;
                 toRemove.add(unitCard);
             }
         }
         row.removeAll(toRemove);
-        UnitCard unitCard = new UnitCard(UnitCardInfo.ALBRICH);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
 
