@@ -14,7 +14,7 @@
         </ScrollPane>
         <ScrollPane layoutX="601.0" layoutY="162.0" prefHeight="519.0" prefWidth="378.0">
             <content>
-                <FlowPane prefHeight="1000.0" prefWidth="361.0"/>
+                <FlowPane fx:id="selectCard" prefHeight="1000.0" prefWidth="361.0"/>
             </content>
         </ScrollPane>
         <VBox alignment="TOP_CENTER" layoutX="423.0" layoutY="150.0" prefHeight="532.0" prefWidth="159.0">

@@ -16,7 +16,6 @@ public class Main extends Application {
     //this is a test class only and main extending application is not needed
 
     public static void main(String[] args) {
-        Game.setAllCards();
         launch(args);
     }
 

@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.Objects;
-import java.util.Scanner;
 
 public class PreGameMenu extends PlayMenu {
     public static void main(String[] args) {
