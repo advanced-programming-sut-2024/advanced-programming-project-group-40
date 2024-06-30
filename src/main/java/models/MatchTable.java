@@ -430,6 +430,7 @@ public class MatchTable {
     public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
         row.add(cardWrapper.getCard());
+        removeCard(cardWrapper);
     }
 
     public void removeCard(CardWrapper cardWrapper) {
@@ -849,6 +850,11 @@ public class MatchTable {
         return null;
     }
 
+
+    public void doMedic(CardWrapper cardWrapper) {
+        firstPlayerInPlayCards.add(cardWrapper.getCard());
+        removeCard(cardWrapper);
+    }
     public static int getRowPower(LeaderEffects leaderEffects,
                                   boolean weather,
                                   boolean boost,
@@ -1178,5 +1184,6 @@ public class MatchTable {
         //todo
 
     }
+
 
 }

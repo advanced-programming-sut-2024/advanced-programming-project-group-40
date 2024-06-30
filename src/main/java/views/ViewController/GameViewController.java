@@ -146,10 +146,10 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
         UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
-        UnitCard card10 = new UnitCard(UnitCardInfo.CRONE_WHISPESS);
+        UnitCard card10 = new UnitCard(UnitCardInfo.HAVEKAR_HEALER);
         UnitCard card11 = new UnitCard(UnitCardInfo.CRONE_WEAVESS);
         UnitCard card12 = new UnitCard(UnitCardInfo.CRONE_BREWESS);
-        UnitCard card13 = new UnitCard(UnitCardInfo.DECOY);
+        UnitCard card13 = new UnitCard(UnitCardInfo.CRONE_WHISPESS);
         UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
         UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
         UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
@@ -286,7 +286,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         secondPlayerCloseCombat.setEffect(null);
     }
 
-    private void update() {
+    public void update() {
         GameMenuController.getMatchTable().updatePoints();
         firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
         secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
@@ -394,49 +394,38 @@ public class GameViewController extends PlayMenu implements Initializable {
 
 
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE,this);
         update();
     }
 
     public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED,this);
         update();
     }
 
 
     public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-        update();
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT,this);
     }
 
     public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-        update();
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT,this);
     }
 
     public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
-        update();
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED,this);
     }
 
     public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
-        update();
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE,this);
     }
 
     public void closeCombatBoostClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnBoost(0);
-        update();
     }
 
     public void rangedBoostClicked(MouseEvent mouseEvent) {
-        System.out.println("here");
         GameMenuController.ClickedOnBoost(1);
-        System.out.println(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
-        if (GameMenuController.getMatchTable().getFirstPlayerInPlayCards().contains(new SpecialCard(SpecialCardInfo.COMMANDERS_HORN))) {
-            System.out.println("kys");
-        }
-        System.out.println(firstplayerrangedspecial.getChildren());
         update();
     }
 
@@ -448,6 +437,10 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void weatherClicked(MouseEvent mouseEvent) {
         GameMenuController.clickedOnWeather();
         update();
+    }
+
+    public HBox getFirstPlayerDiscard() {
+        return firstPlayerDiscard;
     }
 }
 

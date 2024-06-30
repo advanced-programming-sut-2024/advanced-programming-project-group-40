@@ -3,6 +3,10 @@ package controllers.MenuController;
 import controllers.Controller;
 import enums.Ability;
 import enums.Origin;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.MatchTable;
 import models.Result;
 import models.cards.*;
@@ -12,6 +16,7 @@ import java.util.Objects;
 
 public class GameMenuController extends Controller {
     private static MatchTable matchTable;
+    private static Stage tempStage;
 
     public static MatchTable getMatchTable() {
         return matchTable;
@@ -28,16 +33,24 @@ public class GameMenuController extends Controller {
     }
 
     public static void ClickedOnCard(Card selectedCard1, GameViewController gameViewController) {
-        if (isSelectable(selectedCard1)) {
-            selectedCard = selectedCard1;
-            gameViewController.unHighlight();
-            Origin origin = GetDestination();
-            gameViewController.highLightRow(origin);
+        if (Objects.equals(selectedCard1.getParent().getId(), "tempRow")) {
+            matchTable.doMedic(new CardWrapper(selectedCard1, Origin.FIRSTPLATER_DEAD));
+            tempStage.close();
+            gameViewController.update();
         } else {
-            if (Objects.equals(selectedCard.getName(), "Decoy")) {
-                matchTable.doDecoy(new CardWrapper(selectedCard,getCardOrigin(selectedCard)),
-                        new CardWrapper(selectedCard1,getCardOrigin(selectedCard1)));
-                selectedCard = null;
+            if (isSelectable(selectedCard1)) {
+                selectedCard = selectedCard1;
+                gameViewController.unHighlight();
+                Origin origin = GetDestination();
+                gameViewController.highLightRow(origin);
+            } else {
+                if (selectedCard != null) {
+                    if (Objects.equals(selectedCard.getName(), "Decoy")) {
+                        matchTable.doDecoy(new CardWrapper(selectedCard, getCardOrigin(selectedCard)),
+                                new CardWrapper(selectedCard1, getCardOrigin(selectedCard1)));
+                        selectedCard = null;
+                    }
+                }
             }
         }
     }
@@ -76,7 +89,9 @@ public class GameMenuController extends Controller {
                         return Origin.FIRSTPLAYER_RANGED;
 
                     }
-                    case All -> {return Origin.FIRSTPLAYER_ALL;}
+                    case All -> {
+                        return Origin.FIRSTPLAYER_ALL;
+                    }
                 }
             }
 
@@ -270,14 +285,39 @@ public class GameMenuController extends Controller {
         return origin;
     }
 
-    public static void ClickedOnRow(Origin origin) {
+    public static void ClickedOnRow(Origin origin, GameViewController gameViewController) {
         Origin destination = GetDestination();
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
+                boolean isMedic = false;
+                if (selectedCard instanceof UnitCard unitCard) {
+                    if (unitCard.getAbility() == Ability.MEDIC) {
+                        isMedic = true;
+                    }
+                } else if (selectedCard instanceof Hero hero) {
+                    if (hero.getAbility() == Ability.MEDIC) {
+                        isMedic = true;
+                    }
+                }
                 matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
+                gameViewController.update();
+                if (isMedic) {
+                    gameViewController.getFirstPlayerDiscard().getChildren().clear();
+                    tempStage = new Stage();
+                    tempStage.setHeight(140);
+                    tempStage.setWidth(800);
+                    tempStage.setResizable(false);
+                    HBox hBox = new HBox();
+                    Scene scene = new Scene(hBox);
+                    hBox.getChildren().addAll(matchTable.getFirstPlayerDeadCards());
+                    hBox.setId("tempRow");
+                    tempStage.setScene(scene);
+                    tempStage.show();
+                }
                 selectedCard = null;
             }
         }
+
     }
 
     public static void ClickedOnBoost(int rowID) {
