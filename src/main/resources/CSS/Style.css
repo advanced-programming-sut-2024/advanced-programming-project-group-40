@@ -2,10 +2,13 @@
     -fx-background-image: url('/Images/Backgrounds/witcherBackground.jpg');
     -fx-background-size: cover;
 }
-.faction-background{
-    -fx-background-image: url('/Images/789.jpg');
+
+
+.profile-menu-background {
+    -fx-background-image: url('/Images/Backgrounds/deckBackground.jpg');
     -fx-background-size: cover;
 }
+
 
 .Sign-Up-background {
     -fx-background-image: url('/images/Backgrounds/123.png');
@@ -46,20 +49,27 @@
     -fx-font-family: "Cambria"; /* Font family */
 }
 
-.Box{
+.Box {
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
-    -fx-background-color: rgb(71, 107, 101,0.5);
+    -fx-background-color: rgb(71, 107, 101, 0.5);
 }
 
-.Question-Box{
+
+
+.remove-background {
+    -fx-background-color: transparent; /* Remove background color */
+    -fx-background-insets: 0; /* Remove background insets */
+}
+
+.Question-Box {
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #F8EECB;
-    -fx-background-color: rgb(248, 238, 203,0.4);
+    -fx-background-color: rgb(248, 238, 203, 0.4);
 }
 
 .label.yellow {
@@ -79,6 +89,7 @@
     -fx-background-radius: 5px;
     -fx-prompt-text-fill: #a6b9b4; /* Prompt text color (tomato) */
 }
+
 .text-field:focused {
     /*-fx-pref-width: 190px; !* Set preferred width for button2 *!*/
     /*-fx-pref-height: 35px; !* Set preferred height for button2 *!*/
@@ -88,13 +99,13 @@
     -fx-border-color: #C2E7E3; /* Border color when focused (tomato) */
 }
 
-.button-regular{
+.button-regular {
     -fx-pref-width: 98px;
     -fx-pref-height: 13px;
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
-    -fx-background-color: rgb(194, 231, 227,0.5); /* Background color */
+    -fx-background-color: rgb(194, 231, 227, 0.5); /* Background color */
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: #C2E7E3; /* Remove border color */
     -fx-border-width: 3px; /* Remove border width */
@@ -104,27 +115,26 @@
 
 }
 
-.button-regular:hover{
+.button-regular:hover {
     -fx-pref-width: 98px; /* Set preferred width for button2 */
     -fx-pref-height: 13px; /* Set preferred height for button2 */
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
-    -fx-background-color: rgb(194, 231, 227,1); /* Remove background color */
+    -fx-background-color: rgb(194, 231, 227, 1); /* Remove background color */
     -fx-text-fill: #3D5954FF; /* Set text color */
     font-weight: bold;
     -fx-cursor: hand; /* Change cursor to hand */
 
 }
 
-.label-header{
-    -fx-effect: dropshadow( gaussian , rgb(179, 217, 209,0.75), 10,0,0,1 );
-
+.label-header {
+    -fx-effect: dropshadow(gaussian, rgb(179, 217, 209, 0.75), 10, 0, 0, 1);
 }
 
 
 /* Default style for ImageView */
 .image-view {
-    -fx-effect: dropshadow( gaussian , rgb(179, 217, 209,0.75), 10,0,0,1 );
+    -fx-effect: dropshadow(gaussian, rgb(179, 217, 209, 0.75), 10, 0, 0, 1);
     -fx-padding: 10;
     -fx-background-color: transparent;
     -fx-border-radius: 5;
@@ -143,6 +153,43 @@
 .image-view.enlarged {
     -fx-scale-x: 1.1; /* Scale the image width by 1.5 */
     -fx-scale-y: 1.1; /* Scale the image height by 1.5 */
+}
+
+profile-menu-scroll-pane {
+    -fx-background-color: transparent; /* Remove background color */
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: transparent; /* Remove border color */
+
+    /*-fx-background-color: rgba(21, 17, 15, 0.9);*/
+    /*-fx-background-radius: 30px;*/
+    /*-fx-border-radius: 30px*/
+}
+
+.profile-menu-scroll-pane .viewport {
+    /*-fx-background-color: transparent; !* Remove background color *!*/
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: #f8eecb; /* Remove border color */
+    -fx-border-width: 2px; /* Remove border width */
+
+    -fx-background-color: #31261D;
+    /*-fx-background-radius: 20;*/
+    /*-fx-border-radius: 20;*/
+}
+
+.profile-menu-scroll-pane.scroll-bar:vertical {
+-fx-opacity: 0;
+    -fx-pref-width: 0;
+}
+
+.profile-menu-scroll-pane .scroll-bar .thumb {
+    -fx-background-color: rgba(101, 88, 71);
+    /*-fx-background-radius: 20;*/
+    /*-fx-border-radius: 20;*/
+}
+
+.Something{
+    -fx-border-color: #f8eecb; /* Remove border color */
+    -fx-border-width: 1px; /* Remove border width */
 }
 
 
