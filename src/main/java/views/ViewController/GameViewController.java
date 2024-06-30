@@ -136,6 +136,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         //todo
         //initialize faction and leader images for each player
 
+
         User tempUser = new User("a", "a", "a", "a");
 
         tempUser.setFaction("as");
@@ -187,9 +188,11 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
+
                 System.out.println(STR."name:\{card.getName()}");
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
+
             });
         }
     }
