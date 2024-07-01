@@ -1,10 +1,7 @@
 package views.ViewController;
 
 import javafx.scene.input.MouseEvent;
-import views.ForgetPasswordMenu;
-import views.GameView;
-import views.LoginMenu;
-import views.MainMenu;
+import views.*;
 
 public class MainViewController {
     public void goToGameMenu(MouseEvent mouseEvent) {
@@ -17,7 +14,7 @@ public class MainViewController {
 
     public void goToProfileMenu(MouseEvent mouseEvent) {
         try {
-            new ForgetPasswordMenu().start(LoginMenu.stage);
+            new ProfileMenu().start(MainMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -26,6 +23,14 @@ public class MainViewController {
     public void SignOut(MouseEvent mouseEvent) {
         try {
             new LoginMenu().start(MainMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToScoreBoard(MouseEvent mouseEvent) {
+        try {
+            new ScoreBoard().start(MainMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

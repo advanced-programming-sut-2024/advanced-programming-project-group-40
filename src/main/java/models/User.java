@@ -23,6 +23,7 @@ public class User {
     private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
+
     public User(String username, String password, String email, String nickName) {
         this.username = username;
         this.password = password;
@@ -191,5 +192,6 @@ public class User {
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
     }
+
 
 }

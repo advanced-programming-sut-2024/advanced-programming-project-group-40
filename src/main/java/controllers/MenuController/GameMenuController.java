@@ -36,6 +36,7 @@ public class GameMenuController extends Controller {
             gameViewController.unHighlight();
             Origin origin = GetDestination();
             gameViewController.highLightRow(origin);
+            System.out.println("selected");
         }
     }
 
@@ -210,6 +211,7 @@ public class GameMenuController extends Controller {
         return true;
     }
 
+
     private static int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
@@ -223,6 +225,46 @@ public class GameMenuController extends Controller {
             }
         }
         return -1;
+    }
+
+    private static Origin getCardOrigin(Card card) {
+        Origin origin;
+        switch (card.getParent().getId()) {
+            case "firstPlayerCloseCombat" -> {
+                origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
+            }
+            case "firstPlayerRanged" -> {
+                origin = Origin.FIRSTPLAYER_RANGED;
+            }
+            case "firstPlayerSiege" -> {
+                origin = Origin.FIRSTPLAYER_SIEGE;
+            }
+            case "secondPlayerCloseCombat" -> {
+                origin = Origin.SECONDPLAYER_CLOSECOMBAT;
+            }
+            case "secondPlayerRanged" -> {
+                origin = Origin.SECONDPLAYER_RANGED;
+            }
+            case "secondPlayerSiege" -> {
+                origin = Origin.SECONDPLAYER_SIEGE;
+            }
+            case "spellCards" -> {
+                origin = Origin.WEATHER;
+            }
+            case "firstPlayerDiscard" -> {
+                origin = Origin.FIRSTPLATER_DEAD;
+            }
+            case "secondPlayerDiscard" -> {
+                origin = Origin.SECONDPLAYER_DEAD;
+            }
+            case "Hand" -> {
+                origin = Origin.FIRSTPLAYER_INPLAY;
+            }
+            default -> {
+                origin = Origin.NULL;
+            }
+        }
+        return origin;
     }
 
     public static void ClickedOnRow(Origin origin) {
@@ -254,3 +296,4 @@ public class GameMenuController extends Controller {
         }
     }
 }
+

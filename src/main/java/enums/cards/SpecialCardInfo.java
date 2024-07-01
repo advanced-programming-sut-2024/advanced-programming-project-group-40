@@ -12,7 +12,6 @@ public enum SpecialCardInfo {
     CLEAR_WEATHER("Clear Weather", "/Assets/Cards/Plane/weather_clear.jpg", "/Assets/Cards/Detailed/weather_clear.jpg",3),
     SCORCH("Scorch", "/Assets/Cards/Plane/special_scorch.jpg", "/Assets/Cards/Detailed/special_scorch.jpg",3),
     COMMANDERS_HORN("Commander’s horn", "/Assets/Cards/Plane/special_horn.jpg", "/Assets/Cards/Detailed/special_horn.jpg",3),
-    DECOY("Decoy", "/Assets/Cards/Plane/special_decoy.jpg", "/Assets/Cards/Detailed/special_decoy.jpg",3);
     ;
     public final String name;
     public final String planeImage;

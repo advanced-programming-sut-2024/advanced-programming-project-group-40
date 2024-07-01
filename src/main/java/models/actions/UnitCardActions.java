@@ -31,15 +31,15 @@ public abstract class UnitCardActions {
     }
 
     private static void muster(Card card, int userID, int rowNumber) {
-        Pattern pattern = Pattern.compile("(?<string>.+)(?=:)");
-        String musterName;
+        Pattern pattern = Pattern.compile("(?<name>.+):");
+        String musterName="";
         if (!card.getName().contains(":")) {
             musterName = card.getName();
         } else {
             Matcher matcher = pattern.matcher(card.getName());
-            musterName = matcher.group("string");
+            if (matcher.find()) musterName = matcher.group("name");
         }
-        String tempMusterName;
+        String tempMusterName="";
         ArrayList<CardWrapper> cardsToPlay = new ArrayList<>();
         if (userID == 0) {
             for (Card card1 : matchTable.getFirstPlayerDeckCards()) {
@@ -47,7 +47,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    tempMusterName = matcher.group("string");
+                    if (matcher.find()) tempMusterName = matcher.group("name");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.FIRSTPLAYER_DECK));
@@ -58,7 +58,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    tempMusterName = matcher.group("string");
+                    if (matcher.find()) tempMusterName = matcher.group("name");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.FIRSTPLAYER_INPLAY));
@@ -66,7 +66,6 @@ public abstract class UnitCardActions {
             }
             for (CardWrapper cardWrapper : cardsToPlay) {
                 matchTable.placeCardNoAbility(cardWrapper, userID, rowNumber);
-
             }
         } else {
             for (Card card1 : matchTable.getSecondPlayerDeckCards()) {
@@ -74,7 +73,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    tempMusterName = matcher.group("string");
+                    if (matcher.find()) tempMusterName = matcher.group("name");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.SECONDPLAYER_DECK));
@@ -85,7 +84,7 @@ public abstract class UnitCardActions {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    tempMusterName = matcher.group("string");
+                    if (matcher.find()) tempMusterName = matcher.group("string");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.SECONDPLAYER_INPLAY));
@@ -98,26 +97,25 @@ public abstract class UnitCardActions {
         }
 
     }
-
     private static void spy() {
         int i = 0;
         Card randomUnitcard;
         if (matchTable.isFirstPlayerTurn()) {
-            while (i < 2 && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
+            while (i < 2 && !matchTable.getFirstPlayerDeckCards().isEmpty()) {
                 i++;
-                randomUnitcard = matchTable.getFirstPlayerDeadCards().get(
-                        Game.random.nextInt(0, matchTable.getFirstPlayerDeadCards().size())
+                randomUnitcard = matchTable.getFirstPlayerDeckCards().get(
+                        Game.random.nextInt(0, matchTable.getFirstPlayerDeckCards().size())
                 );
-                matchTable.addToInPlayCards(0, new CardWrapper(randomUnitcard, Origin.FIRSTPLATER_DEAD));
+                matchTable.addToInPlayCards(0, new CardWrapper(randomUnitcard, Origin.FIRSTPLAYER_DECK));
 
             }
         } else {
-            while (i < 2 && !matchTable.getSecondPlayerDeadCards().isEmpty()) {
+            while (i < 2 && !matchTable.getSecondPlayerDeckCards().isEmpty()) {
                 i++;
-                randomUnitcard = matchTable.getSecondPlayerDeadCards().get(
-                        Game.random.nextInt(0, matchTable.getSecondPlayerDeadCards().size())
+                randomUnitcard = matchTable.getSecondPlayerDeckCards().get(
+                        Game.random.nextInt(0, matchTable.getSecondPlayerDeckCards().size())
                 );
-                matchTable.addToInPlayCards(1, new CardWrapper(randomUnitcard, Origin.SECONDPLAYER_DEAD));
+                matchTable.addToInPlayCards(1, new CardWrapper(randomUnitcard, Origin.SECONDPLAYER_DECK));
 
             }
         }
@@ -157,7 +155,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(1,unitCard);
+                            matchTable.addToDeadCards(1, unitCard);
                         }
                     }
                 }
@@ -189,7 +187,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(0,unitCard);
+                            matchTable.addToDeadCards(0, unitCard);
                         }
                     }
                 }
@@ -234,12 +232,17 @@ public abstract class UnitCardActions {
                     };
                 }
                 ArrayList<Card> row = matchTable.getRowByID(i, j);
+                ArrayList<CardWrapper> toRemoveCards = new ArrayList<>();
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(i,unitCard);
+                            toRemoveCards.add(new CardWrapper(card, origin));
+
                         }
                     }
+                }
+                for (CardWrapper cardWrapper : toRemoveCards) {
+                    matchTable.addToDeadCards(i,cardWrapper);
                 }
             }
         }
@@ -308,7 +311,7 @@ public abstract class UnitCardActions {
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
-                            matchTable.addToDeadCards(0,unitCard);
+                            matchTable.addToDeadCards(0, unitCard);
                         }
                     }
                 }

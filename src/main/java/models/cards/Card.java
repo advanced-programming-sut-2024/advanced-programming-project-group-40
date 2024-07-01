@@ -37,6 +37,7 @@ public abstract class Card extends Rectangle implements Cloneable {
     }
 
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
