@@ -1,6 +1,6 @@
 package views;
 
-import Controller.DataSaver;
+import controllers.DataSaver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
