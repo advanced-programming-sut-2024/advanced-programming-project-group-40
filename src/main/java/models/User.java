@@ -174,6 +174,16 @@ public class User {
     public void addPoint(int addingPoint) {
         point += addingPoint;
     }
+    public void removeCardFromDeck(Card card){
+        if (!deckCards.isEmpty()){
+            for (Card card1 : deckCards) {
+                if (card1.getName().equals(card.getName())){
+                    deckCards.remove(card1);
+                    break;
+                }
+            }
+        }
+    }
 
 
     //this function checks if two users are the same by checking the USERNAME & PASSWORD & EMAIL & NICKNAME & FACTION

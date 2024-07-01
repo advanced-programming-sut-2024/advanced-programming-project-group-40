@@ -75,6 +75,13 @@ public abstract class Card extends Rectangle implements Cloneable {
     public void addToSelected() {
         this.selectedCards++;
     }
+    public void removeFromSelected(){
+        this.selectedCards--;
+    }
+
+    public void setSelectedCards(int selectedCards) {
+        this.selectedCards = selectedCards;
+    }
 
     public int getSelectedCards() {
         return selectedCards;
