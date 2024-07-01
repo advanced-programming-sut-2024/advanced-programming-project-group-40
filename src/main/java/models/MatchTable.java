@@ -93,14 +93,15 @@ public class MatchTable {
         return retVal;
     }
 
-    public void doDecoy(CardWrapper decoy , CardWrapper cardToSwap){
+    public void doDecoy(CardWrapper decoy, CardWrapper cardToSwap) {
         this.placeCard(decoy
-                ,0
-                ,getRowID(cardToSwap.getOrigin()));
+                , 0
+                , getRowID(cardToSwap.getOrigin()));
 
-        this.addToInPlayCards(0,cardToSwap);
+        this.addToInPlayCards(0, cardToSwap);
 
     }
+
     private static int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
@@ -362,21 +363,20 @@ public class MatchTable {
     }
 
     //gives some random card without removing them from the deck
-    public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
+    public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
         ArrayList<Card> randomCards = new ArrayList<>();
         int i = 0;
         int size = deck.size();
-        while (i < 10) {
+        while (i < numOfRandomCards) {
             if (deck.isEmpty()) {
                 return randomCards;
             }
             Card tempCard = deck.get(Game.random.nextInt(size));
-            System.out.println(deck.indexOf(tempCard));
-            System.out.println(size);
-            size--;
-            randomCards.add(tempCard);
-            deck.remove(tempCard);
-            i++;
+            if (!randomCards.contains(tempCard)) {
+                size--;
+                randomCards.add(tempCard);
+                i++;
+            }
         }
         return randomCards;
     }
@@ -609,9 +609,10 @@ public class MatchTable {
                 firstPlayerDeckCards.add(cardWrapper.getCard());
                 break;
             case 1:
-                secondPlayerDeadCards.add(cardWrapper.getCard());
+                secondPlayerDeckCards.add(cardWrapper.getCard());
                 break;
         }
+        removeCard(cardWrapper);
     }
 
     //places card to dead cards
@@ -656,7 +657,7 @@ public class MatchTable {
 
 
     public void leaderAction() {
-        LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
+        if (!isFirstPlayerLeaderUsed) LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
     }
 
     public void factionAction(int playerID, Factions faction) {
@@ -855,6 +856,7 @@ public class MatchTable {
         firstPlayerInPlayCards.add(cardWrapper.getCard());
         removeCard(cardWrapper);
     }
+
     public static int getRowPower(LeaderEffects leaderEffects,
                                   boolean weather,
                                   boolean boost,
@@ -1066,8 +1068,10 @@ public class MatchTable {
     }
 
     public void initilizeTable() {
-        ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards);
-        ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards);
+        ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 10);
+        ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
+        firstPlayerLeader = firstPlayer.getLeader();
+        secondPlayerLeader = secondPlayer.getLeader();
         for (Card card : firstPlayerCards) {
             addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
         }
@@ -1150,17 +1154,24 @@ public class MatchTable {
         int berserkerNum = 0;
         ArrayList<Card> toRemove = new ArrayList<>();
         for (Card card : row) {
-            UnitCard unitCard = (UnitCard) card;
-            if (unitCard.getAbility() == Ability.BERSERKER) {
-                berserkerNum++;
-                toRemove.add(unitCard);
+            if (card instanceof UnitCard unitCard) {
+                if (unitCard.getAbility() == Ability.BERSERKER) {
+                    berserkerNum++;
+                    toRemove.add(unitCard);
+                }
             }
+            if (card instanceof Hero hero) {
+                if (hero.getAbility() == Ability.BERSERKER) {
+                    berserkerNum++;
+                    toRemove.add(hero);
+                }
+            }
+
         }
         row.removeAll(toRemove);
         UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
-
         }
     }
 

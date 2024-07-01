@@ -221,9 +221,7 @@ public class GameMenuController extends Controller {
         return null;
     }
 
-    public static Result passRound() {
-        return null;
-    }
+
 
     public static boolean isRowValidForCard(Card card, String rowNumber) {
         return true;
@@ -301,7 +299,7 @@ public class GameMenuController extends Controller {
                 }
                 matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
                 gameViewController.update();
-                if (isMedic) {
+                if (isMedic && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
                     MakeMedicWindow(gameViewController);
                 }
                 selectedCard = null;
@@ -324,6 +322,18 @@ public class GameMenuController extends Controller {
         tempStage.show();
     }
 
+    public static void MakeHisImperialMajestyWindow() {
+        tempStage = new Stage();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        hBox.getChildren().addAll(MatchTable.randomSelectedCards(matchTable.getSecondPlayerInPlayCards(),3));
+        tempStage.setScene(scene);
+        tempStage.show();
+    }
+
     public static void ClickedOnBoost(int rowID) {
         if (selectedCard instanceof SpecialCard) {
             matchTable.placeBoostCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, rowID);
@@ -332,12 +342,22 @@ public class GameMenuController extends Controller {
     }
 
     public static void clickedOnWeather() {
-        if (selectedCard instanceof SpecialCard &&
-                !Objects.equals(selectedCard.getName(), "Commander’s horn")) {
+        if (selectedCard instanceof SpecialCard &&!(
+                Objects.equals(selectedCard.getName(), "Commander’s horn")||
+                        Objects.equals(selectedCard.getName(), "Mardroeme"))) {
             matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY));
 
             selectedCard = null;
         }
+    }
+
+    public static void LeaderAction() {
+
+        matchTable.leaderAction();
+        matchTable.setFirstPlayerLeaderUsed(true);
+    }
+    public static void passRound() {
+        matchTable.pass(0);
     }
 }
 

@@ -30,7 +30,10 @@
    <VBox prefHeight="701.0" prefWidth="192.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
       <Pane prefHeight="200.0" prefWidth="200.0">
          <Button layoutX="126.0" layoutY="55.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="leaderbutton" />
-         <StackPane prefHeight="135.0" prefWidth="117.0" styleClass="leaderholder" />
+         <StackPane prefHeight="135.0" prefWidth="117.0" styleClass="leaderholder">
+            <children>
+               <HBox fx:id="secondPlayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
       </Pane>
       <StackPane>
          <Pane prefHeight="200.0" prefWidth="200.0" styleClass="infoholderbackground" />
@@ -79,8 +82,11 @@
          </Pane>
       </StackPane>
       <Pane prefHeight="200.0" prefWidth="200.0">
-         <StackPane layoutX="-1.0" layoutY="-1.0" prefHeight="136.0" prefWidth="117.0" styleClass="leaderholder" />
-         <Button layoutX="126.0" layoutY="55.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="leaderbutton" />
+         <StackPane layoutX="-1.0" layoutY="-1.0" prefHeight="136.0" prefWidth="117.0" styleClass="leaderholder">
+            <children>
+               <HBox fx:id="firstplayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
+         <Button fx:id="firstPLayerLeaderButton" layoutX="126.0" layoutY="55.0" mnemonicParsing="false" onMouseClicked="#LeaderAction" prefHeight="50.0" prefWidth="50.0" styleClass="leaderbutton" />
       </Pane>
    </VBox>
    <Pane prefHeight="699.0" prefWidth="723.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
@@ -159,5 +165,6 @@
             </font>
          </Label>
       </Pane>
+      <Button layoutX="41.0" layoutY="337.0" mnemonicParsing="false" onMouseClicked="#PassRound" text="Pass Round" />
    </Pane>
 </GridPane>

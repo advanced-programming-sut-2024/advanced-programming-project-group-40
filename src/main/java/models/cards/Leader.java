@@ -11,7 +11,9 @@ public class Leader extends Card {
         super(leaderInfo.name, leaderInfo.planeImage, leaderInfo.cardImage);
         this.faction = leaderInfo.faction;
     }
-
+    public String getImageLink(){
+        return super.planeImage;
+    }
     public Factions getFaction() {
         return faction;
     }

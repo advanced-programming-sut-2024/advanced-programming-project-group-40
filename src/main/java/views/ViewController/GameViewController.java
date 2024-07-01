@@ -3,31 +3,34 @@ package views.ViewController;
 
 import controllers.MenuController.GameMenuController;
 import enums.Origin;
+import enums.cards.LeaderInfo;
 import enums.cards.SpecialCardInfo;
 import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
 import models.User;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
+import models.cards.Leader;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
 import views.Main;
@@ -40,6 +43,12 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
+    @FXML
+    private Button firstPLayerLeaderButton;
+    @FXML
+    private HBox secondPlayerLeaderImage;
+    @FXML
+    private HBox firstplayerLeaderImage;
     @FXML
     private Label firstPlayerTotalScore;
     @FXML
@@ -137,10 +146,6 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         User tempUser = new User("a", "a", "a", "a");
-
-        tempUser.setFaction("as");
-        Game.getLoggedInUser().setFaction("we");
-        GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
         UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
         UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
         UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
@@ -158,44 +163,29 @@ public class GameViewController extends PlayMenu implements Initializable {
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
         SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
-        //test
-        HashSet<Card> cards = new HashSet<>();
-        cards.add(card1);
-        cards.add(card2);
-        cards.add(card3);
-        cards.add(card4);
-        cards.add(card5);
-        cards.add(card6);
-        cards.add(card7);
-        cards.add(card8);
-        cards.add(card9);
-        cards.add(card10);
-        cards.add(card11);
-        cards.add(card12);
-        cards.add(card13);
-        cards.add(card14);
-        cards.add(card15);
-        System.out.println("cum shit n piss"+cards.size());
-
-        //////////////////////////
+        //GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().add(card4);
+        tempUser.getDeckCards().add(card1);
+        tempUser.getDeckCards().add(card2);
+        tempUser.getDeckCards().add(card5);
+        //GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
+        tempUser.getDeckCards().add(card6);
+        tempUser.getDeckCards().add(card7);
+        tempUser.getDeckCards().add(card8);
+        tempUser.getDeckCards().add(card9);
+        tempUser.getDeckCards().add(card10);
+        tempUser.getDeckCards().add(card11);
+        tempUser.getDeckCards().add(card12);
+        tempUser.getDeckCards().add(card13);
+        tempUser.getDeckCards().add(card14);
+        tempUser.getDeckCards().add(card15);
+        tempUser.setFaction("as");
+        Game.getLoggedInUser().setFaction("we");
+        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.HIS_IMPERIAL_MAJESTY));
+        GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
 
 
         GameMenuController.getMatchTable().setFirstPlayerTurn(true);
-        GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
-        Game.getLoggedInUser().getDeckCards().add(card1);
-        Game.getLoggedInUser().getDeckCards().add(card2);
-        Game.getLoggedInUser().getDeckCards().add(card5);
-        GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
-        Game.getLoggedInUser().getDeckCards().add(card6);
-        Game.getLoggedInUser().getDeckCards().add(card7);
-        Game.getLoggedInUser().getDeckCards().add(card8);
-        Game.getLoggedInUser().getDeckCards().add(card9);
-        Game.getLoggedInUser().getDeckCards().add(card10);
-        Game.getLoggedInUser().getDeckCards().add(card11);
-        Game.getLoggedInUser().getDeckCards().add(card12);
-        Game.getLoggedInUser().getDeckCards().add(card13);
-        Game.getLoggedInUser().getDeckCards().add(card14);
-        Game.getLoggedInUser().getDeckCards().add(card15);
+
 
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
@@ -205,6 +195,13 @@ public class GameViewController extends PlayMenu implements Initializable {
         firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
         secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
 
+        if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null) {
+            firstplayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+        }
+        if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null) {
+            secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
+
+        }
 
         update();
     }
@@ -376,12 +373,16 @@ public class GameViewController extends PlayMenu implements Initializable {
         if (!(GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty() &&
                 firstPlayerDiscard.getChildren().isEmpty())) {
             firstPlayerDiscard.getChildren().clear();
-            firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
+            if (!GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty()) {
+                firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
+            }
         }
         if (!(GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty() &&
                 secondPlayerDiscard.getChildren().isEmpty())) {
             secondPlayerDiscard.getChildren().clear();
-            secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
+            if (!GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty()) {
+                secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
+            }
         }
         InitiateCardEvents();
 
@@ -394,34 +395,35 @@ public class GameViewController extends PlayMenu implements Initializable {
 
 
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE,this);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE, this);
         update();
     }
 
     public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED,this);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED, this);
         update();
     }
 
 
     public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT,this);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT, this);
     }
 
     public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT,this);
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT, this);
     }
 
     public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED,this);
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED, this);
     }
 
     public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE,this);
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE, this);
     }
 
     public void closeCombatBoostClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnBoost(0);
+        update();
     }
 
     public void rangedBoostClicked(MouseEvent mouseEvent) {
@@ -441,6 +443,15 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     public HBox getFirstPlayerDiscard() {
         return firstPlayerDiscard;
+    }
+
+    public void LeaderAction(MouseEvent mouseEvent) {
+        GameMenuController.LeaderAction();
+        update();
+    }
+
+    public void PassRound(MouseEvent mouseEvent) {
+        GameMenuController.passRound();
     }
 }
 

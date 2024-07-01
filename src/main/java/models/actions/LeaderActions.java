@@ -1,5 +1,6 @@
 package models.actions;
 
+import controllers.MenuController.GameMenuController;
 import enums.Origin;
 import enums.Unit;
 import enums.cards.SpecialCardInfo;
@@ -92,9 +93,7 @@ public abstract class LeaderActions {
     }
 
     private static void hisImperialMajesty() {
-        //todo
-        //what za hellllllllllllllllllllllllllllllllllllll
-        // oh mah goh
+        GameMenuController.MakeHisImperialMajestyWindow();
     }
 
     private static void emperorOfNilfgaard() {
@@ -313,11 +312,20 @@ public abstract class LeaderActions {
     }
 
     private static void crachAnCraite() {
+        ArrayList<CardWrapper> tempList = new ArrayList<>();
         for (Card card : matchTable.getFirstPlayerDeadCards()) {
-            matchTable.addToDeckCards(0, new CardWrapper(card, Origin.FIRSTPLATER_DEAD));
+            tempList.add(new CardWrapper(card, Origin.FIRSTPLATER_DEAD));
+
         }
+        for (CardWrapper cardWrapper : tempList){
+            matchTable.addToDeckCards(0, cardWrapper);
+        }
+        tempList.clear();
         for (Card card : matchTable.getSecondPlayerDeadCards()) {
-            matchTable.addToDeckCards(1, new CardWrapper(card, Origin.SECONDPLAYER_DEAD));
+            tempList.add(new CardWrapper(card, Origin.SECONDPLAYER_DEAD));
+        }
+        for (CardWrapper cardWrapper : tempList){
+            matchTable.addToDeckCards(1, cardWrapper);
         }
         matchTable.shufleDeck(0);
         matchTable.shufleDeck(1);
