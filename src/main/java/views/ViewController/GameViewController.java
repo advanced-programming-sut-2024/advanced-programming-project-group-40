@@ -456,5 +456,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         GameMenuController.clickedOnWeather();
         update();
     }
+
 }
 

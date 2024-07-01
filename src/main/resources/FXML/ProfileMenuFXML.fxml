@@ -7,8 +7,8 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
    <children>
-      <Pane layoutX="25.0" layoutY="250.0" prefHeight="435.0" prefWidth="946.0" styleClass="brown-box">
-      <ScrollPane hbarPolicy="NEVER" layoutX="39.0" layoutY="94.0" prefHeight="327.0" prefWidth="868.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
+      <Pane layoutX="65.0" layoutY="248.0" prefHeight="414.0" prefWidth="868.0" styleClass="brown-box">
+      <ScrollPane hbarPolicy="NEVER" layoutY="87.0" prefHeight="327.0" prefWidth="868.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
          <content>
             <HBox prefHeight="500.0" prefWidth="863.0">
                <children>
@@ -178,13 +178,13 @@
          </content>
       </ScrollPane>
    
-         <TextField fx:id="numberOfGameHistory" layoutX="500.0" layoutY="52.0" prefHeight="0.0" prefWidth="31.0" />
-         <Label layoutX="415.0" layoutY="14.0" styleClass="label-header" text="Game History">
+         <TextField fx:id="numberOfGameHistory" layoutX="484.0" layoutY="43.0" prefHeight="0.0" prefWidth="31.0" />
+         <Label layoutX="383.0" layoutY="14.0" styleClass="label-header" text="Game History">
             <font>
                <Font size="20.0" />
             </font>
          </Label>
-         <Label layoutX="389.0" layoutY="60.0" text="Number of rows">
+         <Label layoutX="363.0" layoutY="51.0" text="Number of rows">
             <font>
                <Font size="15.0" />
             </font>
