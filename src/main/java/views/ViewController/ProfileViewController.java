@@ -13,10 +13,7 @@ import models.ErrorMaker;
 import models.Game;
 import models.MatchTable;
 import models.User;
-import views.LoginMenu;
-import views.MainMenu;
-import views.ProfileMenu;
-import views.SignUpMenu;
+import views.*;
 
 
 import java.util.ArrayList;
@@ -175,5 +172,13 @@ public class ProfileViewController {
                 break;
         }
 
+    }
+
+    public void changeInfo(MouseEvent mouseEvent) {
+        try {
+            new ChangeInfoMenu().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -5,14 +5,13 @@ import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.messages.ChangeInfoMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
+import views.ChangeInfoMenu;
+import views.ProfileMenu;
 
 import java.util.HashMap;
 
@@ -114,5 +113,21 @@ public class ChangeInfoViewController {
     public void changeClicked(MouseEvent mouseEvent) {
         AlertMaker alertMaker = ChangeInfoController.changeCheck(newUsername, newEmail, oldPassword, newPassword);
         alertMaker.showAlert();
+        if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)){
+            newUsername.setText("");
+            newEmail.setText("");
+            newNickname.setText("");
+            oldPassword.setText("");
+            newPassword.setText("");
+        }
+
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        try {
+            new ProfileMenu().start(ChangeInfoMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
