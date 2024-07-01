@@ -95,12 +95,12 @@
 
         <Pane fx:id="changeFactionPane" layoutX="64.0" layoutY="-110.0" prefHeight="609.0" prefWidth="851.0" styleClass="pane-menu" translateY="150.0">
             <children>
-                <ImageView fx:id="image1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="image2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="image3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="image4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="image5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="description" alignment="CENTER" layoutX="383.0" layoutY="515.0" prefHeight="55.0" prefWidth="100.0" text="Label">
+                <ImageView fx:id="factionImage1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="factionImage2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="factionImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="factionImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="factionImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
+                <Label fx:id="factionDescription" alignment="CENTER" layoutX="383.0" layoutY="515.0" prefHeight="55.0" prefWidth="100.0" text="Label">
                <font>
                   <Font size="25.0" />
                </font></Label>
