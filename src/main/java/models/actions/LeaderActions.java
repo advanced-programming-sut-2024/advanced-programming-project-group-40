@@ -184,7 +184,7 @@ public abstract class LeaderActions {
     }
 
     private static void daisyOfTheValley() {
-        //todo
+        //done
     }
 
     private static void purebloodElf() {
