@@ -149,7 +149,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
         tempUser.setFaction("as");
         Game.getLoggedInUser().setFaction("we");
-        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.DESTROYER_OF_WORLDS));
+        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.DAISY_OF_THE_VALLEY));
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
 
         GameMenuController.getMatchTable().setFirstPlayerTurn(true);
@@ -174,7 +174,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         Game.getLoggedInUser().getDeckCards().add(card1);
         Game.getLoggedInUser().getDeckCards().add(card2);
         Game.getLoggedInUser().getDeckCards().add(card5);
-        GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
+       // GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
         Game.getLoggedInUser().getDeckCards().add(card6);
         Game.getLoggedInUser().getDeckCards().add(card7);
         Game.getLoggedInUser().getDeckCards().add(card8);

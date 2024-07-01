@@ -4,6 +4,7 @@ import enums.Ability;
 import enums.Factions;
 import enums.Origin;
 import enums.Unit;
+import enums.cards.LeaderInfo;
 import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
 import models.actions.LeaderActions;
@@ -368,7 +369,7 @@ public class MatchTable {
         int i = 0;
         int size = deck.size();
         while (i < numOfRandomCards) {
-            if (deck.isEmpty() || deck.size()<numOfRandomCards) {
+            if (deck.isEmpty() || deck.size() < numOfRandomCards) {
                 return randomCards;
             }
             Card tempCard = deck.get(Game.random.nextInt(size));
@@ -1067,10 +1068,22 @@ public class MatchTable {
     }
 
     public void initilizeTable() {
-        ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 10);
-        ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
+        ArrayList<Card> firstPlayerCards;
+        ArrayList<Card> secondPlayerCards;
         firstPlayerLeader = firstPlayer.getLeader();
         secondPlayerLeader = secondPlayer.getLeader();
+        if (Objects.equals(firstPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
+            firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 11);
+        } else {
+            firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 10);
+        }
+        if (Objects.equals(secondPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
+            secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 11);
+        } else {
+            secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
+        }
+
+
         for (Card card : firstPlayerCards) {
             addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
         }
