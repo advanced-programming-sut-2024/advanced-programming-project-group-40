@@ -18,15 +18,7 @@ public class Game {
     private static final ArrayList<Card> allCards = Game.setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static final ArrayList<Card> selectedCards = new ArrayList<>();
-    private static final ArrayList<String> allFactions = new ArrayList<>();
 
-   static  {
-       allFactions.add(FactionInfo.Monster.name);
-       allFactions.add(FactionInfo.Scoiatael.name);
-       allFactions.add(FactionInfo.Nilfgaard.name);
-       allFactions.add(FactionInfo.Realms.name);
-       allFactions.add(FactionInfo.Skellige.name);
-    }
     private static User loggedInUser = new User("", "", "", "");
     private static Menu currentMenu = Menu.LoginMenu;
 
@@ -96,8 +88,9 @@ public class Game {
         selectedCards.add(card);
     }
 
-    public static ArrayList<String> getAllFactions(){
-        return allFactions;
+
+    public static ArrayList<Leader> getAllLeaders(){
+        return allLeaders;
     }
 
 

@@ -1,6 +1,7 @@
 package models;
 
-import enums.cards.FactionInfo;
+import enums.Factions;
+import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
@@ -13,7 +14,7 @@ public class User {
     private String nickname;
 
     // todo ghablesh  "Nilfgaardian Empire" bod kardam enum, agar bog khord begid. mrc
-    private String faction = FactionInfo.Nilfgaard.name;
+    private String faction = Factions.NILFGAARD.toString();
     private int point;
     private int gamesPlayed;
     private int won;
@@ -22,7 +23,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private final ArrayList<Card> deckCards = new ArrayList<>();
-    private Leader leader;
+    private Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
     private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 

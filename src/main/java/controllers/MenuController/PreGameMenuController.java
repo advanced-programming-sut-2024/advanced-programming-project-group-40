@@ -97,14 +97,5 @@ public class PreGameMenuController extends Controller {
     }
 
 
-    public static ArrayList<ImageView> getOtherFactions(String userFactionName) {
-        ArrayList<ImageView> cards = new ArrayList<ImageView>();
-        for (String cardName : Game.getAllFactions()) {
-            if (!cardName.equals(userFactionName)) {
-                cards.add(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".png")).toExternalForm())));
-            }
-        }
-        return cards;
-    }
 
 }

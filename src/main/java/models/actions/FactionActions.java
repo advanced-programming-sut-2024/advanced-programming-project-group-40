@@ -45,7 +45,7 @@ public abstract class FactionActions {
     public static void doActionByName(int userID, String name, MatchTable currentMatchTable) {
         matchTable = currentMatchTable;
         switch (name) {
-            case "Realms Northern":
+            case "NORTHERN_REALMS Northern":
                 northernRealms(userID);
                 break;
         }
