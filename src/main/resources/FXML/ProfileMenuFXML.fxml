@@ -3,12 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="profile-menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
    <children>
-      <ScrollPane layoutX="65.0" layoutY="312.0" prefHeight="327.0" prefWidth="881.0" styleClass="profile-menu-scroll-pane">
+      <Pane layoutX="65.0" layoutY="248.0" prefHeight="414.0" prefWidth="868.0" styleClass="brown-box">
+      <ScrollPane hbarPolicy="NEVER" layoutY="87.0" prefHeight="327.0" prefWidth="868.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
          <content>
             <HBox prefHeight="500.0" prefWidth="863.0">
                <children>
@@ -21,12 +21,7 @@
                                     <Font name="System Bold" size="15.0" />
                                  </font></Label>
                            </children></HBox>
-                        <VBox fx:id="competitor" alignment="TOP_CENTER" maxHeight="450.0" prefHeight="450.0" prefWidth="217.0">
-
-                           <children>
-                              <Label fx:id="competitorName1" alignment="CENTER" contentDisplay="CENTER" prefHeight="46.0" prefWidth="124.0" text="Label" />
-
-                           </children></VBox>
+                        <VBox fx:id="competitor" alignment="TOP_CENTER" maxHeight="450.0" prefHeight="450.0" prefWidth="217.0" />
                      </children>
                   </VBox>
 
@@ -93,7 +88,6 @@
                                        <font>
                                           <Font size="13.0" />
                                        </font></Label>
-
                                  </children>
                               </HBox>
                            </children>
@@ -183,55 +177,62 @@
             </HBox>
          </content>
       </ScrollPane>
-
-      <TextField fx:id="numberOfGameHistory" layoutX="505.0" layoutY="248.0" prefWidth="38.0" />
-      <Label layoutX="394.0" layoutY="254.0" text="Game History">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
-      <Pane layoutX="243.0" layoutY="36.0" prefHeight="183.0" prefWidth="600.0">
+   
+         <TextField fx:id="numberOfGameHistory" layoutX="484.0" layoutY="43.0" prefHeight="0.0" prefWidth="31.0" />
+         <Label layoutX="383.0" layoutY="14.0" styleClass="label-header" text="Game History">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="363.0" layoutY="51.0" text="Number of rows">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Label>
+      </Pane>
+      <Pane layoutX="205.0" layoutY="50.0" prefHeight="168.0" prefWidth="572.0" styleClass="pane-menu">
          <children>
-            <Label layoutX="9.0" layoutY="12.0" prefHeight="31.0" prefWidth="81.0" text="Username:">
+            <Label layoutX="55.0" layoutY="12.0" prefHeight="31.0" prefWidth="81.0" text="Username:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label fx:id="username" layoutX="9.0" layoutY="43.0" prefHeight="28.0" prefWidth="127.0" styleClass="label-header" text="Label">
+            <Label fx:id="username" layoutX="55.0" layoutY="43.0" prefHeight="28.0" prefWidth="127.0" styleClass="label-header" text="Label">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label layoutX="9.0" layoutY="81.0" prefHeight="38.0" prefWidth="76.0" text="Nickname:">
+            <Label layoutX="55.0" layoutY="82.0" prefHeight="38.0" prefWidth="76.0" text="Nickname:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label fx:id="nickname" layoutX="9.0" layoutY="113.0" prefHeight="28.0" prefWidth="127.0" styleClass="label-header" text="Label">
+            <Label fx:id="nickname" layoutX="55.0" layoutY="113.0" prefHeight="28.0" prefWidth="127.0" styleClass="label-header" text="Label">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label layoutX="170.0" layoutY="13.0" prefHeight="31.0" prefWidth="60.0" text="Rank:">
+            <Label layoutX="234.0" layoutY="12.0" prefHeight="31.0" prefWidth="60.0" text="Rank:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label fx:id="rank" layoutX="170.0" layoutY="43.0" prefHeight="28.0" prefWidth="94.0" styleClass="label-header" text="Label">
+            <Label fx:id="rank" layoutX="234.0" layoutY="43.0" prefHeight="28.0" prefWidth="94.0" styleClass="label-header" text="Label">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <Label layoutX="170.0" layoutY="85.0" prefHeight="31.0" prefWidth="89.0" text="High score:">
+            <Label layoutX="237.0" layoutY="86.0" prefHeight="31.0" prefWidth="89.0" text="High score:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label fx:id="highestScore" layoutX="170.0" layoutY="113.0" prefHeight="28.0" prefWidth="127.0" styleClass="label-header" text="Label">
+            <Label fx:id="highestScore" layoutX="237.0" layoutY="113.0" prefHeight="28.0" prefWidth="127.0" styleClass="label-header" text="Label">
                <font>
                   <Font size="25.0" />
                </font>
             </Label>
-            <HBox alignment="TOP_CENTER" layoutX="325.0" layoutY="9.0" prefHeight="135.0" prefWidth="130.0">
+            <HBox alignment="TOP_CENTER" layoutX="392.0" layoutY="15.0" prefHeight="135.0" prefWidth="130.0">
                <children>
                   <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0">
                      <children>
@@ -283,6 +284,11 @@
                   </VBox>
                </children>
             </HBox>
+            <Label layoutX="543.0" layoutY="-13.0" onMouseClicked="#changeInfo" prefHeight="38.0" prefWidth="26.0" text="...">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
       <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true">

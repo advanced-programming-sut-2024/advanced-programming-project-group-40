@@ -8,20 +8,24 @@
    <children>
       <VBox alignment="CENTER" layoutX="130.0" layoutY="132.0" prefHeight="452.0" prefWidth="278.0" styleClass="Box">
          <children>
-            <Label text="Main Menu" translateY="-100.0">
+            <Label text="Main Menu" translateY="-100.0" >
                <font>
                   <Font size="40.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Start Game" translateY="-50.0" onMouseClicked="#goToGameMenu" >
+            <Button mnemonicParsing="false" onMouseClicked="#goToGameMenu" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Start Game" translateY="-50.0">
                <font>
                   <Font size="20.0" />
                </font></Button>
-            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Profile" onMouseClicked="#goToProfileMenu">
+            <Button mnemonicParsing="false" onMouseClicked="#goToProfileMenu" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Profile">
                <font>
                   <Font size="20.0" />
                </font></Button>
-            <Button mnemonicParsing="false" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Sign Out" translateY="50.0" onMouseClicked="#SignOut">
+            <Button mnemonicParsing="false" onMouseClicked="#SignOut" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Sign Out" translateY="50.0">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" text="Score Board" translateY="100.0"  styleClass="remove-background" onMouseClicked="#goToScoreBoard">
                <font>
                   <Font size="20.0" />
                </font></Button>

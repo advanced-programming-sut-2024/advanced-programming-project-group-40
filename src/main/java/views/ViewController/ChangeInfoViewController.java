@@ -5,14 +5,13 @@ import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.messages.ChangeInfoMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
+import views.ChangeInfoMenu;
+import views.ProfileMenu;
 
 import java.util.HashMap;
 
@@ -52,8 +51,8 @@ public class ChangeInfoViewController {
 
         // Add a listener to the first text field
         newUsername.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean validUsername = SignUpMenuController.isUsernameValid(newUsername.getText());
-            boolean uniqueUsername = SignUpMenuController.isUsernameUnique(newPassword.getText());
+            boolean validUsername = ChangeInfoController.isUsernameValid(newUsername.getText());
+            boolean uniqueUsername = ChangeInfoController.isUsernameUnique(newPassword.getText());
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || newUsername.getText().isEmpty()) {
                 ErrorMaker.removeError(usernameError);
@@ -69,7 +68,7 @@ public class ChangeInfoViewController {
 
 
         newEmail.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (SignUpMenuController.isEmailValid(newEmail.getText()) || newEmail.getText().isEmpty()) {
+            if (ChangeInfoController.isEmailValid(newEmail.getText()) || newEmail.getText().isEmpty()) {
                 validFiled.put(2, true);
                 ErrorMaker.removeError(emailError);
             } else {
@@ -79,9 +78,9 @@ public class ChangeInfoViewController {
         });
 
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
-            boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
-            boolean weakAndShortPassword = SignUpMenuController.isPasswordShort(newPassword.getText());
+            boolean validPassword = ChangeInfoController.isPasswordValid(newPassword.getText());
+            boolean weakPassword = ChangeInfoController.isPasswordWeak(newPassword.getText());
+            boolean weakAndShortPassword = ChangeInfoController.isPasswordShort(newPassword.getText());
 
             validFiled.put(3, false);
             if (newPassword.getText().isEmpty()) {
@@ -100,7 +99,7 @@ public class ChangeInfoViewController {
         });
 
         oldPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (oldPassword.getText().isEmpty() || oldPassword.equals(Game.getLoggedInUser().getPassword())) {
+            if (oldPassword.getText().isEmpty() || ChangeInfoController.correctPassword(oldPassword.getText())) {
                 validFiled.put(4, true);
                 ErrorMaker.removeError(oldPassError);
             } else {
@@ -114,5 +113,21 @@ public class ChangeInfoViewController {
     public void changeClicked(MouseEvent mouseEvent) {
         AlertMaker alertMaker = ChangeInfoController.changeCheck(newUsername, newEmail, oldPassword, newPassword);
         alertMaker.showAlert();
+        if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)){
+            newUsername.setText("");
+            newEmail.setText("");
+            newNickname.setText("");
+            oldPassword.setText("");
+            newPassword.setText("");
+        }
+
+    }
+
+    public void back(MouseEvent mouseEvent) {
+        try {
+            new ProfileMenu().start(ChangeInfoMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

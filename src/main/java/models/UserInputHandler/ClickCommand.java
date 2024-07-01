@@ -27,4 +27,3 @@ public class ClickCommand extends Command {
         GameMenuController.ClickedOnCard(card,gameViewController);
     }
 }
-

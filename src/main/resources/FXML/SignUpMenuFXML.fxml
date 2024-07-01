@@ -11,7 +11,7 @@
          <children>
             <Label styleClass="label-header" text="Sign Up" textFill="#c2e7e3" translateY="-25.0">
                <font>
-                  <Font size="35.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
             <Label text="Username" translateX="-50.0" translateY="-10.0">

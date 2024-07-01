@@ -5,68 +5,56 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ChangeInfoViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../CSS/Style.css" styleClass="menu-background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ChangeInfoViewController">
     <children>
-        <VBox alignment="CENTER" layoutX="377.0" layoutY="69.0" prefHeight="578.0" prefWidth="275.0" styleClass="Box">
+        <VBox alignment="CENTER" layoutX="377.0" layoutY="69.0" prefHeight="578.0" prefWidth="275.0" styleClass="brown-box">
             <children>
                 <Label styleClass="label-header" text="Change Info" textFill="#c2e7e3" translateY="-25.0">
                     <font>
-                        <Font size="35.0"/>
+                        <Font size="25.0" />
                     </font>
                 </Label>
                 <Label text="Username" translateX="-60.0" translateY="-10.0">
                     <font>
-                        <Font name="System Bold" size="14.0"/>
+                        <Font name="System Bold" size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="newUsername" alignment="CENTER" maxWidth="190.0" prefHeight="30.0"
-                           promptText="[a-zA-Z0-9-]" translateY="-10.0"/>
-                <Label fx:id="usernameError" prefHeight="18.0" prefWidth="170.0" styleClass="error-label"
-                       translateX="5.0" translateY="-10.0"/>
+                <TextField fx:id="newUsername" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="[a-zA-Z0-9-]" translateY="-10.0" />
+                <Label fx:id="usernameError" prefHeight="18.0" prefWidth="170.0" styleClass="error-label" translateX="5.0" translateY="-10.0" />
                 <Label text="Email" translateX="-75.0" translateY="-5.0">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="newEmail" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="***@**.**"
-                           translateY="-5.0"/>
-                <Label fx:id="emailError" prefHeight="18.0" prefWidth="170.0" styleClass="error-label" translateX="5.0"
-                       translateY="-5.0"/>
+                <TextField fx:id="newEmail" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="***@**.**" translateY="-5.0" />
+                <Label fx:id="emailError" prefHeight="18.0" prefWidth="170.0" styleClass="error-label" translateX="5.0" translateY="-5.0" />
                 <Label text="Nickname" translateX="-60.0">
                     <font>
-                        <Font name="System Bold" size="14.0"/>
+                        <Font name="System Bold" size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="newNickname" alignment="CENTER" maxWidth="190.0" prefHeight="30.0"
-                           promptText="anything you want:)"/>
+                <TextField fx:id="newNickname" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="anything you want:)" />
                 <Label text="Write your previous password" translateX="-5.0" translateY="17.0">
                     <font>
-                        <Font size="13.0"/>
+                        <Font size="13.0" />
                     </font>
                 </Label>
-                <PasswordField fx:id="oldPassword" alignment="CENTER" maxWidth="190.0" prefHeight="30.0"
-                               promptText="[a-zA-Z0-9!@#$%^]" translateY="20.0"/>
-                <Label fx:id="oldPassError" maxWidth="160.0" prefWidth="170.0" styleClass="error-label"
-                       translateY="20.0"/>
+                <PasswordField fx:id="oldPassword" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="[a-zA-Z0-9!@#$%^]" translateY="20.0" />
+                <Label fx:id="oldPassError" maxWidth="160.0" prefWidth="170.0" styleClass="error-label" translateY="20.0" />
                 <Label text="Write your new password" translateX="-17.0" translateY="17.0">
                     <font>
-                        <Font size="13.0"/>
+                        <Font size="13.0" />
                     </font>
                 </Label>
-                <PasswordField fx:id="newPassword" alignment="CENTER" maxWidth="190.0" prefHeight="30.0"
-                               promptText="confirmation" translateY="20.0"/>
-                <Label fx:id="newPasswordError" maxWidth="170.0" prefWidth="170.0" styleClass="error-label"
-                       translateX="5.0" translateY="20.0"/>
-                <Button fx:id="change" mnemonicParsing="false" styleClass="button-regular"
-                        stylesheets="@../CSS/Style.css" text="Continue" translateY="30.0" onMouseClicked="#changeClicked"/>
-                <Label translateY="20.0"/>
+                <PasswordField fx:id="newPassword" alignment="CENTER" maxWidth="190.0" prefHeight="30.0" promptText="confirmation" translateY="20.0" />
+                <Label fx:id="newPasswordError" maxWidth="170.0" prefWidth="170.0" styleClass="error-label" translateX="5.0" translateY="20.0" />
+                <Button fx:id="change" mnemonicParsing="false" onMouseClicked="#changeClicked" styleClass="button-regular" stylesheets="@../CSS/Style.css" text="Change" translateY="30.0" />
+                <Label translateY="20.0" />
             </children>
         </VBox>
-        <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" pickOnBounds="true"
-                   preserveRatio="true">
+        <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#back">
             <image>
-                <Image url="@../images/Icnos/Back.png"/>
+                <Image url="@../images/Icnos/Back.png" />
             </image>
         </ImageView>
     </children>
