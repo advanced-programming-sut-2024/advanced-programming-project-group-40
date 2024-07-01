@@ -368,12 +368,11 @@ public class MatchTable {
         int i = 0;
         int size = deck.size();
         while (i < numOfRandomCards) {
-            if (deck.isEmpty()) {
+            if (deck.isEmpty() || deck.size()<numOfRandomCards) {
                 return randomCards;
             }
             Card tempCard = deck.get(Game.random.nextInt(size));
             if (!randomCards.contains(tempCard)) {
-                size--;
                 randomCards.add(tempCard);
                 i++;
             }

@@ -144,8 +144,15 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        GameMenuController.setGameViewController2(this);
         User tempUser = new User("a", "a", "a", "a");
+
+        tempUser.setFaction("as");
+        Game.getLoggedInUser().setFaction("we");
+        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.DESTROYER_OF_WORLDS));
+        GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
+
+        GameMenuController.getMatchTable().setFirstPlayerTurn(true);
         UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
         UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
         UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
@@ -156,37 +163,28 @@ public class GameViewController extends PlayMenu implements Initializable {
         UnitCard card12 = new UnitCard(UnitCardInfo.CRONE_BREWESS);
         UnitCard card13 = new UnitCard(UnitCardInfo.CRONE_WHISPESS);
         UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
-        UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
+        SpecialCard card15 = new SpecialCard(SpecialCardInfo.SKELLIGE_STORM);
         UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
         UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
         SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
-        //GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().add(card4);
-        tempUser.getDeckCards().add(card1);
-        tempUser.getDeckCards().add(card2);
-        tempUser.getDeckCards().add(card5);
-        //GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
-        tempUser.getDeckCards().add(card6);
-        tempUser.getDeckCards().add(card7);
-        tempUser.getDeckCards().add(card8);
-        tempUser.getDeckCards().add(card9);
-        tempUser.getDeckCards().add(card10);
-        tempUser.getDeckCards().add(card11);
-        tempUser.getDeckCards().add(card12);
-        tempUser.getDeckCards().add(card13);
-        tempUser.getDeckCards().add(card14);
-        tempUser.getDeckCards().add(card15);
-        tempUser.setFaction("as");
-        Game.getLoggedInUser().setFaction("we");
-        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.HIS_IMPERIAL_MAJESTY));
-        GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
-
-
-        GameMenuController.getMatchTable().setFirstPlayerTurn(true);
-
-
+        GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().add(card4);
+        Game.getLoggedInUser().getDeckCards().add(card1);
+        Game.getLoggedInUser().getDeckCards().add(card2);
+        Game.getLoggedInUser().getDeckCards().add(card5);
+        GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
+        Game.getLoggedInUser().getDeckCards().add(card6);
+        Game.getLoggedInUser().getDeckCards().add(card7);
+        Game.getLoggedInUser().getDeckCards().add(card8);
+        Game.getLoggedInUser().getDeckCards().add(card9);
+        Game.getLoggedInUser().getDeckCards().add(card10);
+        Game.getLoggedInUser().getDeckCards().add(card11);
+        Game.getLoggedInUser().getDeckCards().add(card12);
+        Game.getLoggedInUser().getDeckCards().add(card13);
+        Game.getLoggedInUser().getDeckCards().add(card14);
+        Game.getLoggedInUser().getDeckCards().add(card15);
         InitiateCardEvents();
         GameMenuController.intiateDeck(GameMenuController.getMatchTable());
 

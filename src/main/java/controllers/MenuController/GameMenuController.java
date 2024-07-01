@@ -9,14 +9,25 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import models.MatchTable;
 import models.Result;
+import models.UserInputHandler.CardClickCommand;
 import models.cards.*;
 import views.ViewController.GameViewController;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class GameMenuController extends Controller {
     private static MatchTable matchTable;
     private static Stage tempStage;
+    private static boolean isNewWindowOpen = false;
+    private static boolean isMedic = false;
+    private static boolean isRedRider = false;
+    private static boolean isDestroyer = false;
+    private static GameViewController gameViewController2;
+
+    public static void setGameViewController2(GameViewController gameViewController2) {
+        GameMenuController.gameViewController2 = gameViewController2;
+    }
 
     public static MatchTable getMatchTable() {
         return matchTable;
@@ -33,10 +44,22 @@ public class GameMenuController extends Controller {
     }
 
     public static void ClickedOnCard(Card selectedCard1, GameViewController gameViewController) {
-        if (Objects.equals(selectedCard1.getParent().getId(), "tempRow")) {
-            matchTable.doMedic(new CardWrapper(selectedCard1, Origin.FIRSTPLATER_DEAD));
+        if (isNewWindowOpen) {
+            if (isMedic) {
+                matchTable.doMedic(new CardWrapper(selectedCard1, Origin.FIRSTPLATER_DEAD));
+                isMedic = false;
+            }
+            if (isRedRider) {
+                matchTable.addToSpellCards(new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
+                isRedRider = false;
+            }
+            if (isDestroyer) {
+                matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
+                isDestroyer = false;
+            }
             tempStage.close();
             gameViewController.update();
+            isNewWindowOpen = false;
         } else {
             if (isSelectable(selectedCard1)) {
                 selectedCard = selectedCard1;
@@ -222,7 +245,6 @@ public class GameMenuController extends Controller {
     }
 
 
-
     public static boolean isRowValidForCard(Card card, String rowNumber) {
         return true;
     }
@@ -314,10 +336,11 @@ public class GameMenuController extends Controller {
         tempStage.setHeight(140);
         tempStage.setWidth(800);
         tempStage.setResizable(false);
+        isMedic = true;
         HBox hBox = new HBox();
         Scene scene = new Scene(hBox);
         hBox.getChildren().addAll(matchTable.getFirstPlayerDeadCards());
-        hBox.setId("tempRow");
+        isNewWindowOpen = true;
         tempStage.setScene(scene);
         tempStage.show();
     }
@@ -329,7 +352,67 @@ public class GameMenuController extends Controller {
         tempStage.setResizable(false);
         HBox hBox = new HBox();
         Scene scene = new Scene(hBox);
-        hBox.getChildren().addAll(MatchTable.randomSelectedCards(matchTable.getSecondPlayerInPlayCards(),3));
+        hBox.getChildren().addAll(MatchTable.randomSelectedCards(matchTable.getSecondPlayerInPlayCards(), 3));
+        tempStage.setScene(scene);
+        tempStage.show();
+    }
+
+    public static void MakeCommanderOfRedRidersWindow() {
+
+        tempStage = new Stage();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        isRedRider = true;
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> weatherCards = new ArrayList<>();
+        for (Card card : matchTable.getFirstPlayerDeckCards()) {
+            if (card instanceof SpecialCard) {
+                if (!(Objects.equals(card.getName(), "Commander’s horn") ||
+                        Objects.equals(card.getName(), "Scorch") ||
+                        Objects.equals(card.getName(), "Mardroeme"))
+                ) {
+                    weatherCards.add(card);
+                }
+
+            }
+        }
+        InitiateOnCardClick(hBox, scene, weatherCards);
+    }
+
+    public static void MakeDestroyerOfWorldsWindow() {
+        ArrayList<Card> cardsToKill = new ArrayList<>(
+                MatchTable.randomSelectedCards(matchTable.getFirstPlayerInPlayCards(), 2)
+        );
+        for (Card card : cardsToKill) {
+            matchTable.addToDeadCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_INPLAY));
+        }
+
+
+        isDestroyer = true;
+        tempStage = new Stage();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> selectedCards = new ArrayList<>(matchTable.getFirstPlayerDeckCards());
+        InitiateOnCardClick(hBox, scene, selectedCards);
+    }
+
+    private static void InitiateOnCardClick(HBox hBox, Scene scene, ArrayList<Card> selectedCards) {
+        for (Card card : selectedCards) {
+            card.setOnMouseClicked(_ -> {
+                System.out.println(STR."name:\{card.getName()}");
+                CardClickCommand cardClickCommand = new CardClickCommand(card, gameViewController2);
+                cardClickCommand.excute();
+
+
+            });
+        }
+        hBox.getChildren().addAll(selectedCards);
+        isNewWindowOpen = true;
         tempStage.setScene(scene);
         tempStage.show();
     }
@@ -342,8 +425,8 @@ public class GameMenuController extends Controller {
     }
 
     public static void clickedOnWeather() {
-        if (selectedCard instanceof SpecialCard &&!(
-                Objects.equals(selectedCard.getName(), "Commander’s horn")||
+        if (selectedCard instanceof SpecialCard && !(
+                Objects.equals(selectedCard.getName(), "Commander’s horn") ||
                         Objects.equals(selectedCard.getName(), "Mardroeme"))) {
             matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY));
 
@@ -356,8 +439,11 @@ public class GameMenuController extends Controller {
         matchTable.leaderAction();
         matchTable.setFirstPlayerLeaderUsed(true);
     }
+
     public static void passRound() {
         matchTable.pass(0);
     }
+
+
 }
 

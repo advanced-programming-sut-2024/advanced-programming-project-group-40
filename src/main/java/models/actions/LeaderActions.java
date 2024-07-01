@@ -142,30 +142,16 @@ public abstract class LeaderActions {
     }
 
     private static void kingOfTheWildHunt() {
-        if (matchTable.isFirstPlayerTurn()) {
-            if (!isArrayOnlyHero(matchTable.getFirstPlayerDeadCards())) {
-                ArrayList<Card> herolessArray = getHerolessArray(matchTable.getFirstPlayerDeadCards());
-                int randomNumber = Game.random.nextInt(0, herolessArray.size());
-                matchTable.addToInPlayCards(0, new CardWrapper(herolessArray.get(randomNumber),
-                        Origin.FIRSTPLATER_DEAD));
-            }
-        } else {
-            if (!isArrayOnlyHero(matchTable.getSecondPlayerDeadCards())) {
-                ArrayList<Card> herolessArray = getHerolessArray(matchTable.getSecondPlayerDeadCards());
-                int randomNumber = Game.random.nextInt(0, herolessArray.size());
-                matchTable.addToInPlayCards(1, new CardWrapper(herolessArray.get(randomNumber),
-                        Origin.SECONDPLAYER_DEAD));
-            }
-        }
+        //todo
     }
 
     private static void destroyerOfWorlds() {
-        //todo
+        GameMenuController.MakeDestroyerOfWorldsWindow();
 
     }
 
     private static void commanderOfTheRedRiders() {
-        //todo
+        GameMenuController.MakeCommanderOfRedRidersWindow();
     }
 
     private static void theTreacherous() {
