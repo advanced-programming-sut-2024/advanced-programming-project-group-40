@@ -27,4 +27,12 @@ public class MainViewController {
             throw new RuntimeException(e);
         }
     }
+
+    public void goToScoreBoard(MouseEvent mouseEvent) {
+        try {
+            new ScoreBoard().start(MainMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

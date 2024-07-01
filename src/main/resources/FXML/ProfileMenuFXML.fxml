@@ -5,9 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="profile-menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ProfileViewController">
    <children>
-      <ScrollPane hbarPolicy="NEVER" layoutX="71.0" layoutY="311.0" prefHeight="327.0" prefWidth="868.0" styleClass="profile-menu-scroll-pane" vbarPolicy="NEVER">
+      <Pane layoutX="25.0" layoutY="250.0" prefHeight="435.0" prefWidth="946.0" styleClass="brown-box">
+      <ScrollPane hbarPolicy="NEVER" layoutX="39.0" layoutY="94.0" prefHeight="327.0" prefWidth="868.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
          <content>
             <HBox prefHeight="500.0" prefWidth="863.0">
                <children>
@@ -176,12 +177,19 @@
             </HBox>
          </content>
       </ScrollPane>
-
-      <TextField fx:id="numberOfGameHistory" layoutX="505.0" layoutY="248.0" prefWidth="38.0" />
-      <Label layoutX="394.0" layoutY="254.0" text="Game History">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
+   
+         <TextField fx:id="numberOfGameHistory" layoutX="500.0" layoutY="52.0" prefHeight="0.0" prefWidth="31.0" />
+         <Label layoutX="415.0" layoutY="14.0" styleClass="label-header" text="Game History">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label layoutX="389.0" layoutY="60.0" text="Number of rows">
+            <font>
+               <Font size="15.0" />
+            </font>
+         </Label>
+      </Pane>
       <Pane layoutX="205.0" layoutY="50.0" prefHeight="168.0" prefWidth="572.0" styleClass="pane-menu">
          <children>
             <Label layoutX="55.0" layoutY="12.0" prefHeight="31.0" prefWidth="81.0" text="Username:">

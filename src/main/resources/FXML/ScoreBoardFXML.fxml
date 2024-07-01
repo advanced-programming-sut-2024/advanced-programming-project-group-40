@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="FXML.ScoreBoardFXML"
-            prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ScoreBoardViewController">
+   <children>
+      <Pane layoutX="434.0" layoutY="83.0" prefHeight="531.0" prefWidth="278.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="32.0" layoutY="67.0" prefHeight="450.0" prefWidth="213.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
+         <content>
+            <HBox prefHeight="450.0" prefWidth="214.0" styleClass="Something">
+               <children>
+                  <VBox prefHeight="450.0" prefWidth="136.0" styleClass="Something">
+                     <children>
+                        <BorderPane prefHeight="47.0" prefWidth="131.0" styleClass="Something">
+                           <center>
+                              <Label text="Name" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font></Label>
+                           </center></BorderPane>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="450.0" prefWidth="72.0" styleClass="Something">
+                     <children>
+                        <BorderPane prefHeight="47.0" prefWidth="200.0" styleClass="Something">
+                           <center>
+                              <Label text="Wins" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></Label>
+                           </center></BorderPane>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </content>
+      </ScrollPane>
+         <Label layoutX="74.0" layoutY="21.0" text="Score Board" styleClass="label-header">
+            <font>
+               <Font size="25.0" />
+            </font>
+         </Label>
+      </Pane>
+      <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Icnos/Back.png" />
+         </image>
+      </ImageView>
+   </children>
 </AnchorPane>

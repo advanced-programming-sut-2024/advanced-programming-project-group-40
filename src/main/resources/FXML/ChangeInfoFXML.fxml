@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../CSS/Style.css" styleClass="profile-menu-background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ChangeInfoViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../CSS/Style.css" styleClass="menu-background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.ChangeInfoViewController">
     <children>
         <VBox alignment="CENTER" layoutX="377.0" layoutY="69.0" prefHeight="578.0" prefWidth="275.0" styleClass="brown-box">
             <children>
