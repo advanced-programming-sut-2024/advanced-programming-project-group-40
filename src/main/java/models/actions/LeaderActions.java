@@ -142,7 +142,7 @@ public abstract class LeaderActions {
     }
 
     private static void kingOfTheWildHunt() {
-        //todo
+        GameMenuController.MakeKingOfWildHuntWindow();
     }
 
     private static void destroyerOfWorlds() {

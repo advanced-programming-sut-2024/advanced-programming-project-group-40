@@ -149,7 +149,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
         tempUser.setFaction("as");
         Game.getLoggedInUser().setFaction("we");
-        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.DAISY_OF_THE_VALLEY));
+        Game.getLoggedInUser().setLeader(new Leader(LeaderInfo.KING_OF_THE_WILD_HUNT));
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
 
         GameMenuController.getMatchTable().setFirstPlayerTurn(true);

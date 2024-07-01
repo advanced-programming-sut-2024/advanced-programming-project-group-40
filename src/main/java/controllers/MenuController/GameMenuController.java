@@ -21,6 +21,7 @@ public class GameMenuController extends Controller {
     private static Stage tempStage;
     private static boolean isNewWindowOpen = false;
     private static boolean isMedic = false;
+    private static boolean isKingOfWildHunt=false;
     private static boolean isRedRider = false;
     private static boolean isDestroyer = false;
     private static GameViewController gameViewController2;
@@ -56,6 +57,10 @@ public class GameMenuController extends Controller {
             if (isDestroyer) {
                 matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
                 isDestroyer = false;
+            }
+            if (isKingOfWildHunt){
+                matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
+                isKingOfWildHunt = false;
             }
             tempStage.close();
             gameViewController.update();
@@ -322,7 +327,7 @@ public class GameMenuController extends Controller {
                 matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
                 gameViewController.update();
                 if (isMedic && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
-                    MakeMedicWindow(gameViewController);
+                    MakeMedicWindow();
                 }
                 selectedCard = null;
             }
@@ -330,8 +335,8 @@ public class GameMenuController extends Controller {
 
     }
 
-    private static void MakeMedicWindow(GameViewController gameViewController) {
-        gameViewController.getFirstPlayerDiscard().getChildren().clear();
+    private static void MakeMedicWindow() {
+        gameViewController2.getFirstPlayerDiscard().getChildren().clear();
         tempStage = new Stage();
         tempStage.setHeight(140);
         tempStage.setWidth(800);
@@ -379,6 +384,24 @@ public class GameMenuController extends Controller {
             }
         }
         InitiateOnCardClick(hBox, scene, weatherCards);
+    }
+
+    public static void MakeKingOfWildHuntWindow() {
+        MakeMedicWindow();
+        /*tempStage = new Stage();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        isKingOfWildHunt = true;
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> cards = new ArrayList<>();
+        for (Card card : matchTable.getFirstPlayerDeadCards()) {
+            if (!(card instanceof Hero)) {
+                    cards.add(card);
+            }
+        }
+        InitiateOnCardClick(hBox, scene, cards);*/
     }
 
     public static void MakeDestroyerOfWorldsWindow() {
