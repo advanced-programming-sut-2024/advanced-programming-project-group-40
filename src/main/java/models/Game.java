@@ -52,9 +52,7 @@ public class Game {
         Game.currentMenu = currentMenu;
     }
     public static void setAllUsers(ArrayList<User> allUsers) {
-        if (allUsers.isEmpty())
-            Game.allUsers = new ArrayList<>();
-        else
+        if (!allUsers.isEmpty())
             Game.allUsers = allUsers;
     }
     public static ArrayList<User> getAllUsers() {

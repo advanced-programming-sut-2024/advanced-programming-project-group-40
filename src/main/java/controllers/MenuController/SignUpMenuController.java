@@ -1,5 +1,6 @@
 package controllers.MenuController;
 
+import controllers.DataSaver;
 import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
@@ -24,12 +25,12 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityQuestionNumber(questionNumber);
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
-//        Controller.DataSaver.saveUsers();
+//        DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
 
 
-    public static void creatUser(String username, String password, String nickname, String email) {
+    public static void createUser(String username, String password, String nickname, String email) {
         Game.setLoggedInUser(new User(username, password, email, nickname));
     }
 
