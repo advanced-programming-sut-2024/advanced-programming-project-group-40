@@ -1,13 +1,15 @@
 package models;
 
 import enums.Menu;
-import enums.cards.HeroInfo;
-import enums.cards.SpecialCardInfo;
-import enums.cards.UnitCardInfo;
+import enums.cards.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import models.cards.*;
+import views.GameView;
 import views.PlayMenu;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Game {
@@ -16,10 +18,17 @@ public class Game {
     private static final ArrayList<Card> allCards = Game.setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static final ArrayList<Card> selectedCards = new ArrayList<>();
+    private static final ArrayList<String> allFactions = new ArrayList<>();
 
+   static  {
+       allFactions.add(FactionInfo.Monster.name);
+       allFactions.add(FactionInfo.Scoiatael.name);
+       allFactions.add(FactionInfo.Nilfgaard.name);
+       allFactions.add(FactionInfo.Realms.name);
+       allFactions.add(FactionInfo.Skellige.name);
+    }
     private static User loggedInUser = new User("", "", "", "");
     private static Menu currentMenu = Menu.LoginMenu;
-
 
     public static ArrayList<User> getUsersRanked() {
         return null;
@@ -44,22 +53,26 @@ public class Game {
         }
         return null;
     }
-    public static void addNewUser(User newUser){
+
+    public static void addNewUser(User newUser) {
         allUsers.add(newUser);
     }
 
     public static void setCurrentMenu(Menu currentMenu) {
         Game.currentMenu = currentMenu;
     }
+
     public static void setAllUsers(ArrayList<User> allUsers) {
         if (allUsers.isEmpty())
             Game.allUsers = new ArrayList<>();
         else
             Game.allUsers = allUsers;
     }
+
     public static ArrayList<User> getAllUsers() {
-     return allUsers;
+        return allUsers;
     }
+
     public static ArrayList<Card> setAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
@@ -74,10 +87,18 @@ public class Game {
         }
         return allCards;
     }
+
     public static ArrayList<Card> getAllCards() {
         return allCards;
     }
-    public static void addToSelectedCards(Card card){
+
+    public static void addToSelectedCards(Card card) {
         selectedCards.add(card);
     }
+
+    public static ArrayList<String> getAllFactions(){
+        return allFactions;
+    }
+
+
 }

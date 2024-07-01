@@ -1,5 +1,6 @@
 package models;
 
+import enums.cards.FactionInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
@@ -10,7 +11,9 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private String faction = "Nilfgaardian Empire";
+
+    // todo ghablesh  "Nilfgaardian Empire" bod kardam enum, agar bog khord begid. mrc
+    private String faction = FactionInfo.Nilfgaard.name;
     private int point;
     private int gamesPlayed;
     private int won;
@@ -47,7 +50,7 @@ public class User {
         return highestScore;
     }
 
-    public int getNumberOfMatches(){
+    public int getNumberOfMatches() {
         return matchesPlayed.size();
     }
 

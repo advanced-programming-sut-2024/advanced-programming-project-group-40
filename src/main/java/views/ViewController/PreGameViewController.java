@@ -1,5 +1,8 @@
 package views.ViewController;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
+import controllers.MenuController.PreGameMenuController;
+import enums.Factions;
 import enums.cards.UnitCardInfo;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,14 +19,23 @@ import models.cards.Card;
 import models.cards.UnitCard;
 import views.GameView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import views.PreGameMenu;
 
 public class PreGameViewController {
+    public ImageView image2;
+    public ImageView image3;
+    public ImageView image1;
+    public ImageView image4;
+    public ImageView image5;
+    public Label description;
     @FXML
     private Pane changeFactionPane;
     public Pane mainPane;
@@ -31,8 +43,35 @@ public class PreGameViewController {
     public VBox box2;
     public VBox box1;
     public FlowPane selectCardFlowPane;
+    private ArrayList<ImageView> images = new ArrayList<ImageView>();
+    private int[] tmp = new int[]{0, 1, 2, 3, 4};
+    private HashMap<String, ImageView> factions = new HashMap<String, ImageView>();
+    private ArrayList<String> factionNames = Game.getAllFactions();
 
     public void initialize() {
+        changeFactionPane.setVisible(false);
+
+        images.add(image1);
+        images.add(image2);
+        images.add(image3);
+        images.add(image4);
+        images.add(image5);
+
+        for (String cardName : factionNames) {
+            factions.put(cardName, new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".jpg")).toExternalForm())));
+        }
+
+        int counter = -1;
+        for (ImageView imageFaction : images) {
+            counter++;
+            if (imageFaction.equals(image3)) {
+                imageFaction.setImage(factions.get(Game.getLoggedInUser().getFaction()).getImage());
+                description.setText(Game.getLoggedInUser().getFaction());
+            } else if (!factionNames.equals(Game.getLoggedInUser().getFaction())) {
+                imageFaction.setImage(factions.get(factionNames.get(counter)).getImage());
+            }
+        }
+
         selectCardFlowPane.setHgap(10);
         for (Card card : Game.getAllCards()) {
             Pane pane = new Pane();
@@ -66,9 +105,8 @@ public class PreGameViewController {
     }
 
     public void ChangeFaction(MouseEvent mouseEvent) {
-        mainPane.setDisable(true);
+//        mainPane.setDisable(true);
         changeFactionPane.setVisible(true);
-
     }
 
     @FXML
@@ -90,6 +128,45 @@ public class PreGameViewController {
         }
     }
 
+    public void changeFaction() {
+
+    }
+
+    public void moveRight(MouseEvent mouseEvent) {
+        int cnt = tmp[4];
+        for (int i = 4; i > 0; i--) {
+            tmp[i] = tmp[i - 1];
+        }
+        tmp[0] = cnt;
+
+        int counter = -1;
+        for (ImageView imageFaction : images) {
+            counter++;
+            imageFaction.setImage(factions.get(factionNames.get(tmp[counter])).getImage());
+        }
+
+        description.setText(factionNames.get(tmp[2]));
+    }
+
+    public void moveLeft(MouseEvent mouseEvent) {
+        int cnt = tmp[0];
+        for (int i = 0; i < 4; i++) {
+            tmp[i] = tmp[i + 1];
+        }
+        tmp[4] = cnt;
 
 
+        int counter = -1;
+        for (ImageView imageFaction : images) {
+            counter++;
+            imageFaction.setImage(factions.get(factionNames.get(tmp[counter])).getImage());
+        }
+
+        description.setText(factionNames.get(tmp[2]));
+    }
+
+    public void closeFactionPane(MouseEvent mouseEvent) {
+        changeFactionPane.setVisible(false);
+//        mainPane.setDisable(false);
+    }
 }
