@@ -30,29 +30,14 @@ import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
-import views.GameView;
 import views.Main;
 import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
-
-
-    private static MatchTable matchTable;
-
-
-    public static MatchTable getMatchTable() {
-        return matchTable;
-    }
-
-    public static void setMatchTable(MatchTable matchTable) {
-        GameViewController.matchTable = matchTable;
-    }
-
     @FXML
     private GridPane pane;
     @FXML
@@ -136,7 +121,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         //todo
         //initialize faction and leader images for each player
 
-
         User tempUser = new User("a", "a", "a", "a");
 
         tempUser.setFaction("as");
@@ -188,11 +172,9 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-
                 System.out.println(STR."name:\{card.getName()}");
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
-
             });
         }
     }

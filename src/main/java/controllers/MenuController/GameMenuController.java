@@ -36,7 +36,6 @@ public class GameMenuController extends Controller {
             gameViewController.unHighlight();
             Origin origin = GetDestination();
             gameViewController.highLightRow(origin);
-            System.out.println("selected");
         }
     }
 

@@ -129,7 +129,7 @@ public enum UnitCardInfo {
     GAUNTER_ODIMM_DARKNESS("Gaunter O’DImm Darkness", "/Assets/Cards/Plane/neutral_gaunter_odimm_darkness.jpg", "/Assets/Cards/Detailed/neutral_gaunter_odimm_darkness.jpg", 4, 3, Unit.RANGED, Factions.NEUTRAL, Ability.MUSTER),
     OLGIERD_VON_EVERC("Olgierd Von Everc", "/Assets/Cards/Plane/neutral_olgierd.jpg", "/Assets/Cards/Detailed/neutral_olgierd.jpg", 6, 1, Unit.AGILE, Factions.NEUTRAL, Ability.MORALE_BOOST),
     VESEMIR("Vesemir", "/Assets/Cards/Plane/neutral_vesemir.jpg", "/Assets/Cards/Detailed/neutral_vesemir.jpg", 6, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE),
-    VILLENTRETENMERTH("Villentretenmerth", "/Assets/Cards/Plane/neutral_villen.jpg", "/Assets/Cards/Detailed/", 7, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.SCORCH),
+    VILLENTRETENMERTH("Villentretenmerth", "/Assets/Cards/Plane/neutral_villen.jpg", "/Assets/Cards/Detailed/neutral_villen.jpg", 7, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.SCORCH),
     ZOLTAN_CHIVAY("Zoltan Chivay", "/Assets/Cards/Plane/neutral_zoltan.jpg", "/Assets/Cards/Detailed/neutral_zoltan.jpg", 5, 1, Unit.CLOSE_COMBAT, Factions.NEUTRAL, Ability.NONE),
     BEAR("Bear","/Assets/Cards/Plane/neutral_bear.bmp" ,"/Assets/Cards/Detailed/neutral_zoltan.jpg" ,8,0 ,Unit.All ,Factions.NEUTRAL , Ability.NONE);
 
