@@ -59,7 +59,6 @@
 }
 
 
-
 .remove-background {
     -fx-background-color: transparent; /* Remove background color */
     -fx-background-insets: 0; /* Remove background insets */
@@ -164,7 +163,7 @@ profile-menu-scroll-pane {
 
     /*-fx-background-color: rgba(21, 17, 15, 0.9);*/
     /*-fx-background-radius: 30px;*/
-    /*-fx-border-radius: 30px*/
+    -fx-border-radius: 30px
 }
 
 .profile-menu-scroll-pane .viewport {
@@ -175,23 +174,35 @@ profile-menu-scroll-pane {
 
     -fx-background-color: #31261D;
     /*-fx-background-radius: 20;*/
-    /*-fx-border-radius: 20;*/
+    -fx-border-radius: 20;
 }
 
 .profile-menu-scroll-pane.scroll-bar:vertical {
--fx-opacity: 0;
+    -fx-opacity: 0;
     -fx-pref-width: 0;
 }
 
 .profile-menu-scroll-pane .scroll-bar .thumb {
     -fx-background-color: rgba(101, 88, 71);
     /*-fx-background-radius: 20;*/
-    /*-fx-border-radius: 20;*/
 }
 
-.Something{
+.Something {
     -fx-border-color: #f8eecb; /* Remove border color */
     -fx-border-width: 1px; /* Remove border width */
 }
 
+.pane-menu {
+    /*-fx-effect: dropshadow(gaussian, rgb(248, 238, 203), 30, 0, 0, 0);*/
+    -fx-background-color: rgb(49, 38, 29, 0.7);
+    -fx-border-color: #f8eecb; /* Remove border color */
+    -fx-border-radius: 9;
+}
 
+.brown-box {
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #C2E7E3;
+    -fx-background-color: rgb(49, 38, 29, 0.7);
+}

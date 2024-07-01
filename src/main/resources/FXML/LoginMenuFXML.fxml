@@ -16,10 +16,10 @@
                <font>
                   <Font size="15.0" />
                </font></TextField>
-            <TextField fx:id="password" alignment="CENTER" maxWidth="190.0" prefHeight="35.0" promptText="Password">
+            <PasswordField fx:id="password" alignment="CENTER" maxWidth="190.0" prefHeight="35.0" promptText="Password">
                <font>
                   <Font size="16.0" />
-               </font></TextField>
+               </font></PasswordField>
             <Button mnemonicParsing="false" onMouseClicked="#signInClicked" prefHeight="13.0" prefWidth="98.0" styleClass="button-regular" text="Sign In" translateY="12.0">
                <font>
                   <Font size="16.0" />
