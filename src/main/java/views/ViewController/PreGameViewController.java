@@ -51,6 +51,7 @@ public class PreGameViewController {
     public Label special;
     public Label strength;
     public Label hero;
+    public ImageView factionIcon;
     @FXML
     private Pane changeFactionPane;
     public Pane mainPane;
@@ -126,7 +127,7 @@ public class PreGameViewController {
         }
 
         leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
-
+        factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress)).toExternalForm())).getImage());
 
         selectCardFlowPane.setHgap(8);
         selectCardFlowPane.setVgap(8);
@@ -195,14 +196,10 @@ public class PreGameViewController {
             if (card instanceof UnitCard) {
                 numberOfUnitCards--;
                 totalUnitCardsStrength -= ((UnitCard) card).getConstantPower();
-                System.out.println("label: " + unit.getText());
-                System.out.println("num: " + numberOfUnitCards);
                 unit.setText(Integer.toString(numberOfUnitCards));
             }
             if (card instanceof SpecialCard) {
                 numberOfSpecialCards--;
-                System.out.println("label: " + special.getText());
-                System.out.println("num: " + numberOfSpecialCards);
                 special.setText(Integer.toString(numberOfUnitCards));
             }
             if (card instanceof Hero) {
@@ -233,7 +230,6 @@ public class PreGameViewController {
         }
         Card newCard = Card.getCardByName(card.getName());
         assert newCard != null;
-        // todo
         CreateNewCard(newCard, true);
     }
 
@@ -245,8 +241,10 @@ public class PreGameViewController {
         }
 
         description.setText(cardsName.get(tmp[2]));
-        if (changeFactionClicked)
+        if (changeFactionClicked) {
             Game.getLoggedInUser().setFaction(Factions.toFaction(cardsName.get(tmp[2])));
+            factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress)).toExternalForm())).getImage());
+        }
         if (changeLeaderClicked)
             Game.getLoggedInUser().setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
     }

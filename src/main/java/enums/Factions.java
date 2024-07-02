@@ -7,31 +7,27 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum Factions {
-    MONSTERS("monsters", "/Assets/Factions/faction_monsters.jpg"),
-    SCOIATAEL("scoiatael", "/Assets/Factions/faction_scoiatael.jpg"),
-    NILFGAARD("nilfgaard", "/Assets/Factions/faction_nilfgaard.jpg"),
-    NORTHERN_REALMS("realms", "/Assets/Factions/faction_realms.jpg"),
-    SKELLIGE("skellige", "/Assets/Factions/faction_skellige.jpg"),
-    NEUTRAL("neutral", "/Assets/Factions/faction_neutral.png"),
+    MONSTERS("monsters", "/Assets/Factions/faction_monsters.jpg","/Assets/Icons/Deck_Shield/deck_shield_monsters.png"),
+    SCOIATAEL("scoiatael", "/Assets/Factions/faction_scoiatael.jpg","/Assets/Icons/Deck_Shield/deck_shield_scoiatael.png"),
+    NILFGAARD("nilfgaard", "/Assets/Factions/faction_nilfgaard.jpg","/Assets/Icons/Deck_Shield/deck_shield_nilfgaard.png"),
+    NORTHERN_REALMS("realms", "/Assets/Factions/faction_realms.jpg","/Assets/Icons/Deck_Shield/deck_shield_realms.png"),
+    SKELLIGE("skellige", "/Assets/Factions/faction_skellige.jpg","/Assets/Icons/Deck_Shield/deck_shield_skellige.png"),
+    NEUTRAL("neutral", "/Assets/Factions/faction_neutral.png",""),
     ;
     public final String name;
     public final String planeImages;
+    public final String iconAddress;
 
 
-    Factions(String name, String planeImages) {
+    Factions(String name, String planeImages, String iconAddress) {
         this.name = name;
         this.planeImages = planeImages;
+        this.iconAddress = iconAddress;
     }
 
     @Override
     public String toString() {
         return name;
-    }
-
-    public static ArrayList<Factions> getImagesAddresses() {
-        ArrayList<Factions> addresses = new ArrayList<>();
-        addresses.addAll(Arrays.asList(Factions.values()));
-        return addresses;
     }
 
     public static ArrayList<String> getFactionsNames() {
