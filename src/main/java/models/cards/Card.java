@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import java.net.URL;
 import java.util.Objects;
 
-public abstract class Card extends Rectangle implements Cloneable {
+public abstract class Card extends Rectangle{
     private int cardNumber;
     protected final String name;
     protected final String planeImage;

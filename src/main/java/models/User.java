@@ -19,9 +19,9 @@ public class User {
     private int lost;
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
-    private final ArrayList<Card> deckCards = new ArrayList<>();
-    private Leader leader;
-    private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private final transient ArrayList<Card> deckCards = new ArrayList<>();
+    private transient Leader leader;
+    private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
 
@@ -185,8 +185,10 @@ public class User {
             }
         }
     }
-
-
+    public void setDeckCards(ArrayList<Card> deckCards) {
+        this.deckCards.clear();
+        this.deckCards.addAll(deckCards);
+    }
     //this function checks if two users are the same by checking the USERNAME & PASSWORD & EMAIL & NICKNAME & FACTION
     @Override
     public boolean equals(Object o) {
