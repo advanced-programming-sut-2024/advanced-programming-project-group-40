@@ -1,6 +1,8 @@
 package views.ViewController;
 
 
+import enums.Factions;
+import enums.cards.LeaderInfo;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -61,8 +63,8 @@ public class PreGameViewController {
     private ArrayList<String> factionName = Factions.getFactionsNames();
     private ArrayList<ImageView> leaderImages = new ArrayList<ImageView>();
     private HashMap<String, ImageView> leaders = new HashMap<String, ImageView>();
-    private ArrayList<String> leaderNames = LeaderInfo.getLeaderNameByFaction(Factions.toFaction(Game.getLoggedInUser().getFaction()));
-    private ArrayList<String> leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Factions.toFaction(Game.getLoggedInUser().getFaction()));
+    private ArrayList<String> leaderNames = LeaderInfo.getLeaderNameByFaction(Game.getLoggedInUser().getFaction());
+    private ArrayList<String> leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
     private boolean changeFactionClicked = false;
     private boolean changeLeaderClicked = false;
     public FlowPane selectedCardFlowPane;
@@ -97,9 +99,9 @@ public class PreGameViewController {
         for (ImageView imageFaction : factionImages) {
             counter++;
             if (imageFaction.equals(factionImage3)) {
-                imageFaction.setImage(factions.get(Game.getLoggedInUser().getFaction()).getImage());
-                factionDescription.setText(Game.getLoggedInUser().getFaction());
-            } else if (!factionName.get(counter).equals(Game.getLoggedInUser().getFaction())) {
+                imageFaction.setImage(factions.get(Game.getLoggedInUser().getFaction().name).getImage());
+                factionDescription.setText(Game.getLoggedInUser().getFaction().name);
+            } else if (!factionName.get(counter).equals(Game.getLoggedInUser().getFaction().name)) {
                 imageFaction.setImage(factions.get(factionName.get(counter)).getImage());
             }
         }
@@ -232,7 +234,7 @@ public class PreGameViewController {
 
         description.setText(cardsName.get(tmp[2]));
         if (changeFactionClicked)
-            Game.getLoggedInUser().setFaction(cardsName.get(tmp[2]));
+            Game.getLoggedInUser().setFaction(Factions.toFaction(cardsName.get(tmp[2])));
         if (changeLeaderClicked)
             Game.getLoggedInUser().setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
     }

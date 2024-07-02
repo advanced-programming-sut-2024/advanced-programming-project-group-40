@@ -1,5 +1,7 @@
 package models;
 
+import enums.Factions;
+import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
@@ -12,7 +14,7 @@ public class User {
     private String nickname;
 
     // todo ghablesh  "Nilfgaardian Empire" bod kardam enum, agar bog khord begid. mrc
-    private String faction = Factions.NILFGAARD.toString();
+    private Factions faction = Factions.NILFGAARD;
     private int point;
     private int gamesPlayed;
     private int won;
@@ -109,11 +111,11 @@ public class User {
         this.stayLoggedIn = stayLoggedIn;
     }
 
-    public String getFaction() {
+    public Factions getFaction() {
         return faction;
     }
 
-    public void setFaction(String faction) {
+    public void setFaction(Factions faction) {
         this.faction = faction;
     }
 

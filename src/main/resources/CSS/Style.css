@@ -192,3 +192,8 @@ menu-scroll-pane {
     -fx-border-color: #C2E7E3;
     -fx-background-color: rgb(49, 38, 29, 0.7);
 }
+
+.card{
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+}
