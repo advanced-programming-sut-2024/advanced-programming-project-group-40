@@ -25,7 +25,7 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityQuestionNumber(questionNumber);
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
-//        DataSaver.saveUsers();
+        DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
 

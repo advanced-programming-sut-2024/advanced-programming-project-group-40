@@ -1,6 +1,7 @@
 package views.ViewController;
 
 
+import controllers.DataSaver;
 import enums.Factions;
 import enums.cards.LeaderInfo;
 import javafx.scene.Node;
@@ -70,6 +71,9 @@ public class PreGameViewController {
     private int numberOfHeroCards = 0;
     private int totalUnitCardsStrength = 0;
 
+    public static void loadDeck(ArrayList<String> deckCards) {
+    }
+
     public void initialize() {
 
         changeFactionPane.setVisible(false);
@@ -124,10 +128,10 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
 
 
-        selectCardFlowPane.setHgap(10);
-        selectCardFlowPane.setVgap(10);
-        selectedCardFlowPane.setHgap(10);
-        selectedCardFlowPane.setVgap(10);
+        selectCardFlowPane.setHgap(8);
+        selectCardFlowPane.setVgap(8);
+        selectedCardFlowPane.setHgap(8);
+        selectedCardFlowPane.setVgap(8);
         setUpCards();
     }
 
@@ -183,8 +187,8 @@ public class PreGameViewController {
     }
 
     private void addToSelectedCards(Card card) {
-        card.setWidth(113);
-        card.setHeight(169.5);
+        card.setWidth(120);
+        card.setHeight(195);
         Pane pane = new Pane();
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
@@ -284,8 +288,8 @@ public class PreGameViewController {
     private void CreateNewCard(Card newCard, boolean isCardSelected) {
         Pane pane = new Pane();
         HBox hBox = new HBox();
-        newCard.setWidth(113);
-        newCard.setHeight(169.5);
+        newCard.setWidth(120);
+        newCard.setHeight(195);
         pane.getChildren().add(newCard);
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource("/Assets/Cards/counter.png")).toExternalForm()));
         imageView.setFitWidth(16);
@@ -325,5 +329,17 @@ public class PreGameViewController {
             }
         });
         selectCardFlowPane.getChildren().add(pane);
+    }
+
+    public void downloadDeck(MouseEvent mouseEvent) {
+        ArrayList<String> deckCards = new ArrayList<>();
+        for (Card card : Game.getLoggedInUser().getDeckCards()) {
+            deckCards.add(card.getName());
+        }
+        DataSaver.saveDeckCards(deckCards);
+    }
+
+    public void uploadDeck(MouseEvent mouseEvent) {
+        DataSaver.loadDeckCards();
     }
 }

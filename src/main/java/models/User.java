@@ -12,8 +12,6 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-
-    // todo ghablesh  "Nilfgaardian Empire" bod kardam enum, agar bog khord begid. mrc
     private Factions faction = Factions.NILFGAARD;
     private int point;
     private int gamesPlayed;
@@ -51,7 +49,7 @@ public class User {
         return highestScore;
     }
 
-    public int getNumberOfMatches() {
+    public int getNumberOfMatches(){
         return matchesPlayed.size();
     }
 

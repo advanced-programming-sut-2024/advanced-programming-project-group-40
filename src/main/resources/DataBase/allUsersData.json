@@ -1,0 +1,17 @@
+[
+  {
+    "username": "a",
+    "password": "V@8Qxaeo",
+    "email": "a",
+    "nickname": "a@a.com",
+    "faction": "NILFGAARD",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "1",
+    "SecurityQuestionNumber": 1,
+    "stayLoggedIn": false
+  }
+]
