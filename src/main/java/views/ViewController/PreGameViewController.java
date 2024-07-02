@@ -62,7 +62,6 @@ public class PreGameViewController {
     public void ChangeFaction(MouseEvent mouseEvent) {
         mainPane.setDisable(true);
         changeFactionPane.setVisible(true);
-
     }
 
     @FXML
