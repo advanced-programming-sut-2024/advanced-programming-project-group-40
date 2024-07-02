@@ -1,6 +1,7 @@
 package models.cards;
 
 import enums.Ability;
+import enums.Factions;
 import enums.cards.HeroInfo;
 import enums.cards.LeaderInfo;
 import enums.cards.SpecialCardInfo;
@@ -21,11 +22,13 @@ public abstract class Card extends Rectangle implements Cloneable {
     protected final String cardImage;
     protected final int maxCapacity;
     protected int selectedCards;
+    private final Factions faction;
 
-    public Card(String name, String planeImage, String cardImage, int maxCapacity) {
+    public Card(String name, String planeImage, String cardImage, int maxCapacity, Factions faction) {
         this.planeImage = planeImage;
         this.cardImage = cardImage;
         this.maxCapacity = maxCapacity;
+        this.faction = faction;
         this.setWidth(65);
         this.setHeight(90);
         setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource(cardImage)).toExternalForm())));
@@ -75,6 +78,13 @@ public abstract class Card extends Rectangle implements Cloneable {
     public void addToSelected() {
         this.selectedCards++;
     }
+    public void removeFromSelected(){
+        this.selectedCards--;
+    }
+
+    public void setSelectedCards(int selectedCards) {
+        this.selectedCards = selectedCards;
+    }
 
     public int getSelectedCards() {
         return selectedCards;
@@ -101,6 +111,10 @@ public abstract class Card extends Rectangle implements Cloneable {
             }
         }
         return null;
+    }
+
+    public Factions getFaction() {
+        return faction;
     }
 }
 

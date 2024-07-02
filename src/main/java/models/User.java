@@ -1,7 +1,5 @@
 package models;
 
-import enums.Factions;
-import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
@@ -177,6 +175,16 @@ public class User {
 
     public void addPoint(int addingPoint) {
         point += addingPoint;
+    }
+    public void removeCardFromDeck(Card card){
+        if (!deckCards.isEmpty()){
+            for (Card card1 : deckCards) {
+                if (card1.getName().equals(card.getName())){
+                    deckCards.remove(card1);
+                    break;
+                }
+            }
+        }
     }
 
 

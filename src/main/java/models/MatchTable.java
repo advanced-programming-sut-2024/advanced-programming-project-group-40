@@ -1151,7 +1151,7 @@ public class MatchTable {
             }
         }
         row.removeAll(toRemove);
-        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.VIDKAARL);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
 

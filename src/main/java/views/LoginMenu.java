@@ -1,6 +1,6 @@
 package views;
 
-import Controller.DataSaver;
+import controllers.DataSaver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +12,7 @@ import models.Game;
 import java.util.Objects;
 
 import java.util.Scanner;
+
 
 public class LoginMenu extends PlayMenu {
     public static void main(String[] args) {

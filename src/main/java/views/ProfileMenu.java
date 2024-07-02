@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ProfileMenu extends PlayMenu {
@@ -14,7 +15,7 @@ public class ProfileMenu extends PlayMenu {
     @Override
     public void start(Stage stage) throws Exception {
         MainMenu.stage = stage;
-        Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/ProfileMenuFXML.fxml"));
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("/FXML/ProfileMenuFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }

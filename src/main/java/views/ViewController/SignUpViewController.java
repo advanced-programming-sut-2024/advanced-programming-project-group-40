@@ -129,7 +129,7 @@ public class SignUpViewController {
             AlertMaker alert = SignUpMenuController.Continue(username.getText());
             alert.showAlert();
             if (alert.isOK()) {
-                SignUpMenuController.creatUser(username.getText(), password.getText(), email.getText(), nickname.getText());
+                SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
                 goToQuestionPage();
             }
         }
