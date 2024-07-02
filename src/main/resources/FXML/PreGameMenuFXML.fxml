@@ -32,7 +32,7 @@
                                     <Image url="@../Assets/Icons/Deck_Stats/deck_stats_count.png" />
                                 </image>
                             </ImageView>
-                            <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
+                            <Label fx:id="count" alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                         </children>
                     </HBox>
                     <Label text="Number of Unit Cards" />
@@ -43,7 +43,7 @@
                                     <Image url="@../Assets/Icons/Deck_Stats/deck_stats_unit.png" />
                                 </image>
                             </ImageView>
-                            <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
+                            <Label fx:id="unit" alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                         </children>
                     </HBox>
                     <Label text="Special Cards" />
@@ -54,7 +54,7 @@
                                     <Image url="@../Assets/Icons/Deck_Stats/deck_stats_special.png" />
                                 </image>
                             </ImageView>
-                            <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
+                            <Label fx:id="special" alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                         </children>
                     </HBox>
                     <Label text="Total Unit Cards Strength" />
@@ -65,7 +65,7 @@
                                     <Image url="@../Assets/Icons/Deck_Stats/deck_stats_strength.png" />
                                 </image>
                             </ImageView>
-                            <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
+                            <Label fx:id="strength" alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                         </children>
                     </HBox>
                     <Label text="Hero Cards" />
@@ -76,7 +76,7 @@
                                     <Image url="@../Assets/Icons/Deck_Stats/deck_stats_hero.png" />
                                 </image>
                             </ImageView>
-                            <Label alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
+                            <Label fx:id="hero" alignment="CENTER" prefHeight="18.0" prefWidth="61.0" text="Label" />
                         </children>
                     </HBox>
                     <Button mnemonicParsing="false" text="Button" />
@@ -91,6 +91,11 @@
             <Label layoutX="463.0" layoutY="110.0" onMouseClicked="#changeFaction" text="Change faction" />
             <Label layoutX="582.0" layoutY="110.0" text="Download Deck" />
             <Label layoutX="408.0" layoutY="91.0" prefHeight="18.0" prefWidth="189.0" text="Draw a card from your deck whenever you win a round." />
+            <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true" styleClass="back">
+                <image>
+                    <Image url="@../images/Icnos/Back.png" />
+                </image>
+            </ImageView>
         </Pane>
 
         <Pane fx:id="changeFactionPane" layoutX="64.0" layoutY="-110.0" prefHeight="609.0" prefWidth="851.0" styleClass="pane-menu" translateY="150.0">
