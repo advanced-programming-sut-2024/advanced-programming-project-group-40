@@ -3,20 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.PreGameViewController">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" translateX="-2.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.PreGameViewController">
     <children>
         <Pane fx:id="mainPane">
 
-            <ScrollPane hbarPolicy="NEVER" layoutX="22.0" layoutY="162.0" prefHeight="519.0" prefWidth="378.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
+            <ScrollPane hbarPolicy="NEVER" layoutX="22.0" layoutY="162.0" prefHeight="519.0" prefWidth="386.0" styleClass="menu-scroll-pane" translateX="-2.0" vbarPolicy="NEVER">
                 <content>
-                    <FlowPane fx:id="selectCardFlowPane" prefHeight="1000.0" prefWidth="378.0" />
+                    <FlowPane fx:id="selectCardFlowPane" prefHeight="1000.0" prefWidth="378.0" translateX="4.0" translateY="4.0" />
                 </content>
             </ScrollPane>
-            <ScrollPane hbarPolicy="NEVER" layoutX="601.0" layoutY="162.0" prefHeight="519.0" prefWidth="378.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
+            <ScrollPane hbarPolicy="NEVER" layoutX="601.0" layoutY="162.0" prefHeight="519.0" prefWidth="386.0" styleClass="menu-scroll-pane" translateX="-3.0" vbarPolicy="NEVER">
                 <content>
-                    <FlowPane fx:id="selectedCardFlowPane" prefHeight="1000.0" prefWidth="378.0" />
+                    <FlowPane fx:id="selectedCardFlowPane" prefHeight="1000.0" prefWidth="378.0" translateX="4.0" translateY="4.0" />
                 </content>
             </ScrollPane>
 
@@ -112,17 +112,17 @@
                     </font>
                 </Label>
 
-                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="614.0" layoutY="527.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="614.0" layoutY="527.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
-                        <Image url="@../images/Icnos/Back.png" />
+                        <Image url="@../images/Icnos/goRight.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="247.0" layoutY="527.0" onMouseClicked="#moveLeft" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="247.0" layoutY="527.0" onMouseClicked="#moveLeft" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
-                        <Image url="@../images/Icnos/Back.png" />
+                        <Image url="@../images/Icnos/goLeft.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="18.0" layoutY="14.0" onMouseClicked="#closeFactionPane" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="18.0" layoutY="14.0" onMouseClicked="#closeFactionPane" pickOnBounds="true" preserveRatio="true" styleClass="back">
                     <image>
                         <Image url="@../images/Icnos/Back.png" />
                     </image>
@@ -142,17 +142,17 @@
                     </font>
                 </Label>
 
-                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="614.0" layoutY="527.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="610.0" layoutY="527.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
-                        <Image url="@../images/Icnos/Back.png" />
+                        <Image url="@../images/Icnos/goRight.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="247.0" layoutY="527.0" onMouseClicked="#moveLeft" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="247.0" layoutY="527.0" onMouseClicked="#moveLeft" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
-                        <Image url="@../images/Icnos/Back.png" />
+                        <Image url="@../images/Icnos/goLeft.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="18.0" layoutY="14.0" onMouseClicked="#closeLeaderPane" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="18.0" layoutY="14.0" onMouseClicked="#closeLeaderPane" pickOnBounds="true" preserveRatio="true" styleClass="back">
                     <image>
                         <Image url="@../images/Icnos/Back.png" />
                     </image>

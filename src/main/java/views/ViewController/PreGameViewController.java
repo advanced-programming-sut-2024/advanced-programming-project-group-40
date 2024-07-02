@@ -120,7 +120,7 @@ public class PreGameViewController {
             if (imageFaction.equals(leaderImage3)) {
                 imageFaction.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
                 leaderDescription.setText(Game.getLoggedInUser().getLeader().getName());
-            } else if (!leaderNames.equals(Game.getLoggedInUser().getFaction())) {
+            } else if (!leaderNames.get(counter).equals(Game.getLoggedInUser().getFaction().name)) {
                 imageFaction.setImage(leaders.get(leaderNames.get(counter2)).getImage());
             }
         }
