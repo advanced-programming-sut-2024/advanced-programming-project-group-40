@@ -1,9 +1,9 @@
 //public class test {
-//    public ImageView image1;
-//    public ImageView image2;
-//    public ImageView image3;
-//    public ImageView image4;
-//    public ImageView image5;
+//    public ImageView factionImage1;
+//    public ImageView factionImage2;
+//    public ImageView factionImage3;
+//    public ImageView factionImage4;
+//    public ImageView factionImage5;
 //    public Pane changePain;
 //    public Pane mainPain;
 //    public Label name;
@@ -25,7 +25,7 @@
 //        changePain.setVisible(true);
 //        changePain.setDisable(false);
 //        mainPain.setDisable(true);
-//        image3.requestFocus();
+//        factionImage3.requestFocus();
 //        changeArray = new ArrayList<>();
 //        String selected;
 //        File directory;
@@ -50,11 +50,11 @@
 //
 //    private void setImageChange(int number) {
 //        int n = 3 - number;
-//        image1.setImage(null);
-//        image2.setImage(null);
-//        image3.setImage(null);
-//        image4.setImage(null);
-//        image5.setImage(null);
+//        factionImage1.setImage(null);
+//        factionImage2.setImage(null);
+//        factionImage3.setImage(null);
+//        factionImage4.setImage(null);
+//        factionImage5.setImage(null);
 //        for (Image image : changeArray) {
 //            try {
 //                Field field = this.getClass().getDeclaredField("image" + (n++));
@@ -71,7 +71,7 @@
 //        changePain.setVisible(false);
 //        changePain.setDisable(true);
 //        mainPain.setDisable(false);
-//        image3.getParent().requestFocus();
+//        factionImage3.getParent().requestFocus();
 //        if (isCommander) {
 //            String toRegex = "select leader " + name.getText();
 //            Matcher matcher = Pattern.compile(GameMenuRegex.SELECTLEADER.getRegex()).matcher(toRegex);

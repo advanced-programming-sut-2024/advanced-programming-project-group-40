@@ -1,10 +1,15 @@
 package controllers.MenuController;
 
 import controllers.Controller;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import models.Game;
 import models.Result;
 import models.cards.Card;
+import views.GameView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PreGameMenuController extends Controller {
     public static Result createGame(String opponentUsername) {
@@ -62,10 +67,12 @@ public class PreGameMenuController extends Controller {
     public static Result deleteFromDeck(String name, int count) {
         return null;
     }
-    public static Result changeTurn(){
+
+    public static Result changeTurn() {
         return null;
     }
-    public static Result startGame(){
+
+    public static Result startGame() {
         return null;
     }
 
@@ -88,5 +95,7 @@ public class PreGameMenuController extends Controller {
     public static int allCardsPower(ArrayList<Card> Deck) {
         return 0;
     }
+
+
 
 }

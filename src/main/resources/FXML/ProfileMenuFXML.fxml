@@ -291,7 +291,7 @@
             </Label>
          </children>
       </Pane>
-      <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true" styleClass="back">
          <image>
             <Image url="@../images/Icnos/Back.png" />
          </image>
