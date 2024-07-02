@@ -53,9 +53,6 @@ public class PreGameViewController {
     @FXML
     private Pane changeFactionPane;
     public Pane mainPane;
-    public VBox box3;
-    public VBox box2;
-    public VBox box1;
     public FlowPane selectCardFlowPane;
     private int[] tmp = new int[]{0, 1, 2, 3, 4};
     private ArrayList<ImageView> factionImages = new ArrayList<ImageView>();
@@ -133,7 +130,8 @@ public class PreGameViewController {
         selectedCardFlowPane.setVgap(10);
         setUpCards();
     }
-    public void setUpCards(){
+
+    public void setUpCards() {
         User user = Game.getLoggedInUser();
         Factions factions = user.getFaction();
         for (Card card : Game.getAllCards()) {
@@ -174,7 +172,7 @@ public class PreGameViewController {
         move(tmp, images, cards, cardsName, description);
     }
 
-    private void moveLeftMethod(ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description){
+    private void moveLeftMethod(ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description) {
         int cnt = tmp[0];
         for (int i = 0; i < 4; i++) {
             tmp[i] = tmp[i + 1];
@@ -190,22 +188,30 @@ public class PreGameViewController {
         Pane pane = new Pane();
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
-            if (card instanceof UnitCard){
+            if (card instanceof UnitCard) {
                 numberOfUnitCards--;
                 totalUnitCardsStrength -= ((UnitCard) card).getConstantPower();
+                System.out.println("label: " + unit.getText());
+                System.out.println("num: " + numberOfUnitCards);
+                unit.setText(Integer.toString(numberOfUnitCards));
             }
-            if (card instanceof SpecialCard){
+            if (card instanceof SpecialCard) {
                 numberOfSpecialCards--;
+                System.out.println("label: " + special.getText());
+                System.out.println("num: " + numberOfSpecialCards);
+                special.setText(Integer.toString(numberOfUnitCards));
             }
-            if (card instanceof Hero){
+            if (card instanceof Hero) {
                 numberOfHeroCards--;
                 totalUnitCardsStrength -= ((Hero) card).getConstantPower();
+                hero.setText(Integer.toString(numberOfHeroCards));
             }
             User user = Game.getLoggedInUser();
             user.removeCardFromDeck(card);
             card.addToSelected();
             selectedCardFlowPane.getChildren().remove(pane);
             addToSelectCards(card);
+            count.setText(Integer.toString(numberOfUnitCards + numberOfHeroCards + numberOfSpecialCards));
         });
         selectedCardFlowPane.getChildren().add(pane);
     }
@@ -223,8 +229,10 @@ public class PreGameViewController {
         }
         Card newCard = Card.getCardByName(card.getName());
         assert newCard != null;
+        // todo
         CreateNewCard(newCard, true);
     }
+
     public void move(int[] tmp, ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description) {
         int counter = 0;
         for (ImageView imageFaction : images) {
@@ -272,6 +280,7 @@ public class PreGameViewController {
             throw new RuntimeException(e);
         }
     }
+
     private void CreateNewCard(Card newCard, boolean isCardSelected) {
         Pane pane = new Pane();
         HBox hBox = new HBox();
@@ -294,14 +303,14 @@ public class PreGameViewController {
         hBox.setLayoutX(newCard.getLayoutX() + newCard.getWidth() - 30);
         hBox.setLayoutY(newCard.getLayoutY() + newCard.getHeight() - 32);
         pane.setOnMouseClicked(e -> {
-            if (newCard instanceof UnitCard){
+            if (newCard instanceof UnitCard) {
                 numberOfUnitCards++;
                 totalUnitCardsStrength += ((UnitCard) newCard).getConstantPower();
             }
-            if (newCard instanceof SpecialCard){
+            if (newCard instanceof SpecialCard) {
                 numberOfSpecialCards++;
             }
-            if (newCard instanceof Hero){
+            if (newCard instanceof Hero) {
                 numberOfHeroCards++;
                 totalUnitCardsStrength += ((Hero) newCard).getConstantPower();
             }
