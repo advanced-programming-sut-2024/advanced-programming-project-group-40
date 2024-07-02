@@ -1,5 +1,6 @@
 package models;
 
+import enums.Factions;
 import models.cards.Card;
 import models.cards.Leader;
 
@@ -10,7 +11,7 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private String faction = "Nilfgaardian Empire";
+    private Factions faction = Factions.NILFGAARD;
     private int point;
     private int gamesPlayed;
     private int won;
@@ -107,11 +108,11 @@ public class User {
         this.stayLoggedIn = stayLoggedIn;
     }
 
-    public String getFaction() {
+    public Factions getFaction() {
         return faction;
     }
 
-    public void setFaction(String faction) {
+    public void setFaction(Factions faction) {
         this.faction = faction;
     }
 

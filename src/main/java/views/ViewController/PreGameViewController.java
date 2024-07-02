@@ -1,5 +1,6 @@
 package views.ViewController;
 
+import enums.Factions;
 import enums.cards.UnitCardInfo;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,6 +15,8 @@ import javafx.scene.layout.VBox;
 import models.Game;
 import models.User;
 import models.cards.Card;
+import models.cards.Hero;
+import models.cards.SpecialCard;
 import models.cards.UnitCard;
 import views.GameView;
 
@@ -34,18 +37,28 @@ public class PreGameViewController {
     public VBox box1;
     public FlowPane selectCardFlowPane;
     public FlowPane selectedCardFlowPane;
+    private int numberOfUnitCards = 0;
+    private int numberOfSpecialCards = 0;
+    private int numberOfHeroCards = 0;
+    private int totalUnitCardsStrength = 0;
 
     public void initialize() {
         selectCardFlowPane.setHgap(10);
         selectCardFlowPane.setVgap(10);
         selectedCardFlowPane.setHgap(10);
         selectedCardFlowPane.setVgap(10);
+        setUpCards();
+    }
+    public void setUpCards(){
+        User user = Game.getLoggedInUser();
+        Factions factions = user.getFaction();
         for (Card card : Game.getAllCards()) {
-            CreateNewCard(card, false);
+            if (card.getFaction().equals(factions) || card.getFaction().equals(Factions.NEUTRAL)) {
+                CreateNewCard(card, false);
+            }
         }
 
     }
-
     public void ChangeFaction(MouseEvent mouseEvent) {
         mainPane.setDisable(true);
         changeFactionPane.setVisible(true);
@@ -77,6 +90,17 @@ public class PreGameViewController {
         Pane pane = new Pane();
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
+            if (card instanceof UnitCard){
+                numberOfUnitCards--;
+                totalUnitCardsStrength -= ((UnitCard) card).getConstantPower();
+            }
+            if (card instanceof SpecialCard){
+                numberOfSpecialCards--;
+            }
+            if (card instanceof Hero){
+                numberOfHeroCards--;
+                totalUnitCardsStrength -= ((Hero) card).getConstantPower();
+            }
             User user = Game.getLoggedInUser();
             user.removeCardFromDeck(card);
             card.addToSelected();
@@ -124,6 +148,17 @@ public class PreGameViewController {
         hBox.setLayoutX(newCard.getLayoutX() + newCard.getWidth() - 30);
         hBox.setLayoutY(newCard.getLayoutY() + newCard.getHeight() - 32);
         pane.setOnMouseClicked(e -> {
+            if (newCard instanceof UnitCard){
+                numberOfUnitCards++;
+                totalUnitCardsStrength += ((UnitCard) newCard).getConstantPower();
+            }
+            if (newCard instanceof SpecialCard){
+                numberOfSpecialCards++;
+            }
+            if (newCard instanceof Hero){
+                numberOfHeroCards++;
+                totalUnitCardsStrength += ((Hero) newCard).getConstantPower();
+            }
             User user = Game.getLoggedInUser();
             user.getDeckCards().add(Card.getCardByName(newCard.getName()));
             newCard.addToSelected();
