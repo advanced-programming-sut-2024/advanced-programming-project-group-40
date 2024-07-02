@@ -18,4 +18,5 @@ public class PreGameMenu extends PlayMenu {
         stage.setScene(new Scene(pane));
         stage.show();
     }
+
 }
