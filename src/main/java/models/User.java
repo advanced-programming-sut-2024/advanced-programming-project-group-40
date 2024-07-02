@@ -20,9 +20,9 @@ public class User {
     private int lost;
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
-    private final ArrayList<Card> deckCards = new ArrayList<>();
-    private Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
-    private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
+    private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
 
