@@ -89,13 +89,13 @@
 
             <Label layoutX="43.0" layoutY="127.0" text="Card Collection" />
             <Label layoutX="882.0" layoutY="127.0" text="Cards in Deck" />
-            <ImageView fx:id="factionIcon" fitHeight="66.0" fitWidth="62.0" layoutX="448.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="factionIcon" fitHeight="66.0" fitWidth="62.0" layoutX="448.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change" />
             <Label layoutX="524.0" layoutY="38.0" text="Label" />
             <Label layoutX="355.0" layoutY="110.0" text="Upload Deck" />
             <Label layoutX="463.0" layoutY="110.0" onMouseClicked="#openFactionPane" text="Change faction" />
             <Label layoutX="582.0" layoutY="110.0" text="Download Deck" />
             <Label layoutX="408.0" layoutY="91.0" prefHeight="18.0" prefWidth="189.0" text="Draw a card from your deck whenever you win a round." />
-            <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true" styleClass="back">
+            <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true" styleClass="back" >
                 <image>
                     <Image url="@../images/Icnos/Back.png" />
                 </image>
@@ -104,12 +104,12 @@
 
         <Pane fx:id="changeFactionPane" layoutX="64.0" layoutY="-110.0" prefHeight="609.0" prefWidth="851.0" styleClass="pane-menu" translateY="150.0">
             <children>
-                <ImageView fx:id="factionImage1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="factionImage2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="factionImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="factionImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="factionImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="factionNameLabel" alignment="CENTER" layoutX="383.0" layoutY="515.0" prefHeight="55.0" prefWidth="100.0" text="Label">
+                <ImageView fx:id="factionImage1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="factionImage2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="factionImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true"  styleClass="card-change"/>
+                <ImageView fx:id="factionImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="factionImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change" />
+                <Label fx:id="factionNameLabel" alignment="CENTER" layoutX="383.0" layoutY="515.0" prefHeight="55.0" prefWidth="100.0" text="Label" styleClass="label-color">
                     <font>
                         <Font size="25.0" />
                     </font>
@@ -134,11 +134,11 @@
         </Pane>
         <Pane fx:id="changeLeaderPane" layoutX="64.0" layoutY="-110.0" prefHeight="609.0" prefWidth="851.0" styleClass="brown-box" translateY="150.0">
             <children>
-                <ImageView fx:id="leaderImage1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="leaderImage2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="leaderImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="leaderImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="leaderImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="leaderImage1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="leaderImage2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="leaderImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="leaderImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
+                <ImageView fx:id="leaderImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" styleClass="card-change"/>
 
                 <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="619.0" layoutY="481.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
@@ -157,12 +157,12 @@
                 </ImageView>
             <VBox alignment="CENTER" layoutX="271.0" layoutY="445.0" prefHeight="128.0" prefWidth="325.0" styleClass="description">
                <children>
-                      <Label fx:id="leaderNameLabel" alignment="CENTER" prefHeight="48.0" prefWidth="245.0" text="Label" translateY="-15.0">
+                      <Label fx:id="leaderNameLabel" alignment="CENTER" prefHeight="48.0" prefWidth="245.0" text="Label" translateY="-15.0" styleClass="label-color">
                           <font>
                               <Font size="25.0" />
                           </font>
                       </Label>
-                  <Label fx:id="leaderDescription" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="295.0" text="Label" translateY="-5.0">
+                  <Label fx:id="leaderDescription" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="295.0" text="Label" translateY="-5.0" >
                      <font>
                         <Font size="14.0" />
                      </font></Label>

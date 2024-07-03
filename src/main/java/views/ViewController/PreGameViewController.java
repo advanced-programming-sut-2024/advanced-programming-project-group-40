@@ -3,6 +3,8 @@ package views.ViewController;
 
 import controllers.DataSaver;
 import controllers.MenuController.PreGameMenuController;
+import controllers.MenuController.SignUpMenuController;
+import enums.AlertInfo.messages.SignUpMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
+import models.ErrorMaker;
 import models.Game;
 import models.User;
 import models.cards.*;
@@ -100,6 +103,15 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress)).toExternalForm())).getImage());
         setUpLabels();
+
+
+//        unit.textProperty().addListener((observable, oldValue, newValue) -> {
+//            if (Integer.parseInt(unit.getText()) < 22)
+//
+//
+//
+//        });
+
 
         selectCardFlowPane.setHgap(8);
         selectCardFlowPane.setVgap(8);
@@ -303,6 +315,7 @@ public class PreGameViewController {
         HBox hBox = new HBox();
         newCard.setWidth(120);
         newCard.setHeight(195);
+        newCard.setStyle("-fx-border-radius: 20px; -fx-background-radius: 20px;");
         pane.getChildren().add(newCard);
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource("/Assets/Cards/counter.png")).toExternalForm()));
         imageView.setFitWidth(16);
@@ -315,6 +328,7 @@ public class PreGameViewController {
         }
         label.setLayoutX(16);
         label.setLayoutY(12);
+        label.setStyle("-fx-text-fill: #522e11;");
         hBox.getChildren().add(label);
         pane.getChildren().add(hBox);
         hBox.setLayoutX(newCard.getLayoutX() + newCard.getWidth() - 30);

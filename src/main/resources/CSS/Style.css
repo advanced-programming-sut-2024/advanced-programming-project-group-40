@@ -174,7 +174,6 @@ menu-scroll-pane {
     -fx-background-color: transparent; /* Remove background color */
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: transparent; /* Remove border color */
-
 }
 
 .menu-scroll-pane .viewport {
@@ -191,10 +190,6 @@ menu-scroll-pane {
     -fx-pref-width: 0;
 }
 
-.menu-scroll-pane .scroll-bar .thumb {
-    -fx-background-color: rgba(101, 88, 71);
-    /*-fx-background-radius: 20;*/
-}
 
 .Something {
     -fx-border-color: #f8eecb; /* Remove border color */
@@ -211,7 +206,7 @@ menu-scroll-pane {
 .description{
     -fx-background-color: rgb(49, 38, 29, 0.7);
     -fx-border-color: #f8eecb; /* Remove border color */
-    -fx-border-width: 3px; /* Remove border width */
+    -fx-border-width: 2px; /* Remove border width */
     -fx-border-radius: 9;
 }
 
@@ -220,10 +215,47 @@ menu-scroll-pane {
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
-    -fx-background-color: rgb(49, 38, 29, 0.7);
+    -fx-background-color: rgb(49, 38, 29, 0.8);
 }
 
-.card{
-    -fx-background-radius: 30px;
-    -fx-border-radius: 30px;
+.card-change{
+    -fx-effect: dropshadow( gaussian , rgb(248, 238, 203), 20,0,0,1 );
+    -fx-padding: 10;
+    -fx-background-color: transparent;
+    -fx-background-radius: 35;
+    -fx-background-insets: 35;
+    -fx-scale-x: 1; /* Default scale */
+    -fx-scale-y: 1; /* Default scale */
+}
+
+.card-change > .image-view{
+    -fx-background-radius: 35;
+}
+
+pre-scroll-pane {
+    -fx-text-fill: #f8eecb;
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-background-color: transparent; /* Remove background color */
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: transparent; /* Remove border color */
+}
+.label-color{
+    -fx-effect: dropshadow( gaussian , rgb(248, 238, 203), 5,0,0,1 );
+    -fx-text-fill: #f8eecb;
+}
+
+.pre-scroll-pane .viewport {
+    -fx-text-fill: #f8eecb;
+    -fx-font-family: "Cambria"; /* Font family */
+    /*-fx-background-color: transparent; !* Remove background color *!*/
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: #f8eecb; /* Remove border color */
+    -fx-border-width: 2px; /* Remove border width */
+
+    -fx-background-color: #31261D;
+}
+
+.pre-scroll-pane.scroll-bar:vertical {
+    -fx-opacity: 0;
+    -fx-pref-width: 0;
 }
