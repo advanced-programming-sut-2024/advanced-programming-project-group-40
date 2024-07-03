@@ -567,12 +567,15 @@ public class GameViewController extends PlayMenu implements Initializable {
 
 
         }
-        InitiateCardEvents();
         //spell
         if (!(GameMenuController.getMatchTable().getSpellCards().isEmpty() &&
                 spellCards.getChildren().isEmpty())) {
             spellCards.getChildren().clear();
             spellCards.getChildren().addAll(GameMenuController.getMatchTable().getSpellCards());
+        }
+        InitiateCardEvents();
+        if (GameMenuController.getMatchTable().isMatchFinished()){
+            System.out.println("sock these nuts");
         }
     }
 

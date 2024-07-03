@@ -418,6 +418,7 @@ public class MatchTable {
                 case MUSTER -> {
                     row.add(cardWrapper.getCard());
                     removeCard(cardWrapper);
+
                     UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
@@ -758,7 +759,7 @@ public class MatchTable {
     }
 
     public boolean isMatchFinished() {
-        return firstPlayerCrystals == 2 || secondPlayerCrystals == 2;
+        return firstPlayerCrystals == 0 || secondPlayerCrystals == 0;
     }
 
     public void clearMatchTable() {

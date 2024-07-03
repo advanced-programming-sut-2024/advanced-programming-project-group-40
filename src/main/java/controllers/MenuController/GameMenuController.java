@@ -63,7 +63,7 @@ public class GameMenuController extends Controller {
 
                     matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
                 } else {
-                    matchTable.addToInPlayCards(1,new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
+                    matchTable.addToInPlayCards(1, new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
                 }
                 isDestroyer = false;
             }
@@ -72,7 +72,7 @@ public class GameMenuController extends Controller {
 
                     matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
                 } else {
-                    matchTable.addToInPlayCards(1,new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
+                    matchTable.addToInPlayCards(1, new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
                 }
                 isKingOfWildHunt = false;
             }
@@ -101,91 +101,91 @@ public class GameMenuController extends Controller {
     }
 
     private static Origin GetDestination(boolean isFirstPlayerTurn) {
-            if (selectedCard instanceof UnitCard unitCard) {
-                if (unitCard.getAbility() == Ability.SPY) {
-                    switch (unitCard.getUnit()) {
-                        case AGILE -> {
-                            return Origin.SECONDPLAYER_AGILE;
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.SECONDPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.SECONDPLAYER_SIEGE;
-
-                        }
-                        case RANGED -> {
-                            return Origin.SECONDPLAYER_RANGED;
-                        }
+        if (selectedCard instanceof UnitCard unitCard) {
+            if (unitCard.getAbility() == Ability.SPY) {
+                switch (unitCard.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
                     }
-                } else {
-                    switch (unitCard.getUnit()) {
-                        case AGILE -> {
-                            return Origin.FIRSTPLAYER_AGILE;
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.FIRSTPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.FIRSTPLAYER_SIEGE;
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
 
-                        }
-                        case RANGED -> {
-                            return Origin.FIRSTPLAYER_RANGED;
-
-                        }
-                        case All -> {
-                            return Origin.FIRSTPLAYER_ALL;
-                        }
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
                     }
                 }
-
-            }
-            if (selectedCard instanceof Hero hero) {
-                if (hero.getAbility() == Ability.SPY) {
-                    switch (hero.getUnit()) {
-                        case AGILE -> {
-                            return Origin.SECONDPLAYER_AGILE;
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.SECONDPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.SECONDPLAYER_SIEGE;
-
-                        }
-                        case RANGED -> {
-                            return Origin.SECONDPLAYER_RANGED;
-                        }
+            } else {
+                switch (unitCard.getUnit()) {
+                    case AGILE -> {
+                        return Origin.FIRSTPLAYER_AGILE;
                     }
-                } else {
-                    switch (hero.getUnit()) {
-                        case AGILE -> {
-                            return Origin.SECONDPLAYER_AGILE;
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
 
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.FIRSTPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.FIRSTPLAYER_SIEGE;
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
 
-                        }
-                        case RANGED -> {
-                            return Origin.FIRSTPLAYER_RANGED;
-
-                        }
+                    }
+                    case All -> {
+                        return Origin.FIRSTPLAYER_ALL;
                     }
                 }
             }
-            if (selectedCard instanceof SpecialCard specialCard) {
-                if (Objects.equals(specialCard.getName(), "Commander's horn")) {
-                    return Origin.FIRSTPLAYER_ALL;
-                } else {
-                    return Origin.WEATHER;
 
+        }
+        if (selectedCard instanceof Hero hero) {
+            if (hero.getAbility() == Ability.SPY) {
+                switch (hero.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
                 }
-            } else return null;
+            } else {
+                switch (hero.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                }
+            }
+        }
+        if (selectedCard instanceof SpecialCard specialCard) {
+            if (Objects.equals(specialCard.getName(), "Commander's horn")) {
+                return Origin.FIRSTPLAYER_ALL;
+            } else {
+                return Origin.WEATHER;
+
+            }
+        } else return null;
 
 
     }
@@ -309,9 +309,11 @@ public class GameMenuController extends Controller {
                         isMedic = true;
                     }
                 }
-                int id = 0;
-                if (!matchTable.isFirstPlayerTurn()) id = 1;
-                matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), id, getRowID(origin));
+                if (matchTable.isFirstPlayerTurn()) {
+                    matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
+                }else {
+                    matchTable.placeCard(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY), 1, getRowID(origin));
+                }
                 if (!isMedic) matchTable.endTurn();
                 gameViewController.update();
                 if (matchTable.isFirstPlayerTurn()) {
@@ -484,10 +486,10 @@ public class GameMenuController extends Controller {
 
     public static void LeaderAction() {
 
-        if (matchTable.isFirstPlayerTurn() && matchTable.getFirstPlayerLeader()!=null) {
+        if (matchTable.isFirstPlayerTurn() && matchTable.getFirstPlayerLeader() != null) {
             matchTable.leaderAction();
             matchTable.setFirstPlayerLeaderUsed(true);
-        } else if (!matchTable.isFirstPlayerTurn()&& matchTable.getSecondPlayerLeader()!=null) {
+        } else if (!matchTable.isFirstPlayerTurn() && matchTable.getSecondPlayerLeader() != null) {
             matchTable.leaderAction();
             matchTable.setSecondPlayerLeaderUsed(true);
         }
