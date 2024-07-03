@@ -32,6 +32,8 @@ import views.PreGameMenu;
 
 public class PreGameViewController {
     @FXML
+    private Label factionNameHeader;
+    @FXML
     private ImageView factionImage2;
     @FXML
     private ImageView factionImage3;
@@ -126,6 +128,7 @@ public class PreGameViewController {
 
         username.setText(loggedInUser.getUsername());
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
+        factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress)).toExternalForm())).getImage());
         setUpLabels();
 
@@ -316,6 +319,7 @@ public class PreGameViewController {
             loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
             factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
             leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull(Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
+            factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
             setUpLeadersImages();
         }
         if (changeLeaderClicked) {
