@@ -3,7 +3,6 @@ package models;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
-import enums.Unit;
 import enums.cards.LeaderInfo;
 import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
@@ -14,14 +13,14 @@ import models.cards.*;
 import java.util.*;
 
 public class MatchTable {
-    private User firstPlayer;
-    private User secondPlayer;
+    private final User firstPlayer;
+    private final User secondPlayer;
     private boolean isFirstPlayerTurn;
     private boolean secondPlayerPassed = false;
     private boolean firstPlayerPassed = false;
     private int round = 1;
     private Date date;
-    private LeaderEffects leaderEffects = new LeaderEffects();
+    private final LeaderEffects leaderEffects = new LeaderEffects();
 
     private int firstPlayerCurrentPoint;
     private int secondPlayerCurrentPoint;
@@ -207,10 +206,6 @@ public class MatchTable {
     }
 
 
-    public int getRound() {
-        return round;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -219,13 +214,6 @@ public class MatchTable {
         return leaderEffects;
     }
 
-    public boolean isSecondPlayerPassed() {
-        return secondPlayerPassed;
-    }
-
-    public boolean isFirstPlayerPassed() {
-        return firstPlayerPassed;
-    }
 
     public Card getFirstPlayerCloseCombatBoostCard() {
         return firstPlayerCloseCombatBoostCard;
@@ -255,13 +243,6 @@ public class MatchTable {
         isFirstPlayerTurn = firstPlayerTurn;
     }
 
-    public void setSecondPlayerPassed(boolean secondPlayerPassed) {
-        this.secondPlayerPassed = secondPlayerPassed;
-    }
-
-    public void setFirstPlayerPassed(boolean firstPlayerPassed) {
-        this.firstPlayerPassed = firstPlayerPassed;
-    }
 
     public void setFirstPlayerLeaderUsed(boolean firstPlayerLeaderUsed) {
         isFirstPlayerLeaderUsed = firstPlayerLeaderUsed;
@@ -269,14 +250,6 @@ public class MatchTable {
 
     public void setSecondPlayerLeaderUsed(boolean secondPlayerLeaderUsed) {
         isSecondPlayerLeaderUsed = secondPlayerLeaderUsed;
-    }
-
-    public boolean isFirstPlayerLeaderUsed() {
-        return isFirstPlayerLeaderUsed;
-    }
-
-    public boolean isSecondPlayerLeaderUsed() {
-        return isSecondPlayerLeaderUsed;
     }
 
 
@@ -397,11 +370,9 @@ public class MatchTable {
 
 
         Ability ability = null;
-        if (cardWrapper.getCard() instanceof Hero) {
-            Hero hero = (Hero) cardWrapper.getCard();
+        if (cardWrapper.getCard() instanceof Hero hero) {
             ability = hero.getAbility();
-        } else if (cardWrapper.getCard() instanceof UnitCard) {
-            UnitCard unitCard = (UnitCard) cardWrapper.getCard();
+        } else if (cardWrapper.getCard() instanceof UnitCard unitCard) {
             ability = unitCard.getAbility();
         }
         if (ability != null) {
@@ -1096,7 +1067,13 @@ public class MatchTable {
         secondPlayerLeader = secondPlayer.getLeader();
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
-
+        if (Objects.equals(firstPlayer.getFaction(), "Scoia’tael") && !Objects.equals(secondPlayer.getFaction(), "Scoia’tael")) {
+            isFirstPlayerTurn = true;
+        } else if (!Objects.equals(firstPlayer.getFaction(), "Scoia’tael") && Objects.equals(secondPlayer.getFaction(), "Scoia’tael")) {
+            isFirstPlayerTurn = false;
+        } else {
+            isFirstPlayerTurn = Game.random.nextBoolean();
+        }
         if (Objects.equals(firstPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
             firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 11);
         } else {
