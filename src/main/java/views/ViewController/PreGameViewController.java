@@ -4,32 +4,25 @@ package views.ViewController;
 import controllers.DataSaver;
 import enums.Factions;
 import enums.cards.LeaderInfo;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import models.Game;
 import models.User;
 import models.cards.*;
 import views.GameView;
-import models.cards.Hero;
-import models.cards.SpecialCard;
-import models.cards.UnitCard;
+import views.MainMenu;
+import views.PreGameMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Comparator;
 import java.util.Objects;
-
-import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
-import views.MainMenu;
-import views.PreGameMenu;
 
 public class PreGameViewController {
     public ImageView factionImage2;
@@ -222,7 +215,6 @@ public class PreGameViewController {
 
     private void addToSelectCards(Card card) {
         for (Node pane1 : selectCardFlowPane.getChildren()) {
-            pane1 = (Pane) pane1;
             Card card1 = (Card) ((Pane) pane1).getChildren().get(0);
             if (card1.getName().equals(card.getName())) {
                 card1.removeFromSelected();
@@ -245,8 +237,13 @@ public class PreGameViewController {
         }
 
         description.setText(cardsName.get(tmp[2]));
-        if (changeFactionClicked)
+        if (changeFactionClicked) {
             Game.getLoggedInUser().setFaction(Factions.toFaction(cardsName.get(tmp[2])));
+            selectedCardFlowPane.getChildren().clear();
+            selectCardFlowPane.getChildren().clear();
+            setUpCards();
+        }
+
         if (changeLeaderClicked)
             Game.getLoggedInUser().setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
     }
@@ -336,7 +333,7 @@ public class PreGameViewController {
         for (Card card : Game.getLoggedInUser().getDeckCards()) {
             deckCards.add(card.getName());
         }
-        DataSaver.saveDeckCards(deckCards);
+        DataSaver.saveDeckCards(deckCards, Game.getLoggedInUser().getLeader());
     }
 
     public void uploadDeck(MouseEvent mouseEvent) {

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import models.User;
 import models.Game;
+import models.cards.Leader;
 import views.ViewController.PreGameViewController;
 
 import java.io.FileWriter;
@@ -43,14 +44,17 @@ public class DataSaver {
             throw new RuntimeException(e);
         }
     }
-    public static void saveDeckCards(ArrayList<String> deckCards) {
-        FileWriter fileWriter;
+    public static void saveDeckCards(ArrayList<String> deckCards, Leader leader) {
+        FileWriter fileWriter1;
+        FileWriter fileWriter2;
         try {
-            fileWriter = new FileWriter("src/main/resources/DataBase/deckCards.json");
+            fileWriter1 = new FileWriter("src/main/resources/DataBase/deckCards.json", false);
+            fileWriter2 = new FileWriter("src/main/resources/DataBase/leader.json", false);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(deckCards);
-            fileWriter.write(json);
-            fileWriter.close();
+            String json1 = gson.toJson(deckCards);
+            String json2 = gson.toJson(leader.getName());
+            fileWriter1.write(json1);
+            fileWriter1.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

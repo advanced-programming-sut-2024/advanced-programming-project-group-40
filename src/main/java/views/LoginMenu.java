@@ -1,17 +1,13 @@
 package views;
 
 import controllers.DataSaver;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import models.Game;
 
 import java.util.Objects;
-
-import java.util.Scanner;
 
 
 public class LoginMenu extends PlayMenu {
