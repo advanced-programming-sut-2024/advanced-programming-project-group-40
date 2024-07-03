@@ -30,7 +30,6 @@ public enum LeaderInfo {
     CRACH_AN_CRAITE("Crach an Craite", "/Assets/Cards/Plane/skellige_crach_an_craite.jpg", "/Assets/Cards/Detailed/skellige_crach_an_craite.jpg", Factions.SKELLIGE),
     KING_BRAN("King Bran", "/Assets/Cards/Plane/skellige_king_bran.jpg", "/Assets/Cards/Detailed/skellige_king_bran.jpg", Factions.SKELLIGE);;
     public final String name;
-
     public final String planeImage;
     public final String cardImage;
     public final Factions faction;
@@ -50,7 +49,7 @@ public enum LeaderInfo {
         ArrayList<String> list = new ArrayList<String>();
         for (LeaderInfo leader : LeaderInfo.values()) {
             if (leader.faction == faction)
-                list.add(leader.planeImage);
+                list.add(leader.cardImage);
         }
         return list;
     }
@@ -70,6 +69,16 @@ public enum LeaderInfo {
                 return info;
         }
         return null;
+    }
+
+    public static LeaderInfo getDefaultLeaderInfoByFaction(Factions faction) {
+        return switch (faction) {
+            case MONSTERS -> BRINGER_OF_DEATH;
+            case NILFGAARD -> THE_WHITE_FLAME;
+            case SCOIATAEL -> QUEEN_OF_DOL_BLATHANNA;
+            case SKELLIGE -> CRACH_AN_CRAITE;
+            default -> null;
+        };
     }
 
 }

@@ -11,12 +11,12 @@
 //    private int selectedImage;
 //    private boolean isCommander;
 //
-//    public void changeFaction(MouseEvent mouseEvent) {
+//    public void openFactionPane(MouseEvent mouseEvent) {
 //        isCommander = false;
 //        change(false);
 //    }
 //
-//    public void changeLeader(MouseEvent mouseEvent) {
+//    public void openLeaderPane(MouseEvent mouseEvent) {
 //        isCommander = true;
 //        change(true);
 //    }

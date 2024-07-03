@@ -81,9 +81,6 @@ public class PreGameMenuController extends UserInfoController {
         return null;
     }
 
-    public static Result startGame() {
-        return null;
-    }
 
     public static ArrayList<Card> getCardsByFaction() {
         return null;

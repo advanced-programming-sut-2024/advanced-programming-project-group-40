@@ -2,9 +2,7 @@ package views.ViewController;
 
 
 import controllers.DataSaver;
-import controllers.Generator;
-import enums.AlertInfo.AlertHeader;
-import enums.AlertInfo.messages.SignUpMenuMessages;
+import controllers.MenuController.PreGameMenuController;
 import enums.Factions;
 import enums.cards.LeaderInfo;
 import javafx.scene.Node;
@@ -14,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import models.AlertMaker;
 import models.Game;
 import models.User;
@@ -26,7 +23,6 @@ import models.cards.UnitCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Comparator;
 import java.util.Objects;
 
 import javafx.fxml.FXML;
@@ -69,7 +65,7 @@ public class PreGameViewController {
     private ArrayList<ImageView> leaderImages = new ArrayList<ImageView>();
     private HashMap<String, ImageView> leaders = new HashMap<String, ImageView>();
     private ArrayList<String> leaderNames = LeaderInfo.getLeaderNameByFaction(Game.getLoggedInUser().getFaction());
-    private ArrayList<String> leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
+    private ArrayList<String> leaderAddresses = new ArrayList<String>();
     private boolean changeFactionClicked = false;
     private boolean changeLeaderClicked = false;
     public FlowPane selectedCardFlowPane;
@@ -82,6 +78,19 @@ public class PreGameViewController {
     public void initialize() {
         changeFactionPane.setVisible(false);
         changeLeaderPane.setVisible(false);
+
+        factionImages.add(factionImage1);
+        factionImages.add(factionImage2);
+        factionImages.add(factionImage3);
+        factionImages.add(factionImage4);
+        factionImages.add(factionImage5);
+
+        leaderImages.add(leaderImage1);
+        leaderImages.add(leaderImage2);
+        leaderImages.add(leaderImage3);
+        leaderImages.add(leaderImage4);
+        leaderImages.add(leaderImage5);
+
 
         setUpFactionImages();
         setUpLeadersImages();
@@ -117,12 +126,6 @@ public class PreGameViewController {
     }
 
     private void setUpFactionImages() {
-        factionImages.add(factionImage1);
-        factionImages.add(factionImage2);
-        factionImages.add(factionImage3);
-        factionImages.add(factionImage4);
-        factionImages.add(factionImage5);
-
         for (String cardName : factionName) {
             factions.put(cardName, new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".jpg")).toExternalForm())));
         }
@@ -142,12 +145,7 @@ public class PreGameViewController {
     }
 
     private void setUpLeadersImages() {
-        leaderImages.add(leaderImage1);
-        leaderImages.add(leaderImage2);
-        leaderImages.add(leaderImage3);
-        leaderImages.add(leaderImage4);
-        leaderImages.add(leaderImage5);
-
+        leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
         int count = 0;
         for (String cardName : leaderNames) {
             System.out.println(leaderAddresses.get(count));
@@ -253,14 +251,15 @@ public class PreGameViewController {
         description.setText(cardsName.get(tmp[2]));
         if (changeFactionClicked) {
             Game.getLoggedInUser().setFaction(Factions.toFaction(cardsName.get(tmp[2])));
-            factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress)).toExternalForm())).getImage());
+            factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
+            leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull(Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
+            setUpLeadersImages();
         }
         if (changeLeaderClicked)
             Game.getLoggedInUser().setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
     }
 
-    public void changeFaction(MouseEvent mouseEvent) {
-//        mainPane.setDisable(true);
+    public void openFactionPane(MouseEvent mouseEvent) {
         changeFactionPane.setVisible(true);
         changeFactionClicked = true;
     }
@@ -268,11 +267,9 @@ public class PreGameViewController {
     public void closeFactionPane(MouseEvent mouseEvent) {
         changeFactionPane.setVisible(false);
         changeFactionClicked = false;
-//        mainPane.setDisable(false);
     }
 
-    public void changeLeader(MouseEvent mouseEvent) {
-//        mainPane.setDisable(true);
+    public void openLeaderPane(MouseEvent mouseEvent) {
         changeLeaderPane.setVisible(true);
         changeLeaderClicked = true;
     }
@@ -280,8 +277,6 @@ public class PreGameViewController {
     public void closeLeaderPane(MouseEvent mouseEvent) {
         changeLeaderPane.setVisible(false);
         changeLeaderClicked = false;
-//        mainPane.setDisable(false);
-
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
     }
 
@@ -356,6 +351,10 @@ public class PreGameViewController {
     }
 
     public void startGame(MouseEvent mouseEvent) {
-
+        AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
+        alertMaker.showAlert();
+        if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            // todo game can start here
+        }
     }
 }
