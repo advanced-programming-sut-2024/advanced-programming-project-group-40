@@ -348,5 +348,6 @@ public class PreGameViewController {
         selectCardFlowPane.getChildren().clear();
         setUpCards();
         setUpSelectedCards();
+        leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
     }
 }
