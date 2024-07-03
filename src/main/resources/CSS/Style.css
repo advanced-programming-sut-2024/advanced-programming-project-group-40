@@ -54,7 +54,6 @@
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
-
     -fx-background-color: rgb(71, 107, 101, 0.5);
 }
 
@@ -100,9 +99,8 @@
 }
 
 .button-regular {
-
-    -fx-pref-width: 98px;
-    -fx-pref-height: 13px;
+    -fx-pref-width: 98px; /* Set preferred width for button2 */
+    -fx-pref-height: 13px; /* Set preferred height for button2 */
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
@@ -200,4 +198,41 @@ menu-scroll-pane {
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
     -fx-background-color: rgb(49, 38, 29, 0.7);
+}
+
+
+.main-menu-box{
+
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #f8eecb;
+    -fx-background-color: rgb(71, 107, 101, 0.5);
+}
+
+
+.button-main {
+
+    -fx-font-size: 16px;
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-border-radius: 5px;
+    -fx-background-color: #345B53FF; /* Background color */
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: #C2E7E3; /* Remove border color */
+    -fx-border-width: 3px; /* Remove border width */
+    -fx-text-fill: #C2E7E3; /* Set text color */
+    font-weight: bold;
+    -fx-cursor: hand; /* Change cursor to hand */
+
+}
+
+.button-main:hover {
+
+    -fx-font-size: 16px;
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-background-color: rgb(194, 231, 227, 1); /* Remove background color */
+    -fx-text-fill: #345B53FF; /* Set text color */
+    font-weight: bold;
+    -fx-cursor: hand; /* Change cursor to hand */
+
 }
