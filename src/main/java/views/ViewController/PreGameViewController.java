@@ -36,7 +36,7 @@ public class PreGameViewController {
     public ImageView factionImage1;
     public ImageView factionImage4;
     public ImageView factionImage5;
-    public Label factionDescription;
+    public Label factionNameLabel;
     public Pane changeLeaderPane;
     public ImageView leaderImage2;
     public ImageView leaderImage1;
@@ -54,6 +54,7 @@ public class PreGameViewController {
     public Label username;
     public Button startGame;
     public TextField competitorUsername;
+    public Label leaderNameLabel;
     @FXML
     private Pane changeFactionPane;
     public Pane mainPane;
@@ -135,7 +136,7 @@ public class PreGameViewController {
             counter++;
             if (imageFaction.equals(factionImage3)) {
                 imageFaction.setImage(factions.get(loggedInUser.getFaction().name).getImage());
-                factionDescription.setText(loggedInUser.getFaction().name);
+                factionNameLabel.setText(loggedInUser.getFaction().name);
             } else if (!factionName.get(counter).equals(loggedInUser.getFaction().name)) {
                 imageFaction.setImage(factions.get(factionName.get(counter)).getImage());
             }
@@ -167,36 +168,36 @@ public class PreGameViewController {
 
     public void moveRight(MouseEvent mouseEvent) {
         if (changeFactionClicked)
-            moveRightMethod(factionImages, factions, factionName, factionDescription);
+            moveRightMethod(factionImages, factions, factionName, null, factionNameLabel);
         if (changeLeaderClicked)
-            moveRightMethod(leaderImages, leaders, leaderNames, leaderDescription);
+            moveRightMethod(leaderImages, leaders, leaderNames, leaderDescription, leaderDescription);
     }
 
     public void moveLeft(MouseEvent mouseEvent) {
         if (changeFactionClicked)
-            moveLeftMethod(factionImages, factions, factionName, factionDescription);
+            moveLeftMethod(factionImages, factions, factionName,null, factionNameLabel);
         if (changeLeaderClicked)
-            moveLeftMethod(leaderImages, leaders, leaderNames, leaderDescription);
+            moveLeftMethod(leaderImages, leaders, leaderNames, leaderDescription,leaderDescription);
     }
 
-    private void moveRightMethod(ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description) {
+    private void moveRightMethod(ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description, Label name) {
         int cnt = tmp[4];
         for (int i = 4; i > 0; i--) {
             tmp[i] = tmp[i - 1];
         }
         tmp[0] = cnt;
 
-        move(tmp, images, cards, cardsName, description);
+        move(tmp, images, cards, cardsName, description, name);
     }
 
-    private void moveLeftMethod(ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description) {
+    private void moveLeftMethod(ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description, Label name) {
         int cnt = tmp[0];
         for (int i = 0; i < 4; i++) {
             tmp[i] = tmp[i + 1];
         }
         tmp[4] = cnt;
 
-        move(tmp, images, cards, cardsName, description);
+        move(tmp, images, cards, cardsName, description, name);
     }
 
     private void addToSelectedCards(Card card) {
@@ -241,22 +242,24 @@ public class PreGameViewController {
         CreateNewCard(newCard, true);
     }
 
-    public void move(int[] tmp, ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description) {
+    public void move(int[] tmp, ArrayList<ImageView> images, HashMap<String, ImageView> cards, ArrayList<String> cardsName, Label description, Label name) {
         int counter = 0;
         for (ImageView imageFaction : images) {
             imageFaction.setImage(cards.get(cardsName.get(tmp[counter])).getImage());
             counter++;
         }
 
-        description.setText(cardsName.get(tmp[2]));
+        name.setText(cardsName.get(tmp[2]));
         if (changeFactionClicked) {
             Game.getLoggedInUser().setFaction(Factions.toFaction(cardsName.get(tmp[2])));
             factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
             leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull(Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
             setUpLeadersImages();
         }
-        if (changeLeaderClicked)
-            Game.getLoggedInUser().setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
+        if (changeLeaderClicked) {
+            loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
+            description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
+        }
     }
 
     public void openFactionPane(MouseEvent mouseEvent) {

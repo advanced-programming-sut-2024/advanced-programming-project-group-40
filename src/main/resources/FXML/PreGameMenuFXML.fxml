@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" translateX="-2.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.PreGameViewController">
     <children>
         <Pane fx:id="mainPane">
@@ -83,7 +83,7 @@
                         </children>
                     </HBox>
                <TextField fx:id="competitorUsername" promptText="Competitor Username" />
-                    <Button  mnemonicParsing="false" text="Start Game" onMouseClicked="#startGame"/>
+                    <Button mnemonicParsing="false" onMouseClicked="#startGame" text="Start Game" />
                 </children>
             </VBox>
 
@@ -109,7 +109,7 @@
                 <ImageView fx:id="factionImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fx:id="factionImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fx:id="factionImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="factionDescription" alignment="CENTER" layoutX="383.0" layoutY="515.0" prefHeight="55.0" prefWidth="100.0" text="Label">
+                <Label fx:id="factionNameLabel" alignment="CENTER" layoutX="383.0" layoutY="515.0" prefHeight="55.0" prefWidth="100.0" text="Label">
                     <font>
                         <Font size="25.0" />
                     </font>
@@ -132,25 +132,20 @@
                 </ImageView>
             </children>
         </Pane>
-        <Pane fx:id="changeLeaderPane" layoutX="64.0" layoutY="-110.0" prefHeight="609.0" prefWidth="851.0" styleClass="pane-menu" translateY="150.0">
+        <Pane fx:id="changeLeaderPane" layoutX="64.0" layoutY="-110.0" prefHeight="609.0" prefWidth="851.0" styleClass="brown-box" translateY="150.0">
             <children>
                 <ImageView fx:id="leaderImage1" fitHeight="150.0" fitWidth="100.0" layoutX="33.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fx:id="leaderImage2" fitHeight="225.0" fitWidth="150.0" layoutX="150.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fx:id="leaderImage3" fitHeight="300.0" fitWidth="200.0" layoutX="333.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fx:id="leaderImage4" fitHeight="225.0" fitWidth="150.0" layoutX="562.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true" />
                 <ImageView fx:id="leaderImage5" fitHeight="150.0" fitWidth="100.0" layoutX="727.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true" />
-                <Label fx:id="leaderDescription" alignment="CENTER" layoutX="333.0" layoutY="515.0" prefHeight="55.0" prefWidth="200.0" text="Label">
-                    <font>
-                        <Font size="25.0" />
-                    </font>
-                </Label>
 
-                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="610.0" layoutY="527.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true" styleClass="move">
+                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="619.0" layoutY="481.0" onMouseClicked="#moveRight" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
                         <Image url="@../images/Icnos/goRight.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="247.0" layoutY="527.0" onMouseClicked="#moveLeft" pickOnBounds="true" preserveRatio="true" styleClass="move">
+                <ImageView fitHeight="55.0" fitWidth="69.0" layoutX="205.0" layoutY="481.0" onMouseClicked="#moveLeft" pickOnBounds="true" preserveRatio="true" styleClass="move">
                     <image>
                         <Image url="@../images/Icnos/goLeft.png" />
                     </image>
@@ -160,6 +155,19 @@
                         <Image url="@../images/Icnos/Back.png" />
                     </image>
                 </ImageView>
+            <VBox alignment="CENTER" layoutX="271.0" layoutY="445.0" prefHeight="128.0" prefWidth="325.0" styleClass="description">
+               <children>
+                      <Label fx:id="leaderNameLabel" alignment="CENTER" prefHeight="48.0" prefWidth="245.0" text="Label" translateY="-15.0">
+                          <font>
+                              <Font size="25.0" />
+                          </font>
+                      </Label>
+                  <Label fx:id="leaderDescription" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="295.0" text="Label" translateY="-5.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+               </children>
+            </VBox>
             </children>
         </Pane>
     </children>

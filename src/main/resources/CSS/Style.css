@@ -208,6 +208,13 @@ menu-scroll-pane {
     -fx-border-radius: 9;
 }
 
+.description{
+    -fx-background-color: rgb(49, 38, 29, 0.7);
+    -fx-border-color: #f8eecb; /* Remove border color */
+    -fx-border-width: 3px; /* Remove border width */
+    -fx-border-radius: 9;
+}
+
 .brown-box {
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
