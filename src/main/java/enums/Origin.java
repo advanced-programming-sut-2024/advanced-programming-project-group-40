@@ -20,7 +20,7 @@ public enum Origin {
     SECONDPLAYER_AGILE(),
     FIRSTPLAYER_ALL(),
 
-    NULL();
+    NULL(), SECONDPLAYER_ALL;
 
     public boolean isSubOrigin(Origin destination) {
         if (this == destination) return true;
@@ -36,6 +36,12 @@ public enum Origin {
                 (this == Origin.FIRSTPLAYER_CLOSECOMBAT ||
                         this == Origin.FIRSTPLAYER_RANGED ||
                         this == Origin.FIRSTPLAYER_SIEGE)) {
+            return true;
+        }
+        if (destination == Origin.SECONDPLAYER_ALL &&
+                (this == Origin.SECONDPLAYER_CLOSECOMBAT ||
+                        this == Origin.SECONDPLAYER_RANGED ||
+                        this == Origin.SECONDPLAYER_SIEGE)) {
             return true;
         }
         return false;

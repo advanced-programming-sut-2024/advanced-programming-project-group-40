@@ -93,7 +93,7 @@ public abstract class LeaderActions {
     }
 
     private static void hisImperialMajesty() {
-        GameMenuController.MakeHisImperialMajestyWindow();
+        GameMenuController.MakeHisImperialMajestyWindow(matchTable.isFirstPlayerTurn());
     }
 
     private static void emperorOfNilfgaard() {
@@ -142,16 +142,16 @@ public abstract class LeaderActions {
     }
 
     private static void kingOfTheWildHunt() {
-        GameMenuController.MakeKingOfWildHuntWindow();
+        GameMenuController.MakeKingOfWildHuntWindow(matchTable.isFirstPlayerTurn());
     }
 
     private static void destroyerOfWorlds() {
-        GameMenuController.MakeDestroyerOfWorldsWindow();
+        GameMenuController.MakeDestroyerOfWorldsWindow(matchTable.isFirstPlayerTurn());
 
     }
 
     private static void commanderOfTheRedRiders() {
-        GameMenuController.MakeCommanderOfRedRidersWindow();
+        GameMenuController.MakeCommanderOfRedRidersWindow(matchTable.isFirstPlayerTurn());
     }
 
     private static void theTreacherous() {

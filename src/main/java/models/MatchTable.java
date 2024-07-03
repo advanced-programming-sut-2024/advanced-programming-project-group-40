@@ -94,12 +94,21 @@ public class MatchTable {
         return retVal;
     }
 
-    public void doDecoy(CardWrapper decoy, CardWrapper cardToSwap) {
-        this.placeCard(decoy
-                , 0
-                , getRowID(cardToSwap.getOrigin()));
+    public void doDecoy(CardWrapper decoy, CardWrapper cardToSwap, boolean isFirstPlayerTurn) {
+        if (isFirstPlayerTurn) {
+            this.placeCard(decoy
+                    , 0
+                    , getRowID(cardToSwap.getOrigin()));
 
-        this.addToInPlayCards(0, cardToSwap);
+            this.addToInPlayCards(0, cardToSwap);
+        } else {
+            this.placeCard(decoy
+                    , 1
+                    , getRowID(cardToSwap.getOrigin()));
+
+            this.addToInPlayCards(1, cardToSwap);
+        }
+
 
     }
 
@@ -576,8 +585,10 @@ public class MatchTable {
         if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
             spellCards.add(cardWrapper.getCard());
             removeCard(cardWrapper);
+            int id = 0;
+            if (!isFirstPlayerTurn) id = 1;
             while (!spellCards.isEmpty()) {
-                addToDeadCards(0, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
+                addToDeadCards(id, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
             }
         } else if (Objects.equals(cardWrapper.getCard().getName(), "Scorch")) {
             removeCard(cardWrapper);
@@ -657,7 +668,11 @@ public class MatchTable {
 
 
     public void leaderAction() {
-        if (!isFirstPlayerLeaderUsed) LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
+        if (isFirstPlayerTurn) {
+            if (!isFirstPlayerLeaderUsed) LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
+        } else {
+            if (!isSecondPlayerLeaderUsed) LeaderActions.doActionByName(secondPlayerLeader.getName(), this);
+        }
     }
 
     public void factionAction(int playerID, Factions faction) {
@@ -675,14 +690,12 @@ public class MatchTable {
         }
     }
 
-    public void endTurn(int userID) {
-        switch (userID) {
-            case 0:
-                if (!secondPlayerPassed) isFirstPlayerTurn = false;
-                break;
-            case 1:
-                if (!firstPlayerPassed) isFirstPlayerTurn = true;
-                break;
+    public void endTurn() {
+        if (isFirstPlayerTurn) {
+            if (!secondPlayerPassed) isFirstPlayerTurn = false;
+
+        } else {
+            if (!firstPlayerPassed) isFirstPlayerTurn = true;
         }
 
     }
@@ -853,7 +866,11 @@ public class MatchTable {
 
 
     public void doMedic(CardWrapper cardWrapper) {
-        firstPlayerInPlayCards.add(cardWrapper.getCard());
+        if (isFirstPlayerTurn) {
+            firstPlayerInPlayCards.add(cardWrapper.getCard());
+        } else {
+            secondPlayerInPlayCards.add(cardWrapper.getCard());
+        }
         removeCard(cardWrapper);
     }
 
