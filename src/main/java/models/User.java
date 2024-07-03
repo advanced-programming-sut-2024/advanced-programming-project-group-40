@@ -25,6 +25,11 @@ public class User {
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
+    private int numberOfUnitCards = 0;
+    private int numberOfSpecialCards = 0;
+    private int numberOfHeroCards = 0;
+    private int totalUnitCardsStrength = 0;
+
 
     public User(String username, String password, String email, String nickName) {
         this.username = username;
@@ -135,6 +140,38 @@ public class User {
 
     public int getGamesPlayed() {
         return gamesPlayed;
+    }
+
+    public int getNumberOfUnitCards() {
+        return numberOfUnitCards;
+    }
+
+    public void setNumberOfUnitCards(int numberOfUnitCards) {
+        this.numberOfUnitCards = numberOfUnitCards;
+    }
+
+    public int getNumberOfSpecialCards() {
+        return numberOfSpecialCards;
+    }
+
+    public void setNumberOfSpecialCards(int numberOfSpecialCards) {
+        this.numberOfSpecialCards = numberOfSpecialCards;
+    }
+
+    public int getNumberOfHeroCards() {
+        return numberOfHeroCards;
+    }
+
+    public void setNumberOfHeroCards(int numberOfHeroCards) {
+        this.numberOfHeroCards = numberOfHeroCards;
+    }
+
+    public int getTotalUnitCardsStrength() {
+        return totalUnitCardsStrength;
+    }
+
+    public void setTotalUnitCardsStrength(int totalUnitCardsStrength) {
+        this.totalUnitCardsStrength = totalUnitCardsStrength;
     }
 
     public int getWon() {
