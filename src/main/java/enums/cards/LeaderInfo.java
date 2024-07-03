@@ -22,12 +22,17 @@ public enum LeaderInfo {
     COMMANDER_OF_THE_RED_RIDERS("Commander of the Red Riders", "/Assets/Cards/Plane/monsters_eredin_copper.jpg", "/Assets/Cards/Detailed/monsters_eredin_copper.jpg", Factions.MONSTERS, "Pick any weather card from your deck and\nplay it instantly."),
     THE_TREACHEROUS("The Treacherous", "/Assets/Cards/Plane/monsters_eredin_the_treacherous.jpg", "/Assets/Cards/Detailed/monsters_eredin_the_treacherous.jpg", Factions.MONSTERS, "Doubles the strength of all spy cards\n(affects both players)."),
     QUEEN_OF_DOL_BLATHANNA("Queen of Dol Blathanna", "/Assets/Cards/Plane/scoiatael_francesca_silver.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_silver.jpg", Factions.SCOIATAEL, "Destroy your enemy's strongest Close Combat\nunit(s) if the combined strength of all his\nor her Close Combat units is 10 or more."),
-    THE_BEAUTIFUL("The Beautiful", "/Assets/Cards/Plane/scoiatael_francesca_gold.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_gold.jpg", Factions.SCOIATAEL,"Doubles the strength of all your Ranged\nCombat units (unless a Commander's Horn is\nalso present on that row)."),
-    DAISY_OF_THE_VALLEY("Daisy of the Valley", "/Assets/Cards/Plane/scoiatael_francesca_copper.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_copper.jpg", Factions.SCOIATAEL,"draw an extra card at the beginning of\nthe battle."),
-    PUREBLOOD_ELF("Pureblood Elf", "/Assets/Cards/Plane/scoiatael_francesca_bronze.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_bronze.jpg", Factions.SCOIATAEL,"Pick a Biting Frost card from your deck and\nplay it instantly."),
-    HOPE_OF_THE_AEN_SEIDHE("Hope of the Aen Seidhe", "/Assets/Cards/Plane/scoiatael_francesca_hope_of_the_aen_seidhe.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_hope_of_the_aen_seidhe.jpg", Factions.SCOIATAEL,"Move agile units to whichever row maximizes\ntheir strength (do not move units already\nin optimal row)."),
-    CRACH_AN_CRAITE("Crach an Craite", "/Assets/Cards/Plane/skellige_crach_an_craite.jpg", "/Assets/Cards/Detailed/skellige_crach_an_craite.jpg", Factions.SKELLIGE,"Shuffle all cards from each player's\ngraveyard back into their deck."),
-    KING_BRAN("King Bran", "/Assets/Cards/Plane/skellige_king_bran.jpg", "/Assets/Cards/Detailed/skellige_king_bran.jpg", Factions.SKELLIGE, "Units only lose half their Strength in bad\nweather condition");;
+    THE_BEAUTIFUL("The Beautiful", "/Assets/Cards/Plane/scoiatael_francesca_gold.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_gold.jpg", Factions.SCOIATAEL, "Doubles the strength of all your Ranged\nCombat units (unless a Commander's Horn is\nalso present on that row)."),
+    DAISY_OF_THE_VALLEY("Daisy of the Valley", "/Assets/Cards/Plane/scoiatael_francesca_copper.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_copper.jpg", Factions.SCOIATAEL, "draw an extra card at the beginning of\nthe battle."),
+    PUREBLOOD_ELF("Pureblood Elf", "/Assets/Cards/Plane/scoiatael_francesca_bronze.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_bronze.jpg", Factions.SCOIATAEL, "Pick a Biting Frost card from your deck and\nplay it instantly."),
+    HOPE_OF_THE_AEN_SEIDHE("Hope of the Aen Seidhe", "/Assets/Cards/Plane/scoiatael_francesca_hope_of_the_aen_seidhe.jpg", "/Assets/Cards/Detailed/scoiatael_francesca_hope_of_the_aen_seidhe.jpg", Factions.SCOIATAEL, "Move agile units to whichever row maximizes\ntheir strength (do not move units already\nin optimal row)."),
+    CRACH_AN_CRAITE("Crach an Craite", "/Assets/Cards/Plane/skellige_crach_an_craite.jpg", "/Assets/Cards/Detailed/skellige_crach_an_craite.jpg", Factions.SKELLIGE, "Shuffle all cards from each player's\ngraveyard back into their deck."),
+    KING_BRAN("King Bran", "/Assets/Cards/Plane/skellige_king_bran.jpg", "/Assets/Cards/Detailed/skellige_king_bran.jpg", Factions.SKELLIGE, "Units only lose half their Strength in bad\nweather condition"),
+    KING_BRAN1("King Bran", "/Assets/Cards/Plane/skellige_king_bran.jpg", "/Assets/Cards/Detailed/skellige_king_bran.jpg", Factions.SKELLIGE, "Units only lose half their Strength in bad\nweather condition"),
+    KING_BRAN2("King Bran", "/Assets/Cards/Plane/skellige_king_bran.jpg", "/Assets/Cards/Detailed/skellige_king_bran.jpg", Factions.SKELLIGE, "Units only lose half their Strength in bad\nweather condition"),
+    CRACH_AN_CRAITE1("Crach an Craite", "/Assets/Cards/Plane/skellige_crach_an_craite.jpg", "/Assets/Cards/Detailed/skellige_crach_an_craite.jpg", Factions.SKELLIGE, "Shuffle all cards from each player's\ngraveyard back into their deck."),
+    ;
+
     public final String name;
     public final String planeImage;
     public final String cardImage;
@@ -78,6 +83,7 @@ public enum LeaderInfo {
             case NILFGAARD -> THE_WHITE_FLAME;
             case SCOIATAEL -> QUEEN_OF_DOL_BLATHANNA;
             case SKELLIGE -> CRACH_AN_CRAITE;
+            case NORTHERN_REALMS -> THE_SIEGEMASTER;
             default -> null;
         };
     }
