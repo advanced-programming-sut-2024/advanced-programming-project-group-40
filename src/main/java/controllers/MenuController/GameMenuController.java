@@ -588,6 +588,7 @@ public class GameMenuController extends Controller {
         } else {
             matchTable.pass(1);
         }
+        matchTable.endTurn();
     }
 
 

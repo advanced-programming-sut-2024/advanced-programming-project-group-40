@@ -839,6 +839,8 @@ public class MatchTable {
         secondPlayerCloseCombatBoostCard = null;
         secondPlayerSiegeBoostCard = null;
         secondPlayerRangedBoostCard = null;
+        isFirstPlayerTurn = !isFirstPlayerTurn;
+        clearSpellCards();
 
     }
 

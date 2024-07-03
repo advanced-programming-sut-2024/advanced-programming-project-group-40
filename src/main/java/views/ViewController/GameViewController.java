@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
@@ -183,11 +184,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         InitiateCardEvents();
         GameMenuController.initiateDeck(GameMenuController.getMatchTable());
 
-        secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
-        firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
-        firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
-        secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
-
 
         update();
     }
@@ -281,6 +277,35 @@ public class GameViewController extends PlayMenu implements Initializable {
 
             }
 
+
+
+
+            if (GameMenuController.getMatchTable().getFirstPlayerCrystals() ==2){
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getFirstPlayerCrystals() ==1) {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }else {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }
+
+
+            if (GameMenuController.getMatchTable().getSecondPlayerCrystals() ==2){
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getSecondPlayerCrystals() ==1) {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }else {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }
             GameMenuController.getMatchTable().updatePoints();
             firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
             secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
@@ -375,7 +400,10 @@ public class GameViewController extends PlayMenu implements Initializable {
                     secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
                 }
             }
-            InitiateCardEvents();
+            secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
+            firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
+            firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
+            secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
         } else {
             if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
                     secondPlayerLeaderImage.getChildren().isEmpty()) {
@@ -385,6 +413,34 @@ public class GameViewController extends PlayMenu implements Initializable {
                     firstplayerLeaderImage.getChildren().isEmpty()) {
                 firstplayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
             }
+
+            if (GameMenuController.getMatchTable().getSecondPlayerCrystals() ==2){
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getSecondPlayerCrystals() ==1) {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }else {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }
+
+
+            if (GameMenuController.getMatchTable().getFirstPlayerCrystals() ==2){
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getFirstPlayerCrystals() ==1) {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }else {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()),BackgroundRepeat.NO_REPEAT,BackgroundRepeat.NO_REPEAT,BackgroundPosition.CENTER,BackgroundSize.DEFAULT)));
+
+            }
+
 
             GameMenuController.getMatchTable().updatePoints();
             firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
@@ -481,8 +537,15 @@ public class GameViewController extends PlayMenu implements Initializable {
                     secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
                 }
             }
-            InitiateCardEvents();
+            secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
+            firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
+            firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+            secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
+
+
+
         }
+        InitiateCardEvents();
         //spell
         if (!(GameMenuController.getMatchTable().getSpellCards().isEmpty() &&
                 spellCards.getChildren().isEmpty())) {
@@ -555,6 +618,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     public void PassRound(MouseEvent mouseEvent) {
         GameMenuController.passRound();
+        update();
     }
 }
 
