@@ -239,6 +239,13 @@ public class PreGameViewController {
         selectedCardFlowPane.getChildren().add(pane);
     }
 
+    public void setUpSelectedCards() {
+        User user = Game.getLoggedInUser();
+        for (Card card : user.getDeckCards()) {
+            addToSelectedCards(card);
+        }
+    }
+
     private void addToSelectCards(Card card) {
         for (Node pane1 : selectCardFlowPane.getChildren()) {
             pane1 = (Pane) pane1;
@@ -273,7 +280,12 @@ public class PreGameViewController {
         if (changeLeaderClicked) {
             loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
             description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
+            loggedInUser.setFaction(Factions.toFaction(cardsName.get(tmp[2])));
+            selectedCardFlowPane.getChildren().clear();
+            selectCardFlowPane.getChildren().clear();
+            setUpCards();
         }
+
     }
 
     public void openFactionPane(MouseEvent mouseEvent) {
@@ -361,11 +373,16 @@ public class PreGameViewController {
         for (Card card : Game.getLoggedInUser().getDeckCards()) {
             deckCards.add(card.getName());
         }
-        DataSaver.saveDeckCards(deckCards);
+        DataSaver.saveDeckCards(deckCards, Game.getLoggedInUser().getLeader());
     }
 
     public void uploadDeck(MouseEvent mouseEvent) {
         DataSaver.loadDeckCards();
+        selectedCardFlowPane.getChildren().clear();
+        selectCardFlowPane.getChildren().clear();
+        setUpCards();
+        setUpSelectedCards();
+        leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
     }
 
     public void startGame(MouseEvent mouseEvent) {
