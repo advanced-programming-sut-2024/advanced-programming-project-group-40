@@ -109,7 +109,6 @@ public class PreGameViewController {
 //            if (Integer.parseInt(unit.getText()) < 22)
 //
 //
-//
 //        });
 
 
