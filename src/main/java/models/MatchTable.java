@@ -839,6 +839,8 @@ public class MatchTable {
         secondPlayerCloseCombatBoostCard = null;
         secondPlayerSiegeBoostCard = null;
         secondPlayerRangedBoostCard = null;
+        secondPlayerPassed = false;
+        firstPlayerPassed = false;
         isFirstPlayerTurn = !isFirstPlayerTurn;
         clearSpellCards();
 
@@ -1091,6 +1093,9 @@ public class MatchTable {
         ArrayList<Card> secondPlayerCards;
         firstPlayerLeader = firstPlayer.getLeader();
         secondPlayerLeader = secondPlayer.getLeader();
+        firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
+        secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+
         if (Objects.equals(firstPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
             firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 11);
         } else {
@@ -1101,8 +1106,6 @@ public class MatchTable {
         } else {
             secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
         }
-
-
         for (Card card : firstPlayerCards) {
             addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
         }

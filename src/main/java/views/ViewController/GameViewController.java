@@ -162,6 +162,14 @@ public class GameViewController extends PlayMenu implements Initializable {
         SpecialCard card15 = new SpecialCard(SpecialCardInfo.SKELLIGE_STORM);
         UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
         UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
+        UnitCard card18 = new UnitCard(UnitCardInfo.CAHIR_MAWR_DYFFRYN_AEP_CEALLACH);
+        UnitCard card19 = new UnitCard(UnitCardInfo.GHOUL);
+        UnitCard card20 = new UnitCard(UnitCardInfo.SIGISMUND_DIJKSTRA);
+        UnitCard card21 = new UnitCard(UnitCardInfo.VANHEMAR);
+        UnitCard card22 = new UnitCard(UnitCardInfo.FIEND);
+        UnitCard card23 = new UnitCard(UnitCardInfo.CELAENO_HARPY);
+        UnitCard card24 = new UnitCard(UnitCardInfo.ENDREGA);
+        UnitCard card25 = new UnitCard(UnitCardInfo.OLAF);
         SpecialCard card5 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
         SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
         SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
@@ -170,7 +178,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         Game.getLoggedInUser().getDeckCards().add(card1);
         Game.getLoggedInUser().getDeckCards().add(card2);
         Game.getLoggedInUser().getDeckCards().add(card5);
-        // GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
         Game.getLoggedInUser().getDeckCards().add(card6);
         Game.getLoggedInUser().getDeckCards().add(card7);
         Game.getLoggedInUser().getDeckCards().add(card8);
@@ -181,6 +188,21 @@ public class GameViewController extends PlayMenu implements Initializable {
         Game.getLoggedInUser().getDeckCards().add(card13);
         Game.getLoggedInUser().getDeckCards().add(card14);
         Game.getLoggedInUser().getDeckCards().add(card15);
+        //////////////////////////
+        tempUser.getDeckCards().add(card3);
+        tempUser.getDeckCards().add(card16);
+        tempUser.getDeckCards().add(card17);
+        tempUser.getDeckCards().add(card18);
+        tempUser.getDeckCards().add(card19);
+        tempUser.getDeckCards().add(card20);
+        tempUser.getDeckCards().add(card21);
+        tempUser.getDeckCards().add(card22);
+        tempUser.getDeckCards().add(card23);
+        tempUser.getDeckCards().add(card24);
+        tempUser.getDeckCards().add(card25);
+
+
+
         InitiateCardEvents();
         GameMenuController.initiateDeck(GameMenuController.getMatchTable());
 
@@ -206,6 +228,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(STR."name:\{card.getName()}");
+                System.out.println(GameMenuController.getMatchTable().isFirstPlayerTurn());
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
 
@@ -233,7 +256,6 @@ public class GameViewController extends PlayMenu implements Initializable {
             }
             case FIRSTPLAYER_SIEGE -> {
                 firstPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
-
             }
             case WEATHER -> {
                 spellCards.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));

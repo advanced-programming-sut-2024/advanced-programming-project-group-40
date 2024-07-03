@@ -101,7 +101,6 @@ public class GameMenuController extends Controller {
     }
 
     private static Origin GetDestination(boolean isFirstPlayerTurn) {
-        if (isFirstPlayerTurn) {
             if (selectedCard instanceof UnitCard unitCard) {
                 if (unitCard.getAbility() == Ability.SPY) {
                     switch (unitCard.getUnit()) {
@@ -187,93 +186,7 @@ public class GameMenuController extends Controller {
 
                 }
             } else return null;
-        } else {
-            if (selectedCard instanceof UnitCard unitCard) {
-                if (unitCard.getAbility() == Ability.SPY) {
-                    switch (unitCard.getUnit()) {
-                        case AGILE -> {
-                            return Origin.FIRSTPLAYER_AGILE;
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.FIRSTPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.FIRSTPLAYER_SIEGE;
 
-                        }
-                        case RANGED -> {
-                            return Origin.FIRSTPLAYER_RANGED;
-                        }
-                    }
-                } else {
-                    switch (unitCard.getUnit()) {
-                        case AGILE -> {
-                            return Origin.SECONDPLAYER_AGILE;
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.SECONDPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.SECONDPLAYER_SIEGE;
-
-                        }
-                        case RANGED -> {
-                            return Origin.SECONDPLAYER_RANGED;
-
-                        }
-                        case All -> {
-                            return Origin.SECONDPLAYER_ALL;
-                        }
-                    }
-                }
-
-            }
-            if (selectedCard instanceof Hero hero) {
-                if (hero.getAbility() == Ability.SPY) {
-                    switch (hero.getUnit()) {
-                        case AGILE -> {
-                            return Origin.FIRSTPLAYER_AGILE;
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.FIRSTPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.FIRSTPLAYER_SIEGE;
-
-                        }
-                        case RANGED -> {
-                            return Origin.FIRSTPLAYER_RANGED;
-                        }
-                    }
-                } else {
-                    switch (hero.getUnit()) {
-                        case AGILE -> {
-                            return Origin.SECONDPLAYER_AGILE;
-
-                        }
-                        case CLOSE_COMBAT -> {
-                            return Origin.SECONDPLAYER_CLOSECOMBAT;
-                        }
-                        case SIEGE -> {
-                            return Origin.SECONDPLAYER_SIEGE;
-
-                        }
-                        case RANGED -> {
-                            return Origin.SECONDPLAYER_RANGED;
-
-                        }
-                    }
-                }
-            }
-            if (selectedCard instanceof SpecialCard specialCard) {
-                if (Objects.equals(specialCard.getName(), "Commander's horn")) {
-                    return Origin.SECONDPLAYER_ALL;
-                } else {
-                    return Origin.WEATHER;
-
-                }
-            } else return null;
-        }
 
     }
 
@@ -284,8 +197,6 @@ public class GameMenuController extends Controller {
 
 
     public static void initiateDeck(MatchTable matchTable) {
-        matchTable.getFirstPlayerDeckCards().addAll(matchTable.getFirstPlayer().getDeckCards());
-        matchTable.getSecondPlayerDeckCards().addAll(matchTable.getSecondPlayer().getDeckCards());
         matchTable.initilizeTable();
     }
 
