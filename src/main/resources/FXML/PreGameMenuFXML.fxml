@@ -52,11 +52,11 @@
                                     <Image url="@../Assets/Icons/Deck_Stats/deck_stats_unit.png" />
                                 </image>
                             </ImageView>
-                            <Label fx:id="unit" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="23.0" text="Label">
+                            <Label fx:id="unit" alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="26.0" text="Label">
                         <font>
                            <Font name="System Bold" size="14.0" />
                         </font></Label>
-                     <Label prefHeight="18.0" prefWidth="25.0" text="/22">
+                     <Label fx:id="unit2" prefHeight="18.0" prefWidth="24.0" text="/22">
                          <font>
                              <Font name="System Bold" size="14.0" />
                          </font></Label>
@@ -74,7 +74,7 @@
                         <font>
                            <Font name="System Bold" size="14.0" />
                         </font></Label>
-                     <Label text="/10">
+                     <Label fx:id="special2" text="/10">
                          <font>
                              <Font name="System Bold" size="14.0" />
                          </font></Label>
