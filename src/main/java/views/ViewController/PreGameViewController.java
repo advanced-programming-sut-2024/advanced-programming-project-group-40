@@ -138,6 +138,12 @@ public class PreGameViewController {
         }
     }
 
+    public void setUpSelectedCards() {
+        User user = Game.getLoggedInUser();
+        for (Card card : user.getDeckCards()) {
+            addToSelectedCards(card);
+        }
+    }
     public void ChangeFaction(MouseEvent mouseEvent) {
         mainPane.setDisable(true);
         changeFactionPane.setVisible(true);
@@ -338,5 +344,9 @@ public class PreGameViewController {
 
     public void uploadDeck(MouseEvent mouseEvent) {
         DataSaver.loadDeckCards();
+        selectedCardFlowPane.getChildren().clear();
+        selectCardFlowPane.getChildren().clear();
+        setUpCards();
+        setUpSelectedCards();
     }
 }
