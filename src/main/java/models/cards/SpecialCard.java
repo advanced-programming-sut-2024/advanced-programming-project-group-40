@@ -1,13 +1,12 @@
 package models.cards;
 
+import enums.Factions;
 import enums.cards.SpecialCardInfo;
 
 public class SpecialCard extends Card{
-    private final int maxCapacity;
 
     public SpecialCard(SpecialCardInfo specialCardInfo) {
-        super(specialCardInfo.name, specialCardInfo.planeImage, specialCardInfo.cardImage);
-        this.maxCapacity = specialCardInfo.maxCapacity;
+        super(specialCardInfo.name, specialCardInfo.planeImage, specialCardInfo.cardImage, specialCardInfo.maxCapacity, Factions.NEUTRAL);
     }
 
     public int getMaxCapacity() {

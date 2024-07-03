@@ -713,26 +713,26 @@ public class MatchTable {
 
         } else if (firstPlayerScore > secondPlayerScore) {
             reduceCrystal(1);
-            if (Objects.equals(firstPlayer.getFaction(), "Realms Northern")) {
+            if (Objects.equals(firstPlayer.getFaction(), "NORTHERN_REALMS Northern")) {
                 factionAction(0, Factions.NORTHERN_REALMS);
             }
             //monsters already handled in clear match table
 
         } else {
             reduceCrystal(0);
-            if (Objects.equals(secondPlayer.getFaction(), "Realms Northern")) {
+            if (Objects.equals(secondPlayer.getFaction(), "NORTHERN_REALMS Northern")) {
                 factionAction(1, Factions.NORTHERN_REALMS);
             }
             //monsters already handled in clear match table
 
         }
         clearMatchTable();
-        //Skellige ability
+        //SKELLIGE ability
         if (round == 3) {
-            if (Objects.equals(firstPlayer.getFaction(), "Skellige")) {
+            if (Objects.equals(firstPlayer.getFaction(), "SKELLIGE")) {
                 factionAction(0, Factions.SKELLIGE);
             }
-            if (Objects.equals(secondPlayer.getFaction(), "Skellige")) {
+            if (Objects.equals(secondPlayer.getFaction(), "SKELLIGE")) {
                 factionAction(1, Factions.SKELLIGE);
             }
         }
@@ -1026,7 +1026,7 @@ public class MatchTable {
                 case "Torrential Rain":
                     if (rowID == 2) return true;
                     break;
-                case "Skellige Storm":
+                case "SKELLIGE Storm":
                     if (rowID == 2 || rowID == 1) return true;
                     break;
             }
@@ -1151,7 +1151,7 @@ public class MatchTable {
             }
         }
         row.removeAll(toRemove);
-        UnitCard unitCard = new UnitCard(UnitCardInfo.BEAR);
+        UnitCard unitCard = new UnitCard(UnitCardInfo.VIDKAARL);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
 

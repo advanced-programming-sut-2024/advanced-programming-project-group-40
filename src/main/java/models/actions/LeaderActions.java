@@ -388,7 +388,7 @@ public abstract class LeaderActions {
             case "His Imperial Majesty":
                 hisImperialMajesty();
                 break;
-            case "Emperor of Nilfgaard":
+            case "Emperor of NILFGAARD":
                 emperorOfNilfgaard();
                 break;
             case "The Relentless":
