@@ -149,9 +149,10 @@ public class GameViewController extends PlayMenu implements Initializable {
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
 
         GameMenuController.getMatchTable().setFirstPlayerTurn(true);
-        UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
-        UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
-        UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
+        UnitCard card1 = new UnitCard(UnitCardInfo.GHOUL);
+        UnitCard card2 = new UnitCard(UnitCardInfo.GHOUL);
+        UnitCard card3 = new UnitCard(UnitCardInfo.GHOUL);
+        if (card1.equals(card2)) System.out.println("shit");
         UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
         UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
         UnitCard card10 = new UnitCard(UnitCardInfo.HAVEKAR_HEALER);

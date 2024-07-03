@@ -1157,7 +1157,7 @@ public class MatchTable {
     private static int getNumberOfCards(Card card, ArrayList<Card> cards) {
         int num = 0;
         for (Card card1 : cards) {
-            if (card1.equals(card)) num++;
+            if (card1.getName().equals(card.getName())) num++;
         }
         return num;
     }

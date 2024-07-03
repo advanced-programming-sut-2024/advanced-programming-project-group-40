@@ -13,10 +13,8 @@ public class UnitCard extends Card{
     private final Unit unit;
     private final Factions faction;
     private final Ability ability;
-    private final Long rand;
     public UnitCard(UnitCardInfo unitCardInfo) {
         super(unitCardInfo.name, unitCardInfo.planeImage, unitCardInfo.cardImage);
-        this.rand = Game.random.nextLong(0,1000000);
 
         this.constantPower = unitCardInfo.power;
         this.showingPower = constantPower;

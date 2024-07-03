@@ -13,10 +13,8 @@ public class Hero extends Card {
     private final Unit unit;
     private final Factions faction;
     private final Ability ability;
-    private final Long rand;
     public Hero(HeroInfo heroInfo) {
         super(heroInfo.name, heroInfo.planeImage, heroInfo.cardImage);
-        this.rand = Game.random.nextLong(0,1000000);
         this.constantPower = heroInfo.power;
         this.showingPower = constantPower;
         this.unit = heroInfo.unit;
