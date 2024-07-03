@@ -134,25 +134,11 @@ public class PreGameViewController {
 
 
         unit.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (Integer.parseInt(unit.getText()) < 22) {
-                unit.setStyle("-fx-text-fill: red;");
-                unit2.setVisible(true);
-                unit2.setStyle("-fx-text-fill: red;");
-            } else {
-                unit.setStyle("-fx-text-fill: #C2E7E3;");
-                unit2.setVisible(false);
-            }
+            setUnitCardColor();
         });
 
         special.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (Integer.parseInt(special.getText()) > 10) {
-                special.setStyle("-fx-text-fill: red;");
-                special2.setVisible(true);
-                special2.setStyle("-fx-text-fill: red;");
-            } else {
-                special.setStyle("-fx-text-fill: #C2E7E3;");
-                special2.setVisible(false);
-            }
+            setSpecialCardColor();
         });
 
 
@@ -178,6 +164,30 @@ public class PreGameViewController {
         hero.setText(Integer.toString(loggedInUser.getNumberOfHeroCards()));
         special.setText(Integer.toString(loggedInUser.getNumberOfSpecialCards()));
         strength.setText(Integer.toString(loggedInUser.getTotalUnitCardsStrength()));
+        setSpecialCardColor();
+        setUnitCardColor();
+    }
+
+    private void setUnitCardColor() {
+        if (Integer.parseInt(unit.getText()) < 22) {
+            unit.setStyle("-fx-text-fill: red;");
+            unit2.setVisible(true);
+            unit2.setStyle("-fx-text-fill: red;");
+        } else {
+            unit.setStyle("-fx-text-fill: #C2E7E3;");
+            unit2.setVisible(false);
+        }
+    }
+
+    private void setSpecialCardColor() {
+        if (Integer.parseInt(special.getText()) > 10) {
+            special.setStyle("-fx-text-fill: red;");
+            special2.setVisible(true);
+            special2.setStyle("-fx-text-fill: red;");
+        } else {
+            special.setStyle("-fx-text-fill: #C2E7E3;");
+            special2.setVisible(false);
+        }
     }
 
     private void setUpFactionImages() {
