@@ -2,6 +2,7 @@ package views.ViewController;
 
 
 import controllers.DataSaver;
+import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
 import enums.Factions;
 import enums.cards.LeaderInfo;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
 import models.Game;
+import models.MatchTable;
 import models.User;
 import models.cards.*;
 import views.GameView;
@@ -457,7 +459,8 @@ public class PreGameViewController {
         AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
         alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
-            // todo game can start here
+            GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(),
+                    Game.getUserByName(competitorUsername.getText())));
         }
     }
 }
