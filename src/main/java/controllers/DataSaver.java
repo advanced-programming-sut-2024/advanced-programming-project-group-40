@@ -5,8 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import models.User;
 import models.Game;
-import models.cards.Card;
-import models.cards.Leader;
+import models.cards.*;
 import views.ViewController.PreGameViewController;
 
 import java.io.FileWriter;
@@ -79,10 +78,29 @@ public class DataSaver {
             assert leader != null;
             user.setFaction(leader.getFaction());
             user.getDeckCards().clear();
+            int numberOfUnitCards = 0;
+            int numberOfSpecialCards = 0;
+            int numberOfHeroCards = 0;
+            int totalUnitCardsStrength = 0;
             for (String cardName : deckCards) {
-                user.getDeckCards().add(Card.getCardByName(cardName));
+                Card card = Card.getCardByName(cardName);
+                user.getDeckCards().add(card);
+                if (card instanceof UnitCard) {
+                    numberOfUnitCards++;
+                    totalUnitCardsStrength += ((UnitCard) card).getConstantPower();
+                } else if (card instanceof SpecialCard)
+                    numberOfSpecialCards++;
+                else if (card instanceof Hero) {
+                    numberOfHeroCards++;
+                    totalUnitCardsStrength += ((Hero) card).getConstantPower();
+                }
             }
-        } catch (Exception ignored) {
+            user.setNumberOfUnitCards(numberOfUnitCards);
+            user.setNumberOfSpecialCards(numberOfSpecialCards);
+            user.setNumberOfHeroCards(numberOfHeroCards);
+            user.setTotalUnitCardsStrength(totalUnitCardsStrength);
+        } catch (
+                Exception ignored) {
         }
     }
 }

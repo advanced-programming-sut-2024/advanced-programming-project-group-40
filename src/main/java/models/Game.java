@@ -4,6 +4,7 @@ import enums.Menu;
 import enums.cards.HeroInfo;
 import enums.cards.SpecialCardInfo;
 import enums.cards.UnitCardInfo;
+import javafx.stage.Stage;
 import models.cards.*;
 import views.GameView;
 import views.PlayMenu;
@@ -19,9 +20,9 @@ public class Game {
     private static final ArrayList<Card> allCards = Game.setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static final ArrayList<Card> selectedCards = new ArrayList<>();
-
     private static User loggedInUser = new User("", "", "", "");
     private static Menu currentMenu = Menu.LoginMenu;
+    public static Stage stage;
 
 
     public static ArrayList<User> getUsersRanked() {

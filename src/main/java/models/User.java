@@ -12,7 +12,7 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private Factions faction;
+    private Factions faction = Factions.NILFGAARD;
     private int point;
     private int gamesPlayed;
     private int won;
@@ -21,7 +21,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
-    private transient Leader leader;
+    private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
@@ -215,11 +215,10 @@ public class User {
     public void addPoint(int addingPoint) {
         point += addingPoint;
     }
-
-    public void removeCardFromDeck(Card card) {
-        if (!deckCards.isEmpty()) {
+    public void removeCardFromDeck(Card card){
+        if (!deckCards.isEmpty()){
             for (Card card1 : deckCards) {
-                if (card1.getName().equals(card.getName())) {
+                if (card1.getName().equals(card.getName())){
                     deckCards.remove(card1);
                     break;
                 }
@@ -239,7 +238,15 @@ public class User {
                 Objects.equals(nickname, user.nickname) &&
                 Objects.equals(faction, user.faction);
     }
-
+    public int cardsInDeckFromCardName(String cardName){
+        int count = 0;
+        for (Card card : deckCards) {
+            if (card.getName().equals(cardName)){
+                count++;
+            }
+        }
+        return count;
+    }
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
