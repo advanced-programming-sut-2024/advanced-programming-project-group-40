@@ -18,10 +18,7 @@ import java.util.Scanner;
 
 public class LoginMenu extends PlayMenu {
     public static void main(String[] args) throws IOException {
-        Client client = Client.getClient();
-        Scanner scanner = new Scanner(System.in);
-        client.getBuffer().put(scanner.nextLine().getBytes());
-        System.out.println(client.getServerResponse());
+//        Client client = Client.getClient();
         launch(args);
     }
 
@@ -29,7 +26,7 @@ public class LoginMenu extends PlayMenu {
     public void start(Stage stage) throws Exception {
       //TODO
 //        Game.setAllUsers(Objects.requireNonNull(DataSaver.loadUsers()));
-        Game.stage = stage;
+        LoginMenu.stage = stage;
         Pane pane = FXMLLoader.load(Objects.requireNonNull(LoginMenu.class.getResource("/FXML/LoginMenuFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();

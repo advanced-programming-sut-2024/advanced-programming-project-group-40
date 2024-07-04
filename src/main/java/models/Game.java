@@ -20,7 +20,7 @@ public class Game {
     private static final ArrayList<Card> allCards = Game.setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static final ArrayList<Card> selectedCards = new ArrayList<>();
-    private static User loggedInUser = new User("", "", "", "");
+    private static User loggedInUser;
     private static Menu currentMenu = Menu.LoginMenu;
     public static Stage stage;
 
