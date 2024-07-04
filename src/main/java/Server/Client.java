@@ -53,7 +53,6 @@ public class Client {
         q.flip();
 
         // Convert the response to a String and print it
-        String response = new String(q.array(), 0, q.limit());
-        return response;
+        return new String(q.array(), 0, q.limit());
     }
 }
