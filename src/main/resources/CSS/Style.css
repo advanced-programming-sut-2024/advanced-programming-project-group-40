@@ -48,20 +48,20 @@
     -fx-font-family: "Cambria"; /* Font family */
 }
 
-.Box{
+.Box {
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #C2E7E3;
-    -fx-background-color: rgb(71, 107, 101,0.5);
+    -fx-background-color: rgb(71, 107, 101, 0.5);
 }
 
-.Question-Box{
+.Question-Box {
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-radius: 20px;
     -fx-border-radius: 20px;
     -fx-border-color: #F8EECB;
-    -fx-background-color: rgb(248, 238, 203,0.4);
+    -fx-background-color: rgb(248, 238, 203, 0.4);
 }
 
 .label.yellow {
@@ -81,6 +81,7 @@
     -fx-background-radius: 5px;
     -fx-prompt-text-fill: #a6b9b4; /* Prompt text color (tomato) */
 }
+
 .text-field:focused {
     /*-fx-pref-width: 190px; !* Set preferred width for button2 *!*/
     /*-fx-pref-height: 35px; !* Set preferred height for button2 *!*/
@@ -90,13 +91,13 @@
     -fx-border-color: #C2E7E3; /* Border color when focused (tomato) */
 }
 
-.button-regular{
+.button-regular {
     -fx-pref-width: 98px;
     -fx-pref-height: 13px;
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
-    -fx-background-color: rgb(194, 231, 227,0.5); /* Background color */
+    -fx-background-color: rgb(194, 231, 227, 0.5); /* Background color */
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: #C2E7E3; /* Remove border color */
     -fx-border-width: 3px; /* Remove border width */
@@ -106,27 +107,27 @@
 
 }
 
-.button-regular:hover{
+.button-regular:hover {
     -fx-pref-width: 98px; /* Set preferred width for button2 */
     -fx-pref-height: 13px; /* Set preferred height for button2 */
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
-    -fx-background-color: rgb(194, 231, 227,1); /* Remove background color */
+    -fx-background-color: rgb(194, 231, 227, 1); /* Remove background color */
     -fx-text-fill: #3D5954FF; /* Set text color */
     font-weight: bold;
     -fx-cursor: hand; /* Change cursor to hand */
 
 }
 
-.label-header{
-    -fx-effect: dropshadow( gaussian , rgb(179, 217, 209,0.75), 10,0,0,1 );
+.label-header {
+    -fx-effect: dropshadow(gaussian, rgb(179, 217, 209, 0.75), 10, 0, 0, 1);
 
 }
 
 
 /* Default style for ImageView */
 .back {
-    -fx-effect: dropshadow( gaussian , rgb(179, 217, 209,0.75), 10,0,0,1 );
+    -fx-effect: dropshadow(gaussian, rgb(179, 217, 209, 0.75), 10, 0, 0, 1);
     -fx-padding: 10;
     -fx-background-color: transparent;
     -fx-border-radius: 5;
@@ -149,7 +150,7 @@
 
 
 .move {
-    -fx-effect: dropshadow( gaussian , rgb(248, 238, 203,0.75), 10,0,0,1 );
+    -fx-effect: dropshadow(gaussian, rgb(248, 238, 203, 0.75), 10, 0, 0, 1);
     -fx-padding: 10;
     -fx-background-color: transparent;
     -fx-border-radius: 5;
@@ -203,7 +204,7 @@ menu-scroll-pane {
     -fx-border-radius: 9;
 }
 
-.description{
+.description {
     -fx-background-color: rgb(49, 38, 29, 0.7);
     -fx-border-color: #f8eecb; /* Remove border color */
     -fx-border-width: 2px; /* Remove border width */
@@ -218,8 +219,12 @@ menu-scroll-pane {
     -fx-background-color: rgb(49, 38, 29, 0.8);
 }
 
-.card-change{
-    -fx-effect: dropshadow( gaussian , rgb(248, 238, 203), 20,0,0,1 );
+.brown-pre-game-pane {
+    -fx-background-color: rgb(49, 38, 29, 0.6);
+}
+
+.card-change {
+    -fx-effect: dropshadow(gaussian, rgb(248, 238, 203), 20, 0, 0, 1);
     -fx-padding: 10;
     -fx-background-color: transparent;
     -fx-background-radius: 35;
@@ -228,7 +233,7 @@ menu-scroll-pane {
     -fx-scale-y: 1; /* Default scale */
 }
 
-.card-change > .image-view{
+.card-change > .image-view {
     -fx-background-radius: 35;
 }
 
@@ -239,8 +244,9 @@ pre-scroll-pane {
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: transparent; /* Remove border color */
 }
-.label-color{
-    -fx-effect: dropshadow( gaussian , rgb(248, 238, 203), 5,0,0,1 );
+
+.label-color {
+    -fx-effect: dropshadow(gaussian, rgb(248, 238, 203), 5, 0, 0, 1);
     -fx-text-fill: #f8eecb;
 }
 
@@ -258,4 +264,11 @@ pre-scroll-pane {
 .pre-scroll-pane.scroll-bar:vertical {
     -fx-opacity: 0;
     -fx-pref-width: 0;
+}
+
+.textFiled-pre-game {
+    -fx-font-family: "Cambria"; /* Font family */
+    -fx-background-color: transparent; /* Remove background color */
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-border-color: #C2E7E3; /* Border color when focused (tomato) */
 }
