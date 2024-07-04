@@ -375,6 +375,10 @@ public class PreGameViewController {
     @FXML
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
+        System.out.println(loggedInUser.getNumberOfUnitCards());
+        System.out.println(loggedInUser.getNumberOfSpecialCards());
+        System.out.println(loggedInUser.getNumberOfHeroCards());
+        System.out.println(loggedInUser.getTotalUnitCardsStrength());
         try {
             new MainMenu().start(Game.stage);
         } catch (Exception e) {
