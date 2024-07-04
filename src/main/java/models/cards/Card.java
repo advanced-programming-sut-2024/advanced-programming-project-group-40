@@ -34,7 +34,7 @@ public abstract class Card extends Rectangle {
         this.cardImage = cardImage;
         this.maxCapacity = maxCapacity;
         this.faction = faction;
-        this.cardId = Generator.random.nextInt(10000);
+        this.cardId = Game.random.nextInt(0,10000);
         this.setWidth(65);
         this.setHeight(90);
         setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource(cardImage)).toExternalForm())));

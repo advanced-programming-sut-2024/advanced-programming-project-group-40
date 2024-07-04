@@ -6,15 +6,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import models.MatchTable;
+import models.Result;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.*;
 import views.ViewController.GameViewController;
 
-
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameMenuController {
+public class GameMenuController  {
     private static MatchTable matchTable;
     private static Stage tempStage;
     private static boolean isNewWindowOpen = false;
@@ -96,7 +96,6 @@ public class GameMenuController {
                 }
                 matchTable.endTurn();
             }
-
         }
     }
 
@@ -137,7 +136,6 @@ public class GameMenuController {
                     case All -> {
                         return Origin.FIRSTPLAYER_ALL;
                     }
-
                 }
             }
 
@@ -199,7 +197,6 @@ public class GameMenuController {
 
     public static void initiateDeck(MatchTable matchTable) {
         matchTable.initilizeTable();
-        matchTable.updatePoints();
     }
 
 
@@ -314,10 +311,10 @@ public class GameMenuController {
                 if (matchTable.isFirstPlayerTurn()) {
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
                 }else {
+
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY), 1, getRowID(origin));
                 }
                 if (!isMedic) matchTable.endTurn();
-                matchTable.updatePoints();
                 gameViewController.update();
                 if (matchTable.isFirstPlayerTurn()) {
                     if (isMedic && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
@@ -332,7 +329,7 @@ public class GameMenuController {
 
             }
         }
-        matchTable.updatePoints();
+
     }
 
     private static void MakeMedicWindow(boolean isFirstPlayerTurn) {
@@ -448,6 +445,7 @@ public class GameMenuController {
     private static void InitiateOnCardClick(HBox hBox, Scene scene, ArrayList<Card> selectedCards) {
         for (Card card : selectedCards) {
             card.setOnMouseClicked(_ -> {
+                System.out.println(STR."name:\{card.getName()}");
                 CardClickCommand cardClickCommand = new CardClickCommand(card, gameViewController2);
                 cardClickCommand.excute();
 
@@ -470,7 +468,6 @@ public class GameMenuController {
             selectedCard = null;
             matchTable.endTurn();
         }
-        matchTable.updatePoints();
     }
 
     public static void clickedOnWeather() {
@@ -481,7 +478,6 @@ public class GameMenuController {
                 matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY));
             } else {
                 matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY));
-
             }
             selectedCard = null;
             matchTable.endTurn();
@@ -497,7 +493,6 @@ public class GameMenuController {
             matchTable.leaderAction();
             matchTable.setSecondPlayerLeaderUsed(true);
         }
-        matchTable.updatePoints();
     }
 
     public static void passRound() {
@@ -505,12 +500,9 @@ public class GameMenuController {
             matchTable.pass(0);
         } else {
             matchTable.pass(1);
-
         }
         matchTable.endTurn();
-        matchTable.updatePoints();
     }
 
 
 }
-

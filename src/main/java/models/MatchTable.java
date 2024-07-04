@@ -62,7 +62,6 @@ public class MatchTable {
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
         initializeMatchTable();
-
     }
 
 
@@ -402,6 +401,7 @@ public class MatchTable {
             removeCard(cardWrapper);
         }
     }
+
 
     //places card without acivating ability
     public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
@@ -1045,8 +1045,7 @@ public class MatchTable {
         ArrayList<Card> secondPlayerCards;
         firstPlayerLeader = firstPlayer.getLeader();
         secondPlayerLeader = secondPlayer.getLeader();
-        firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
-        secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+
         if (Objects.equals(firstPlayer.getFaction().name, "scoiatael") && !Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
             isFirstPlayerTurn = true;
         } else if (!Objects.equals(firstPlayer.getFaction().name, "scoiatael") && Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
