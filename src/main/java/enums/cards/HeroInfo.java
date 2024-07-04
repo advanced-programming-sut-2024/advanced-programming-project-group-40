@@ -3,7 +3,6 @@ package enums.cards;
 import enums.Ability;
 import enums.Factions;
 import enums.Unit;
-import models.cards.Hero;
 
 public enum HeroInfo {
     Cerys("Cerys", "/Assets/Cards/Plane/skellige_cerys.jpg", "/Assets/Cards/Detailed/skellige_cerys.jpg", 10, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.MUSTER),
@@ -48,7 +47,4 @@ public enum HeroInfo {
         this.ability = ability;
     }
 
-    public static Hero getHeroCardByName(String name) {
-        return null;
-    }
 }

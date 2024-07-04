@@ -25,9 +25,9 @@ public class User {
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
-    private int numberOfUnitCards ;
-    private int numberOfSpecialCards ;
-    private int numberOfHeroCards ;
+    private int numberOfUnitCards;
+    private int numberOfSpecialCards;
+    private int numberOfHeroCards;
     private int totalUnitCardsStrength;
 
 
@@ -39,10 +39,10 @@ public class User {
         this.stayLoggedIn = false;
         faction = Factions.NILFGAARD;
         leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
-        numberOfHeroCards=0;
-        numberOfSpecialCards=0;
-        numberOfUnitCards=0;
-        totalUnitCardsStrength=0;
+        numberOfHeroCards = 0;
+        numberOfSpecialCards = 0;
+        numberOfUnitCards = 0;
+        totalUnitCardsStrength = 0;
     }
 
     public int getRank() {
@@ -219,10 +219,11 @@ public class User {
     public void addPoint(int addingPoint) {
         point += addingPoint;
     }
-    public void removeCardFromDeck(Card card){
-        if (!deckCards.isEmpty()){
+
+    public void removeCardFromDeck(Card card) {
+        if (!deckCards.isEmpty()) {
             for (Card card1 : deckCards) {
-                if (card1.getName().equals(card.getName())){
+                if (card1.getName().equals(card.getName())) {
                     deckCards.remove(card1);
                     break;
                 }
@@ -242,15 +243,17 @@ public class User {
                 Objects.equals(nickname, user.nickname) &&
                 Objects.equals(faction, user.faction);
     }
-    public int cardsInDeckFromCardName(String cardName){
+
+    public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
-            if (card.getName().equals(cardName)){
+            if (card.getName().equals(cardName)) {
                 count++;
             }
         }
         return count;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);

@@ -1,7 +1,6 @@
 package enums.cards;
 
 import enums.Factions;
-import models.cards.Leader;
 
 import java.util.ArrayList;
 
@@ -46,11 +45,6 @@ public enum LeaderInfo {
         this.faction = faction;
         this.description = description;
     }
-
-    public static Leader getLeaderByName(String name) {
-        return null;
-    }
-
     public static ArrayList<String> getLeaderAddressesByFaction(Factions faction) {
         ArrayList<String> list = new ArrayList<String>();
         for (LeaderInfo leader : LeaderInfo.values()) {

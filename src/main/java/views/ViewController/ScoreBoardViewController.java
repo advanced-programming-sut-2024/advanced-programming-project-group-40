@@ -1,14 +1,13 @@
 package views.ViewController;
 
+import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.Game;
-import models.MatchTable;
 import models.User;
 import views.MainMenu;
-import views.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,8 +15,10 @@ import java.util.Comparator;
 
 public class ScoreBoardViewController {
 
-    public VBox name;
-    public VBox wins;
+    @FXML
+    private VBox name;
+    @FXML
+    private VBox wins;
 
     public void initialize() {
         initializeChart();

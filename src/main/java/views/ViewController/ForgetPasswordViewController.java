@@ -15,7 +15,6 @@ import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 import models.User;
-import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.MainMenu;
 
