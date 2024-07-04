@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import models.Game;
 import models.MatchTable;
 import models.UserInputHandler.ClickCommand;
 import models.cards.Card;

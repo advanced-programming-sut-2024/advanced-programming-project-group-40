@@ -43,7 +43,7 @@ public class SecurityQuestionViewController {
             alertMaker.showAlert();
             if (alertMaker.getAlertType() == Alert.AlertType.INFORMATION) {
                 try {
-                    new MainMenu().start(SecurityQuestionMenu.stage);
+                    new MainMenu().start(Game.stage);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

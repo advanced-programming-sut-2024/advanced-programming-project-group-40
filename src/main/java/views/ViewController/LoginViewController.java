@@ -29,7 +29,7 @@ public class LoginViewController {
 
     public void goToForgetPassword() {
         try {
-            new ForgetPasswordMenu().start(LoginMenu.stage);
+            new ForgetPasswordMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +37,7 @@ public class LoginViewController {
 
     public void goToSignUpMenu() {
         try {
-            new SignUpMenu().start(LoginMenu.stage);
+            new SignUpMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +45,7 @@ public class LoginViewController {
 
     public void goToMainMenu() {
         try {
-            new MainMenu().start(LoginMenu.stage);
+            new MainMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

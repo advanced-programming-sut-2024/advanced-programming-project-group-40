@@ -20,8 +20,8 @@ public class ChoseFactionMenu extends PlayMenu {
 
     @Override
     public void start(Stage stage) throws Exception {
-        ChoseFactionMenu.stage = stage;
-        Pane pane = FXMLLoader.load(ChoseFactionMenu.class.getResource("/FXML/ChoseFactionFXML.fxml"));
+        Game.stage = stage;
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(ChoseFactionMenu.class.getResource("/FXML/ChoseFactionFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }

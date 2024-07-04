@@ -15,8 +15,8 @@ public class MainMenu extends PlayMenu {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        MainMenu.stage = stage;
-        Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/MainMenuFXML.fxml"));
+        Game.stage = stage;
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("/FXML/MainMenuFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }
