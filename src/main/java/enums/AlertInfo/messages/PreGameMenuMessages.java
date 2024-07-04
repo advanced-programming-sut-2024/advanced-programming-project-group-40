@@ -6,8 +6,8 @@ public enum PreGameMenuMessages {
     INVALID_COMPETITOR_USERNAME("Invalid competitor username"),
     YOU_CAN_NOT_PLAY_WITH_YOURSELF("You can't play with yourself"),
     GAME_STARTED("The game has started!"),
-
-    ;
+    DOWNLOAD_DECK("Deck Downloaded Successfully!"),
+    UPLOAD_DECK("Deck Uploaded Successfully!");
     private final String message;
 
     PreGameMenuMessages(String message) {

@@ -236,7 +236,15 @@ public class User {
                 Objects.equals(nickname, user.nickname) &&
                 Objects.equals(faction, user.faction);
     }
-
+    public int cardsInDeckFromCardName(String cardName){
+        int count = 0;
+        for (Card card : deckCards) {
+            if (card.getName().equals(cardName)){
+                count++;
+            }
+        }
+        return count;
+    }
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);

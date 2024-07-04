@@ -4,6 +4,7 @@ package views.ViewController;
 import controllers.DataSaver;
 import controllers.MenuController.PreGameMenuController;
 import controllers.MenuController.SignUpMenuController;
+import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
@@ -123,7 +124,7 @@ public class PreGameViewController {
         Factions factions = loggedInUser.getFaction();
         for (Card card : Game.getAllCards()) {
             if (card.getFaction().equals(factions) || card.getFaction().equals(Factions.NEUTRAL)) {
-                CreateNewCard(card, false);
+                CreateNewCard(Objects.requireNonNull(Card.getCardByName(card.getName())), false);
             }
         }
     }
@@ -276,14 +277,13 @@ public class PreGameViewController {
             factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
             leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull(Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
             setUpLeadersImages();
+            selectedCardFlowPane.getChildren().clear();
+            selectCardFlowPane.getChildren().clear();
+            setUpCards();
         }
         if (changeLeaderClicked) {
             loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
             description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
-            loggedInUser.setFaction(Factions.toFaction(cardsName.get(tmp[2])));
-            selectedCardFlowPane.getChildren().clear();
-            selectCardFlowPane.getChildren().clear();
-            setUpCards();
         }
 
     }
@@ -322,6 +322,7 @@ public class PreGameViewController {
     }
 
     private void CreateNewCard(Card newCard, boolean isCardSelected) {
+        User loggedInUser = Game.getLoggedInUser();
         Pane pane = new Pane();
         HBox hBox = new HBox();
         newCard.setWidth(120);
@@ -332,7 +333,10 @@ public class PreGameViewController {
         imageView.setFitWidth(16);
         imageView.setFitHeight(12);
         hBox.getChildren().add(imageView);
-        Label label = new Label(Integer.toString(newCard.getMaxCapacity() - newCard.getSelectedCards()));
+        Label label = new Label(Integer.toString(newCard.getMaxCapacity() - loggedInUser.cardsInDeckFromCardName(newCard.getName())));
+        if (label.getText().equals("0")){
+            return;
+        }
         if (isCardSelected) {
             newCard.setSelectedCards(newCard.getMaxCapacity() - 1);
             label.setText(Integer.toString(newCard.getMaxCapacity() - newCard.getSelectedCards()));
@@ -374,15 +378,21 @@ public class PreGameViewController {
             deckCards.add(card.getName());
         }
         DataSaver.saveDeckCards(deckCards, Game.getLoggedInUser().getLeader());
+        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck", PreGameMenuMessages.DOWNLOAD_DECK.toString());
+        alertMaker.showAlert();
     }
 
     public void uploadDeck(MouseEvent mouseEvent) {
         DataSaver.loadDeckCards();
         selectedCardFlowPane.getChildren().clear();
         selectCardFlowPane.getChildren().clear();
-        setUpCards();
         setUpSelectedCards();
+        setUpCards();
+        setUpLabels();
         leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
+        factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
+        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Upload Deck", PreGameMenuMessages.UPLOAD_DECK.toString());
+        alertMaker.showAlert();
     }
 
     public void startGame(MouseEvent mouseEvent) {
