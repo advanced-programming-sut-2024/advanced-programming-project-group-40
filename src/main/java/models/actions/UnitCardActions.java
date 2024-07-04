@@ -147,6 +147,7 @@ public abstract class UnitCardActions {
                     matchTable.isRowUnderWeather(rowNumber),
                     matchTable.isRowUnderBoost(1, rowNumber),
                     matchTable.getRowByID(1, rowNumber));
+            System.out.println(damage);
             if (damage > 10) {
 
                 ArrayList<Card> row = matchTable.getRowByID(1, rowNumber);
@@ -160,13 +161,7 @@ public abstract class UnitCardActions {
                         }
                     }
                 }
-                Origin origin = switch (rowNumber) {
-                    case 0 -> Origin.SECONDPLAYER_CLOSECOMBAT;
-                    case 1 -> Origin.SECONDPLAYER_RANGED;
-                    case 2 -> Origin.SECONDPLAYER_SIEGE;
-                    default -> null;
-                };
-
+                //todo: make these CardWrapper
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
@@ -180,6 +175,7 @@ public abstract class UnitCardActions {
                     matchTable.isRowUnderWeather(rowNumber),
                     matchTable.isRowUnderBoost(0, rowNumber),
                     matchTable.getRowByID(0, rowNumber));
+            System.out.println(damage);
             if (damage > 10) {
                 ArrayList<Card> row = matchTable.getRowByID(0, rowNumber);
                 for (Card card : row) {
@@ -192,13 +188,6 @@ public abstract class UnitCardActions {
                         }
                     }
                 }
-                Origin origin = switch (rowNumber) {
-                    case 0 -> Origin.FIRSTPLAYER_CLOSECOMBAT;
-                    case 1 -> Origin.FIRSTPLAYER_RANGED;
-                    case 2 -> Origin.FIRSTPLAYER_SIEGE;
-                    default -> null;
-                };
-
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
@@ -379,10 +368,13 @@ public abstract class UnitCardActions {
                 scorchAllEnemy();
                 break;
             case "Schirru":
-                scorch(3);
+                scorch(2);
                 break;
             case "Toad":
-                scorch(2);
+                scorch(1);
+                break;
+            case "Villentretenmerth":
+                scorch(0);
                 break;
             case "Scorch":
                 scorchAll();

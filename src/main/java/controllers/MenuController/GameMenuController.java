@@ -39,6 +39,7 @@ public class GameMenuController  {
     private static Card selectedCard;
 
     public static void ClickedOnCard(Card selectedCard1, GameViewController gameViewController) {
+        matchTable.updatePoints();
         if (isNewWindowOpen) {
             if (isMedic) {
                 if (matchTable.isFirstPlayerTurn()) {
@@ -79,6 +80,7 @@ public class GameMenuController  {
             gameViewController.update();
             isNewWindowOpen = false;
 
+            matchTable.updatePoints();
 
         } else {
             if (isSelectable(selectedCard1)) {
@@ -95,6 +97,8 @@ public class GameMenuController  {
                     }
                 }
                 matchTable.endTurn();
+                matchTable.updatePoints();
+
             }
         }
     }
@@ -197,6 +201,8 @@ public class GameMenuController  {
 
     public static void initiateDeck(MatchTable matchTable) {
         matchTable.initilizeTable();
+        matchTable.updatePoints();
+
     }
 
 
@@ -292,6 +298,7 @@ public class GameMenuController  {
             }
         }
         return origin;
+
     }
 
     public static void ClickedOnRow(Origin origin, GameViewController gameViewController) {
@@ -329,6 +336,8 @@ public class GameMenuController  {
 
             }
         }
+        matchTable.updatePoints();
+
 
     }
 
@@ -349,6 +358,8 @@ public class GameMenuController  {
         isNewWindowOpen = true;
         tempStage.setScene(scene);
         tempStage.show();
+        matchTable.updatePoints();
+
     }
 
     public static void MakeHisImperialMajestyWindow(boolean isFirstPlayerTurn) {
@@ -365,6 +376,8 @@ public class GameMenuController  {
         }
         tempStage.setScene(scene);
         tempStage.show();
+        matchTable.updatePoints();
+
     }
 
     public static void MakeCommanderOfRedRidersWindow(boolean isFirstPlayerTurn) {
@@ -402,10 +415,14 @@ public class GameMenuController  {
             }
         }
         InitiateOnCardClick(hBox, scene, weatherCards);
+        matchTable.updatePoints();
+
     }
 
     public static void MakeKingOfWildHuntWindow(boolean isFirstPlayerTurn) {
         MakeMedicWindow(isFirstPlayerTurn);
+        matchTable.updatePoints();
+
     }
 
     public static void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {
@@ -440,6 +457,8 @@ public class GameMenuController  {
             selectedCards = new ArrayList<>(matchTable.getSecondPlayerDeckCards());
         }
         InitiateOnCardClick(hBox, scene, selectedCards);
+        matchTable.updatePoints();
+
     }
 
     private static void InitiateOnCardClick(HBox hBox, Scene scene, ArrayList<Card> selectedCards) {
@@ -456,6 +475,8 @@ public class GameMenuController  {
         isNewWindowOpen = true;
         tempStage.setScene(scene);
         tempStage.show();
+        matchTable.updatePoints();
+
     }
 
     public static void ClickedOnBoost(int rowID) {
@@ -467,6 +488,7 @@ public class GameMenuController  {
             }
             selectedCard = null;
             matchTable.endTurn();
+            matchTable.updatePoints();
         }
     }
 
@@ -481,6 +503,8 @@ public class GameMenuController  {
             }
             selectedCard = null;
             matchTable.endTurn();
+            matchTable.updatePoints();
+
         }
     }
 
@@ -493,6 +517,8 @@ public class GameMenuController  {
             matchTable.leaderAction();
             matchTable.setSecondPlayerLeaderUsed(true);
         }
+        matchTable.updatePoints();
+
     }
 
     public static void passRound() {
@@ -502,7 +528,12 @@ public class GameMenuController  {
             matchTable.pass(1);
         }
         matchTable.endTurn();
+        matchTable.updatePoints();
+
     }
 
 
+    public static void updatePoints() {
+        matchTable.updatePoints();
+    }
 }

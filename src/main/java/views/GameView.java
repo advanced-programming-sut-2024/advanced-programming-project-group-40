@@ -1,6 +1,7 @@
 package views;
 
 
+import controllers.MenuController.GameMenuController;
 import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,14 +9,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
+import models.User;
 import models.UserInputHandler.ClickCommand;
 import models.cards.Card;
 import models.cards.UnitCard;
+import org.junit.Test;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -23,10 +27,12 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-public class GameView extends PlayMenu{
+public class GameView extends PlayMenu {
+    private Button button;
     public static void main(String[] args) {
         launch(args);
     }
+
     @Override
     public void start(Stage stage) throws Exception {
         Game.stage = stage;
@@ -35,4 +41,5 @@ public class GameView extends PlayMenu{
         stage.show();
 
     }
+
 }

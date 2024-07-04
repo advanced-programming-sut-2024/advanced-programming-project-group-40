@@ -648,7 +648,6 @@ public class MatchTable {
     }
 
 
-
     public void endTurn() {
         if (isFirstPlayerTurn) {
             if (!secondPlayerPassed) isFirstPlayerTurn = false;
@@ -728,7 +727,8 @@ public class MatchTable {
         if (Objects.equals(firstPlayer.getFaction().name, "monsters")) {
             isMonster = true;
             row = Game.random.nextInt(0, 3);
-            savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
+            if (!getRowByID(0, row).isEmpty())
+                savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
         }
         for (int i = 0; i < 3; i++) {
             Card replaceCard = null;
@@ -736,14 +736,14 @@ public class MatchTable {
             for (Card card : getRowByID(0, i)) {
                 if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = UnitCardInfo.getRegularCardByName("Zoltan Chivay");
                         deleteCard = card;
                         break;
                     }
                 }
                 if (card instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = UnitCardInfo.getRegularCardByName("Zoltan Chivay");
                         deleteCard = card;
                         break;
                     }
@@ -762,7 +762,8 @@ public class MatchTable {
         if (Objects.equals(secondPlayer.getFaction().name, "monsters")) {
             isMonster = true;
             row = Game.random.nextInt(0, 3);
-            savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
+            if (!getRowByID(1, row).isEmpty())
+                savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
         }
         for (int i = 0; i < 3; i++) {
             Card replaceCard = null;
@@ -770,7 +771,7 @@ public class MatchTable {
             for (Card card : getRowByID(1, i)) {
                 if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = UnitCardInfo.getRegularCardByName("Zoltan Chivay");
                         deleteCard = card;
                         break;
                     }
@@ -778,7 +779,7 @@ public class MatchTable {
                 }
                 if (card instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = UnitCardInfo.getRegularCardByName("Zoltan Chivay");
                         deleteCard = card;
                         break;
                     }
@@ -898,9 +899,11 @@ public class MatchTable {
                                         boolean weather,
                                         boolean boost,
                                         ArrayList<Card> row) {
+        System.out.println(row.size()+":size");
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
         ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
+        System.out.println(Arrays.toString(nums));
         for (int i = 0; i < nums.length; i++) {
             Card card = row.get(i);
             if (card instanceof UnitCard unitCard) {
@@ -910,6 +913,7 @@ public class MatchTable {
                 nums[i] = hero.getConstantPower();
             }
         }
+        System.out.println(Arrays.toString(nums));
         if (weather) {
             if (leaderEffects.isKingBran()) {
                 for (Card card : row) {
@@ -920,6 +924,8 @@ public class MatchTable {
             }
 
         }
+        System.out.println(Arrays.toString(nums));
+
         if (leaderEffects.isSpyDoublePower()) {
             for (Card card : row) {
                 if (card instanceof UnitCard unitCard) {
@@ -939,6 +945,8 @@ public class MatchTable {
                 nums[row.indexOf(card)] = nums[row.indexOf(card)] * getNumberOfCards(card, tightBondCards);
             }
         }
+        System.out.println(Arrays.toString(nums));
+
         for (Card card : row) {
             if (moralBoostCards.contains(card)) {
                 nums[row.indexOf(card)] = nums[row.indexOf(card)] + moralBoostCards.size() - 1;
@@ -946,11 +954,15 @@ public class MatchTable {
                 nums[row.indexOf(card)] = nums[row.indexOf(card)] + moralBoostCards.size();
             }
         }
+        System.out.println(Arrays.toString(nums));
+
         if (boost) {
             for (Card card : row) {
                 nums[row.indexOf(card)] = nums[row.indexOf(card)] * 2;
             }
         }
+        System.out.println(Arrays.toString(nums));
+
         int retVal = 0;
         for (int i = 0; i < nums.length; i++) {
             if (row.get(i) instanceof UnitCard) {

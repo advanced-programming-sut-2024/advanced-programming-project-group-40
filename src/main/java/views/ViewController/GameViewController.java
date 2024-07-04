@@ -207,15 +207,21 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void update() {
+        GameMenuController.updatePoints();
         if (GameMenuController.getMatchTable().isFirstPlayerTurn()) {
-            if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
-                    firstPlayerLeaderImage.getChildren().isEmpty()) {
-                firstPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+            if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null) {
+                if (firstPlayerLeaderImage != null) {
+                    if (firstPlayerLeaderImage.getChildren().isEmpty()) {
+                        firstPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+                    }
+                }
             }
-            if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null &&
-                    secondPlayerLeaderImage.getChildren().isEmpty()) {
-                secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
-
+            if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null) {
+                if (secondPlayerLeaderImage != null) {
+                    if (secondPlayerLeaderImage.getChildren().isEmpty()) {
+                        secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
+                    }
+                }
             }
 
 
@@ -342,15 +348,22 @@ public class GameViewController extends PlayMenu implements Initializable {
             firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
             firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
             secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
-        }
-        else {
-            if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
-                    secondPlayerLeaderImage.getChildren().isEmpty()) {
-                secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+        } else {
+            if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null
+            ) {
+                if (secondPlayerLeaderImage != null) {
+                    if (secondPlayerLeaderImage.getChildren().isEmpty()) {
+                        secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+                    }
+                }
             }
-            if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null &&
-                    firstPlayerLeaderImage.getChildren().isEmpty()) {
-                firstPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
+            if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null) {
+                if (firstPlayerLeaderImage != null) {
+                    if (firstPlayerLeaderImage.getChildren().isEmpty()) {
+
+                        firstPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
+                    }
+                }
             }
 
             if (GameMenuController.getMatchTable().getSecondPlayerCrystals() == 2) {
@@ -493,6 +506,7 @@ public class GameViewController extends PlayMenu implements Initializable {
             System.out.println("sock these nuts");
         }
     }
+
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE, this);
     }
