@@ -2,6 +2,7 @@ package views.ViewController;
 
 import controllers.DataSaver;
 import javafx.scene.input.MouseEvent;
+import models.Game;
 import views.*;
 
 public class MainViewController {

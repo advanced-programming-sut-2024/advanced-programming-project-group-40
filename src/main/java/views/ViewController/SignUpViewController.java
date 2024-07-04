@@ -15,6 +15,7 @@ import models.Game;
 import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
+import views.SignUpMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;

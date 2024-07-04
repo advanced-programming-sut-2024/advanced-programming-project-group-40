@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import models.AlertMaker;
 import models.Game;
 import views.MainMenu;
+import views.SecurityQuestionMenu;
 
 
 public class SecurityQuestionViewController {

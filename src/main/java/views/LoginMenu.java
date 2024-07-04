@@ -19,6 +19,9 @@ import java.util.Scanner;
 public class LoginMenu extends PlayMenu {
     public static void main(String[] args) throws IOException {
         Client client = Client.getClient();
+        Scanner scanner = new Scanner(System.in);
+        client.getBuffer().put(scanner.nextLine().getBytes());
+        System.out.println(client.getServerResponse());
         launch(args);
     }
 

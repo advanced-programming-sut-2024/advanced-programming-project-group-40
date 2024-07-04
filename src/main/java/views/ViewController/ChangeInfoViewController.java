@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
+import views.ChangeInfoMenu;
 import views.ProfileMenu;
 
 import java.util.HashMap;
