@@ -62,7 +62,6 @@ public class MatchTable {
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
         initializeMatchTable();
-
     }
 
 
