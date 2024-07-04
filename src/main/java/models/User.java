@@ -24,8 +24,9 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    private HashMap<User, Integer> followers = new HashMap<>();
-    private HashMap<User, Boolean> following = new HashMap<>();
+    private ArrayList<User> followers = new ArrayList<>();
+    private ArrayList<User> followings = new ArrayList<>();
+    private ArrayList<User> requests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
@@ -217,14 +218,29 @@ public class User {
         point += addingPoint;
     }
 
-    public void addFollowing(User user, boolean accepting) {
-        following.put(user, accepting);
+    public void addFollowing(User user) {
+        followings.add(user);
     }
 
-    public void addFollowers(User user, int accepting) {
-        followers.put(user, accepting);
+    public void addFollower(User user) {
+        followers.add(user);
     }
 
+    public void addRequest(User user) {
+        requests.add(user);
+    }
+
+    public ArrayList<User> getFollowers() {
+        return followers;
+    }
+
+    public ArrayList<User> getFollowings() {
+        return followings;
+    }
+
+    public ArrayList<User> getRequests() {
+        return requests;
+    }
 
     public void removeCardFromDeck(Card card) {
         if (!deckCards.isEmpty()) {

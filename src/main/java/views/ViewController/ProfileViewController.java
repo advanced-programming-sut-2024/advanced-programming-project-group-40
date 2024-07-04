@@ -17,14 +17,15 @@ import models.Game;
 import models.User;
 import views.*;
 
+import java.util.Objects;
+
 
 public class ProfileViewController {
 
     public VBox Following;
-    public VBox FollowingState;
     public VBox Followers;
-    public VBox FollowersState;
     public TextField targetUser;
+    public VBox Requests;
     @FXML
     private Label username;
     @FXML
@@ -101,10 +102,15 @@ public class ProfileViewController {
     private void sendRequest() {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
-        if (alertMaker.isOK()) {
-            User target = Game.getUserByName(targetUser.getText());
-            target.addFollowers(Game.getLoggedInUser(), 0);
-            Game.getLoggedInUser().addFollowing(target, false);
+        if (alertMaker.isOK())
+            ProfileMenuController.sendRequest(Objects.requireNonNull(Game.getUserByName(targetUser.getText())));
+    }
+
+
+    private void creatRequest(){
+        User loggedInUser = Game.getLoggedInUser();
+        for (User request: loggedInUser.getRequests()){
+
         }
     }
 }
