@@ -15,7 +15,6 @@ import models.Game;
 import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
-import views.SignUpMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,13 +39,15 @@ public class SignUpViewController {
     @FXML
     private TextField username;
     private String randomNewPassword;
-    private HashMap<Integer,Boolean> validFiled = new HashMap<>();
+    private HashMap<Integer, Boolean> validFiled = new HashMap<>();
+
     {
-        validFiled.put(1,false);
-        validFiled.put(2,false);
-        validFiled.put(3,false);
-        validFiled.put(4,false);
+        validFiled.put(1, false);
+        validFiled.put(2, false);
+        validFiled.put(3, false);
+        validFiled.put(4, false);
     }
+
     @FXML
     public void initialize() {
         passwordConfirmation.setDisable(true);
@@ -58,9 +59,9 @@ public class SignUpViewController {
             // Enable or disable the second text field based on the content of the first text field
             if ((validUsername && uniqueUsername) || username.getText().isEmpty()) {
                 ErrorMaker.removeError(usernameError);
-                validFiled.put(1,true);
+                validFiled.put(1, true);
             } else {
-                validFiled.put(1,false);
+                validFiled.put(1, false);
                 if (!validUsername)
                     ErrorMaker.setError(usernameError, SignUpMenuMessages.INVALID_USER.toString());
                 else
@@ -113,7 +114,7 @@ public class SignUpViewController {
 
 
     private void goToQuestionPage() {
-        ArrayList<User> all= Game.getAllUsers();
+        ArrayList<User> all = Game.getAllUsers();
         for (User user : all) {
             System.out.println(user.getUsername());
         }
@@ -129,7 +130,8 @@ public class SignUpViewController {
             AlertMaker alert = SignUpMenuController.Continue(username.getText());
             alert.showAlert();
             if (alert.isOK()) {
-                SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
+                SignUpMenuController.createUser(username.getText(), password.getText(), email.getText()
+                        , nickname.getText());
                 goToQuestionPage();
             }
         }
@@ -138,7 +140,8 @@ public class SignUpViewController {
 
     public void getRandomPasswordClicked() {
         randomNewPassword = Generator.getRandomPassword();
-        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.RANDOM_PASSWORD.toString() + randomNewPassword);
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString()
+                , SignUpMenuMessages.RANDOM_PASSWORD.toString() + randomNewPassword);
         password.setDisable(true);
         passwordConfirmation.setDisable(true);
         alert.showAlert();

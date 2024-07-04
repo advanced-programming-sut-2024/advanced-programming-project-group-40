@@ -4,18 +4,12 @@ import controllers.MenuController.SignUpMenuController;
 import enums.SecurityQuestion;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import models.AlertMaker;
 import models.Game;
-import models.User;
-import views.ForgetPasswordMenu;
-import views.LoginMenu;
 import views.MainMenu;
-import views.SecurityQuestionMenu;
 
-import java.util.ArrayList;
 
 public class SecurityQuestionViewController {
     @FXML

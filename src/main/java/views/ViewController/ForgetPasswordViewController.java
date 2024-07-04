@@ -15,11 +15,8 @@ import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 import models.User;
-import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.MainMenu;
-
-import java.util.ArrayList;
 
 public class  ForgetPasswordViewController {
     @FXML
@@ -47,10 +44,6 @@ public class  ForgetPasswordViewController {
         secondVBox.setVisible(false);
         thirdVbox.setVisible(false);
         validPass = false;
-        ArrayList<User> all=Game.getAllUsers();
-        for (User user : all) {
-            System.out.println(user.getUsername());
-        }
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
             boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());

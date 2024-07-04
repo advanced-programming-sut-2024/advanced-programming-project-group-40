@@ -1,6 +1,5 @@
 package enums.cards;
 
-import enums.Factions;
 import models.cards.SpecialCard;
 
 public enum SpecialCardInfo {

@@ -4,16 +4,12 @@ package views.ViewController;
 import controllers.MenuController.GameMenuController;
 import enums.Factions;
 import enums.Origin;
-import enums.cards.LeaderInfo;
-import enums.cards.SpecialCardInfo;
-import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -29,9 +25,6 @@ import models.MatchTable;
 import models.User;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
-import models.cards.Leader;
-import models.cards.SpecialCard;
-import models.cards.UnitCard;
 import views.Main;
 import views.PlayMenu;
 
@@ -40,8 +33,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
-    @FXML
-    private Button firstPLayerLeaderButton;
     @FXML
     private HBox secondPlayerLeaderImage;
     @FXML
@@ -73,11 +64,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @FXML
     private Label secondPlayerName;
     @FXML
-    private StackPane secondPlayerFactionImage;
-    @FXML
     private Label secondPlayerRemainingCards;
-    @FXML
-    private StackPane firstPlayerFactionImage;
     @FXML
     private Label firstPlayerName;
     @FXML
@@ -85,11 +72,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @FXML
     private Label firstPlayerRemainingCards;
     @FXML
-    private StackPane secondplayerdeckfaction;
-    @FXML
     private HBox spellCards;
-    @FXML
-    private StackPane firstplayerdeckfaction;
     @FXML
     private StackPane firstPLayerCrystal1;
     @FXML
@@ -142,6 +125,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameMenuController.setGameViewController2(this);
+        Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
         GameMenuController.initiateDeck(GameMenuController.getMatchTable());
         InitiateCardEvents();
         update();
@@ -164,8 +148,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                System.out.println(STR."name:\{card.getName()}");
-                System.out.println(GameMenuController.getMatchTable().isFirstPlayerTurn());
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
 
@@ -511,9 +493,6 @@ public class GameViewController extends PlayMenu implements Initializable {
             System.out.println("sock these nuts");
         }
     }
-
-
-
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE, this);
     }

@@ -1,13 +1,11 @@
 package controllers.MenuController;
 
-import controllers.Controller;
 import enums.Ability;
 import enums.Origin;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import models.MatchTable;
-import models.Result;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.*;
 import views.ViewController.GameViewController;
@@ -16,7 +14,7 @@ import views.ViewController.GameViewController;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameMenuController extends Controller {
+public class GameMenuController {
     private static MatchTable matchTable;
     private static Stage tempStage;
     private static boolean isNewWindowOpen = false;
@@ -450,7 +448,6 @@ public class GameMenuController extends Controller {
     private static void InitiateOnCardClick(HBox hBox, Scene scene, ArrayList<Card> selectedCards) {
         for (Card card : selectedCards) {
             card.setOnMouseClicked(_ -> {
-                System.out.println(STR."name:\{card.getName()}");
                 CardClickCommand cardClickCommand = new CardClickCommand(card, gameViewController2);
                 cardClickCommand.excute();
 

@@ -1,7 +1,6 @@
 package views.ViewController;
 
 import controllers.MenuController.ChangeInfoController;
-import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.messages.ChangeInfoMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
-import views.ChangeInfoMenu;
 import views.ProfileMenu;
 
 import java.util.HashMap;
@@ -34,11 +32,7 @@ public class ChangeInfoViewController {
     private PasswordField newPassword;
     @FXML
     private Label newPasswordError;
-    @FXML
-    private Button change;
-
     private HashMap<Integer, Boolean> validFiled = new HashMap<>();
-
     {
         validFiled.put(1, false);
         validFiled.put(2, false);

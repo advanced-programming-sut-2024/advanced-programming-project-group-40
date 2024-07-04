@@ -1,12 +1,8 @@
 package controllers.MenuController;
 
-import controllers.Controller;
 import models.Game;
-import models.User;
 
-import java.security.SecureRandom;
-
-public abstract class UserInfoController extends Controller {
+public abstract class UserInfoController {
 
     public static void changePassword(String password) {
         Game.getLoggedInUser().setPassword(password);

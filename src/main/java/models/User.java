@@ -21,14 +21,14 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
-    private transient Leader leader;
+    private transient Leader leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
-    private int numberOfUnitCards = 0;
-    private int numberOfSpecialCards = 0;
-    private int numberOfHeroCards = 0;
-    private int totalUnitCardsStrength = 0;
+    private int numberOfUnitCards;
+    private int numberOfSpecialCards;
+    private int numberOfHeroCards;
+    private int totalUnitCardsStrength;
 
 
     public User(String username, String password, String email, String nickName) {
@@ -37,8 +37,6 @@ public class User {
         this.email = email;
         this.nickname = nickName;
         this.stayLoggedIn = false;
-        faction = Factions.NILFGAARD;
-        leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
     }
 
     public int getRank() {
@@ -226,20 +224,15 @@ public class User {
             }
         }
     }
-
-
-    //this function checks if two users are the same by checking the USERNAME & PASSWORD & EMAIL & NICKNAME & FACTION
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(nickname, user.nickname) &&
-                Objects.equals(faction, user.faction);
+    public int cardsInDeckFromCardName(String cardName) {
+        int count = 0;
+        for (Card card : deckCards) {
+            if (card.getName().equals(cardName)) {
+                count++;
+            }
+        }
+        return count;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
