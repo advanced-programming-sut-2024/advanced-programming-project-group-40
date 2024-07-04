@@ -1,14 +1,213 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.GameHistoryViewController">
+    <Pane layoutX="66.0" layoutY="67.0" prefHeight="565.0" prefWidth="868.0" styleClass="brown-box">
+        <ScrollPane hbarPolicy="NEVER" layoutY="119.0" prefHeight="449.0" prefWidth="868.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
+            <content>
+                <HBox prefHeight="500.0" prefWidth="863.0">
+                    <children>
+                        <VBox prefHeight="500.0" prefWidth="104.0" styleClass="Something">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" styleClass="Something">
+                                    <children>
+                                        <Label alignment="CENTER" text="Competitor">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <VBox fx:id="competitor" alignment="TOP_CENTER" maxHeight="450.0" prefHeight="450.0" prefWidth="217.0" />
+                            </children>
+                        </VBox>
 
+                        <VBox prefHeight="500.0" prefWidth="62.0" styleClass="Something">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" styleClass="Something">
+                                    <children>
+                                        <Label text="Date">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <VBox fx:id="date" maxHeight="450.0" prefHeight="450.0" prefWidth="84.0" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="500.0" prefWidth="143.0" styleClass="Something">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="49.0" prefWidth="96.0">
+                                    <children>
+                                        <Label contentDisplay="CENTER" prefHeight="20.0" prefWidth="74.0" text="Score R1">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="Something">
+                                            <children>
+                                                <Label alignment="CENTER" prefHeight="16.0" prefWidth="67.0" text="competitor">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="16.0" prefWidth="67.0" text="you">
+                                                    <font>
+                                                        <Font name="System Bold" size="13.0" />
+                                                    </font>
+                                                </Label>
+
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                                <HBox prefHeight="427.0" prefWidth="192.0">
+                                    <children>
+                                        <VBox fx:id="competitorPoints1" prefHeight="502.0" prefWidth="70.0" />
+                                        <VBox fx:id="userPoints1" prefHeight="502.0" prefWidth="70.0" />
+
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+
+                        <VBox prefHeight="500.0" prefWidth="141.0" styleClass="Something">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="49.0" prefWidth="96.0">
+                                    <children>
+                                        <Label text="Score R2">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="Something">
+                                            <children>
+                                                <Label alignment="CENTER" prefHeight="16.0" prefWidth="74.0" text="competitor">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="16.0" prefWidth="67.0" text="you">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <HBox prefHeight="442.0" prefWidth="160.0">
+                                    <children>
+                                        <VBox fx:id="userPoints2" prefHeight="502.0" prefWidth="70.0" />
+                                        <VBox fx:id="competitorPoints2" prefHeight="502.0" prefWidth="70.0" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="500.0" prefWidth="142.0" styleClass="Something">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="49.0" prefWidth="96.0">
+                                    <children>
+                                        <Label text="Score R.3">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="Something">
+                                            <children>
+                                                <Label alignment="CENTER" prefHeight="16.0" prefWidth="83.0" text="competitor">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="16.0" prefWidth="67.0" text="you" textAlignment="CENTER">
+                                                    <font>
+                                                        <Font size="13.0" />
+                                                    </font>
+                                                </Label>
+
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                                <HBox prefHeight="442.0" prefWidth="100.0">
+                                    <children>
+
+                                        <VBox fx:id="userPoints3" prefHeight="502.0" prefWidth="70.0" />
+                                        <VBox fx:id="competitorPoints3" prefHeight="502.0" prefWidth="70.0" />
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="500.0" prefWidth="104.0" styleClass="Something">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" styleClass="Something">
+                                    <children>
+                                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="92.0" text="Competitor">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                        <Label text="Score">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                <VBox fx:id="userFinalPoints" maxHeight="450.0" prefHeight="450.0" prefWidth="52.0" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="104.0" styleClass="Something">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" styleClass="Something">
+                                    <children>
+                                        <Label text="Your Score">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <VBox fx:id="competitorFinalPoints" maxHeight="450.0" prefHeight="502.0" prefWidth="50.0" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="85.0" styleClass="Something">
+                            <children>
+                                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" styleClass="Something">
+                                    <children>
+                                        <Label text="Winner">
+                                            <font>
+                                                <Font name="System Bold" size="15.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <VBox fx:id="winner" maxHeight="450.0" prefHeight="502.0" prefWidth="75.0" />
+
+                            </children>
+                        </VBox>
+
+                    </children>
+                </HBox>
+            </content>
+        </ScrollPane>
+
+        <TextField fx:id="numberOfGameHistory" layoutX="477.0" layoutY="71.0" prefHeight="0.0" prefWidth="31.0" />
+        <Label layoutX="361.0" layoutY="14.0" styleClass="label-header" text="Game History">
+            <font>
+                <Font size="25.0" />
+            </font>
+        </Label>
+        <Label layoutX="360.0" layoutY="78.0" text="Number of rows">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+    </Pane>
 </AnchorPane>
