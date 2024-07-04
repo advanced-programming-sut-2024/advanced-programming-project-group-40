@@ -68,7 +68,7 @@ public class ProfileViewController {
 
     public void changeInfo(MouseEvent mouseEvent) {
         try {
-            new ChangeInfoMenu().start(ProfileMenu.stage);
+            new ChangeInfoMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

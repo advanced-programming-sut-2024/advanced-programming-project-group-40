@@ -33,7 +33,7 @@ public class MainViewController {
 
     public void goToScoreBoard(MouseEvent mouseEvent) {
         try {
-            new ScoreBoard().start(MainMenu.stage);
+            new ScoreBoard().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

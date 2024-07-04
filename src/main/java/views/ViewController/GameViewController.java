@@ -36,7 +36,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @FXML
     private HBox secondPlayerLeaderImage;
     @FXML
-    private HBox firstplayerLeaderImage;
+    private HBox firstPlayerLeaderImage;
     @FXML
     private Label firstPlayerTotalScore;
     @FXML
@@ -209,8 +209,8 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void update() {
         if (GameMenuController.getMatchTable().isFirstPlayerTurn()) {
             if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
-                    firstplayerLeaderImage.getChildren().isEmpty()) {
-                firstplayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+                    firstPlayerLeaderImage.getChildren().isEmpty()) {
+                firstPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
             }
             if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null &&
                     secondPlayerLeaderImage.getChildren().isEmpty()) {
@@ -349,8 +349,8 @@ public class GameViewController extends PlayMenu implements Initializable {
                 secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
             }
             if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null &&
-                    firstplayerLeaderImage.getChildren().isEmpty()) {
-                firstplayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
+                    firstPlayerLeaderImage.getChildren().isEmpty()) {
+                firstPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
             }
 
             if (GameMenuController.getMatchTable().getSecondPlayerCrystals() == 2) {

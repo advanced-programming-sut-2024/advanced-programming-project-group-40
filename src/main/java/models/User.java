@@ -5,6 +5,7 @@ import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
+
 import java.util.*;
 
 public class User {
@@ -31,7 +32,6 @@ public class User {
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
     private int totalUnitCardsStrength;
-
 
     public User(String username, String password, String email, String nickName) {
         this.username = username;
@@ -252,7 +252,6 @@ public class User {
             }
         }
     }
-
     public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
@@ -262,7 +261,6 @@ public class User {
         }
         return count;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
