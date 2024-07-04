@@ -1,21 +1,21 @@
 [
   {
-    "username": "1",
-    "password": "hDN$4DXB",
-    "email": "1",
-    "nickname": "1@1.com",
+    "username": "aria",
+    "password": "Z7^AqIAd",
+    "email": "asd",
+    "nickname": "a@a.com",
     "faction": "MONSTERS",
     "point": 0,
     "gamesPlayed": 0,
     "won": 0,
     "draw": 0,
     "lost": 0,
-    "SecurityAnswer": "a",
-    "SecurityQuestionNumber": 1,
+    "SecurityAnswer": "2",
+    "SecurityQuestionNumber": 2,
     "stayLoggedIn": false,
-    "numberOfUnitCards": 0,
+    "numberOfUnitCards": 22,
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,
-    "totalUnitCardsStrength": 0
+    "totalUnitCardsStrength": 108
   }
 ]

@@ -53,6 +53,9 @@ public abstract class UnitCardActions {
                     cardsToPlay.add(new CardWrapper(card1, Origin.FIRSTPLAYER_DECK));
                 }
             }
+            for (CardWrapper cardWrapper : cardsToPlay){
+                System.out.println(cardWrapper.getCard().getName());
+            }
             for (Card card1 : matchTable.getFirstPlayerInPlayCards()) {
                 if (!card1.getName().contains(":")) {
                     tempMusterName = card1.getName();
@@ -63,6 +66,10 @@ public abstract class UnitCardActions {
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.FIRSTPLAYER_INPLAY));
                 }
+            }
+            System.out.println();
+            for (CardWrapper cardWrapper : cardsToPlay){
+                System.out.println(cardWrapper.getCard().getName());
             }
             for (CardWrapper cardWrapper : cardsToPlay) {
                 matchTable.placeCardNoAbility(cardWrapper, userID, rowNumber);
@@ -79,18 +86,26 @@ public abstract class UnitCardActions {
                     cardsToPlay.add(new CardWrapper(card1, Origin.SECONDPLAYER_DECK));
                 }
             }
+            for (CardWrapper cardWrapper : cardsToPlay){
+                System.out.println(cardWrapper.getCard().getName());
+            }
             for (Card card1 : matchTable.getSecondPlayerInPlayCards()) {
                 if (!card1.getName().contains(":")) {
                     tempMusterName = card1.getName();
                 } else {
                     Matcher matcher = pattern.matcher(card1.getName());
-                    if (matcher.find()) tempMusterName = matcher.group("string");
+                    if (matcher.find()) tempMusterName = matcher.group("name");
                 }
                 if (Objects.equals(tempMusterName, musterName)) {
                     cardsToPlay.add(new CardWrapper(card1, Origin.SECONDPLAYER_INPLAY));
                 }
             }
+            System.out.println();
+            for (CardWrapper cardWrapper : cardsToPlay){
+                System.out.println(cardWrapper.getCard().getName());
+            }
             for (CardWrapper cardWrapper : cardsToPlay) {
+                System.out.println(cardWrapper.getCard().getName());
                 matchTable.placeCardNoAbility(cardWrapper, userID, rowNumber);
             }
 

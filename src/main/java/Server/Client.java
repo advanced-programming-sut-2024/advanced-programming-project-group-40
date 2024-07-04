@@ -8,9 +8,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class Client {
+    private final int BYTEBUFFER_SIZE = 256;
     private static Client client;
     private final SocketChannel clientChannel;
-    private final ByteBuffer buffer = ByteBuffer.allocate(256);
+    private final ByteBuffer buffer = ByteBuffer.allocate(BYTEBUFFER_SIZE);
 
     private Client() throws IOException {
         clientChannel = SocketChannel.open();
@@ -48,7 +49,7 @@ public class Client {
     }
 
     public String getServerResponse() throws IOException {
-        ByteBuffer q = ByteBuffer.allocate(256);
+        ByteBuffer q = ByteBuffer.allocate(BYTEBUFFER_SIZE);
         clientChannel.read(q);
         q.flip();
 
