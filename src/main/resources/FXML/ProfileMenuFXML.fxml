@@ -134,7 +134,7 @@
                 <content>
                     <HBox prefHeight="450.0" prefWidth="554.0" styleClass="Something">
                         <children>
-                            <VBox fx:id="Requests" alignment="TOP_CENTER" prefHeight="449.0" prefWidth="280.0"
+                            <VBox fx:id="requests" alignment="TOP_CENTER" prefHeight="449.0" prefWidth="280.0"
                                   styleClass="Something">
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="200.0" styleClass="Something">
