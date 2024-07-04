@@ -2,6 +2,7 @@ package views.ViewController;
 
 
 import controllers.MenuController.GameMenuController;
+import enums.Factions;
 import enums.Origin;
 import enums.cards.LeaderInfo;
 import enums.cards.SpecialCardInfo;
@@ -143,6 +144,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         GameMenuController.setGameViewController2(this);
         User tempUser = new User("voices in your head", "a", "a@schizo.com", "kiomars");
         tempUser.setFaction("monsters");
+
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
         Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
         GameMenuController.initiateDeck(GameMenuController.getMatchTable());

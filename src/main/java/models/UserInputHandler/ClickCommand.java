@@ -23,7 +23,6 @@ public class ClickCommand extends Command {
 
     @Override
     public void excute() {
-
-        GameMenuController.ClickedOnCard(card,gameViewController);
+//        GameMenuController.setSelectedCard(card,gameViewController);
     }
 }

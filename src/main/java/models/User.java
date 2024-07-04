@@ -1,5 +1,7 @@
 package models;
 
+import enums.Factions;
+import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
@@ -10,19 +12,23 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private String faction = "Nilfgaardian Empire";
+    private Factions faction = Factions.NILFGAARD;
     private int point;
     private int gamesPlayed;
     private int won;
     private int draw;
     private int lost;
-    //    private final ArrayList<Card> allCards = new ArrayList<>();
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
-    private final ArrayList<Card> deckCards = new ArrayList<>();
-    private Leader leader;
-    private final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
+    private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
+
+    private int numberOfUnitCards = 0;
+    private int numberOfSpecialCards = 0;
+    private int numberOfHeroCards = 0;
+    private int totalUnitCardsStrength = 0;
 
 
     public User(String username, String password, String email, String nickName) {
@@ -108,11 +114,11 @@ public class User {
         this.stayLoggedIn = stayLoggedIn;
     }
 
-    public String getFaction() {
+    public Factions getFaction() {
         return faction;
     }
 
-    public void setFaction(String faction) {
+    public void setFaction(Factions faction) {
         this.faction = faction;
     }
 
@@ -134,6 +140,38 @@ public class User {
 
     public int getGamesPlayed() {
         return gamesPlayed;
+    }
+
+    public int getNumberOfUnitCards() {
+        return numberOfUnitCards;
+    }
+
+    public void setNumberOfUnitCards(int numberOfUnitCards) {
+        this.numberOfUnitCards = numberOfUnitCards;
+    }
+
+    public int getNumberOfSpecialCards() {
+        return numberOfSpecialCards;
+    }
+
+    public void setNumberOfSpecialCards(int numberOfSpecialCards) {
+        this.numberOfSpecialCards = numberOfSpecialCards;
+    }
+
+    public int getNumberOfHeroCards() {
+        return numberOfHeroCards;
+    }
+
+    public void setNumberOfHeroCards(int numberOfHeroCards) {
+        this.numberOfHeroCards = numberOfHeroCards;
+    }
+
+    public int getTotalUnitCardsStrength() {
+        return totalUnitCardsStrength;
+    }
+
+    public void setTotalUnitCardsStrength(int totalUnitCardsStrength) {
+        this.totalUnitCardsStrength = totalUnitCardsStrength;
     }
 
     public int getWon() {
@@ -174,6 +212,16 @@ public class User {
 
     public void addPoint(int addingPoint) {
         point += addingPoint;
+    }
+    public void removeCardFromDeck(Card card){
+        if (!deckCards.isEmpty()){
+            for (Card card1 : deckCards) {
+                if (card1.getName().equals(card.getName())){
+                    deckCards.remove(card1);
+                    break;
+                }
+            }
+        }
     }
 
 

@@ -5,7 +5,7 @@ import controllers.MenuController.UserInfoController;
 import java.security.SecureRandom;
 
 public class Generator {
-    private static SecureRandom random = new SecureRandom();
+    public static SecureRandom random = new SecureRandom();
 
     public static String getRandomPassword() {
         return generatePassword();

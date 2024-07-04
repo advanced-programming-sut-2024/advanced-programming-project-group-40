@@ -6,7 +6,7 @@ import views.*;
 public class MainViewController {
     public void goToGameMenu(MouseEvent mouseEvent) {
         try {
-            new GameView().start(MainMenu.stage);
+            new PreGameMenu().start(MainMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
