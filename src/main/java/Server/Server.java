@@ -18,13 +18,13 @@ public class Server {
 
         // Create a ServerSocketChannel, bind it, and configure it as non-blocking
         ServerSocketChannel serverChannel = ServerSocketChannel.open();
-        serverChannel.bind(new InetSocketAddress("localhost", 42069));
+        serverChannel.bind(new InetSocketAddress("localhost", 8080));
         serverChannel.configureBlocking(false);
 
         // Register the server socket channel with the Selector for accepting connections
         serverChannel.register(selector, SelectionKey.OP_ACCEPT);
         ByteBuffer buffer = ByteBuffer.allocate(256);
-        System.out.println("Server started and listening on port 5454...");
+        System.out.println("Server started and listening on port "+8080+"...");
         while (true) {
 
             // Select ready channels using the Selector

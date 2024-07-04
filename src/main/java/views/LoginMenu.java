@@ -1,5 +1,6 @@
 package views;
 
+import Server.Client;
 import controllers.DataSaver;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,31 +18,30 @@ import java.util.Scanner;
 
 public class LoginMenu extends PlayMenu {
     public static void main(String[] args) throws IOException {
-        SocketChannel clientChannel = SocketChannel.open();
-        clientChannel.connect(new InetSocketAddress("localhost", 42069));
-        ByteBuffer buffer = ByteBuffer.allocate(256);
-        String message = new Scanner(System.in).nextLine();
+        Client client = new Client();
+        String message = "Hello, NIO Server!";
 
         // Message to send to the server
-        buffer.clear();
-        buffer.put(message.getBytes());
-        buffer.flip();
+        client.getBuffer().clear();
+        client.getBuffer().put(message.getBytes());
+        client.getBuffer().flip();
 
         // Send the message to the server
-        while (buffer.hasRemaining()) {
-            clientChannel.write(buffer);
+        while (client.getBuffer().hasRemaining()) {
+            client.getClientChannel().write(client.getBuffer());
         }
-        buffer.clear();
+        client.getBuffer().clear();
 
         // Read the server's response
-        clientChannel.read(buffer);
-        buffer.flip();
+        client.getClientChannel().read(client.getBuffer());
+        client.getBuffer().flip();
 
         // Convert the response to a String and print it
-        String response = new String(buffer.array(), 0, buffer.limit());
+        String response = new String(client.getBuffer().array(), 0, client.getBuffer().limit());
         System.out.println("Server Response: " + response);
-        clientChannel.close();
-        launch(args);
+        client.getClientChannel().close();
+
+    launch(args);
 
     }
     @Override
