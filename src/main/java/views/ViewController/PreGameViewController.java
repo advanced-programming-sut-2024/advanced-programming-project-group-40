@@ -218,7 +218,6 @@ public class PreGameViewController {
         leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
         int count = 0;
         for (String cardName : leaderNames) {
-            System.out.println(leaderAddresses.get(count));
             leaders.put(cardName, new ImageView(new Image(Objects.requireNonNull(GameView.class.getResource(leaderAddresses.get(count))).toExternalForm())));
             count++;
         }
@@ -375,10 +374,6 @@ public class PreGameViewController {
     @FXML
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
-        System.out.println(loggedInUser.getNumberOfUnitCards());
-        System.out.println(loggedInUser.getNumberOfSpecialCards());
-        System.out.println(loggedInUser.getNumberOfHeroCards());
-        System.out.println(loggedInUser.getTotalUnitCardsStrength());
         try {
             new MainMenu().start(Game.stage);
         } catch (Exception e) {

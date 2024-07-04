@@ -448,7 +448,6 @@ public class GameMenuController extends Controller {
     private static void InitiateOnCardClick(HBox hBox, Scene scene, ArrayList<Card> selectedCards) {
         for (Card card : selectedCards) {
             card.setOnMouseClicked(_ -> {
-                System.out.println(STR."name:\{card.getName()}");
                 CardClickCommand cardClickCommand = new CardClickCommand(card, gameViewController2);
                 cardClickCommand.excute();
 

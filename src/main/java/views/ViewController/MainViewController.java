@@ -1,5 +1,6 @@
 package views.ViewController;
 
+import controllers.DataSaver;
 import javafx.scene.input.MouseEvent;
 import models.Game;
 import views.*;
@@ -23,6 +24,7 @@ public class MainViewController {
 
     public void SignOut(MouseEvent mouseEvent) {
         try {
+            DataSaver.saveUsers();
             new LoginMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);

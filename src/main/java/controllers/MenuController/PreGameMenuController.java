@@ -109,8 +109,6 @@ public class PreGameMenuController extends UserInfoController {
         if (isUsernameUnique(username))
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.INVALID_COMPETITOR_USERNAME.toString());
         User user = Game.getUserByName(username);
-        System.out.println(user.getNumberOfUnitCards());
-        System.out.println(user.getNumberOfSpecialCards());
         if (user.getNumberOfUnitCards() < 22)
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.NOT_ENOUGH_CARDS.toString());
         if (user.getNumberOfSpecialCards() > 10)

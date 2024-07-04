@@ -113,10 +113,6 @@ public class SignUpViewController {
 
 
     private void goToQuestionPage() {
-        ArrayList<User> all= Game.getAllUsers();
-        for (User user : all) {
-            System.out.println(user.getUsername());
-        }
         try {
             new SecurityQuestionMenu().start(Game.stage);
         } catch (Exception e) {

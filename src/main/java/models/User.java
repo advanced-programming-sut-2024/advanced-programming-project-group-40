@@ -39,10 +39,6 @@ public class User {
         this.stayLoggedIn = false;
         faction = Factions.NILFGAARD;
         leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
-        numberOfHeroCards=0;
-        numberOfSpecialCards=0;
-        numberOfUnitCards=0;
-        totalUnitCardsStrength=0;
     }
 
     public int getRank() {
