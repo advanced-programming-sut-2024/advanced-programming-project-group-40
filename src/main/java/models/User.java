@@ -12,7 +12,7 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private Factions faction = Factions.NILFGAARD;
+    private Factions faction;
     private int point;
     private int gamesPlayed;
     private int won;
@@ -21,7 +21,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
-    private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
+    private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
@@ -37,6 +37,8 @@ public class User {
         this.email = email;
         this.nickname = nickName;
         this.stayLoggedIn = false;
+        faction = Factions.NILFGAARD;
+        leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
     }
 
     public int getRank() {
@@ -54,7 +56,7 @@ public class User {
         return highestScore;
     }
 
-    public int getNumberOfMatches(){
+    public int getNumberOfMatches() {
         return matchesPlayed.size();
     }
 
@@ -213,10 +215,11 @@ public class User {
     public void addPoint(int addingPoint) {
         point += addingPoint;
     }
-    public void removeCardFromDeck(Card card){
-        if (!deckCards.isEmpty()){
+
+    public void removeCardFromDeck(Card card) {
+        if (!deckCards.isEmpty()) {
             for (Card card1 : deckCards) {
-                if (card1.getName().equals(card.getName())){
+                if (card1.getName().equals(card.getName())) {
                     deckCards.remove(card1);
                     break;
                 }

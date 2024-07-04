@@ -12,6 +12,29 @@
     "lost": 0,
     "SecurityAnswer": "1",
     "SecurityQuestionNumber": 1,
-    "stayLoggedIn": false
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
+  },
+  {
+    "username": "adwf",
+    "password": "N2j!*pTu",
+    "email": "dw",
+    "nickname": "dswd@gjw.com",
+    "faction": "NILFGAARD",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "w",
+    "SecurityQuestionNumber": 1,
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
   }
 ]
