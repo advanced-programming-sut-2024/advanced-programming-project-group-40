@@ -402,7 +402,9 @@ public class PreGameViewController {
         imageView.setFitWidth(16);
         imageView.setFitHeight(12);
         hBox.getChildren().add(imageView);
-        Label label = new Label(Integer.toString(newCard.getMaxCapacity() - loggedInUser.cardsInDeckFromCardName(newCard.getName())));
+        Label label = new Label(
+                //Integer.toString(newCard.getMaxCapacity() - loggedInUser.cardsInDeckFromCardName(newCard.getName()))
+        );
         if (label.getText().equals("0")){
             return;
         }

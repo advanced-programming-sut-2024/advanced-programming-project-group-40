@@ -36,5 +36,24 @@
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,
     "totalUnitCardsStrength": 0
+  },
+  {
+    "username": "aria",
+    "password": "apple255A!",
+    "email": "aria",
+    "nickname": "aria@aria.com",
+    "faction": "NILFGAARD",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "2",
+    "SecurityQuestionNumber": 2,
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
   }
 ]
