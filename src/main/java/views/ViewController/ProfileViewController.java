@@ -2,13 +2,10 @@ package views.ViewController;
 
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.Game;
-import models.MatchTable;
 import models.User;
 import views.*;
 
@@ -16,6 +13,10 @@ import views.*;
 
 public class ProfileViewController {
 
+    public VBox invitations;
+    public VBox invitationState;
+    public VBox receives;
+    public VBox receiveState;
     @FXML
     private Label username;
     @FXML
@@ -62,5 +63,17 @@ public class ProfileViewController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void GameHistory(MouseEvent mouseEvent) {
+        try {
+            new GameHistory().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void search(MouseEvent mouseEvent) {
+
     }
 }

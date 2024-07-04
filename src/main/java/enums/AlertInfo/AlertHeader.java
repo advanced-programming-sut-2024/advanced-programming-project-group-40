@@ -5,6 +5,7 @@ public enum AlertHeader {
     SIGN_UP("Sign up"),
     CHANGE_INFO("Change info"),
     PRE_GAME("Pre game"),
+    PROFILE_MENU("Profile menu"),
     ;
     private final String message;
 

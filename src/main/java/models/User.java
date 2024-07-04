@@ -24,7 +24,10 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-
+    private ArrayList<User> followers = new ArrayList<>();
+    private ArrayList<User> following = new ArrayList<>();
+    private ArrayList<User> invitation = new ArrayList<>();
+    private ArrayList<User> receives = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
@@ -226,6 +229,7 @@ public class User {
             }
         }
     }
+
     public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
@@ -235,6 +239,7 @@ public class User {
         }
         return count;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
