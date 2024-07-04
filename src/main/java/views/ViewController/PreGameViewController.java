@@ -388,7 +388,7 @@ public class PreGameViewController {
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
         try {
-            new MainMenu().start(PreGameMenu.stage);
+            new MainMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
