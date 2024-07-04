@@ -239,10 +239,6 @@ public class MatchTable {
         return secondPlayerSiegeBoostCard;
     }
 
-    public void setFirstPlayerTurn(boolean firstPlayerTurn) {
-        isFirstPlayerTurn = firstPlayerTurn;
-    }
-
 
     public void setFirstPlayerLeaderUsed(boolean firstPlayerLeaderUsed) {
         isFirstPlayerLeaderUsed = firstPlayerLeaderUsed;
@@ -651,16 +647,7 @@ public class MatchTable {
         FactionActions.doActionByName(playerID, faction.name(), this);
     }
 
-    public void startTurn(int userID) {
-        switch (userID) {
-            case 0:
-                isFirstPlayerTurn = true;
-                break;
-            case 1:
-                isFirstPlayerTurn = false;
-                break;
-        }
-    }
+
 
     public void endTurn() {
         if (isFirstPlayerTurn) {
@@ -690,24 +677,24 @@ public class MatchTable {
         int secondPlayerScore = getPlayerTotalScore(1);
         if (firstPlayerScore == secondPlayerScore) {
             //nillfgardian empire ability
-            if (Objects.equals(firstPlayer.getFaction(), "Empire Nilfgaardian") &&
-                    !Objects.equals(secondPlayer.getFaction(), "Empire Nilfgaardian")) {
+            if (Objects.equals(firstPlayer.getFaction().name, "nilfgaard") &&
+                    !Objects.equals(secondPlayer.getFaction().name, "nilfgaard")) {
                 reduceCrystal(1);
-            } else if (!Objects.equals(firstPlayer.getFaction(), "Empire Nilfgaardian") &&
-                    Objects.equals(secondPlayer.getFaction(), "Empire Nilfgaardian")) {
+            } else if (!Objects.equals(firstPlayer.getFaction().name, "nilfgaard") &&
+                    Objects.equals(secondPlayer.getFaction().name, "nilfgaard")) {
                 reduceCrystal(0);
             }
 
         } else if (firstPlayerScore > secondPlayerScore) {
             reduceCrystal(1);
-            if (Objects.equals(firstPlayer.getFaction(), "NORTHERN_REALMS Northern")) {
+            if (Objects.equals(firstPlayer.getFaction().name, "realms")) {
                 factionAction(0, Factions.NORTHERN_REALMS);
             }
             //monsters already handled in clear match table
 
         } else {
             reduceCrystal(0);
-            if (Objects.equals(secondPlayer.getFaction(), "NORTHERN_REALMS Northern")) {
+            if (Objects.equals(secondPlayer.getFaction().name, "realms")) {
                 factionAction(1, Factions.NORTHERN_REALMS);
             }
             //monsters already handled in clear match table
@@ -716,10 +703,10 @@ public class MatchTable {
         clearMatchTable();
         //SKELLIGE ability
         if (round == 3) {
-            if (Objects.equals(firstPlayer.getFaction(), "SKELLIGE")) {
+            if (Objects.equals(firstPlayer.getFaction().name, "skellige")) {
                 factionAction(0, Factions.SKELLIGE);
             }
-            if (Objects.equals(secondPlayer.getFaction(), "SKELLIGE")) {
+            if (Objects.equals(secondPlayer.getFaction().name, "skellige")) {
                 factionAction(1, Factions.SKELLIGE);
             }
         }
@@ -738,7 +725,7 @@ public class MatchTable {
         //for monsterFaction;
         Card savedCard = null;
         boolean isMonster = false;
-        if (Objects.equals(firstPlayer.getFaction(), "monsters")) {
+        if (Objects.equals(firstPlayer.getFaction().name, "monsters")) {
             isMonster = true;
             row = Game.random.nextInt(0, 3);
             savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
@@ -749,14 +736,14 @@ public class MatchTable {
             for (Card card : getRowByID(0, i)) {
                 if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
                         deleteCard = card;
                         break;
                     }
                 }
                 if (card instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
                         deleteCard = card;
                         break;
                     }
@@ -772,7 +759,7 @@ public class MatchTable {
 
 
         isMonster = false;
-        if (Objects.equals(secondPlayer.getFaction(), "monsters")) {
+        if (Objects.equals(secondPlayer.getFaction().name, "monsters")) {
             isMonster = true;
             row = Game.random.nextInt(0, 3);
             savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
@@ -783,7 +770,7 @@ public class MatchTable {
             for (Card card : getRowByID(1, i)) {
                 if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
                         deleteCard = card;
                         break;
                     }
@@ -791,7 +778,7 @@ public class MatchTable {
                 }
                 if (card instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("sponge bob");
+                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
                         deleteCard = card;
                         break;
                     }
@@ -833,13 +820,6 @@ public class MatchTable {
 
         }
     }
-
-    public User winningUser() {
-        if (firstPlayerCrystals == 2) return firstPlayer;
-        if (secondPlayerCrystals == 2) return secondPlayer;
-        return null;
-    }
-
 
     public void doMedic(CardWrapper cardWrapper) {
         if (isFirstPlayerTurn) {
@@ -1067,9 +1047,9 @@ public class MatchTable {
         secondPlayerLeader = secondPlayer.getLeader();
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
-        if (Objects.equals(firstPlayer.getFaction(), "Scoia’tael") && !Objects.equals(secondPlayer.getFaction(), "Scoia’tael")) {
+        if (Objects.equals(firstPlayer.getFaction().name, "scoiatael") && !Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
             isFirstPlayerTurn = true;
-        } else if (!Objects.equals(firstPlayer.getFaction(), "Scoia’tael") && Objects.equals(secondPlayer.getFaction(), "Scoia’tael")) {
+        } else if (!Objects.equals(firstPlayer.getFaction().name, "scoiatael") && Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
             isFirstPlayerTurn = false;
         } else {
             isFirstPlayerTurn = Game.random.nextBoolean();
@@ -1139,15 +1119,6 @@ public class MatchTable {
         return num;
     }
 
-    private int getNumberOfCardsWithName(String name, ArrayList<Card> cards) {
-        int num = 0;
-        for (Card card : cards) {
-            if (Objects.equals(card.getName(), "name")) num++;
-        }
-        return num;
-    }
-
-
     private static ArrayList<Card> getCardsWithAbility(Ability ability, ArrayList<Card> cards) {
         ArrayList<Card> retVal = new ArrayList<>();
         for (Card card : cards) {
@@ -1190,12 +1161,8 @@ public class MatchTable {
     private void initializeMatchTable() {
         boolean firstScotail;
         boolean secondScotail;
-        if (Objects.equals(firstPlayer.getFaction(), "scoiatael")) {
-            firstScotail = true;
-        } else firstScotail = false;
-        if (Objects.equals(secondPlayer.getFaction(), "scoiatael")) {
-            secondScotail = true;
-        } else secondScotail = false;
+        firstScotail = Objects.equals(firstPlayer.getFaction().name, "scoiatael");
+        secondScotail = Objects.equals(secondPlayer.getFaction().name, "scoiatael");
 
         if (firstScotail && !secondScotail) {
             isFirstPlayerTurn = true;
