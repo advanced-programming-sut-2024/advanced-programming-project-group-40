@@ -1,5 +1,6 @@
 package models.actions;
 
+import controllers.MenuController.GameMenuController;
 import enums.Origin;
 import enums.Unit;
 import enums.cards.SpecialCardInfo;
@@ -92,9 +93,7 @@ public abstract class LeaderActions {
     }
 
     private static void hisImperialMajesty() {
-        //todo
-        //what za hellllllllllllllllllllllllllllllllllllll
-        // oh mah goh
+        GameMenuController.MakeHisImperialMajestyWindow(matchTable.isFirstPlayerTurn());
     }
 
     private static void emperorOfNilfgaard() {
@@ -143,30 +142,16 @@ public abstract class LeaderActions {
     }
 
     private static void kingOfTheWildHunt() {
-        if (matchTable.isFirstPlayerTurn()) {
-            if (!isArrayOnlyHero(matchTable.getFirstPlayerDeadCards())) {
-                ArrayList<Card> herolessArray = getHerolessArray(matchTable.getFirstPlayerDeadCards());
-                int randomNumber = Game.random.nextInt(0, herolessArray.size());
-                matchTable.addToInPlayCards(0, new CardWrapper(herolessArray.get(randomNumber),
-                        Origin.FIRSTPLATER_DEAD));
-            }
-        } else {
-            if (!isArrayOnlyHero(matchTable.getSecondPlayerDeadCards())) {
-                ArrayList<Card> herolessArray = getHerolessArray(matchTable.getSecondPlayerDeadCards());
-                int randomNumber = Game.random.nextInt(0, herolessArray.size());
-                matchTable.addToInPlayCards(1, new CardWrapper(herolessArray.get(randomNumber),
-                        Origin.SECONDPLAYER_DEAD));
-            }
-        }
+        GameMenuController.MakeKingOfWildHuntWindow(matchTable.isFirstPlayerTurn());
     }
 
     private static void destroyerOfWorlds() {
-        //todo
+        GameMenuController.MakeDestroyerOfWorldsWindow(matchTable.isFirstPlayerTurn());
 
     }
 
     private static void commanderOfTheRedRiders() {
-        //todo
+        GameMenuController.MakeCommanderOfRedRidersWindow(matchTable.isFirstPlayerTurn());
     }
 
     private static void theTreacherous() {
@@ -199,7 +184,7 @@ public abstract class LeaderActions {
     }
 
     private static void daisyOfTheValley() {
-        //todo
+        //done
     }
 
     private static void purebloodElf() {
@@ -313,11 +298,20 @@ public abstract class LeaderActions {
     }
 
     private static void crachAnCraite() {
+        ArrayList<CardWrapper> tempList = new ArrayList<>();
         for (Card card : matchTable.getFirstPlayerDeadCards()) {
-            matchTable.addToDeckCards(0, new CardWrapper(card, Origin.FIRSTPLATER_DEAD));
+            tempList.add(new CardWrapper(card, Origin.FIRSTPLATER_DEAD));
+
         }
+        for (CardWrapper cardWrapper : tempList){
+            matchTable.addToDeckCards(0, cardWrapper);
+        }
+        tempList.clear();
         for (Card card : matchTable.getSecondPlayerDeadCards()) {
-            matchTable.addToDeckCards(1, new CardWrapper(card, Origin.SECONDPLAYER_DEAD));
+            tempList.add(new CardWrapper(card, Origin.SECONDPLAYER_DEAD));
+        }
+        for (CardWrapper cardWrapper : tempList){
+            matchTable.addToDeckCards(1, cardWrapper);
         }
         matchTable.shufleDeck(0);
         matchTable.shufleDeck(1);

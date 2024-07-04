@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import models.Game;
 
 import java.net.URL;
 import java.util.Objects;
@@ -14,9 +15,12 @@ public abstract class Card extends Rectangle {
     protected final String name;
     protected final String planeImage;
     protected final String cardImage;
+    private final Long rand;
     public Card(String name, String planeImage, String cardImage) {
         this.planeImage = planeImage;
         this.cardImage = cardImage;
+        this.rand = Game.random.nextLong(0,1000000);
+        this.setOpacity(Game.random.nextDouble(0.95,1));
         this.setWidth(65);
         this.setHeight(90);
         setFill(new ImagePattern((new Image(Card.class.getResource(cardImage).toExternalForm()))));
@@ -28,13 +32,6 @@ public abstract class Card extends Rectangle {
     }
 
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Card card)) return false;
-        return Objects.equals(name, card.name);
-    }
 
     @Override
     public int hashCode() {

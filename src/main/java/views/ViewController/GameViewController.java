@@ -3,6 +3,7 @@ package views.ViewController;
 
 import controllers.MenuController.GameMenuController;
 import enums.Origin;
+import enums.cards.LeaderInfo;
 import enums.cards.SpecialCardInfo;
 import enums.cards.UnitCardInfo;
 import javafx.collections.ObservableList;
@@ -11,14 +12,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 
 
 import javafx.scene.paint.Color;
@@ -28,6 +28,7 @@ import models.MatchTable;
 import models.User;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
+import models.cards.Leader;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
 import views.Main;
@@ -35,15 +36,15 @@ import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class GameViewController extends PlayMenu implements Initializable {
-
-
-
-
+    @FXML
+    private Button firstPLayerLeaderButton;
+    @FXML
+    private HBox secondPlayerLeaderImage;
+    @FXML
+    private HBox firstplayerLeaderImage;
     @FXML
     private Label firstPlayerTotalScore;
     @FXML
@@ -139,80 +140,13 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        //todo
-        //initialize faction and leader images for each player
-
-        User tempUser = new User("a", "a", "a", "a");
-
-        tempUser.setFaction("as");
-        Game.getLoggedInUser().setFaction("we");
+        GameMenuController.setGameViewController2(this);
+        User tempUser = new User("voices in your head", "a", "a@schizo.com", "kiomars");
+        tempUser.setFaction("monsters");
         GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), tempUser));
-        UnitCard card1 = new UnitCard(UnitCardInfo.ALBRICH);
-        UnitCard card2 = new UnitCard(UnitCardInfo.DANDELION);
-        UnitCard card3 = new UnitCard(UnitCardInfo.STEFAN_SKELLEN);
-        UnitCard card4 = new UnitCard(UnitCardInfo.BERSERKER);
-        UnitCard card9 = new UnitCard(UnitCardInfo.ARACHAS);
-        UnitCard card10 = new UnitCard(UnitCardInfo.CRONE_WHISPESS);
-        UnitCard card11 = new UnitCard(UnitCardInfo.CRONE_WEAVESS);
-        UnitCard card12 = new UnitCard(UnitCardInfo.CRONE_BREWESS);
-        UnitCard card13 = new UnitCard(UnitCardInfo.DECOY);
-        UnitCard card14 = new UnitCard(UnitCardInfo.UDALRYK);
-        UnitCard card15 = new UnitCard(UnitCardInfo.CIARAN_AEP);
-        UnitCard card16 = new UnitCard(UnitCardInfo.EARTH_ELEMENTAL);
-        UnitCard card17 = new UnitCard(UnitCardInfo.HARPY);
-        SpecialCard card5 = new SpecialCard(SpecialCardInfo.CLEAR_WEATHER);
-        SpecialCard card6 = new SpecialCard(SpecialCardInfo.BITING_FROST);
-        SpecialCard card7 = new SpecialCard(SpecialCardInfo.SCORCH);
-        SpecialCard card8 = new SpecialCard(SpecialCardInfo.Mardoeme);
-        //test
-        HashSet<Card> cards = new HashSet<>();
-        cards.add(card1);
-        cards.add(card2);
-        cards.add(card3);
-        cards.add(card4);
-        cards.add(card5);
-        cards.add(card6);
-        cards.add(card7);
-        cards.add(card8);
-        cards.add(card9);
-        cards.add(card10);
-        cards.add(card11);
-        cards.add(card12);
-        cards.add(card13);
-        cards.add(card14);
-        cards.add(card15);
-        System.out.println("cum shit n piss"+cards.size());
-
-        //////////////////////////
-
-
-        GameMenuController.getMatchTable().setFirstPlayerTurn(true);
-        GameMenuController.getMatchTable().getFirstPlayerRangedRow().add(card4);
-        Game.getLoggedInUser().getDeckCards().add(card1);
-        Game.getLoggedInUser().getDeckCards().add(card2);
-        Game.getLoggedInUser().getDeckCards().add(card5);
-        GameMenuController.getMatchTable().getFirstPlayerInPlayCards().add(card3);
-        Game.getLoggedInUser().getDeckCards().add(card6);
-        Game.getLoggedInUser().getDeckCards().add(card7);
-        Game.getLoggedInUser().getDeckCards().add(card8);
-        Game.getLoggedInUser().getDeckCards().add(card9);
-        Game.getLoggedInUser().getDeckCards().add(card10);
-        Game.getLoggedInUser().getDeckCards().add(card11);
-        Game.getLoggedInUser().getDeckCards().add(card12);
-        Game.getLoggedInUser().getDeckCards().add(card13);
-        Game.getLoggedInUser().getDeckCards().add(card14);
-        Game.getLoggedInUser().getDeckCards().add(card15);
-
+        Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
+        GameMenuController.initiateDeck(GameMenuController.getMatchTable());
         InitiateCardEvents();
-        GameMenuController.intiateDeck(GameMenuController.getMatchTable());
-
-        secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
-        firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
-        firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
-        secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
-
-
         update();
     }
 
@@ -234,6 +168,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
                 System.out.println(STR."name:\{card.getName()}");
+                System.out.println(GameMenuController.getMatchTable().isFirstPlayerTurn());
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
 
@@ -261,7 +196,6 @@ public class GameViewController extends PlayMenu implements Initializable {
             }
             case FIRSTPLAYER_SIEGE -> {
                 firstPlayerSiege.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
-
             }
             case WEATHER -> {
                 spellCards.setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(179, 217, 209, 0.75), 20, 0, 0, 1));
@@ -293,86 +227,282 @@ public class GameViewController extends PlayMenu implements Initializable {
         secondPlayerCloseCombat.setEffect(null);
     }
 
-    private void update() {
-        GameMenuController.getMatchTable().updatePoints();
-        firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
-        secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
-        firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerInPlayCards().size()}");
-        secondPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerInPlayCards().size()}");
-        FirstPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(0).toString());
-        FirstPlayerRangedNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(1).toString());
-        FirstPlayerSiegeNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(2).toString());
-        SecondPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(0).toString());
-        SecondPlayerRangedNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(1).toString());
-        SecondPlayerSiegeNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(2).toString());
-        firstPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(0)}");
-        secondPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(1)}");
-        if (GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard() != null) {
-            firstplayerclosecombatspecial.getChildren().clear();
-            firstplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard());
-        }
-        if (GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard() != null) {
-            firstplayerrangedspecial.getChildren().clear();
-            firstplayerrangedspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
-        }
-        if (GameMenuController.getMatchTable().getFirstPlayerSiegeBoostCard() != null) {
-            firstplayersiegespecial.getChildren().clear();
-            firstplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerSiegeBoostCard());
-        }
+    public void update() {
+        if (GameMenuController.getMatchTable().isFirstPlayerTurn()) {
+            if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
+                    firstplayerLeaderImage.getChildren().isEmpty()) {
+                firstplayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+            }
+            if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null &&
+                    secondPlayerLeaderImage.getChildren().isEmpty()) {
+                secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
 
-        if (GameMenuController.getMatchTable().getSecondPlayerCloseCombatBoostCard() != null) {
-            secondplayerclosecombatspecial.getChildren().clear();
-            secondplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerCloseCombatBoostCard());
-        }
-        if (GameMenuController.getMatchTable().getSecondPlayerRangedBoostCard() != null) {
-            secondplayerrangedspecial.getChildren().clear();
-            secondplayerrangedspecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerRangedBoostCard());
-        }
-        if (GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard() != null) {
-            secondplayersiegespecial.getChildren().clear();
-            secondplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard());
-        }
-        //f inplay
-        if (!(GameMenuController.getMatchTable().getFirstPlayerInPlayCards().isEmpty() &&
-                Hand.getChildren().isEmpty())) {
-            Hand.getChildren().clear();
-            Hand.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerInPlayCards());
-        }
-        //fs
-        if (!(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().isEmpty() &&
-                firstPlayerCloseCombat.getChildren().isEmpty())) {
-            firstPlayerCloseCombat.getChildren().clear();
-            firstPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow());
-        }
-        //fr
-        if (!(GameMenuController.getMatchTable().getFirstPlayerRangedRow().isEmpty() &&
-                firstPlayerRanged.getChildren().isEmpty())) {
-            firstPlayerRanged.getChildren().clear();
-            firstPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerRangedRow());
-        }
-        //fs
-        if (!(GameMenuController.getMatchTable().getFirstPlayerSiegeRow().isEmpty() &&
-                firstPlayerSiege.getChildren().isEmpty())) {
-            firstPlayerSiege.getChildren().clear();
-            firstPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerSiegeRow());
-        }
-        //sc
-        if (!(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow().isEmpty() &&
-                secondPlayerCloseCombat.getChildren().isEmpty())) {
-            secondPlayerCloseCombat.getChildren().clear();
-            secondPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow());
-        }
-        //sr
-        if (!(GameMenuController.getMatchTable().getSecondPlayerRangedRow().isEmpty() &&
-                secondPlayerRanged.getChildren().isEmpty())) {
-            secondPlayerRanged.getChildren().clear();
-            secondPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerRangedRow());
-        }
-        //ss
-        if (!(GameMenuController.getMatchTable().getSecondPlayerSiegeRow().isEmpty() &&
-                secondPlayerSiege.getChildren().isEmpty())) {
-            secondPlayerSiege.getChildren().clear();
-            secondPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerSiegeRow());
+            }
+
+
+            if (GameMenuController.getMatchTable().getFirstPlayerCrystals() == 2) {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getFirstPlayerCrystals() == 1) {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            } else {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            }
+
+
+            if (GameMenuController.getMatchTable().getSecondPlayerCrystals() == 2) {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getSecondPlayerCrystals() == 1) {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            } else {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            }
+            GameMenuController.getMatchTable().updatePoints();
+            firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
+            secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
+            firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerInPlayCards().size()}");
+            secondPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerInPlayCards().size()}");
+            FirstPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(0).toString());
+            FirstPlayerRangedNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(1).toString());
+            FirstPlayerSiegeNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(2).toString());
+            SecondPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(0).toString());
+            SecondPlayerRangedNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(1).toString());
+            SecondPlayerSiegeNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(2).toString());
+            firstPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(0)}");
+            secondPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(1)}");
+            if (GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard() != null) {
+                firstplayerclosecombatspecial.getChildren().clear();
+                firstplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard() != null) {
+                firstplayerrangedspecial.getChildren().clear();
+                firstplayerrangedspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getFirstPlayerSiegeBoostCard() != null) {
+                firstplayersiegespecial.getChildren().clear();
+                firstplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerSiegeBoostCard());
+            }
+
+            if (GameMenuController.getMatchTable().getSecondPlayerCloseCombatBoostCard() != null) {
+                secondplayerclosecombatspecial.getChildren().clear();
+                secondplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerCloseCombatBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getSecondPlayerRangedBoostCard() != null) {
+                secondplayerrangedspecial.getChildren().clear();
+                secondplayerrangedspecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerRangedBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard() != null) {
+                secondplayersiegespecial.getChildren().clear();
+                secondplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard());
+            }
+            //f inplay
+            if (!(GameMenuController.getMatchTable().getFirstPlayerInPlayCards().isEmpty() &&
+                    Hand.getChildren().isEmpty())) {
+                Hand.getChildren().clear();
+                Hand.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerInPlayCards());
+            }
+            //fs
+            if (!(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().isEmpty() &&
+                    firstPlayerCloseCombat.getChildren().isEmpty())) {
+                firstPlayerCloseCombat.getChildren().clear();
+                firstPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow());
+            }
+            //fr
+            if (!(GameMenuController.getMatchTable().getFirstPlayerRangedRow().isEmpty() &&
+                    firstPlayerRanged.getChildren().isEmpty())) {
+                firstPlayerRanged.getChildren().clear();
+                firstPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerRangedRow());
+            }
+            //fs
+            if (!(GameMenuController.getMatchTable().getFirstPlayerSiegeRow().isEmpty() &&
+                    firstPlayerSiege.getChildren().isEmpty())) {
+                firstPlayerSiege.getChildren().clear();
+                firstPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerSiegeRow());
+            }
+            //sc
+            if (!(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow().isEmpty() &&
+                    secondPlayerCloseCombat.getChildren().isEmpty())) {
+                secondPlayerCloseCombat.getChildren().clear();
+                secondPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow());
+            }
+            //sr
+            if (!(GameMenuController.getMatchTable().getSecondPlayerRangedRow().isEmpty() &&
+                    secondPlayerRanged.getChildren().isEmpty())) {
+                secondPlayerRanged.getChildren().clear();
+                secondPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerRangedRow());
+            }
+            //ss
+            if (!(GameMenuController.getMatchTable().getSecondPlayerSiegeRow().isEmpty() &&
+                    secondPlayerSiege.getChildren().isEmpty())) {
+                secondPlayerSiege.getChildren().clear();
+                secondPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerSiegeRow());
+            }
+            if (!(GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty() &&
+                    firstPlayerDiscard.getChildren().isEmpty())) {
+                firstPlayerDiscard.getChildren().clear();
+                if (!GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty()) {
+                    firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
+                }
+            }
+            if (!(GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty() &&
+                    secondPlayerDiscard.getChildren().isEmpty())) {
+                secondPlayerDiscard.getChildren().clear();
+                if (!GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty()) {
+                    secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
+                }
+            }
+            secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
+            firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
+            firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
+            secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+        } else {
+            if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
+                    secondPlayerLeaderImage.getChildren().isEmpty()) {
+                secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
+            }
+            if (GameMenuController.getMatchTable().getSecondPlayer().getLeader() != null &&
+                    firstplayerLeaderImage.getChildren().isEmpty()) {
+                firstplayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerLeader());
+            }
+
+            if (GameMenuController.getMatchTable().getSecondPlayerCrystals() == 2) {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getSecondPlayerCrystals() == 1) {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            } else {
+                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            }
+
+
+            if (GameMenuController.getMatchTable().getFirstPlayerCrystals() == 2) {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+            } else if (GameMenuController.getMatchTable().getFirstPlayerCrystals() == 1) {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            } else {
+                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+            }
+
+
+            GameMenuController.getMatchTable().updatePoints();
+            firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
+            secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
+            firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerInPlayCards().size()}");
+            secondPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerInPlayCards().size()}");
+            FirstPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(0).toString());
+            FirstPlayerRangedNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(1).toString());
+            FirstPlayerSiegeNum.setText(GameMenuController.getMatchTable().getSecondPlayerRowPoints().get(2).toString());
+            SecondPlayerCloseCombatNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(0).toString());
+            SecondPlayerRangedNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(1).toString());
+            SecondPlayerSiegeNum.setText(GameMenuController.getMatchTable().getFirstPlayerRowPoints().get(2).toString());
+            firstPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(1)}");
+            secondPlayerTotalScore.setText(STR."\{GameMenuController.getMatchTable().getPlayerTotalScore(0)}");
+            if (GameMenuController.getMatchTable().getSecondPlayerCloseCombatBoostCard() != null) {
+                firstplayerclosecombatspecial.getChildren().clear();
+                firstplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerCloseCombatBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getSecondPlayerRangedBoostCard() != null) {
+                firstplayerrangedspecial.getChildren().clear();
+                firstplayerrangedspecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerRangedBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard() != null) {
+                firstplayersiegespecial.getChildren().clear();
+                firstplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerSiegeBoostCard());
+            }
+
+            if (GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard() != null) {
+                secondplayerclosecombatspecial.getChildren().clear();
+                secondplayerclosecombatspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerCloseCombatBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard() != null) {
+                secondplayerrangedspecial.getChildren().clear();
+                secondplayerrangedspecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
+            }
+            if (GameMenuController.getMatchTable().getFirstPlayerSiegeBoostCard() != null) {
+                secondplayersiegespecial.getChildren().clear();
+                secondplayersiegespecial.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerSiegeBoostCard());
+            }
+            //f inplay
+            if (!(GameMenuController.getMatchTable().getSecondPlayerInPlayCards().isEmpty() &&
+                    Hand.getChildren().isEmpty())) {
+                Hand.getChildren().clear();
+                Hand.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerInPlayCards());
+            }
+            //fs
+            if (!(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow().isEmpty() &&
+                    firstPlayerCloseCombat.getChildren().isEmpty())) {
+                firstPlayerCloseCombat.getChildren().clear();
+                firstPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerCloseCombatRow());
+            }
+            //fr
+            if (!(GameMenuController.getMatchTable().getSecondPlayerRangedRow().isEmpty() &&
+                    firstPlayerRanged.getChildren().isEmpty())) {
+                firstPlayerRanged.getChildren().clear();
+                firstPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerRangedRow());
+            }
+            //fs
+            if (!(GameMenuController.getMatchTable().getSecondPlayerSiegeRow().isEmpty() &&
+                    firstPlayerSiege.getChildren().isEmpty())) {
+                firstPlayerSiege.getChildren().clear();
+                firstPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getSecondPlayerSiegeRow());
+            }
+            //sc
+            if (!(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow().isEmpty() &&
+                    secondPlayerCloseCombat.getChildren().isEmpty())) {
+                secondPlayerCloseCombat.getChildren().clear();
+                secondPlayerCloseCombat.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerCloseCombatRow());
+            }
+            //sr
+            if (!(GameMenuController.getMatchTable().getFirstPlayerRangedRow().isEmpty() &&
+                    secondPlayerRanged.getChildren().isEmpty())) {
+                secondPlayerRanged.getChildren().clear();
+                secondPlayerRanged.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerRangedRow());
+            }
+            //ss
+            if (!(GameMenuController.getMatchTable().getFirstPlayerSiegeRow().isEmpty() &&
+                    secondPlayerSiege.getChildren().isEmpty())) {
+                secondPlayerSiege.getChildren().clear();
+                secondPlayerSiege.getChildren().addAll(GameMenuController.getMatchTable().getFirstPlayerSiegeRow());
+            }
+
+            if (!(GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty() &&
+                    firstPlayerDiscard.getChildren().isEmpty())) {
+                firstPlayerDiscard.getChildren().clear();
+                if (!GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty()) {
+                    firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
+                }
+            }
+            if (!(GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty() &&
+                    secondPlayerDiscard.getChildren().isEmpty())) {
+                secondPlayerDiscard.getChildren().clear();
+                if (!GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty()) {
+                    secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
+                }
+            }
+            secondPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
+            firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getNickname()}");
+            firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
+            secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
+
+
         }
         //spell
         if (!(GameMenuController.getMatchTable().getSpellCards().isEmpty() &&
@@ -380,18 +510,10 @@ public class GameViewController extends PlayMenu implements Initializable {
             spellCards.getChildren().clear();
             spellCards.getChildren().addAll(GameMenuController.getMatchTable().getSpellCards());
         }
-        if (!(GameMenuController.getMatchTable().getFirstPlayerDeadCards().isEmpty() &&
-                firstPlayerDiscard.getChildren().isEmpty())) {
-            firstPlayerDiscard.getChildren().clear();
-            firstPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerDeadCards().getLast());
-        }
-        if (!(GameMenuController.getMatchTable().getSecondPlayerDeadCards().isEmpty() &&
-                secondPlayerDiscard.getChildren().isEmpty())) {
-            secondPlayerDiscard.getChildren().clear();
-            secondPlayerDiscard.getChildren().add(GameMenuController.getMatchTable().getSecondPlayerDeadCards().getLast());
-        }
         InitiateCardEvents();
-
+        if (GameMenuController.getMatchTable().isMatchFinished()) {
+            System.out.println("sock these nuts");
+        }
     }
 
 
@@ -401,34 +523,30 @@ public class GameViewController extends PlayMenu implements Initializable {
 
 
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE, this);
         update();
     }
 
     public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED, this);
         update();
     }
 
 
     public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-        update();
+        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT, this);
     }
 
     public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-        update();
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT, this);
     }
 
     public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
-        update();
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED, this);
     }
 
     public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
-        update();
+        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE, this);
     }
 
     public void closeCombatBoostClicked(MouseEvent mouseEvent) {
@@ -437,13 +555,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void rangedBoostClicked(MouseEvent mouseEvent) {
-        System.out.println("here");
         GameMenuController.ClickedOnBoost(1);
-        System.out.println(GameMenuController.getMatchTable().getFirstPlayerRangedBoostCard());
-        if (GameMenuController.getMatchTable().getFirstPlayerInPlayCards().contains(new SpecialCard(SpecialCardInfo.COMMANDERS_HORN))) {
-            System.out.println("kys");
-        }
-        System.out.println(firstplayerrangedspecial.getChildren());
         update();
     }
 
@@ -457,5 +569,18 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 
+    public HBox getFirstPlayerDiscard() {
+        return firstPlayerDiscard;
+    }
+
+    public void LeaderAction(MouseEvent mouseEvent) {
+        GameMenuController.LeaderAction();
+        update();
+    }
+
+    public void PassRound(MouseEvent mouseEvent) {
+        GameMenuController.passRound();
+        update();
+    }
 }
 
