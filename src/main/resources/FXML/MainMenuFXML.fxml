@@ -4,32 +4,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1050.0" styleClass="MainMenu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.MainViewController">
-   <children>
-      <VBox alignment="CENTER" layoutX="130.0" layoutY="132.0" prefHeight="452.0" prefWidth="278.0" styleClass="Box">
-         <children>
-            <Label text="Main Menu" translateY="-100.0" >
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Button mnemonicParsing="false" onMouseClicked="#goToGameMenu" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Start Game" translateY="-50.0">
-               <font>
-                  <Font size="20.0" />
-               </font></Button>
-            <Button mnemonicParsing="false" onMouseClicked="#goToProfileMenu" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Profile">
-               <font>
-                  <Font size="20.0" />
-               </font></Button>
-            <Button mnemonicParsing="false" onMouseClicked="#SignOut" prefHeight="44.0" prefWidth="188.0" styleClass="button-regular" text="Sign Out" translateY="50.0">
-               <font>
-                  <Font size="20.0" />
-               </font></Button>
-            <Button mnemonicParsing="false" text="Score Board" translateY="100.0"  styleClass="remove-background" onMouseClicked="#goToScoreBoard">
-               <font>
-                  <Font size="20.0" />
-               </font></Button>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="MainMenu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.MainViewController">
+    <children>
+        <VBox alignment="CENTER" layoutX="127.0" layoutY="109.0" prefHeight="509.0" prefWidth="325.0" styleClass="main-menu-box">
+            <children>
+                <Label styleClass="label-header" text="Main Menu" translateY="-100.0">
+                    <font>
+                        <Font size="30.0" />
+                    </font>
+                </Label>
+                <Button mnemonicParsing="false" onMouseClicked="#goToGameMenu" prefHeight="55.0" prefWidth="170.0" styleClass="button-main" text="Start Game" translateY="-50.0">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#goToProfileMenu" prefHeight="55.0" prefWidth="170.0" styleClass="button-main" text="Profile">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#goToScoreBoard" prefHeight="55.0" prefWidth="170.0" styleClass="button-main" text="Score Board" translateY="50.0">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onMouseClicked="#SignOut" prefHeight="55.0" prefWidth="170.0" styleClass="button-main" text="Sign Out" translateY="100.0">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

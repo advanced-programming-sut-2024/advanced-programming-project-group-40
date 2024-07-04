@@ -12,7 +12,7 @@ import models.UserInputHandler.CardClickCommand;
 import models.cards.*;
 import views.ViewController.GameViewController;
 
-import java.util.ArrayList;
+
 import java.util.Objects;
 
 public class GameMenuController extends Controller {
@@ -97,6 +97,7 @@ public class GameMenuController extends Controller {
                 }
                 matchTable.endTurn();
             }
+
         }
     }
 
@@ -137,6 +138,7 @@ public class GameMenuController extends Controller {
                     case All -> {
                         return Origin.FIRSTPLAYER_ALL;
                     }
+
                 }
             }
 
@@ -478,6 +480,7 @@ public class GameMenuController extends Controller {
                 matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY));
             } else {
                 matchTable.addToSpellCards(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY));
+
             }
             selectedCard = null;
             matchTable.endTurn();
@@ -500,6 +503,7 @@ public class GameMenuController extends Controller {
             matchTable.pass(0);
         } else {
             matchTable.pass(1);
+
         }
         matchTable.endTurn();
     }

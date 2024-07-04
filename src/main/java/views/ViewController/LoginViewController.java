@@ -6,10 +6,7 @@ import javafx.scene.control.TextField;
 import models.AlertMaker;
 import models.Game;
 import models.User;
-import views.ForgetPasswordMenu;
-import views.LoginMenu;
-import views.MainMenu;
-import views.SignUpMenu;
+import views.*;
 
 public class LoginViewController {
     @FXML
@@ -19,12 +16,13 @@ public class LoginViewController {
 
     public void signInClicked() {
         if (username.getText().equals("a") && password.getText().equals("a")) {
-            Game.setLoggedInUser(new User("a", "a","ahay@ahay.com","ahay"));
-        }else {
+            Game.setLoggedInUser(new User("a", "a", "ahay@ahay.com", "ahay"));
+        } else {
             AlertMaker alert = LoginMenuController.signIn(username.getText(), password.getText());
             alert.showAlert();
             if (alert.isOK())
                 LoginMenuController.stayLoggedInSelected();
+            else return;
         }
         goToMainMenu();
     }
@@ -45,7 +43,7 @@ public class LoginViewController {
         }
     }
 
-    public void goToMainMenu(){
+    public void goToMainMenu() {
         try {
             new MainMenu().start(LoginMenu.stage);
         } catch (Exception e) {
