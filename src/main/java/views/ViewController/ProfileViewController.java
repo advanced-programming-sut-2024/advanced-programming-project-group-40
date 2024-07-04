@@ -25,7 +25,7 @@ import java.util.Objects;
 
 
 public class ProfileViewController {
-
+    //TODO LIst of waits
     public VBox Following;
     public VBox Followers;
     public TextField targetUser;
@@ -158,5 +158,37 @@ public class ProfileViewController {
         }
         Game.getLoggedInUser().getRequests().remove(request);
         requests.getChildren().remove(label.getParent());
+    }
+
+    private void creatFollower() {
+        User loggedInUser = Game.getLoggedInUser();
+        for (User request : loggedInUser.getFollowers()) {
+            // Create the Label
+            Label label = new Label(request.getUsername());
+            label.setPrefHeight(16.0);
+            label.setPrefWidth(116.0);
+            label.setFont(new Font(14.0));
+//            label.setOnMouseClicked(event -> handleClick(event,label));
+
+            Followers.getChildren().add(label);
+        }
+    }
+
+    private void creatFollowing() {
+        User loggedInUser = Game.getLoggedInUser();
+        for (User request : loggedInUser.getFollowers()) {
+            // Create the Label
+            Label label = new Label(request.getUsername());
+            label.setPrefHeight(16.0);
+            label.setPrefWidth(116.0);
+            label.setFont(new Font(14.0));
+//            label.setOnMouseClicked(event -> handleClick(event,label));
+
+
+            Following.getChildren().add(label);
+        }
+    }
+
+    public void GameRequest(MouseEvent mouseEvent) {
     }
 }
