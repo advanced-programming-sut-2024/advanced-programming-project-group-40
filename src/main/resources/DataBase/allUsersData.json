@@ -12,6 +12,29 @@
     "lost": 0,
     "SecurityAnswer": "1",
     "SecurityQuestionNumber": 1,
-    "stayLoggedIn": false
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
+  },
+  {
+    "username": "aa",
+    "password": "iA9^793j",
+    "email": "a",
+    "nickname": "a@a.com",
+    "faction": "NILFGAARD",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "1",
+    "SecurityQuestionNumber": 1,
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
   }
 ]

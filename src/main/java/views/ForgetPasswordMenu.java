@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class ForgetPasswordMenu extends PlayMenu {
     @Override
     public void start(Stage stage) throws Exception {
-        ForgetPasswordMenu.stage = stage;
+        GameView.stage = stage;
         Pane pane = FXMLLoader.load(LoginMenu.class.getResource("/FXML/ForgetPasswordMenuFXML.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();

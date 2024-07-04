@@ -11,7 +11,7 @@ public class ChangeInfoMenu extends PlayMenu{
     }
     @Override
     public void start(Stage stage) throws Exception {
-        MainMenu.stage = stage;
+        GameView.stage = stage;
         Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/ChangeInfoFXML.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();
