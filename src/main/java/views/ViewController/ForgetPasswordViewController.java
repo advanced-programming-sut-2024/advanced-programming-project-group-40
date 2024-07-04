@@ -47,9 +47,6 @@ public class  ForgetPasswordViewController {
         thirdVbox.setVisible(false);
         validPass = false;
         ArrayList<User> all=Game.getAllUsers();
-        for (User user : all) {
-            System.out.println(user.getUsername());
-        }
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
             boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());

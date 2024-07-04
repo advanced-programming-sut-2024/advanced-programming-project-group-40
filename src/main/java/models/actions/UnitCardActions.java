@@ -91,7 +91,6 @@ public abstract class UnitCardActions {
                 }
             }
             for (CardWrapper cardWrapper : cardsToPlay) {
-                System.out.println(cardWrapper.getCard().getName());
                 matchTable.placeCardNoAbility(cardWrapper, userID, rowNumber);
             }
 

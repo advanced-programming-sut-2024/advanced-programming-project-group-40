@@ -152,8 +152,6 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                System.out.println(STR."name:\{card.getName()}");
-                System.out.println(GameMenuController.getMatchTable().isFirstPlayerTurn());
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
 
