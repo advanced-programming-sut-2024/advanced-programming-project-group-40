@@ -29,6 +29,7 @@ import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import views.MainMenu;
+import views.PreGameMenu;
 
 public class PreGameViewController {
     @FXML
@@ -490,7 +491,12 @@ public class PreGameViewController {
         AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
         alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
-            // todo game can start here
+            saveData();
+            try {
+                new GameView().start(PreGameMenu.stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
