@@ -21,6 +21,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
+
     private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
@@ -236,7 +237,15 @@ public class User {
                 Objects.equals(nickname, user.nickname) &&
                 Objects.equals(faction, user.faction);
     }
-
+    public int cardsInDeckFromCardName(String cardName){
+        int count = 0;
+        for (Card card : deckCards) {
+            if (card.getName().equals(cardName)){
+                count++;
+            }
+        }
+        return count;
+    }
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
