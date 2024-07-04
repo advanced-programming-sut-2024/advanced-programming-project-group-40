@@ -18,32 +18,10 @@ import java.util.Scanner;
 
 public class LoginMenu extends PlayMenu {
     public static void main(String[] args) throws IOException {
-        Client client = new Client();
-        String message = "Hello, NIO Server!";
-
-        // Message to send to the server
-        client.getBuffer().clear();
-        client.getBuffer().put(message.getBytes());
-        client.getBuffer().flip();
-
-        // Send the message to the server
-        while (client.getBuffer().hasRemaining()) {
-            client.getClientChannel().write(client.getBuffer());
-        }
-        client.getBuffer().clear();
-
-        // Read the server's response
-        client.getClientChannel().read(client.getBuffer());
-        client.getBuffer().flip();
-
-        // Convert the response to a String and print it
-        String response = new String(client.getBuffer().array(), 0, client.getBuffer().limit());
-        System.out.println("Server Response: " + response);
-        client.getClientChannel().close();
-
-    launch(args);
-
+        Client client = Client.getClient();
+        launch(args);
     }
+
     @Override
     public void start(Stage stage) throws Exception {
         Game.setAllUsers(Objects.requireNonNull(DataSaver.loadUsers()));
