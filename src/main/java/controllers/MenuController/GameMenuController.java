@@ -199,6 +199,7 @@ public class GameMenuController {
 
     public static void initiateDeck(MatchTable matchTable) {
         matchTable.initilizeTable();
+        matchTable.updatePoints();
     }
 
 
@@ -316,6 +317,7 @@ public class GameMenuController {
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY), 1, getRowID(origin));
                 }
                 if (!isMedic) matchTable.endTurn();
+                matchTable.updatePoints();
                 gameViewController.update();
                 if (matchTable.isFirstPlayerTurn()) {
                     if (isMedic && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
@@ -330,7 +332,7 @@ public class GameMenuController {
 
             }
         }
-
+        matchTable.updatePoints();
     }
 
     private static void MakeMedicWindow(boolean isFirstPlayerTurn) {
@@ -468,6 +470,7 @@ public class GameMenuController {
             selectedCard = null;
             matchTable.endTurn();
         }
+        matchTable.updatePoints();
     }
 
     public static void clickedOnWeather() {
@@ -494,6 +497,7 @@ public class GameMenuController {
             matchTable.leaderAction();
             matchTable.setSecondPlayerLeaderUsed(true);
         }
+        matchTable.updatePoints();
     }
 
     public static void passRound() {
@@ -504,6 +508,7 @@ public class GameMenuController {
 
         }
         matchTable.endTurn();
+        matchTable.updatePoints();
     }
 
 

@@ -119,7 +119,7 @@ public class SignUpViewController {
             System.out.println(user.getUsername());
         }
         try {
-            new SecurityQuestionMenu().start(Game.stage);
+            new SecurityQuestionMenu().start(SignUpMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -157,7 +157,7 @@ public class SignUpViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new LoginMenu().start(Game.stage);
+            new LoginMenu().start(SignUpMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

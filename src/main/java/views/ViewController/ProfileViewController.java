@@ -59,7 +59,7 @@ public class ProfileViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new MainMenu().start(Game.stage);
+            new MainMenu().start(ProfileMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -172,7 +172,7 @@ public class ProfileViewController {
 
     public void changeInfo(MouseEvent mouseEvent) {
         try {
-            new ChangeInfoMenu().start(Game.stage);
+            new ChangeInfoMenu().start(ProfileMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

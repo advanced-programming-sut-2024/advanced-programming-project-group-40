@@ -49,7 +49,7 @@ public class ScoreBoardViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new MainMenu().start(Game.stage);
+            new MainMenu().start(ScoreBoard.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

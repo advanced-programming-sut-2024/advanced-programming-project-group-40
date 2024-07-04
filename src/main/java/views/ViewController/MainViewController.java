@@ -2,13 +2,12 @@ package views.ViewController;
 
 import controllers.DataSaver;
 import javafx.scene.input.MouseEvent;
-import models.Game;
 import views.*;
 
 public class MainViewController {
     public void goToGameMenu(MouseEvent mouseEvent) {
         try {
-            new PreGameMenu().start(Game.stage);
+            new PreGameMenu().start(MainMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -16,7 +15,7 @@ public class MainViewController {
 
     public void goToProfileMenu(MouseEvent mouseEvent) {
         try {
-            new ProfileMenu().start(Game.stage);
+            new ProfileMenu().start(MainMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -33,7 +32,7 @@ public class MainViewController {
 
     public void goToScoreBoard(MouseEvent mouseEvent) {
         try {
-            new ScoreBoard().start(Game.stage);
+            new ScoreBoard().start(MainMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

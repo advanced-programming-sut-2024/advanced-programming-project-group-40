@@ -50,7 +50,7 @@ public class LoadingScreen1Controller {
     public void finish() {
         Platform.runLater(() -> {
             try {
-                new MainMenu().start(Game.stage);
+                new MainMenu().start(LoadingScreen1.stage);
             } catch (Exception e) {
                 e.printStackTrace();
             }

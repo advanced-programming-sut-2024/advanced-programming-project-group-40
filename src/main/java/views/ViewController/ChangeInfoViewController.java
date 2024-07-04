@@ -119,7 +119,7 @@ public class ChangeInfoViewController {
 
     public void back(MouseEvent mouseEvent) {
         try {
-            new ProfileMenu().start(Game.stage);
+            new ProfileMenu().start(ChangeInfoMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

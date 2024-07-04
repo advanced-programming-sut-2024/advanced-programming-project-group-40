@@ -91,7 +91,7 @@ public class  ForgetPasswordViewController {
             user.setPassword(newPassword.getText());
             Game.setLoggedInUser(user);
             try {
-                new MainMenu().start(Game.stage);
+                new MainMenu().start(ForgetPasswordMenu.stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -114,7 +114,7 @@ public class  ForgetPasswordViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new LoginMenu().start(Game.stage);
+            new LoginMenu().start(ForgetPasswordMenu.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

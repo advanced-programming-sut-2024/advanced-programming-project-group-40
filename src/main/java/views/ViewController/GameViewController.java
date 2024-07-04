@@ -245,7 +245,6 @@ public class GameViewController extends PlayMenu implements Initializable {
                 secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
             }
-            GameMenuController.getMatchTable().updatePoints();
             firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
             secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
             firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerInPlayCards().size()}");
@@ -343,7 +342,8 @@ public class GameViewController extends PlayMenu implements Initializable {
             firstPlayerName.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getNickname()}");
             firstPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayer().getFaction()}");
             secondPlayerFaction.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayer().getFaction()}");
-        } else {
+        }
+        else {
             if (GameMenuController.getMatchTable().getFirstPlayer().getLeader() != null &&
                     secondPlayerLeaderImage.getChildren().isEmpty()) {
                 secondPlayerLeaderImage.getChildren().add(GameMenuController.getMatchTable().getFirstPlayerLeader());
@@ -381,7 +381,6 @@ public class GameViewController extends PlayMenu implements Initializable {
             }
 
 
-            GameMenuController.getMatchTable().updatePoints();
             firstplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerDeckCards().size()}");
             secondplayerdeckamount.setText(STR."\{GameMenuController.getMatchTable().getFirstPlayerDeckCards().size()}");
             firstPlayerRemainingCards.setText(STR."\{GameMenuController.getMatchTable().getSecondPlayerInPlayCards().size()}");
@@ -494,15 +493,12 @@ public class GameViewController extends PlayMenu implements Initializable {
             System.out.println("sock these nuts");
         }
     }
-
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE, this);
-        update();
     }
 
     public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
         GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED, this);
-        update();
     }
 
 

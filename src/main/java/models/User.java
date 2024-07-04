@@ -12,7 +12,7 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private Factions faction = Factions.NILFGAARD;
+    private Factions faction;
     private int point;
     private int gamesPlayed;
     private int won;
@@ -224,20 +224,6 @@ public class User {
             }
         }
     }
-
-
-    //this function checks if two users are the same by checking the USERNAME & PASSWORD & EMAIL & NICKNAME & FACTION
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(nickname, user.nickname) &&
-                Objects.equals(faction, user.faction);
-    }
-
     public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
@@ -247,7 +233,6 @@ public class User {
         }
         return count;
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
