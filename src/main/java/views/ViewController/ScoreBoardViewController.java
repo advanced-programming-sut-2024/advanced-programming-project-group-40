@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import models.Game;
 import models.User;
 import views.MainMenu;
+import views.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
