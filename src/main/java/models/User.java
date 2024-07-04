@@ -21,6 +21,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
+
     private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
