@@ -2,6 +2,7 @@ package views.ViewController;
 
 
 import controllers.DataSaver;
+import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
 import models.Game;
+import models.MatchTable;
 import models.User;
 import models.cards.*;
 import views.GameView;
@@ -493,7 +495,8 @@ public class PreGameViewController {
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             saveData();
             try {
-                new GameView().start(PreGameMenu.stage);
+                GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), Objects.requireNonNull(Game.getUserByName(competitorUsername.getText()))));
+                new GameView().start(Game.stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

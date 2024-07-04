@@ -21,7 +21,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
-    private transient Leader leader = new Leader(LeaderInfo.THE_WHITE_FLAME);
+    private transient Leader leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
@@ -37,12 +37,6 @@ public class User {
         this.email = email;
         this.nickname = nickName;
         this.stayLoggedIn = false;
-        faction = Factions.NILFGAARD;
-        leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
-        numberOfHeroCards = 0;
-        numberOfSpecialCards = 0;
-        numberOfUnitCards = 0;
-        totalUnitCardsStrength = 0;
     }
 
     public int getRank() {

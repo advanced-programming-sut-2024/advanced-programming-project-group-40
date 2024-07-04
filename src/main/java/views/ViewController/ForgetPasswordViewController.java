@@ -18,8 +18,6 @@ import models.User;
 import views.LoginMenu;
 import views.MainMenu;
 
-import java.util.ArrayList;
-
 public class  ForgetPasswordViewController {
     @FXML
     private VBox thirdVbox;
@@ -46,7 +44,6 @@ public class  ForgetPasswordViewController {
         secondVBox.setVisible(false);
         thirdVbox.setVisible(false);
         validPass = false;
-        ArrayList<User> all=Game.getAllUsers();
         newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
             boolean validPassword = SignUpMenuController.isPasswordValid(newPassword.getText());
             boolean weakPassword = SignUpMenuController.isPasswordWeak(newPassword.getText());
