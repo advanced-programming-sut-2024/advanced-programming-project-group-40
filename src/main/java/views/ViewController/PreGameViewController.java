@@ -490,7 +490,6 @@ public class PreGameViewController {
             }
         }
     }
-
     public void updateFaction(String name) {
         loggedInUser.setFaction(Factions.toFaction(name));
         loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
