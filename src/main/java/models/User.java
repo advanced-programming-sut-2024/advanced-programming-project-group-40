@@ -25,10 +25,10 @@ public class User {
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
-    private int numberOfUnitCards = 0;
-    private int numberOfSpecialCards = 0;
-    private int numberOfHeroCards = 0;
-    private int totalUnitCardsStrength = 0;
+    private int numberOfUnitCards ;
+    private int numberOfSpecialCards ;
+    private int numberOfHeroCards ;
+    private int totalUnitCardsStrength;
 
 
     public User(String username, String password, String email, String nickName) {
@@ -39,6 +39,10 @@ public class User {
         this.stayLoggedIn = false;
         faction = Factions.NILFGAARD;
         leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
+        numberOfHeroCards=0;
+        numberOfSpecialCards=0;
+        numberOfUnitCards=0;
+        totalUnitCardsStrength=0;
     }
 
     public int getRank() {
