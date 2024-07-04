@@ -21,7 +21,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
-    private transient Leader leader = new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(faction));
+    private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
@@ -37,6 +37,8 @@ public class User {
         this.email = email;
         this.nickname = nickName;
         this.stayLoggedIn = false;
+        faction = Factions.MONSTERS;
+        leader = new Leader(LeaderInfo.BRINGER_OF_DEATH);
     }
 
     public int getRank() {
