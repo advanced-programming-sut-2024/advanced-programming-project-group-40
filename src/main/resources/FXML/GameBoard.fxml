@@ -30,13 +30,16 @@
    <VBox prefHeight="701.0" prefWidth="192.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
       <Pane prefHeight="200.0" prefWidth="200.0">
          <Button layoutX="126.0" layoutY="55.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="leaderbutton" />
-         <StackPane prefHeight="135.0" prefWidth="117.0" styleClass="leaderholder" />
+         <StackPane prefHeight="135.0" prefWidth="117.0" styleClass="leaderholder">
+            <children>
+               <HBox fx:id="secondPlayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
       </Pane>
       <StackPane>
          <Pane prefHeight="200.0" prefWidth="200.0" styleClass="infoholderbackground" />
          <Pane prefHeight="200.0" prefWidth="200.0">
-            <Label fx:id="secondPlayerFaction" layoutY="105.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textFill="#00e7ff" />
-            <Label fx:id="secondPlayerName" layoutY="73.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textFill="#00e7ff" />
+            <Label fx:id="secondPlayerFaction" alignment="CENTER" layoutY="105.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
+            <Label fx:id="secondPlayerName" alignment="CENTER" layoutY="73.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
             <StackPane fx:id="secondPlayerFactionImage" layoutX="-2.0" layoutY="-3.0" prefHeight="72.0" prefWidth="76.0" styleClass="factionimage" />
             <StackPane layoutX="79.0" layoutY="1.0" prefHeight="32.0" prefWidth="32.0" styleClass="cardimage" />
             <Label fx:id="secondPlayerRemainingCards" layoutX="111.0" layoutY="1.0" prefHeight="32.0" prefWidth="76.0" text="20" textFill="#00e7ff">
@@ -62,8 +65,8 @@
          <Pane prefHeight="200.0" prefWidth="200.0">
             <StackPane layoutX="80.0" prefHeight="32.0" prefWidth="32.0" styleClass="cardimage" />
             <StackPane fx:id="firstPlayerFactionImage" prefHeight="72.0" prefWidth="76.0" styleClass="factionimage" />
-            <Label fx:id="firstPlayerFaction" layoutY="106.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textFill="#00e7ff" />
-            <Label fx:id="firstPlayerName" layoutY="74.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textFill="#00e7ff" />
+            <Label fx:id="firstPlayerFaction" alignment="CENTER" layoutY="106.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
+            <Label fx:id="firstPlayerName" alignment="CENTER" layoutY="74.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
             <Label fx:id="firstPlayerRemainingCards" layoutX="112.0" layoutY="-1.0" prefHeight="32.0" prefWidth="76.0" text="20" textFill="#00e7ff">
                <font>
                   <Font size="23.0" />
@@ -79,8 +82,11 @@
          </Pane>
       </StackPane>
       <Pane prefHeight="200.0" prefWidth="200.0">
-         <StackPane layoutX="-1.0" layoutY="-1.0" prefHeight="136.0" prefWidth="117.0" styleClass="leaderholder" />
-         <Button layoutX="126.0" layoutY="55.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="leaderbutton" />
+         <StackPane layoutX="-1.0" layoutY="-1.0" prefHeight="136.0" prefWidth="117.0" styleClass="leaderholder">
+            <children>
+               <HBox fx:id="firstplayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
+         <Button fx:id="firstPLayerLeaderButton" layoutX="126.0" layoutY="55.0" mnemonicParsing="false" onMouseClicked="#LeaderAction" prefHeight="50.0" prefWidth="50.0" styleClass="leaderbutton" />
       </Pane>
    </VBox>
    <Pane prefHeight="699.0" prefWidth="723.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
@@ -159,6 +165,6 @@
             </font>
          </Label>
       </Pane>
-      <Button layoutX="88.0" layoutY="325.0" mnemonicParsing="false" onMouseClicked="#awoga" text="Button" />
+      <Button layoutX="41.0" layoutY="337.0" mnemonicParsing="false" onMouseClicked="#PassRound" text="Pass Round" />
    </Pane>
 </GridPane>

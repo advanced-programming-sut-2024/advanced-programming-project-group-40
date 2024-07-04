@@ -4,6 +4,7 @@ import enums.Ability;
 import enums.Factions;
 import enums.Unit;
 import enums.cards.HeroInfo;
+import models.Game;
 
 public class Hero extends Card {
     ;

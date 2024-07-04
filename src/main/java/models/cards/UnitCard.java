@@ -4,6 +4,7 @@ import enums.Ability;
 import enums.Factions;
 import enums.Unit;
 import enums.cards.UnitCardInfo;
+import models.Game;
 
 public class UnitCard extends Card{
     private final int constantPower;
@@ -11,6 +12,7 @@ public class UnitCard extends Card{
     private final Unit unit;
     private final Ability ability;
     public UnitCard(UnitCardInfo unitCardInfo) {
+
         super(unitCardInfo.name, unitCardInfo.planeImage, unitCardInfo.cardImage, unitCardInfo.maxCapacity, unitCardInfo.faction);
         this.constantPower = unitCardInfo.power;
         this.showingPower = constantPower;

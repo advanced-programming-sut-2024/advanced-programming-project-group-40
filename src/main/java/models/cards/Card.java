@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import models.Game;
 
 import java.net.URL;
 import java.util.Objects;
@@ -22,6 +23,7 @@ public abstract class Card extends Rectangle {
     protected final String name;
     protected final String planeImage;
     protected final String cardImage;
+
     protected final int maxCapacity;
     protected int selectedCards;
     private final Factions faction;
@@ -43,13 +45,6 @@ public abstract class Card extends Rectangle {
         return name;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Card card)) return false;
-        return Objects.equals(name, card.name);
-    }
 
     @Override
     public int hashCode() {

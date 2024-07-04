@@ -3,7 +3,7 @@ package models;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
-import enums.Unit;
+import enums.cards.LeaderInfo;
 import enums.cards.UnitCardInfo;
 import models.actions.FactionActions;
 import models.actions.LeaderActions;
@@ -13,14 +13,14 @@ import models.cards.*;
 import java.util.*;
 
 public class MatchTable {
-    private User firstPlayer;
-    private User secondPlayer;
+    private final User firstPlayer;
+    private final User secondPlayer;
     private boolean isFirstPlayerTurn;
     private boolean secondPlayerPassed = false;
     private boolean firstPlayerPassed = false;
     private int round = 1;
     private Date date;
-    private LeaderEffects leaderEffects = new LeaderEffects();
+    private final LeaderEffects leaderEffects = new LeaderEffects();
 
     private int firstPlayerCurrentPoint;
     private int secondPlayerCurrentPoint;
@@ -93,14 +93,24 @@ public class MatchTable {
         return retVal;
     }
 
-    public void doDecoy(CardWrapper decoy , CardWrapper cardToSwap){
-        this.placeCard(decoy
-                ,0
-                ,getRowID(cardToSwap.getOrigin()));
+    public void doDecoy(CardWrapper decoy, CardWrapper cardToSwap, boolean isFirstPlayerTurn) {
+        if (isFirstPlayerTurn) {
+            this.placeCard(decoy
+                    , 0
+                    , getRowID(cardToSwap.getOrigin()));
 
-        this.addToInPlayCards(0,cardToSwap);
+            this.addToInPlayCards(0, cardToSwap);
+        } else {
+            this.placeCard(decoy
+                    , 1
+                    , getRowID(cardToSwap.getOrigin()));
+
+            this.addToInPlayCards(1, cardToSwap);
+        }
+
 
     }
+
     private static int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
@@ -196,10 +206,6 @@ public class MatchTable {
     }
 
 
-    public int getRound() {
-        return round;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -208,13 +214,6 @@ public class MatchTable {
         return leaderEffects;
     }
 
-    public boolean isSecondPlayerPassed() {
-        return secondPlayerPassed;
-    }
-
-    public boolean isFirstPlayerPassed() {
-        return firstPlayerPassed;
-    }
 
     public Card getFirstPlayerCloseCombatBoostCard() {
         return firstPlayerCloseCombatBoostCard;
@@ -244,13 +243,6 @@ public class MatchTable {
         isFirstPlayerTurn = firstPlayerTurn;
     }
 
-    public void setSecondPlayerPassed(boolean secondPlayerPassed) {
-        this.secondPlayerPassed = secondPlayerPassed;
-    }
-
-    public void setFirstPlayerPassed(boolean firstPlayerPassed) {
-        this.firstPlayerPassed = firstPlayerPassed;
-    }
 
     public void setFirstPlayerLeaderUsed(boolean firstPlayerLeaderUsed) {
         isFirstPlayerLeaderUsed = firstPlayerLeaderUsed;
@@ -258,14 +250,6 @@ public class MatchTable {
 
     public void setSecondPlayerLeaderUsed(boolean secondPlayerLeaderUsed) {
         isSecondPlayerLeaderUsed = secondPlayerLeaderUsed;
-    }
-
-    public boolean isFirstPlayerLeaderUsed() {
-        return isFirstPlayerLeaderUsed;
-    }
-
-    public boolean isSecondPlayerLeaderUsed() {
-        return isSecondPlayerLeaderUsed;
     }
 
 
@@ -362,21 +346,19 @@ public class MatchTable {
     }
 
     //gives some random card without removing them from the deck
-    public ArrayList<Card> randomSelectedCards(ArrayList<Card> deck) {
+    public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
         ArrayList<Card> randomCards = new ArrayList<>();
         int i = 0;
         int size = deck.size();
-        while (i < 10) {
-            if (deck.isEmpty()) {
+        while (i < numOfRandomCards) {
+            if (deck.isEmpty() || deck.size() < numOfRandomCards) {
                 return randomCards;
             }
             Card tempCard = deck.get(Game.random.nextInt(size));
-            System.out.println(deck.indexOf(tempCard));
-            System.out.println(size);
-            size--;
-            randomCards.add(tempCard);
-            deck.remove(tempCard);
-            i++;
+            if (!randomCards.contains(tempCard)) {
+                randomCards.add(tempCard);
+                i++;
+            }
         }
         return randomCards;
     }
@@ -388,11 +370,9 @@ public class MatchTable {
 
 
         Ability ability = null;
-        if (cardWrapper.getCard() instanceof Hero) {
-            Hero hero = (Hero) cardWrapper.getCard();
+        if (cardWrapper.getCard() instanceof Hero hero) {
             ability = hero.getAbility();
-        } else if (cardWrapper.getCard() instanceof UnitCard) {
-            UnitCard unitCard = (UnitCard) cardWrapper.getCard();
+        } else if (cardWrapper.getCard() instanceof UnitCard unitCard) {
             ability = unitCard.getAbility();
         }
         if (ability != null) {
@@ -409,6 +389,7 @@ public class MatchTable {
                 case MUSTER -> {
                     row.add(cardWrapper.getCard());
                     removeCard(cardWrapper);
+
                     UnitCardActions.doActionWhenPlaced(cardWrapper.getCard(), userID, rowNumber, "muster", this);
                 }
                 case SCORCH -> {
@@ -430,6 +411,7 @@ public class MatchTable {
     public void placeCardNoAbility(CardWrapper cardWrapper, int userID, int rowNumber) {
         ArrayList<Card> row = getRowByID(userID, rowNumber);
         row.add(cardWrapper.getCard());
+        removeCard(cardWrapper);
     }
 
     public void removeCard(CardWrapper cardWrapper) {
@@ -575,8 +557,10 @@ public class MatchTable {
         if (Objects.equals(cardWrapper.getCard().getName(), "Clear Weather")) {
             spellCards.add(cardWrapper.getCard());
             removeCard(cardWrapper);
+            int id = 0;
+            if (!isFirstPlayerTurn) id = 1;
             while (!spellCards.isEmpty()) {
-                addToDeadCards(0, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
+                addToDeadCards(id, new CardWrapper(spellCards.getLast(), Origin.WEATHER));
             }
         } else if (Objects.equals(cardWrapper.getCard().getName(), "Scorch")) {
             removeCard(cardWrapper);
@@ -608,9 +592,10 @@ public class MatchTable {
                 firstPlayerDeckCards.add(cardWrapper.getCard());
                 break;
             case 1:
-                secondPlayerDeadCards.add(cardWrapper.getCard());
+                secondPlayerDeckCards.add(cardWrapper.getCard());
                 break;
         }
+        removeCard(cardWrapper);
     }
 
     //places card to dead cards
@@ -655,7 +640,11 @@ public class MatchTable {
 
 
     public void leaderAction() {
-        LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
+        if (isFirstPlayerTurn) {
+            if (!isFirstPlayerLeaderUsed) LeaderActions.doActionByName(firstPlayerLeader.getName(), this);
+        } else {
+            if (!isSecondPlayerLeaderUsed) LeaderActions.doActionByName(secondPlayerLeader.getName(), this);
+        }
     }
 
     public void factionAction(int playerID, Factions faction) {
@@ -673,14 +662,12 @@ public class MatchTable {
         }
     }
 
-    public void endTurn(int userID) {
-        switch (userID) {
-            case 0:
-                if (!secondPlayerPassed) isFirstPlayerTurn = false;
-                break;
-            case 1:
-                if (!firstPlayerPassed) isFirstPlayerTurn = true;
-                break;
+    public void endTurn() {
+        if (isFirstPlayerTurn) {
+            if (!secondPlayerPassed) isFirstPlayerTurn = false;
+
+        } else {
+            if (!firstPlayerPassed) isFirstPlayerTurn = true;
         }
 
     }
@@ -743,7 +730,7 @@ public class MatchTable {
     }
 
     public boolean isMatchFinished() {
-        return firstPlayerCrystals == 2 || secondPlayerCrystals == 2;
+        return firstPlayerCrystals == 0 || secondPlayerCrystals == 0;
     }
 
     public void clearMatchTable() {
@@ -824,6 +811,10 @@ public class MatchTable {
         secondPlayerCloseCombatBoostCard = null;
         secondPlayerSiegeBoostCard = null;
         secondPlayerRangedBoostCard = null;
+        secondPlayerPassed = false;
+        firstPlayerPassed = false;
+        isFirstPlayerTurn = !isFirstPlayerTurn;
+        clearSpellCards();
 
     }
 
@@ -847,6 +838,16 @@ public class MatchTable {
         if (firstPlayerCrystals == 2) return firstPlayer;
         if (secondPlayerCrystals == 2) return secondPlayer;
         return null;
+    }
+
+
+    public void doMedic(CardWrapper cardWrapper) {
+        if (isFirstPlayerTurn) {
+            firstPlayerInPlayCards.add(cardWrapper.getCard());
+        } else {
+            secondPlayerInPlayCards.add(cardWrapper.getCard());
+        }
+        removeCard(cardWrapper);
     }
 
     public static int getRowPower(LeaderEffects leaderEffects,
@@ -1060,8 +1061,29 @@ public class MatchTable {
     }
 
     public void initilizeTable() {
-        ArrayList<Card> firstPlayerCards = randomSelectedCards(firstPlayerDeckCards);
-        ArrayList<Card> secondPlayerCards = randomSelectedCards(secondPlayerDeckCards);
+        ArrayList<Card> firstPlayerCards;
+        ArrayList<Card> secondPlayerCards;
+        firstPlayerLeader = firstPlayer.getLeader();
+        secondPlayerLeader = secondPlayer.getLeader();
+        firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
+        secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+        if (Objects.equals(firstPlayer.getFaction(), "Scoia’tael") && !Objects.equals(secondPlayer.getFaction(), "Scoia’tael")) {
+            isFirstPlayerTurn = true;
+        } else if (!Objects.equals(firstPlayer.getFaction(), "Scoia’tael") && Objects.equals(secondPlayer.getFaction(), "Scoia’tael")) {
+            isFirstPlayerTurn = false;
+        } else {
+            isFirstPlayerTurn = Game.random.nextBoolean();
+        }
+        if (Objects.equals(firstPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
+            firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 11);
+        } else {
+            firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 10);
+        }
+        if (Objects.equals(secondPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
+            secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 11);
+        } else {
+            secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
+        }
         for (Card card : firstPlayerCards) {
             addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
         }
@@ -1112,7 +1134,7 @@ public class MatchTable {
     private static int getNumberOfCards(Card card, ArrayList<Card> cards) {
         int num = 0;
         for (Card card1 : cards) {
-            if (card1.equals(card)) num++;
+            if (card1.getName().equals(card.getName())) num++;
         }
         return num;
     }
@@ -1144,17 +1166,24 @@ public class MatchTable {
         int berserkerNum = 0;
         ArrayList<Card> toRemove = new ArrayList<>();
         for (Card card : row) {
-            UnitCard unitCard = (UnitCard) card;
-            if (unitCard.getAbility() == Ability.BERSERKER) {
-                berserkerNum++;
-                toRemove.add(unitCard);
+            if (card instanceof UnitCard unitCard) {
+                if (unitCard.getAbility() == Ability.BERSERKER) {
+                    berserkerNum++;
+                    toRemove.add(unitCard);
+                }
             }
+            if (card instanceof Hero hero) {
+                if (hero.getAbility() == Ability.BERSERKER) {
+                    berserkerNum++;
+                    toRemove.add(hero);
+                }
+            }
+
         }
         row.removeAll(toRemove);
         UnitCard unitCard = new UnitCard(UnitCardInfo.VIDKAARL);
         for (int i = 0; i < berserkerNum; i++) {
             row.add(unitCard);
-
         }
     }
 
@@ -1178,5 +1207,6 @@ public class MatchTable {
         //todo
 
     }
+
 
 }
