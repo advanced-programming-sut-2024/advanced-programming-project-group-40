@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import models.Game;
 
 public class ChangeInfoMenu extends PlayMenu{
     public static void main(String[] args) {
@@ -11,7 +12,7 @@ public class ChangeInfoMenu extends PlayMenu{
     }
     @Override
     public void start(Stage stage) throws Exception {
-        MainMenu.stage = stage;
+        Game.stage = stage;
         Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/ChangeInfoFXML.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();

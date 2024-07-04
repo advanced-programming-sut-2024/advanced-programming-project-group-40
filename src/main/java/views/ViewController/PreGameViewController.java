@@ -133,7 +133,7 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
         factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
-                (GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress))
+                        (GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress))
                 .toExternalForm())).getImage());
         setUpLabels();
 
@@ -199,7 +199,7 @@ public class PreGameViewController {
     private void setUpFactionImages() {
         for (String cardName : factionName) {
             factions.put(cardName, new ImageView(new Image(Objects.requireNonNull
-                    (GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".jpg"))
+                            (GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".jpg"))
                     .toExternalForm())));
         }
 
@@ -338,23 +338,11 @@ public class PreGameViewController {
 
         name.setText(cardsName.get(tmp[2]));
         if (changeFactionClicked) {
-            loggedInUser.setFaction(Factions.toFaction(cardsName.get(tmp[2])));
-            loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
-            factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
-                    (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
-            leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull
-                    (Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction
-                            (loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
-            factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
-            setUpLeadersImages();
+            updateFaction(cardsName.get(tmp[2]));
         }
         if (changeLeaderClicked) {
             loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
             description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
-            loggedInUser.setFaction(Factions.toFaction(cardsName.get(tmp[2])));
-            selectedCardFlowPane.getChildren().clear();
-            selectCardFlowPane.getChildren().clear();
-            setUpCards();
         }
 
     }
@@ -388,7 +376,7 @@ public class PreGameViewController {
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
         try {
-            new MainMenu().start(PreGameMenu.stage);
+            new MainMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -415,7 +403,7 @@ public class PreGameViewController {
         hBox.getChildren().add(imageView);
         Label label = new Label(Integer.toString(newCard.getMaxCapacity()
                 - loggedInUser.cardsInDeckFromCardName(newCard.getName())));
-        if (label.getText().equals("0")){
+        if (label.getText().equals("0")) {
             return;
         }
         if (isCardSelected) {
@@ -479,7 +467,7 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
         setUpCards();
         setUpLabels();
-        leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
+        factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Upload Deck"
@@ -501,5 +489,24 @@ public class PreGameViewController {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void updateFaction(String name) {
+        loggedInUser.setFaction(Factions.toFaction(name));
+        loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
+        factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
+                (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
+        leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull
+                (Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction
+                        (loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
+        factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
+        setUpLeadersImages();
+        selectCardFlowPane.getChildren().clear();
+        selectedCardFlowPane.getChildren().clear();
+        loggedInUser.getDeckCards().clear();
+        setUpCards();
+        setUpSelectedCards();
+        setUpLabels();
+        setUpLeadersImages();
     }
 }

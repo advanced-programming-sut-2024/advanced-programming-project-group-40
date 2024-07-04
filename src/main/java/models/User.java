@@ -5,6 +5,7 @@ import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
+import java.net.InetAddress;
 import java.util.*;
 
 public class User {
@@ -24,12 +25,12 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
     private int totalUnitCardsStrength;
-
+    public InetAddress ip;
+    public int port;
 
     public User(String username, String password, String email, String nickName) {
         this.username = username;

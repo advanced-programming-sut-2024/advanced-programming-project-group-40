@@ -21,6 +21,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Game.stage = stage;
         URL url = Main.class.getResource("/FXML/LoginMenuFXML.fxml");
         assert url != null;
         Scene scene = new Scene(FXMLLoader.load(url));
