@@ -8,7 +8,7 @@ import views.*;
 public class MainViewController {
     public void goToGameMenu(MouseEvent mouseEvent) {
         try {
-            new PreGameMenu().start(MainMenu.stage);
+            new PreGameMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -16,7 +16,7 @@ public class MainViewController {
 
     public void goToProfileMenu(MouseEvent mouseEvent) {
         try {
-            new ProfileMenu().start(MainMenu.stage);
+            new ProfileMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

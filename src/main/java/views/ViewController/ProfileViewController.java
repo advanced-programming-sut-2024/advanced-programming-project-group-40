@@ -1,22 +1,30 @@
 package views.ViewController;
 
 
+import controllers.MenuController.ProfileMenuController;
+import enums.AlertInfo.AlertHeader;
+import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import models.AlertMaker;
 import models.Game;
 import models.User;
 import views.*;
 
 
-
 public class ProfileViewController {
 
-    public VBox invitations;
-    public VBox invitationState;
-    public VBox receives;
-    public VBox receiveState;
+    public VBox Following;
+    public VBox FollowingState;
+    public VBox Followers;
+    public VBox FollowersState;
+    public TextField targetUser;
     @FXML
     private Label username;
     @FXML
@@ -37,7 +45,7 @@ public class ProfileViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new MainMenu().start(ProfileMenu.stage);
+            new MainMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -73,7 +81,30 @@ public class ProfileViewController {
         }
     }
 
-    public void search(MouseEvent mouseEvent) {
+    public void search(MouseEvent mouseEvent) throws Exception {
+        AlertMaker alertMaker = ProfileMenuController.search(targetUser.getText());
+        alertMaker.showAlert();
+        if (alertMaker.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
+            if (alertMaker.isOK()) {
+                TargetProfileViewController.setTargetUser(Game.getUserByName(targetUser.getText()));
+                Stage stage = new Stage();
+                new TargetProfile().start(stage);
+                stage.setOnCloseRequest((WindowEvent event) -> {
+                    sendRequest();
+                });
+            } else {
+                sendRequest();
+            }
+        }
+    }
 
+    private void sendRequest() {
+        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
+        alertMaker.showAlert();
+        if (alertMaker.isOK()) {
+            User target = Game.getUserByName(targetUser.getText());
+            target.addFollowers(Game.getLoggedInUser(), 0);
+            Game.getLoggedInUser().addFollowing(target, false);
+        }
     }
 }

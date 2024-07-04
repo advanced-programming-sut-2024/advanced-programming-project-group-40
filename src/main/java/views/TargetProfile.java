@@ -1,23 +1,19 @@
 package views;
 
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import models.Game;
 
 import java.util.Objects;
-import java.util.Scanner;
 
-public class MainMenu extends PlayMenu {
-    public static void main(String[] args) {
-        launch(args);
-    }
+public class TargetProfile extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        Game.stage = stage;
-        Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/MainMenuFXML.fxml"));
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("/FXML/TargetProfileFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }
+
 }

@@ -17,7 +17,10 @@ public class SignUpMenuController extends UserInfoController {
     }
 
 
-    public static AlertMaker signUp(int questionNumber, String answer, String confirmAnswer) {
+    public static AlertMaker signUp(String questionNum, String answer, String confirmAnswer) {
+        if (!questionNum.matches("[0-9]+"))
+            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.INVALID_QUESTION_NUMBER.toString());
+        int questionNumber = Integer.parseInt(questionNum);
         if (questionNumber > 5 || questionNumber < 1)
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.INVALID_QUESTION_NUMBER.toString());
         if (!answer.equals(confirmAnswer))

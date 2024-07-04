@@ -124,7 +124,7 @@
                 <content>
                     <HBox prefHeight="450.0" prefWidth="554.0" styleClass="Something">
                         <children>
-                            <VBox fx:id="invitations" prefHeight="700.0" prefWidth="136.0" styleClass="Something">
+                            <VBox fx:id="Following" prefHeight="700.0" prefWidth="136.0" styleClass="Something">
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="131.0" styleClass="Something">
                                         <center>
@@ -135,7 +135,7 @@
                                         </center></BorderPane>
                                 </children>
                             </VBox>
-                            <VBox fx:id="invitationState" prefHeight="449.0" prefWidth="140.0" styleClass="Something">
+                            <VBox fx:id="FollowingState" prefHeight="449.0" prefWidth="140.0" styleClass="Something">
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="200.0" styleClass="Something">
                                         <center>
@@ -146,7 +146,7 @@
                                         </center></BorderPane>
                                 </children>
                             </VBox>
-                            <VBox fx:id="receives" prefHeight="700.0" prefWidth="136.0" styleClass="Something">
+                            <VBox fx:id="Followers" prefHeight="700.0" prefWidth="136.0" styleClass="Something">
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="131.0" styleClass="Something">
                                         <center>
@@ -157,7 +157,7 @@
                                         </center></BorderPane>
                                 </children>
                             </VBox>
-                            <VBox fx:id="receiveState" prefHeight="449.0" prefWidth="140.0" styleClass="Something">
+                            <VBox fx:id="FollowersState" prefHeight="449.0" prefWidth="140.0" styleClass="Something">
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="200.0" styleClass="Something">
                                         <center>

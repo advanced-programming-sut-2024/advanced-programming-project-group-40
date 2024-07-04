@@ -7,10 +7,10 @@ import models.AlertMaker;
 
 public class ProfileMenuController extends UserInfoController {
 
-    public AlertMaker search(String username) {
-        if (!isUsernameUnique(username)) {
+    public static AlertMaker search(String username) {
+        if (isUsernameUnique(username))
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.NOT_FOUND.toString());
-        }
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEE_PROFILE.toString());
     }
+
 }
