@@ -680,44 +680,44 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
     }
 
-    public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
+    public void secondPlayerSiegeClicked( ) {
         GameMenuController.sendCommand("secondPlayerSiegeClicked");
     }
 
-    public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
+    public void secondPlayerRangedClicked() {
         GameMenuController.sendCommand("secondPlayerRangedClicked");
     }
 
 
-    public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
+    public void secondPlayerCloseCombatClicked( ) {
         GameMenuController.sendCommand("secondPlayerCloseCombatClicked");
     }
 
-    public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
+    public void firstPlayerCloseCombatClicked( ) {
         GameMenuController.sendCommand("firstPlayerCloseCombatClicked");
     }
 
-    public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
+    public void firstPlayerRangedClicked( ) {
         GameMenuController.sendCommand("firstPlayerRangedClicked");
     }
 
-    public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
+    public void firstPlayerSiegeClicked( ) {
         GameMenuController.sendCommand("firstPlayerSiegeClicked");
     }
 
-    public void closeCombatBoostClicked(MouseEvent mouseEvent) {
+    public void closeCombatBoostClicked( ) {
         GameMenuController.sendCommand("0");
     }
 
-    public void rangedBoostClicked(MouseEvent mouseEvent) {
+    public void rangedBoostClicked( ) {
         GameMenuController.sendCommand("1");
     }
 
-    public void siegeBoostClicked(MouseEvent mouseEvent) {
+    public void siegeBoostClicked( ) {
         GameMenuController.sendCommand("2");
     }
 
-    public void weatherClicked(MouseEvent mouseEvent) {
+    public void weatherClicked( ) {
         GameMenuController.sendCommand("weatherClicked");
     }
 
@@ -725,12 +725,12 @@ public class GameViewController extends PlayMenu implements Initializable {
         return firstPlayerDiscard;
     }
 
-    public void LeaderAction(MouseEvent mouseEvent) {
+    public void LeaderAction( ) {
         GameMenuController.sendCommand("LeaderAction");
         update();
     }
 
-    public void PassRound(MouseEvent mouseEvent) {
+    public void PassRound( ) {
         GameMenuController.sendCommand("PassRound");
     }
 
@@ -870,7 +870,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         messageInput.setText("");
     }
 
-    public void SendMessage(MouseEvent mouseEvent) {
+    public void SendMessage( ) {
         if (!spamThread.isAlive()) {
             if (Messages.getValue() != null) {
                 try {
