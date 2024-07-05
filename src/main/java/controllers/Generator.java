@@ -3,6 +3,7 @@ package controllers;
 import controllers.MenuController.UserInfoController;
 
 import java.security.SecureRandom;
+import java.util.Random;
 
 public class Generator {
     public static SecureRandom random = new SecureRandom();
@@ -54,4 +55,13 @@ public class Generator {
 
         return password.toString();
     }
+
+
+    public static String generateCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000); // generate a 6-digit number
+        return String.valueOf(code);
+    }
 }
+
+
