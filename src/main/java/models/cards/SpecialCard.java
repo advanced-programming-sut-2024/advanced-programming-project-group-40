@@ -5,10 +5,15 @@ import enums.cards.SpecialCardInfo;
 import models.Game;
 
 public class SpecialCard extends Card{
-
+private SpecialCardInfo specialCardInfo;
     public SpecialCard(SpecialCardInfo specialCardInfo) {
 
         super(specialCardInfo.name, specialCardInfo.planeImage, specialCardInfo.cardImage, specialCardInfo.maxCapacity, Factions.NEUTRAL);
+        this.specialCardInfo = specialCardInfo;
+    }
+
+    public SpecialCardInfo getSpecialCardInfo() {
+        return specialCardInfo;
     }
 
     public int getMaxCapacity() {
