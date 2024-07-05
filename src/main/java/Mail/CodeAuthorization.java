@@ -7,7 +7,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-public class EmailUtil {
+public class CodeAuthorization {
     private static String sentCode;
     public static void main(String[] args) {
         // Simulate user login
