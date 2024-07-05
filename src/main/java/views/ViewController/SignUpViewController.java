@@ -4,28 +4,23 @@ import controllers.Generator;
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
+import views.SignUpMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignUpViewController {
-    public VBox authorizationVbox;
-    public VBox signUpVBox;
     @FXML
     private Label usernameError;
     @FXML
@@ -56,7 +51,6 @@ public class SignUpViewController {
 
     @FXML
     public void initialize() {
-        authorizationVbox.setVisible(false);
         passwordConfirmation.setDisable(true);
         randomNewPassword = "";
         // Add a listener to the first text field
@@ -136,29 +130,10 @@ public class SignUpViewController {
         if (!validFiled.containsValue(false) && !nickname.getText().isEmpty()) {
             AlertMaker alert = SignUpMenuController.Continue(username.getText());
             alert.showAlert();
-            if (alert.getAlertType().equals(Alert.AlertType.ERROR)) {
-                if (alert.isOK()) {
-                    SignUpMenuController.createUser(username.getText(), password.getText(), nickname.getText(), email.getText());
-                }
-            } else {
-                if (alert.isOK()) {
-                    signUpVBox.setVisible(false);
-                    authorizationVbox.setVisible(true);
-                    if (SignUpMenuController.checkLink(email.getText())) {
-                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
-                            goToQuestionPage();
-                        }));
-                        timer.setCycleCount(1);
-                        timer.play();
-                    } else {
-                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
-                            signUpVBox.setVisible(true);
-                            authorizationVbox.setVisible(false);
-                        }));
-                        timer.setCycleCount(1);
-                        timer.play();
-                    }
-                }
+            if (alert.isOK()) {
+                SignUpMenuController.createUser(username.getText(), password.getText(), email.getText()
+                        , nickname.getText());
+                goToQuestionPage();
             }
         }
     }

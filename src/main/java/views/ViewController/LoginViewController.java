@@ -1,5 +1,6 @@
 package views.ViewController;
 
+import Mail.CodeAuthorization;
 import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -12,6 +13,8 @@ import models.User;
 import views.ForgetPasswordMenu;
 import views.MainMenu;
 import views.SignUpMenu;
+
+import java.util.Objects;
 
 public class LoginViewController {
     public TextField authorizationCode;

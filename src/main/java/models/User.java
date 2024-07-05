@@ -25,9 +25,9 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    private ArrayList<User> followers = new ArrayList<>();
-    private ArrayList<User> followings = new ArrayList<>();
-    private ArrayList<User> requests = new ArrayList<>();
+    private transient ArrayList<User> followers = new ArrayList<>();
+    private transient ArrayList<User> followings = new ArrayList<>();
+    private transient ArrayList<User> requests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
@@ -36,9 +36,7 @@ public class User {
     public User(String username, String password, String email, String nickName) {
         this.username = username;
         this.password = password;
-        System.out.println(email);
         this.email = email;
-        System.out.println(nickName);
         this.nickname = nickName;
         this.stayLoggedIn = false;
         faction = Factions.MONSTERS;

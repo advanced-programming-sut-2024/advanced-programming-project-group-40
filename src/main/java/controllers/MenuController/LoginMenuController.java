@@ -1,5 +1,10 @@
 package controllers.MenuController;
 
+import Server.Client;
+import Server.ClientHandler;
+import Server.Messages.Client.LoginMessages;
+import Server.Messages.ServerMessages;
+import Server.Server;
 import javafx.scene.control.Alert.AlertType;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.LoginMenuMessages;
@@ -14,10 +19,16 @@ public class LoginMenuController extends UserInfoController {
         User user;
         if (username.isEmpty() || password.isEmpty())
             return new AlertMaker(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.EMPTY_FILED.toString());
-        if ((user = Game.getUserByName(username)) == null)
+        LoginMessages loginMessages = new LoginMessages(username, password);
+        ServerMessages serverMessages = ClientHandler.client.login(loginMessages);
+        String result = serverMessages.getAdditionalInfo();
+        boolean success = serverMessages.wasSuccessfull();
+        if (!success && result.equals(LoginMenuMessages.INCORRECT_USERNAME.toString()))
             return new AlertMaker(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_USERNAME.toString());
-        if (!user.getPassword().equals(password))
+        if (!success && result.equals(LoginMenuMessages.INCORRECT_PASSWORD.toString()))
             return new AlertMaker(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_PASSWORD.toString());
+        user = Game.getUserByName(username);
+        System.out.println(user);
         Game.setLoggedInUser(user);
         return new AlertMaker(AlertType.CONFIRMATION, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.STAY_LOGGED_IN.toString());
     }
