@@ -111,6 +111,8 @@ public class Server extends Thread {
             );
             clientRequest = receiveBuffer.readUTF();
             System.out.println(STR."Client request: \{clientRequest}");
+            System.out.println(socket.toString());
+            System.out.println(connections.size());
             sendBuffer.close();
             receiveBuffer.close();
             socket.close();

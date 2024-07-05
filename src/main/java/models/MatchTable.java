@@ -736,14 +736,14 @@ public class MatchTable {
             for (Card card : getRowByID(0, i)) {
                 if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = new UnitCard(UnitCardInfo.BERSERKER);
                         deleteCard = card;
                         break;
                     }
                 }
                 if (card instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = new UnitCard(UnitCardInfo.BERSERKER);;
                         deleteCard = card;
                         break;
                     }
@@ -770,7 +770,7 @@ public class MatchTable {
             for (Card card : getRowByID(1, i)) {
                 if (card instanceof Hero hero) {
                     if (hero.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = new UnitCard(UnitCardInfo.BERSERKER);;
                         deleteCard = card;
                         break;
                     }
@@ -778,7 +778,7 @@ public class MatchTable {
                 }
                 if (card instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.TRANSFORMER) {
-                        replaceCard = UnitCardInfo.getRegularCardByName("bear");
+                        replaceCard = new UnitCard(UnitCardInfo.BERSERKER);;
                         deleteCard = card;
                         break;
                     }

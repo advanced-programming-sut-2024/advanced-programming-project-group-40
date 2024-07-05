@@ -5,7 +5,9 @@ import enums.Factions;
 import enums.Unit;
 import models.cards.UnitCard;
 
-public enum UnitCardInfo {
+import java.util.ArrayList;
+
+public enum UnitCardInfo implements CardInfo {
     BERSERKER("Berserker", "/Assets/Cards/Plane/skellige_berserker.jpg", "/Assets/Cards/Detailed/skellige_berserker.jpg", 4, 1, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.BERSERKER),
     VIDKAARL("Vidkaarl", "/Assets/Cards/Plane/skellige_vildkaarl.jpg", "/Assets/Cards/Detailed/skellige_vildkaarl.jpg", 14, 1, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.MORALE_BOOST),
     SVANRIGE("Svanrige", "/Assets/Cards/Plane/skellige_svanrige.jpg", "/Assets/Cards/Detailed/skellige_svanrige.jpg", 4, 1, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.NONE),
@@ -142,7 +144,6 @@ public enum UnitCardInfo {
     public final Unit unit;
     public final Factions faction;
     public final Ability ability;
-
     UnitCardInfo(String name, String planeImage, String cardImage, int power, int maxCapacity, Unit unit, Factions faction, Ability ability) {
         this.name = name;
         this.planeImage = planeImage;
@@ -155,7 +156,8 @@ public enum UnitCardInfo {
     }
 
 
-    public static UnitCard getRegularCardByName(String name) {
+    public static UnitCardInfo getRegularCardByName(String name) {
+
         return null;
     }
 
