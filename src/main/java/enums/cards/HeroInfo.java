@@ -4,7 +4,7 @@ import enums.Ability;
 import enums.Factions;
 import enums.Unit;
 
-public enum HeroInfo {
+public enum HeroInfo implements CardInfo {
     Cerys("Cerys", "/Assets/Cards/Plane/skellige_cerys.jpg", "/Assets/Cards/Detailed/skellige_cerys.jpg", 10, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.MUSTER),
     Kambi("Kambi", "/Assets/Cards/Plane/skellige_kambi.jpg", "/Assets/Cards/Detailed/skellige_kambi.jpg", 11, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.TRANSFORMER),
     Ermion("Ermion", "/Assets/Cards/Plane/skellige_ermion.jpg", "/Assets/Cards/Detailed/skellige_ermion.jpg", 8, Unit.RANGED, Factions.SKELLIGE, Ability.MARDROEME),
@@ -47,4 +47,9 @@ public enum HeroInfo {
         this.ability = ability;
     }
 
+
+    @Override
+    public String getType() {
+        return "hero";
+    }
 }

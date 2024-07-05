@@ -11,13 +11,19 @@ public class UnitCard extends Card{
     private int showingPower;
     private final Unit unit;
     private final Ability ability;
+    private UnitCardInfo unitCardInfo;
     public UnitCard(UnitCardInfo unitCardInfo) {
 
         super(unitCardInfo.name, unitCardInfo.planeImage, unitCardInfo.cardImage, unitCardInfo.maxCapacity, unitCardInfo.faction);
         this.constantPower = unitCardInfo.power;
         this.showingPower = constantPower;
         this.unit = unitCardInfo.unit;
+        this.unitCardInfo = unitCardInfo;
         this.ability = unitCardInfo.ability;
+    }
+
+    public UnitCardInfo getUnitCardInfo() {
+        return unitCardInfo;
     }
 
     public int getConstantPower() {
