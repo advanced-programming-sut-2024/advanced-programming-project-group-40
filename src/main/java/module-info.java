@@ -8,6 +8,7 @@ module advanced.programming.project.group {
     requires javafx.base;
     requires java.logging;
     requires java.desktop;
+    requires java.mail;
     exports views;
     opens views to javafx.fxml;
     opens enums to com.google.gson,com.fasterxml.jackson.databind;
