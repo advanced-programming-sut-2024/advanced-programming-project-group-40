@@ -2,27 +2,31 @@ package Server;
 
 import java.net.*;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 import java.io.*;
 
-import Server.Messages.Client.ClientMessages;
-import Server.Messages.Client.LoginMessages;
-import Server.Messages.ServerMessages;
 import com.google.gson.*;
-import enums.AlertInfo.messages.LoginMenuMessages;
-import models.User;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
     public Socket socket;
     private static Gson gsonAgent;
-    private static final ArrayList<User> allUsers = new ArrayList<>();
+
+    private static final String INTERNAL_ERROR = "internal server error";
+    private static final String INVALID_USERNAME = "no user exists with such username";
+    private static final String USERNAME_TAKEN = "this username is taken";
+    private static final String INVALID_TOKEN = "this token belongs to no user";
+    private static final String WRONG_PASSWORD = "wrong password";
+    private static final String BUSY_USER = "user is already logged in";
+
+    private static int WORKERS;
+
     private static final ArrayList<Socket> connections = new ArrayList<>();
 
     private static void setupServer() {
         try {
             serverSocket = new ServerSocket(8000);
+            WORKERS = 10;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,20 +78,26 @@ public class Server extends Thread {
         return sb.toString();
     }
 
-    private ClientMessages extractClientMessage(String clientStr) {
-        try {
-            ClientMessages clientMessage = gsonAgent.fromJson(clientStr, ClientMessages.class);
-            switch (clientMessage.getType()) {
-                case LOGIN:
-                    return gsonAgent.fromJson(clientStr, LoginMessages.class);
-                default:
-                    return null;
-            }
-        }
-        catch (Exception e) {
-            return null;
-        }
-    }
+//    private ClientMessage extractClientMessage(String clientStr) {
+//        try {
+//            ClientMessage clientMessage = gsonAgent.fromJson(clientStr, ClientMessage.class);
+//            switch (clientMessage.getType()) {
+//                case signupLogin:
+//                    return gsonAgent.fromJson(clientStr, SignupLoginMessage.class);
+//                case setbio:
+//                    return gsonAgent.fromJson(clientStr, SetBioMessage.class);
+//                case getbio:
+//                    return gsonAgent.fromJson(clientStr, GetBioMessage.class);
+//                case logout:
+//                    return gsonAgent.fromJson(clientStr, LogoutMessage.class);
+//                default:
+//                    return null;
+//            }
+//        }
+//        catch (Exception e) {
+//            return null;
+//        }
+//    }
 
 
     private void handleConnection(Socket socket) {
@@ -100,22 +110,9 @@ public class Server extends Thread {
                     new BufferedOutputStream(socket.getOutputStream())
             );
             clientRequest = receiveBuffer.readUTF();
-            ClientMessages clientMessage = extractClientMessage(clientRequest);
-            switch (Objects.requireNonNull(clientMessage).getType()){
-                case LOGIN:
-                    LoginMessages loginMessage = (LoginMessages) clientMessage;
-                    User user = getUserByUsername(loginMessage.getUsername());
-                    ServerMessages serverMessage;
-                    if (user == null) {
-                        serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
-                    } else if (!user.getPassword().equals(loginMessage.getPassword())) {
-                        serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_PASSWORD.toString());
-                    } else {
-                        serverMessage = new ServerMessages(true, LoginMenuMessages.LOGGED_IN_SUCCESSFULLY.toString());
-                    }
-                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
-                    break;
-            }
+            System.out.println(STR."Client request: \{clientRequest}");
+            System.out.println(socket.toString());
+            System.out.println(connections.size());
             sendBuffer.close();
             receiveBuffer.close();
             socket.close();
@@ -135,13 +132,6 @@ public class Server extends Thread {
             System.out.println("Server encountered a problem!");
             e.printStackTrace();
         }
-    }
-    public static User getUserByUsername(String username) {
-        for (User user : allUsers) {
-            if (user.getUsername().equals(username)) {
-                return user;
-            }
-        }
-        return null;
+
     }
 }

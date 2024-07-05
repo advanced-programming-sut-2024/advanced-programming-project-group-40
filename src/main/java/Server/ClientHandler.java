@@ -1,23 +1,22 @@
 package Server;
 
-import models.Game;
 import models.User;
-import views.LoginMenu;
-import views.Main;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class ClientHandler {
-    public static Client client;
-
-    static void run(String[] args) throws Exception {
-        Main.main(args);
+    private static Scanner scanner = new Scanner(System.in);
+    private static Client client;
+    static void run () {
+        System.out.println("Welcome!");
+        while (true) {
+            client.test();
+        }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         client = new Client("localhost", 8000);
-        run(args);
-    }
-}
+        run();
+    }}

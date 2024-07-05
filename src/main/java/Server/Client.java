@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-import Server.Messages.Client.LoginMessages;
-import Server.Messages.ServerMessages;
 import com.google.gson.*;
 
 
@@ -76,15 +74,6 @@ public class Client {
         String input = scanner.nextLine();
         sendMessage(input);
         endConnection();
-    }
-
-    public ServerMessages login(LoginMessages loginMessages) {
-        establishConnection();
-        sendMessage(gsonAgent.toJson(loginMessages));
-        String response = receiveResponse();
-        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
-        endConnection();
-        return serverMessages;
     }
 
 
