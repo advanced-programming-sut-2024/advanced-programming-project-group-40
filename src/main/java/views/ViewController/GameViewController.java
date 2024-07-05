@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -39,8 +40,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
+
     private GameBoardVisualData visualData;
     private final Stage tempStage = new Stage();
+
     public void setVisualData(String Json) {
         GameBoardVisualData temp;
         temp = GameBoardVisualData.deSerialize(Json);
@@ -49,7 +52,8 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
 
-
+    @FXML
+    private ChoiceBox<String> Messages;
     @FXML
     private HBox secondPlayerLeaderImage;
     @FXML
@@ -141,11 +145,16 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        String[] messages = {"kys", "ALI ABD'EL AZIZ", "YOU MAD TERRORIST"
+                , "sure buddy",
+                "nice argument senator why don't you back it up with a source?","UwU"};
+        Messages.getItems().addAll(messages);
         GameMenuController.setGameViewController2(this);
         GameMenuController.initiateDeck();
         InitiateCardEvents();
         update();
     }
+
     private static Origin GetDestination(Card selectedCard) {
         if (selectedCard instanceof UnitCard unitCard) {
             if (unitCard.getAbility() == Ability.SPY) {
@@ -263,6 +272,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
 
     }
+
     private void InitiateCardEvents(Pane pane) {
         ArrayList<Card> cards = new ArrayList<>();
         getCards(pane, cards);
@@ -478,8 +488,7 @@ public class GameViewController extends PlayMenu implements Initializable {
             firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
             firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
             secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-        }
-        else {
+        } else {
             if (visualData.getLeader(1) != null) {
                 if (firstPlayerLeaderImage != null) {
                     if (firstPlayerLeaderImage.getChildren().isEmpty()) {
@@ -714,6 +723,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         tempStage.show();
         InitiateCardEvents(hBox);
     }
+
     public void MakeCommanderOfRedRidersWindow(boolean isFirstPlayerTurn) {
         tempStage.setHeight(140);
         tempStage.setWidth(800);
@@ -752,6 +762,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         tempStage.show();
         InitiateCardEvents(hBox);
     }
+
     public void MakeMedicWindow(boolean isFirstPlayerTurn) {
         this.getFirstPlayerDiscard().getChildren().clear();
         tempStage.setHeight(140);
@@ -768,6 +779,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         tempStage.show();
         InitiateCardEvents(hBox);
     }
+
     public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
         ArrayList<Card> randomCards = new ArrayList<>();
         int i = 0;
@@ -793,15 +805,15 @@ public class GameViewController extends PlayMenu implements Initializable {
         HBox hBox = new HBox();
         Scene scene = new Scene(hBox);
         if (isFirstPlayerTurn) {
-            for (Card card : visualData.getCardArrayByArrayName("firstPlayerDiscard")){
-                if (!(card instanceof Hero)){
+            for (Card card : visualData.getCardArrayByArrayName("firstPlayerDiscard")) {
+                if (!(card instanceof Hero)) {
                     hBox.getChildren().add(card);
                 }
             }
 
         } else {
-            for (Card card : visualData.getCardArrayByArrayName("secondPlayerDiscard")){
-                if (!(card instanceof Hero)){
+            for (Card card : visualData.getCardArrayByArrayName("secondPlayerDiscard")) {
+                if (!(card instanceof Hero)) {
                     hBox.getChildren().add(card);
                 }
             }
@@ -810,6 +822,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         tempStage.show();
         InitiateCardEvents(hBox);
     }
+
     public void MakeHisImperialMajestyWindow(boolean isFirstPlayerTurn) {
         tempStage.setHeight(140);
         tempStage.setWidth(800);
@@ -824,5 +837,9 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
         tempStage.setScene(scene);
         tempStage.show();
+    }
+
+    public void SendMessage(MouseEvent mouseEvent) {
+        if (Messages.getValue() != null) System.out.println(Messages.getValue());
     }
 }
