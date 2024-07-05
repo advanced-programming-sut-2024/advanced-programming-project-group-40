@@ -45,7 +45,7 @@ public class User {
         leader = new Leader(LeaderInfo.BRINGER_OF_DEATH);
     }
 
-    public int getRank() {
+    public int  getRank() {
         return 0;
     }
 
@@ -65,6 +65,7 @@ public class User {
     }
 
     public String getUsername() {
+        int name;
         return username;
     }
 
