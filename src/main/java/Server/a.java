@@ -22,6 +22,7 @@ public class a extends Thread {
                     Client.clearBuffer(buffer);
                     buffer.clear();
                 }
+
                 Thread.sleep(500);
             }
         } catch (IOException e) {
