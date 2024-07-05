@@ -5,15 +5,16 @@ import Server.ClientHandler;
 import Server.Messages.Client.LoginMessages;
 import Server.Messages.ServerMessages;
 import Server.Server;
-import javafx.scene.control.Alert.AlertType;
+import Mail.CodeAuthorization;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.LoginMenuMessages;
+import javafx.scene.control.Alert.AlertType;
 import models.AlertMaker;
 import models.Game;
-import models.Result;
 import models.User;
 
 public class LoginMenuController extends UserInfoController {
+
 
     public static AlertMaker signIn(String username, String password) {
         User user;
@@ -41,5 +42,11 @@ public class LoginMenuController extends UserInfoController {
 
     }
 
+    public static AlertMaker checkCode(String code,String username) {
+        if (!CodeAuthorization.verifyCode(code))
+            return new AlertMaker(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INVALID_VERIFICATION_CODE.toString());
+        Game.setLoggedInUser(Game.getUserByName(username));
+        return new AlertMaker(AlertType.CONFIRMATION, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.STAY_LOGGED_IN.toString());
+    }
 
 }

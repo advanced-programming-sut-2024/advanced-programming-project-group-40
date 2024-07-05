@@ -1,5 +1,6 @@
 package controllers.MenuController;
 
+import Mail.LinkAuthorization;
 import controllers.DataSaver;
 import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
@@ -12,7 +13,7 @@ import models.User;
 public class SignUpMenuController extends UserInfoController {
     public static AlertMaker Continue(String username) {
         if (!isUsernameUnique(username))
-            return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + Generator.generateUsername(username));
+            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + Generator.generateUsername(username));
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.CONTINUE.toString());
     }
 
@@ -37,4 +38,9 @@ public class SignUpMenuController extends UserInfoController {
         Game.setLoggedInUser(new User(username, password, email, nickname));
     }
 
+
+    public static boolean checkLink(String email) {
+        LinkAuthorization.sendLink(email);
+        return LinkAuthorization.verifyLink();
+    }
 }

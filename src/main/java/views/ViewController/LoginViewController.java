@@ -1,30 +1,47 @@
 package views.ViewController;
 
+import Mail.CodeAuthorization;
 import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import models.AlertMaker;
 import models.Game;
 import models.User;
-import views.*;
+import views.ForgetPasswordMenu;
+import views.MainMenu;
+import views.SignUpMenu;
+
+import java.util.Objects;
 
 public class LoginViewController {
+    public TextField authorizationCode;
+    public VBox userPassVbox;
+    public VBox authorizationVbox;
     @FXML
     private TextField username;
     @FXML
     private TextField password;
+
+    public void initialize() {
+        authorizationVbox.setVisible(false);
+    }
 
     public void signInClicked() {
         if (username.getText().equals("a") && password.getText().equals("a")) {
             Game.setLoggedInUser(new User("a", "a", "ahay@ahay.com", "ahay"));
         } else {
             AlertMaker alert = LoginMenuController.signIn(username.getText(), password.getText());
-            alert.showAlert();
-            if (alert.isOK())
-                LoginMenuController.stayLoggedInSelected();
-            else return;
+            if (alert.getAlertType().equals(Alert.AlertType.ERROR)) {
+                alert.showAlert();
+                return;
+            }
         }
-        goToMainMenu();
+        userPassVbox.setVisible(false);
+        authorizationVbox.setVisible(true);
+        CodeAuthorization.sendCode(Objects.requireNonNull(Game.getUserByName(username.getText())).getEmail());
     }
 
     public void goToForgetPassword() {
@@ -51,4 +68,17 @@ public class LoginViewController {
         }
     }
 
+
+    public void verifyClicked(MouseEvent mouseEvent) {
+        AlertMaker alert = LoginMenuController.checkCode(authorizationCode.getText(), username.getText());
+        alert.showAlert();
+        if (alert.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
+            if (alert.isOK())
+                LoginMenuController.stayLoggedInSelected();
+            goToMainMenu();
+        } else {
+            authorizationVbox.setVisible(false);
+            userPassVbox.setVisible(true);
+        }
+    }
 }
