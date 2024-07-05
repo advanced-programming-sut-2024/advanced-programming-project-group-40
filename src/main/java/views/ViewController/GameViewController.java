@@ -3,7 +3,6 @@ package views.ViewController;
 
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
-import enums.Factions;
 import enums.Origin;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,9 +20,7 @@ import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import models.Game;
-import models.MatchTable;
-import models.User;
+import Server.GameServer;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import views.Main;
@@ -135,7 +132,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameMenuController.setGameViewController2(this);
-        Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
+        GameServer.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
         GameMenuController.initiateDeck(GameMenuController.getMatchTable());
         InitiateCardEvents();
         GameMenuController.sendData();

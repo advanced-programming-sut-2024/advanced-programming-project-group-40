@@ -11,11 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
-import models.Game;
+import Server.GameServer;
 import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
-import views.SignUpMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,12 +114,12 @@ public class SignUpViewController {
 
 
     private void goToQuestionPage() {
-        ArrayList<User> all = Game.getAllUsers();
+        ArrayList<User> all = GameServer.getAllUsers();
         for (User user : all) {
             System.out.println(user.getUsername());
         }
         try {
-            new SecurityQuestionMenu().start(Game.stage);
+            new SecurityQuestionMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -158,7 +157,7 @@ public class SignUpViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new LoginMenu().start(Game.stage);
+            new LoginMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

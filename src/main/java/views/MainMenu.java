@@ -4,10 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import models.Game;
-
-import java.util.Objects;
-import java.util.Scanner;
+import Server.GameServer;
 
 public class MainMenu extends PlayMenu {
     public static void main(String[] args) {
@@ -15,7 +12,7 @@ public class MainMenu extends PlayMenu {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        Game.stage = stage;
+        GameServer.stage = stage;
         Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/MainMenuFXML.fxml"));
         stage.setScene(new Scene(pane));
         stage.show();

@@ -7,9 +7,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import models.AlertMaker;
-import models.Game;
+import Server.GameServer;
 import views.MainMenu;
-import views.SecurityQuestionMenu;
 
 
 public class SecurityQuestionViewController {
@@ -44,7 +43,7 @@ public class SecurityQuestionViewController {
             alertMaker.showAlert();
             if (alertMaker.getAlertType() == Alert.AlertType.INFORMATION) {
                 try {
-                    new MainMenu().start(Game.stage);
+                    new MainMenu().start(GameServer.stage);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

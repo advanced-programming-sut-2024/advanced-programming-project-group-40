@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import models.Game;
+import Server.GameServer;
 import models.MatchTable;
 import models.User;
 import views.GameHistory;
@@ -41,7 +41,7 @@ public class GameHistoryViewController {
     @FXML
     private VBox winner;
     public void initialize(){
-        User user = Game.getLoggedInUser();
+        User user = GameServer.getLoggedInUser();
 
         numberOfGameHistory.textProperty().addListener((observable, oldValue, newValue) -> {
             changeChart(user, Integer.parseInt(numberOfGameHistory.getText()));

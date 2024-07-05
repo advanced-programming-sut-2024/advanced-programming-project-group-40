@@ -15,7 +15,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
-import models.Game;
+import Server.GameServer;
 import models.MatchTable;
 import models.User;
 import models.cards.*;
@@ -31,7 +31,6 @@ import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import views.MainMenu;
-import views.PreGameMenu;
 
 public class PreGameViewController {
     @FXML
@@ -102,7 +101,7 @@ public class PreGameViewController {
     private ArrayList<String> leaderAddresses = new ArrayList<String>();
     private boolean changeFactionClicked = false;
     private boolean changeLeaderClicked = false;
-    private User loggedInUser = Game.getLoggedInUser();
+    private User loggedInUser = GameServer.getLoggedInUser();
 
     @FXML
     private static void loadDeck(ArrayList<String> deckCards) {
@@ -133,7 +132,7 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
         factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
-                        (GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress))
+                        (GameView.class.getResource(GameServer.getLoggedInUser().getFaction().iconAddress))
                 .toExternalForm())).getImage());
         setUpLabels();
 
@@ -156,7 +155,7 @@ public class PreGameViewController {
 
     private void setUpCards() {
         Factions factions = loggedInUser.getFaction();
-        for (Card card : Game.getAllCards()) {
+        for (Card card : GameServer.getAllCards()) {
             if (card.getFaction().equals(factions) || card.getFaction().equals(Factions.NEUTRAL)) {
                 CreateNewCard(Objects.requireNonNull(Card.getCardByName(card.getName())), false);
             }
@@ -218,8 +217,8 @@ public class PreGameViewController {
     }
 
     private void setUpLeadersImages() {
-        leaderNames = LeaderInfo.getLeaderNameByFaction(Game.getLoggedInUser().getFaction());
-        leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
+        leaderNames = LeaderInfo.getLeaderNameByFaction(GameServer.getLoggedInUser().getFaction());
+        leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(GameServer.getLoggedInUser().getFaction());
         int count = 0;
         for (String cardName : leaderNames) {
             System.out.println(leaderAddresses.get(count));
@@ -376,7 +375,7 @@ public class PreGameViewController {
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
         try {
-            new MainMenu().start(Game.stage);
+            new MainMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -390,7 +389,7 @@ public class PreGameViewController {
     }
 
     private void CreateNewCard(Card newCard, boolean isCardSelected) {
-        User loggedInUser = Game.getLoggedInUser();
+        User loggedInUser = GameServer.getLoggedInUser();
         Pane pane = new Pane();
         HBox hBox = new HBox();
         newCard.setWidth(120);
@@ -434,7 +433,7 @@ public class PreGameViewController {
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
             newCard.addToSelected();
             addToSelectedCards(Objects.requireNonNull(Card.getCardByName(newCard.getName())));
-            Game.addToSelectedCards(newCard);
+            GameServer.addToSelectedCards(newCard);
             label.setText(Integer.toString(newCard.getMaxCapacity() - newCard.getSelectedCards()));
             if (newCard.getMaxCapacity() == newCard.getSelectedCards()) {
                 selectCardFlowPane.getChildren().remove(pane);
@@ -452,7 +451,7 @@ public class PreGameViewController {
             deckCards.add(card.getName());
         }
         DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
-        DataSaver.saveDeckCards(deckCards, Game.getLoggedInUser().getLeader());
+        DataSaver.saveDeckCards(deckCards, GameServer.getLoggedInUser().getLeader());
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
                 , PreGameMenuMessages.DOWNLOAD_DECK.toString());
         alertMaker.showAlert();
@@ -483,8 +482,8 @@ public class PreGameViewController {
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             saveData();
             try {
-                GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), Objects.requireNonNull(Game.getUserByName(competitorUsername.getText()))));
-                new GameView().start(Game.stage);
+                GameMenuController.setMatchTable(new MatchTable(GameServer.getLoggedInUser(), Objects.requireNonNull(GameServer.getUserByName(competitorUsername.getText()))));
+                new GameView().start(GameServer.stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
