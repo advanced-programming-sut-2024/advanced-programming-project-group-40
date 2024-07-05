@@ -156,9 +156,8 @@ public enum UnitCardInfo implements CardInfo {
     }
 
 
-    public static UnitCardInfo getRegularCardByName(String name) {
-
-        return null;
+    @Override
+    public String getType() {
+        return "unitCard";
     }
-
 }

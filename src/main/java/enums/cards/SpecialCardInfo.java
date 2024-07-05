@@ -25,4 +25,9 @@ public enum SpecialCardInfo implements CardInfo {
     public static SpecialCard getSpecialCardByName(String name){
         return null;
     }
+
+    @Override
+    public String getType() {
+        return "specialCard";
+    }
 }

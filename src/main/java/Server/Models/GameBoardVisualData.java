@@ -1,8 +1,12 @@
 package Server.Models;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import enums.cards.CardInfo;
 import enums.cards.LeaderInfo;
+import enums.cards.UnitCardInfo;
 import models.MatchTable;
+import models.User;
 import models.cards.*;
 
 import java.util.ArrayList;
@@ -31,10 +35,12 @@ public class GameBoardVisualData {
     LeaderInfo secondPlayerLeader;
     int firstPlayerCrystals;
     int secondPlayerCrystals;
+
     public GameBoardVisualData(MatchTable matchTable) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
     }
+
     private void InitializeArrays(MatchTable matchTable) {
         fillInfoArray(firstPlayerInPlay, matchTable.getFirstPlayerInPlayCards());
         fillInfoArray(secondPlayerInPlay, matchTable.getSecondPlayerInPlayCards());
@@ -56,6 +62,7 @@ public class GameBoardVisualData {
 
         fillInfoArray(weather, matchTable.getSpellCards());
     }
+
     private void InitializeVariables(MatchTable matchTable) {
         firstPlayerCCSpecial = getCardInfoFromCard(matchTable.getFirstPlayerCloseCombatBoostCard());
         firstPlayerRangedSpecial = getCardInfoFromCard(matchTable.getFirstPlayerRangedBoostCard());
@@ -64,18 +71,23 @@ public class GameBoardVisualData {
         secondPlayerCCSpecial = getCardInfoFromCard(matchTable.getSecondPlayerCloseCombatBoostCard());
         secondPlayerRangedSpecial = getCardInfoFromCard(matchTable.getSecondPlayerRangedBoostCard());
         secondPlayerSiegeSpecial = getCardInfoFromCard(matchTable.getSecondPlayerSiegeBoostCard());
-
-        firstPlayerLeader = matchTable.getFirstPlayerLeader().getLeaderInfo();
-        secondPlayerLeader = matchTable.getSecondPlayerLeader().getLeaderInfo();
+        if (matchTable.getFirstPlayerLeader() != null)
+            firstPlayerLeader = matchTable.getFirstPlayerLeader().getLeaderInfo();
+        if (matchTable.getSecondPlayerLeader() != null)
+            secondPlayerLeader = matchTable.getSecondPlayerLeader().getLeaderInfo();
 
         firstPlayerCrystals = matchTable.getFirstPlayerCrystals();
         secondPlayerCrystals = matchTable.getSecondPlayerCrystals();
     }
-    private static void fillInfoArray(ArrayList<CardInfo> infoArray , ArrayList<Card> cardArray){
-        for (Card card : cardArray){
-            infoArray.set(cardArray.indexOf(card),getCardInfoFromCard(card));
+
+    private static void fillInfoArray(ArrayList<CardInfo> infoArray, ArrayList<Card> cardArray) {
+        if (!cardArray.isEmpty()) {
+            for (Card card : cardArray) {
+                infoArray.add(getCardInfoFromCard(card));
+            }
         }
     }
+
     private static CardInfo getCardInfoFromCard(Card card) {
         CardInfo cardInfo = null;
         if (card instanceof UnitCard unitCard) {
@@ -87,5 +99,22 @@ public class GameBoardVisualData {
         }
         return cardInfo;
     }
+
+
+    public String toJSON() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(CardInfo.class,new InterfaceAdapter());
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(this);
+    }
+
+    public static GameBoardVisualData deSerialize(String JSON) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(CardInfo.class,new InterfaceAdapter());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(JSON, GameBoardVisualData.class);
+    }
+
+
 
 }

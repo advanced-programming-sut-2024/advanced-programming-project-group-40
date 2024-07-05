@@ -47,4 +47,9 @@ public enum HeroInfo implements CardInfo {
         this.ability = ability;
     }
 
+
+    @Override
+    public String getType() {
+        return "hero";
+    }
 }
