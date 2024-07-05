@@ -6,6 +6,9 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class LinkAuthorization {
+    private static String longUrl;
+    private static String accessToken;
+    private static String sentLink;
 
     // real one
     // todo do not delete this
@@ -65,23 +68,24 @@ public class LinkAuthorization {
 
 
     public static void sendLink(String targetEmail) {
-        String longUrl = "http://example.com/verification?user=" + targetEmail;
-        String accessToken = "your-bitly-access-token"; // Replace with your actual Bitly access token
+        longUrl = "http://example.com/verification?user=" + targetEmail;
+        accessToken = "your-bitly-access-token"; // Replace with your actual Bitly access token
 
-        String sentLink = generateShortLink(longUrl, accessToken);
+        sentLink = generateShortLink(longUrl, accessToken);
         EmailUtil.sendEmail(targetEmail, "Your 2FA Verification Link", "Click the following link to verify your login: " + sentLink); // Output link to console (for testing purposes)
         System.out.println("Verification link: " + sentLink);
-        try {
-            Thread.sleep(60000); // wait for 1 minute
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    }
+
+    public static boolean verifyLink() {
         // check if the link has been clicked
         int clickCount = getLinkClicks(sentLink, accessToken);
         if (clickCount > 0) {
             System.out.println("Sign up successful! Link clicked.");
+            return true;
         } else {
             System.out.println("Sign up failed. Link not clicked.");
+            return false;
         }
     }
+
 }
