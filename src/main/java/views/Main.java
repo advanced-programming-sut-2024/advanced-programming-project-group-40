@@ -1,14 +1,10 @@
 package views;
 
-import enums.cards.UnitCardInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import models.Game;
-import models.actions.UnitCardActions;
-import models.cards.Card;
-import models.cards.UnitCard;
+import Server.GameServer;
 
 import java.net.URL;
 
@@ -21,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Game.stage = stage;
+        GameServer.stage = stage;
         URL url = Main.class.getResource("/FXML/LoginMenuFXML.fxml");
         assert url != null;
         Scene scene = new Scene(FXMLLoader.load(url));

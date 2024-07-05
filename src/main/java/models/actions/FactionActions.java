@@ -1,7 +1,7 @@
 package models.actions;
 
 import enums.Origin;
-import models.Game;
+import Server.GameServer;
 import models.MatchTable;
 import models.cards.Card;
 import models.cards.CardWrapper;
@@ -19,14 +19,14 @@ public abstract class FactionActions {
         switch (userID) {
             case 0:
                 randomCard = matchTable.getFirstPlayerDeckCards().get(
-                        Game.random.nextInt(0, matchTable.getFirstPlayerDeckCards().size())
+                        GameServer.random.nextInt(0, matchTable.getFirstPlayerDeckCards().size())
                 );
                 cardWrapper = new CardWrapper(randomCard, Origin.FIRSTPLAYER_DECK);
                 matchTable.addToInPlayCards(0, cardWrapper);
                 break;
             case 1:
                 randomCard = matchTable.getSecondPlayerDeckCards().get(
-                        Game.random.nextInt(0, matchTable.getSecondPlayerDeckCards().size())
+                        GameServer.random.nextInt(0, matchTable.getSecondPlayerDeckCards().size())
                 );
                 cardWrapper = new CardWrapper(randomCard, Origin.SECONDPLAYER_DECK);
                 matchTable.addToInPlayCards(1, cardWrapper);

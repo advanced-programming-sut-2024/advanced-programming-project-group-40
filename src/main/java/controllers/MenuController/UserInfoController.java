@@ -1,15 +1,15 @@
 package controllers.MenuController;
 
-import models.Game;
+import Server.GameServer;
 
 public abstract class UserInfoController {
 
     public static void changePassword(String password) {
-        Game.getLoggedInUser().setPassword(password);
+        GameServer.getLoggedInUser().setPassword(password);
     }
 
     public static boolean isUsernameUnique(String username) {
-        return Game.getUserByName(username) == null;
+        return GameServer.getUserByName(username) == null;
     }
 
     public static boolean isUsernameValid(String username) {

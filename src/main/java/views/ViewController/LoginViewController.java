@@ -4,7 +4,7 @@ import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import models.AlertMaker;
-import models.Game;
+import Server.GameServer;
 import models.User;
 import views.*;
 
@@ -16,7 +16,7 @@ public class LoginViewController {
 
     public void signInClicked() {
         if (username.getText().equals("a") && password.getText().equals("a")) {
-            Game.setLoggedInUser(new User("a", "a", "ahay@ahay.com", "ahay"));
+            GameServer.setLoggedInUser(new User("a", "a", "ahay@ahay.com", "ahay"));
         } else {
             AlertMaker alert = LoginMenuController.signIn(username.getText(), password.getText());
             alert.showAlert();
@@ -29,7 +29,7 @@ public class LoginViewController {
 
     public void goToForgetPassword() {
         try {
-            new ForgetPasswordMenu().start(Game.stage);
+            new ForgetPasswordMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +37,7 @@ public class LoginViewController {
 
     public void goToSignUpMenu() {
         try {
-            new SignUpMenu().start(Game.stage);
+            new SignUpMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +45,7 @@ public class LoginViewController {
 
     public void goToMainMenu() {
         try {
-            new MainMenu().start(Game.stage);
+            new MainMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

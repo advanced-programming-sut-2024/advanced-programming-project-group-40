@@ -17,6 +17,6 @@ public class ClientHandler {
     }
 
     public static void main(String[] args) {
-        client = new Client("localhost", 8000);
+        client = new Client("localhost", 5000);
         run();
     }}

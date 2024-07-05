@@ -18,4 +18,5 @@ module advanced.programming.project.group {
     opens Server.Models to com.google.gson;
     opens models to com.google.gson,com.fasterxml.jackson.databind;
     opens models.cards to com.google.gson,com.fasterxml.jackson.databind;
+    opens Server to com.fasterxml.jackson.databind, com.google.gson;
 }

@@ -2,7 +2,6 @@ package models.cards;
 
 import enums.Factions;
 import enums.cards.SpecialCardInfo;
-import models.Game;
 
 public class SpecialCard extends Card{
 private SpecialCardInfo specialCardInfo;

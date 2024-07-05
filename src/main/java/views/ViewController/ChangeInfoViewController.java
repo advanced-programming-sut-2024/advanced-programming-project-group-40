@@ -8,8 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import models.AlertMaker;
 import models.ErrorMaker;
-import models.Game;
-import views.ChangeInfoMenu;
+import Server.GameServer;
 import views.ProfileMenu;
 
 import java.util.HashMap;
@@ -120,7 +119,7 @@ public class ChangeInfoViewController {
 
     public void back(MouseEvent mouseEvent) {
         try {
-            new ProfileMenu().start(Game.stage);
+            new ProfileMenu().start(GameServer.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
