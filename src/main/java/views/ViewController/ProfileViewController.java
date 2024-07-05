@@ -76,7 +76,7 @@ public class ProfileViewController {
 
     public void GameHistory(MouseEvent mouseEvent) {
         try {
-            new GameHistory().start(ProfileMenu.stage);
+            new GameHistory().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
