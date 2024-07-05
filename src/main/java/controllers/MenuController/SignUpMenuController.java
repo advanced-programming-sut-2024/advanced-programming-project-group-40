@@ -1,6 +1,5 @@
 package controllers.MenuController;
 
-import Mail.LinkAuthorization;
 import controllers.DataSaver;
 import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
@@ -40,7 +39,9 @@ public class SignUpMenuController extends UserInfoController {
 
 
     public static boolean checkLink(String email) {
-        LinkAuthorization.sendLink(email);
-        return LinkAuthorization.verifyLink();
+        // todo ---
+//        LinkAuthorization.sendLink(email);
+//        return LinkAuthorization.verifyLink();
+        return true;
     }
 }

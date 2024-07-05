@@ -65,7 +65,6 @@ public class User {
     }
 
     public String getUsername() {
-        int name;
         return username;
     }
 
