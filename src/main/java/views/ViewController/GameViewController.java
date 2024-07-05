@@ -3,6 +3,7 @@ package views.ViewController;
 
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
+import enums.Ability;
 import enums.Factions;
 import enums.Origin;
 import javafx.collections.ObservableList;
@@ -26,22 +27,28 @@ import models.MatchTable;
 import models.User;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
+import models.cards.Hero;
+import models.cards.SpecialCard;
+import models.cards.UnitCard;
 import views.Main;
 import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
-    private static GameBoardVisualData visualData;
-
-    public static void setVisualData(String Json) {
-        visualData = null;
+    private GameBoardVisualData visualData;
+    private final Stage tempStage = new Stage();
+    public void setVisualData(String Json) {
         GameBoardVisualData temp;
         temp = GameBoardVisualData.deSerialize(Json);
-        GameViewController.visualData = temp;
+        this.visualData = temp;
+        update();
     }
+
+
 
     @FXML
     private HBox secondPlayerLeaderImage;
@@ -135,12 +142,100 @@ public class GameViewController extends PlayMenu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameMenuController.setGameViewController2(this);
-        Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
-        GameMenuController.initiateDeck(GameMenuController.getMatchTable());
+        GameMenuController.initiateDeck();
         InitiateCardEvents();
-        GameMenuController.sendData();
         update();
     }
+    private static Origin GetDestination(Card selectedCard) {
+        if (selectedCard instanceof UnitCard unitCard) {
+            if (unitCard.getAbility() == Ability.SPY) {
+                switch (unitCard.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
+                }
+            } else {
+                switch (unitCard.getUnit()) {
+                    case AGILE -> {
+                        return Origin.FIRSTPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                    case All -> {
+                        return Origin.FIRSTPLAYER_ALL;
+                    }
+                }
+            }
+
+        }
+        if (selectedCard instanceof Hero hero) {
+            if (hero.getAbility() == Ability.SPY) {
+                switch (hero.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
+                }
+            } else {
+                switch (hero.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                }
+            }
+        }
+        if (selectedCard instanceof SpecialCard specialCard) {
+            if (Objects.equals(specialCard.getName(), "Commander's horn")) {
+                return Origin.FIRSTPLAYER_ALL;
+            } else {
+                return Origin.WEATHER;
+
+            }
+        } else return null;
+
+
+    }
+
 
     private void getCards(Pane pane, ArrayList<Card> nodes) {
         ObservableList<Node> children = pane.getChildren();
@@ -159,12 +254,26 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
+                CardClickCommand cardClickCommand = new CardClickCommand(card);
                 cardClickCommand.excute();
-
+                unHighlight();
+                highLightRow(GetDestination(card));
 
             });
         }
+
+    }
+    private void InitiateCardEvents(Pane pane) {
+        ArrayList<Card> cards = new ArrayList<>();
+        getCards(pane, cards);
+        for (Card card : cards) {
+            card.setOnMouseClicked(_ -> {
+                CardClickCommand cardClickCommand = new CardClickCommand(card);
+                cardClickCommand.excute();
+                tempStage.close();
+            });
+        }
+
     }
 
     public void highLightRow(Origin origin) {
@@ -218,8 +327,12 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void update() {
-        GameMenuController.updatePoints();
-        GameMenuController.sendData();
+        if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn());
+
         if (visualData.isFirstPlayerTurn()) {
             if (visualData.getLeader(0) != null) {
                 if (firstPlayerLeaderImage != null) {
@@ -583,5 +696,133 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void PassRound(MouseEvent mouseEvent) {
         GameMenuController.passRound();
         update();
+    }
+
+    public void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {
+
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> selectedCards;
+        if (isFirstPlayerTurn) {
+            selectedCards = new ArrayList<>(visualData.getCardArrayByArrayName("firstPlayerDeck"));
+        } else {
+            selectedCards = new ArrayList<>(visualData.getCardArrayByArrayName("secondPlayerDeck"));
+        }
+        hBox.getChildren().addAll(selectedCards);
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+    public void MakeCommanderOfRedRidersWindow(boolean isFirstPlayerTurn) {
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> weatherCards = new ArrayList<>();
+
+        if (isFirstPlayerTurn) {
+            for (Card card : visualData.getCardArrayByArrayName("firstPlayerDeck")) {
+                if (card instanceof SpecialCard) {
+                    if (!(Objects.equals(card.getName(), "Commander’s horn") ||
+                            Objects.equals(card.getName(), "Scorch") ||
+                            Objects.equals(card.getName(), "Mardroeme"))
+                    ) {
+                        weatherCards.add(card);
+                    }
+
+                }
+            }
+        } else {
+            for (Card card : visualData.getCardArrayByArrayName("secondPlayerDeck")) {
+                if (card instanceof SpecialCard) {
+                    if (!(Objects.equals(card.getName(), "Commander’s horn") ||
+                            Objects.equals(card.getName(), "Scorch") ||
+                            Objects.equals(card.getName(), "Mardroeme"))
+                    ) {
+                        weatherCards.add(card);
+                    }
+
+                }
+            }
+        }
+        hBox.getChildren().addAll(weatherCards);
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+    public void MakeMedicWindow(boolean isFirstPlayerTurn) {
+        this.getFirstPlayerDiscard().getChildren().clear();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        if (isFirstPlayerTurn) {
+            hBox.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerDiscard"));
+        } else {
+            hBox.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerDiscard"));
+        }
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+    public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
+        ArrayList<Card> randomCards = new ArrayList<>();
+        int i = 0;
+        int size = deck.size();
+        while (i < numOfRandomCards) {
+            if (deck.isEmpty() || deck.size() < numOfRandomCards) {
+                return randomCards;
+            }
+            Card tempCard = deck.get(Game.random.nextInt(size));
+            if (!randomCards.contains(tempCard)) {
+                randomCards.add(tempCard);
+                i++;
+            }
+        }
+        return randomCards;
+    }
+
+    public void MakeKingOfWildHuntWindow(boolean isFirstPlayerTurn) {
+        this.getFirstPlayerDiscard().getChildren().clear();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        if (isFirstPlayerTurn) {
+            for (Card card : visualData.getCardArrayByArrayName("firstPlayerDiscard")){
+                if (!(card instanceof Hero)){
+                    hBox.getChildren().add(card);
+                }
+            }
+
+        } else {
+            for (Card card : visualData.getCardArrayByArrayName("secondPlayerDiscard")){
+                if (!(card instanceof Hero)){
+                    hBox.getChildren().add(card);
+                }
+            }
+        }
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+    public void MakeHisImperialMajestyWindow(boolean isFirstPlayerTurn) {
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        if (isFirstPlayerTurn) {
+
+            hBox.getChildren().addAll(randomSelectedCards(visualData.getCardArrayByArrayName("firstPlayerInPlay"), 3));
+        } else {
+            hBox.getChildren().addAll(randomSelectedCards(visualData.getCardArrayByArrayName("secondPlayerInPlay"), 3));
+        }
+        tempStage.setScene(scene);
+        tempStage.show();
     }
 }

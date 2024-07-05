@@ -15,9 +15,8 @@ import views.ViewController.GameViewController;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameMenuController  {
+public class GameMenuController {
     private static MatchTable matchTable;
-    private static Stage tempStage;
     private static boolean isNewWindowOpen = false;
     private static boolean isMedic = false;
     private static boolean isKingOfWildHunt = false;
@@ -29,17 +28,13 @@ public class GameMenuController  {
         GameMenuController.gameViewController2 = gameViewController2;
     }
 
-    public static MatchTable getMatchTable() {
-        return matchTable;
-    }
-
     public static void setMatchTable(MatchTable matchTable) {
         GameMenuController.matchTable = matchTable;
     }
 
     private static Card selectedCard;
 
-    public static void ClickedOnCard(Card selectedCard1, GameViewController gameViewController) {
+    public static void ClickedOnCard(Card selectedCard1) {
         if (isNewWindowOpen) {
             if (isMedic) {
                 if (matchTable.isFirstPlayerTurn()) {
@@ -76,19 +71,10 @@ public class GameMenuController  {
                 }
                 isKingOfWildHunt = false;
             }
-            tempStage.close();
-            gameViewController.update();
             isNewWindowOpen = false;
-
-
-        }
-        else {
-            if (isSelectable(selectedCard1)) {
-                selectedCard = selectedCard1;
-                gameViewController.unHighlight();
-                Origin origin = GetDestination(matchTable.isFirstPlayerTurn());
-                gameViewController.highLightRow(origin);
-            } else {
+        } else {
+            if (isSelectable(selectedCard1)) selectedCard = selectedCard1;
+            else {
                 if (selectedCard != null) {
                     if (Objects.equals(selectedCard.getName(), "Decoy")) {
                         matchTable.doDecoy(new CardWrapper(selectedCard, getCardOrigin(selectedCard, matchTable.isFirstPlayerTurn())),
@@ -99,10 +85,10 @@ public class GameMenuController  {
                 matchTable.endTurn();
             }
         }
-        updatePoints();
+        sendData(false, false, false, false, false);
     }
 
-    private static Origin GetDestination(boolean isFirstPlayerTurn) {
+    private static Origin GetDestination() {
         if (selectedCard instanceof UnitCard unitCard) {
             if (unitCard.getAbility() == Ability.SPY) {
                 switch (unitCard.getUnit()) {
@@ -198,8 +184,11 @@ public class GameMenuController  {
     }
 
 
-    public static void initiateDeck(MatchTable matchTable) {
+    public static void initiateDeck() {
+        matchTable.getFirstPlayer().getMatchesPlayed().add(matchTable);
+        matchTable.getSecondPlayer().getMatchesPlayed().add(matchTable);
         matchTable.initilizeTable();
+        sendData(false, false, false, false, false);
     }
 
 
@@ -298,7 +287,7 @@ public class GameMenuController  {
     }
 
     public static void ClickedOnRow(Origin origin) {
-        Origin destination = GetDestination(matchTable.isFirstPlayerTurn());
+        Origin destination = GetDestination();
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
                 boolean isMedic = false;
@@ -313,151 +302,53 @@ public class GameMenuController  {
                 }
                 if (matchTable.isFirstPlayerTurn()) {
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
-                }else {
+                } else {
 
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY), 1, getRowID(origin));
                 }
                 if (!isMedic) matchTable.endTurn();
                 if (matchTable.isFirstPlayerTurn()) {
                     if (isMedic && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
-                        MakeMedicWindow(matchTable.isFirstPlayerTurn());
+                        MakeMedicWindow();
                     }
                 } else {
                     if (isMedic && !matchTable.getSecondPlayerDeadCards().isEmpty()) {
-                        MakeMedicWindow(matchTable.isFirstPlayerTurn());
+                        MakeMedicWindow();
                     }
                 }
                 selectedCard = null;
 
             }
         }
-        gameViewController2.update();
+        sendData(false, false, false, false, false);
     }
 
-    private static void MakeMedicWindow(boolean isFirstPlayerTurn) {
-        gameViewController2.getFirstPlayerDiscard().getChildren().clear();
-        tempStage = new Stage();
-        tempStage.setHeight(140);
-        tempStage.setWidth(800);
-        tempStage.setResizable(false);
+    private static void MakeMedicWindow() {
         isMedic = true;
-        HBox hBox = new HBox();
-        Scene scene = new Scene(hBox);
-        if (isFirstPlayerTurn) {
-            hBox.getChildren().addAll(matchTable.getFirstPlayerDeadCards());
-        } else {
-            hBox.getChildren().addAll(matchTable.getSecondPlayerDeadCards());
-        }
         isNewWindowOpen = true;
-        tempStage.setScene(scene);
-        tempStage.show();
+        sendData(false, true, false, false, false);
     }
 
-    public static void MakeHisImperialMajestyWindow(boolean isFirstPlayerTurn) {
-        tempStage = new Stage();
-        tempStage.setHeight(140);
-        tempStage.setWidth(800);
-        tempStage.setResizable(false);
-        HBox hBox = new HBox();
-        Scene scene = new Scene(hBox);
-        if (isFirstPlayerTurn) {
-            hBox.getChildren().addAll(MatchTable.randomSelectedCards(matchTable.getSecondPlayerInPlayCards(), 3));
-        } else {
-            hBox.getChildren().addAll(MatchTable.randomSelectedCards(matchTable.getFirstPlayerInPlayCards(), 3));
-        }
-        tempStage.setScene(scene);
-        tempStage.show();
+    public static void MakeHisImperialMajestyWindow() {
+        sendData(false, false, false, false, true);
     }
 
-    public static void MakeCommanderOfRedRidersWindow(boolean isFirstPlayerTurn) {
-        tempStage = new Stage();
-        tempStage.setHeight(140);
-        tempStage.setWidth(800);
-        tempStage.setResizable(false);
+    public static void MakeCommanderOfRedRidersWindow() {
         isRedRider = true;
-        HBox hBox = new HBox();
-        Scene scene = new Scene(hBox);
-        ArrayList<Card> weatherCards = new ArrayList<>();
-        if (isFirstPlayerTurn) {
-            for (Card card : matchTable.getFirstPlayerDeckCards()) {
-                if (card instanceof SpecialCard) {
-                    if (!(Objects.equals(card.getName(), "Commander’s horn") ||
-                            Objects.equals(card.getName(), "Scorch") ||
-                            Objects.equals(card.getName(), "Mardroeme"))
-                    ) {
-                        weatherCards.add(card);
-                    }
-
-                }
-            }
-        } else {
-            for (Card card : matchTable.getSecondPlayerDeckCards()) {
-                if (card instanceof SpecialCard) {
-                    if (!(Objects.equals(card.getName(), "Commander’s horn") ||
-                            Objects.equals(card.getName(), "Scorch") ||
-                            Objects.equals(card.getName(), "Mardroeme"))
-                    ) {
-                        weatherCards.add(card);
-                    }
-
-                }
-            }
-        }
-        InitiateOnCardClick(hBox, scene, weatherCards);
-    }
-
-    public static void MakeKingOfWildHuntWindow(boolean isFirstPlayerTurn) {
-        MakeMedicWindow(isFirstPlayerTurn);
-    }
-
-    public static void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {
-        if (isFirstPlayerTurn) {
-            ArrayList<Card> cardsToKill = new ArrayList<>(
-                    MatchTable.randomSelectedCards(matchTable.getFirstPlayerInPlayCards(), 2)
-            );
-            for (Card card : cardsToKill) {
-                matchTable.addToDeadCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_INPLAY));
-            }
-        } else {
-            ArrayList<Card> cardsToKill = new ArrayList<>(
-                    MatchTable.randomSelectedCards(matchTable.getSecondPlayerInPlayCards(), 2)
-            );
-            for (Card card : cardsToKill) {
-                matchTable.addToDeadCards(1, new CardWrapper(card, Origin.SECONDPLAYER_INPLAY));
-            }
-        }
-
-
-        isDestroyer = true;
-        tempStage = new Stage();
-        tempStage.setHeight(140);
-        tempStage.setWidth(800);
-        tempStage.setResizable(false);
-        HBox hBox = new HBox();
-        Scene scene = new Scene(hBox);
-        ArrayList<Card> selectedCards;
-        if (isFirstPlayerTurn) {
-            selectedCards = new ArrayList<>(matchTable.getFirstPlayerDeckCards());
-        } else {
-            selectedCards = new ArrayList<>(matchTable.getSecondPlayerDeckCards());
-        }
-        InitiateOnCardClick(hBox, scene, selectedCards);
-    }
-
-    private static void InitiateOnCardClick(HBox hBox, Scene scene, ArrayList<Card> selectedCards) {
-        for (Card card : selectedCards) {
-            card.setOnMouseClicked(_ -> {
-                System.out.println(STR."name:\{card.getName()}");
-                CardClickCommand cardClickCommand = new CardClickCommand(card, gameViewController2);
-                cardClickCommand.excute();
-
-
-            });
-        }
-        hBox.getChildren().addAll(selectedCards);
         isNewWindowOpen = true;
-        tempStage.setScene(scene);
-        tempStage.show();
+        sendData(false, false, true, false, false);
+    }
+
+    public static void MakeKingOfWildHuntWindow() {
+        isKingOfWildHunt = true;
+        isNewWindowOpen = true;
+        sendData(false, false, false, true, false);
+    }
+
+    public static void MakeDestroyerOfWorldsWindow() {
+        isDestroyer = true;
+        isNewWindowOpen = true;
+        sendData(true, false, false, false, false);
     }
 
     public static void ClickedOnBoost(int rowID) {
@@ -470,6 +361,7 @@ public class GameMenuController  {
             selectedCard = null;
             matchTable.endTurn();
         }
+        sendData(false, false, false, false, false);
     }
 
     public static void clickedOnWeather() {
@@ -484,10 +376,10 @@ public class GameMenuController  {
             selectedCard = null;
             matchTable.endTurn();
         }
+        sendData(false, false, false, false, false);
     }
 
     public static void LeaderAction() {
-
         if (matchTable.isFirstPlayerTurn() && matchTable.getFirstPlayerLeader() != null) {
             matchTable.leaderAction();
             matchTable.setFirstPlayerLeaderUsed(true);
@@ -504,14 +396,15 @@ public class GameMenuController  {
             matchTable.pass(1);
         }
         matchTable.endTurn();
+        sendData(false, false, false, false, false);
     }
 
-    public static void sendData(){
-        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable);
-        GameViewController.setVisualData(gameBoardVisualData.toJSON());
-
-    }
-    public static void updatePoints() {
+    public static void sendData(boolean isDestroyer, boolean isMedic,
+                                boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         matchTable.updatePoints();
+        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+                , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
+        gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
+
 }

@@ -6,20 +6,14 @@ import models.cards.Card;
 import views.ViewController.GameViewController;
 
 public class CardClickCommand extends Command {
-    private Card card = null;
-
-
-    /////////////////
-    private GameViewController gameViewController;
-
-    public CardClickCommand(Card card, GameViewController gameViewController) {
+    private final Card card;
+    public CardClickCommand(Card card) {
         this.card = card;
-        this.gameViewController = gameViewController;
     }
 
 
     @Override
     public void excute() {
-        GameMenuController.ClickedOnCard(card, gameViewController);
+        GameMenuController.ClickedOnCard(card);
     }
 }

@@ -2,6 +2,7 @@ package Server.Models;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import enums.Origin;
 import enums.cards.*;
 import models.MatchTable;
 import models.User;
@@ -44,10 +45,19 @@ public class GameBoardVisualData {
 
     String firstPlayerFaction;
     String secondPlayerFaction;
-
-    public GameBoardVisualData(MatchTable matchTable) {
+    boolean isDestroyer;
+    boolean isMedic;
+    boolean isRedRider;
+    boolean isKingOfWildHunt;
+    boolean isImperialMajesty;
+    public GameBoardVisualData(MatchTable matchTable,boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt,boolean isImperialMajesty) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
+        this.isDestroyer = isDestroyer;
+        this.isMedic = isMedic;
+        this.isRedRider = isRedRider;
+        this.isKingOfWildHunt = isKingOfWildHunt;
+        this.isImperialMajesty = true;
     }
 
     private void InitializeArrays(MatchTable matchTable) {
@@ -118,6 +128,26 @@ public class GameBoardVisualData {
     }
     /////////////////////////////////
 
+
+    public boolean isDestroyer() {
+        return isDestroyer;
+    }
+
+    public boolean isImperialMajesty() {
+        return isImperialMajesty;
+    }
+
+    public boolean isMedic() {
+        return isMedic;
+    }
+
+    public boolean isRedRider() {
+        return isRedRider;
+    }
+
+    public boolean isKingOfWildHunt() {
+        return isKingOfWildHunt;
+    }
 
     //getters
     public Card getBoost(int userID, int Row) {
