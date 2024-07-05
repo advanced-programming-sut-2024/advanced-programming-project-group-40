@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.GameHistoryViewController">
     <Pane layoutX="66.0" layoutY="67.0" prefHeight="565.0" prefWidth="868.0" styleClass="brown-box">
         <ScrollPane hbarPolicy="NEVER" layoutY="119.0" prefHeight="449.0" prefWidth="868.0" styleClass="menu-scroll-pane" vbarPolicy="NEVER">
@@ -210,4 +212,9 @@
             </font>
         </Label>
     </Pane>
+    <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToProfileMenu" pickOnBounds="true" preserveRatio="true" styleClass="back">
+        <image>
+            <Image url="@../images/Icnos/Back.png" />
+        </image>
+    </ImageView>
 </AnchorPane>

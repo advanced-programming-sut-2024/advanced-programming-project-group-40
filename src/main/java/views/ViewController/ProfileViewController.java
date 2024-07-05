@@ -1,21 +1,31 @@
 package views.ViewController;
 
 
+import controllers.MenuController.ProfileMenuController;
+import enums.AlertInfo.AlertHeader;
+import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import models.AlertMaker;
 import models.Game;
-import models.MatchTable;
 import models.User;
 import views.*;
 
+import java.util.Objects;
 
 
 public class ProfileViewController {
 
+    public VBox Following;
+    public VBox Followers;
+    public TextField targetUser;
+    public VBox Requests;
     @FXML
     private Label username;
     @FXML
@@ -61,6 +71,46 @@ public class ProfileViewController {
             new ChangeInfoMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void GameHistory(MouseEvent mouseEvent) {
+        try {
+            new GameHistory().start(ProfileMenu.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void search(MouseEvent mouseEvent) throws Exception {
+        AlertMaker alertMaker = ProfileMenuController.search(targetUser.getText());
+        alertMaker.showAlert();
+        if (alertMaker.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
+            if (alertMaker.isOK()) {
+                TargetProfileViewController.setTargetUser(Game.getUserByName(targetUser.getText()));
+                Stage stage = new Stage();
+                new TargetProfile().start(stage);
+                stage.setOnCloseRequest((WindowEvent event) -> {
+                    sendRequest();
+                });
+            } else {
+                sendRequest();
+            }
+        }
+    }
+
+    private void sendRequest() {
+        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
+        alertMaker.showAlert();
+        if (alertMaker.isOK())
+            ProfileMenuController.sendRequest(Objects.requireNonNull(Game.getUserByName(targetUser.getText())));
+    }
+
+
+    private void creatRequest(){
+        User loggedInUser = Game.getLoggedInUser();
+        for (User request: loggedInUser.getRequests()){
+
         }
     }
 }
