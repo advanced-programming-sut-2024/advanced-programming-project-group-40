@@ -1,12 +1,8 @@
 package Mail;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Properties;
 import java.util.Scanner;
 
 public class LinkAuthorization {
@@ -37,35 +33,11 @@ public class LinkAuthorization {
         }
         return shortUrl;
     }
+
     public static String generateShortLink(String longUrl, String accessToken) {
         return "http://mockshortlink.com/verification?user=" + longUrl.split("=")[1];
     }
-    public static void sendEmail(String toEmail, String subject, String body) {
-        final String fromEmail = "gwent9922@gmail.com"; // requires valid email id final
-        String password = "waog huvg ulou htmh"; // correct password for your email id
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP Host
-        props.put("mail.smtp.port", "587"); // TLS Port
-        props.put("mail.smtp.auth", "true"); // enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); // enable STARTTLS
-        Authenticator auth = new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, password);
-            }
-        };
-        Session session = Session.getInstance(props, auth);
-        try {
-            MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress(fromEmail));
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-            msg.setSubject(subject);
-            msg.setText(body);
-            Transport.send(msg);
-            System.out.println("Email Sent Successfully");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public static int getLinkClicks(String bitlink, String accessToken) {
         return 1;
@@ -92,26 +64,24 @@ public class LinkAuthorization {
     }
 
 
-    private static String sentLink;
-
-    public static void main(String[] args) {
-        String userEmail = "sarina.farzadnasab@gmail.com";
-        String longUrl = "http://example.com/verification?user=" + userEmail;
+    public static void sendLink(String targetEmail) {
+        String longUrl = "http://example.com/verification?user=" + targetEmail;
         String accessToken = "your-bitly-access-token"; // Replace with your actual Bitly access token
-        // Generate the short link
-        sentLink = generateShortLink(longUrl, accessToken);
-        sendEmail(userEmail, "Your 2FA Verification Link", "Click the following link to verify your login: " + sentLink); // Output link to console (for testing purposes)
-        System.out.println("Verification link: " + sentLink); // Wait and check for link clicks
+
+        String sentLink = generateShortLink(longUrl, accessToken);
+        EmailUtil.sendEmail(targetEmail, "Your 2FA Verification Link", "Click the following link to verify your login: " + sentLink); // Output link to console (for testing purposes)
+        System.out.println("Verification link: " + sentLink);
         try {
-            Thread.sleep(60000); // Wait for 1 minute
+            Thread.sleep(60000); // wait for 1 minute
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } // Check if the link has been clicked
+        }
+        // check if the link has been clicked
         int clickCount = getLinkClicks(sentLink, accessToken);
         if (clickCount > 0) {
-            System.out.println("Login successful! Link clicked.");
+            System.out.println("Sign up successful! Link clicked.");
         } else {
-            System.out.println("Login failed. Link not clicked.");
+            System.out.println("Sign up failed. Link not clicked.");
         }
     }
 }

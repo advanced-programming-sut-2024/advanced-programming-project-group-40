@@ -20,7 +20,7 @@
                <font>
                   <Font size="16.0" />
                </font></PasswordField>
-            <Button mnemonicParsing="false" onMouseClicked="#verifyClicked" prefHeight="13.0" prefWidth="98.0" styleClass="button-regular" text="Verify" translateY="12.0">
+            <Button mnemonicParsing="false" onMouseClicked="#signInClicked" prefHeight="13.0" prefWidth="98.0" styleClass="button-regular" text="Sign In" translateY="12.0">
                <font>
                   <Font size="16.0" />
                </font></Button>
@@ -37,7 +37,7 @@
 
       <VBox fx:id="authorizationVbox" alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="300.0" prefWidth="296.0" styleClass="Box">
          <children>
-            <Label prefHeight="53.0" prefWidth="224.0" styleClass="label-header" text="Confirm that it's you " translateY="-25.0">
+            <Label prefHeight="71.0" prefWidth="224.0" styleClass="label-header" text="Confirm that it's you " translateY="-25.0">
                <font>
                   <Font size="25.0" />
                </font></Label>
@@ -49,7 +49,7 @@
                <font>
                   <Font size="15.0" />
                </font></TextField>
-            <Button mnemonicParsing="false" onMouseClicked="#signInClicked" prefHeight="13.0" prefWidth="98.0" styleClass="button-regular" text="Sign In" translateY="-10.0">
+            <Button mnemonicParsing="false" onMouseClicked="#verifyClicked" prefHeight="13.0" prefWidth="98.0" styleClass="button-regular" text="Verify" translateY="-10.0">
                <font>
                   <Font size="16.0" />
                </font></Button>

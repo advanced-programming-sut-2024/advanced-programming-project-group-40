@@ -36,7 +36,9 @@ public class User {
     public User(String username, String password, String email, String nickName) {
         this.username = username;
         this.password = password;
+        System.out.println(email);
         this.email = email;
+        System.out.println(nickName);
         this.nickname = nickName;
         this.stayLoggedIn = false;
         faction = Factions.MONSTERS;
