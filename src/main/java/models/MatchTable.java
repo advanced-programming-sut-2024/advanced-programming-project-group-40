@@ -94,17 +94,17 @@ public class MatchTable {
 
     public void doDecoy(CardWrapper decoy, CardWrapper cardToSwap, boolean isFirstPlayerTurn) {
         if (isFirstPlayerTurn) {
-            this.placeCard(decoy
+            placeCard(decoy
                     , 0
                     , getRowID(cardToSwap.getOrigin()));
 
-            this.addToInPlayCards(0, cardToSwap);
+            addToInPlayCards(0, cardToSwap);
         } else {
-            this.placeCard(decoy
+            placeCard(decoy
                     , 1
                     , getRowID(cardToSwap.getOrigin()));
 
-            this.addToInPlayCards(1, cardToSwap);
+            addToInPlayCards(1, cardToSwap);
         }
 
 

@@ -51,7 +51,8 @@ public class GameBoardVisualData {
     boolean isKingOfWildHunt;
     boolean isImperialMajesty;
     String message;
-    public GameBoardVisualData(MatchTable matchTable,boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt,boolean isImperialMajesty) {
+
+    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
         this.isDestroyer = isDestroyer;
@@ -289,6 +290,21 @@ public class GameBoardVisualData {
         return cards;
     }
 
+    public static Card getCardsFromEnum(CardInfo cardInfo) {
+        Card card = null;
+        if (cardInfo instanceof UnitCardInfo unitCardInfo) {
+            card = new UnitCard(unitCardInfo);
+        }
+        if (cardInfo instanceof SpecialCardInfo specialCardInfo) {
+            card = new SpecialCard(specialCardInfo);
+        }
+        if (cardInfo instanceof HeroInfo heroInfo) {
+            card = new Hero(heroInfo);
+        }
+
+        return card;
+    }
+
     private static void fillInfoArray(ArrayList<CardInfo> infoArray, ArrayList<Card> cardArray) {
         if (!cardArray.isEmpty()) {
             for (Card card : cardArray) {
@@ -297,7 +313,7 @@ public class GameBoardVisualData {
         }
     }
 
-    private static CardInfo getCardInfoFromCard(Card card) {
+    public static CardInfo getCardInfoFromCard(Card card) {
         CardInfo cardInfo = null;
         if (card instanceof UnitCard unitCard) {
             cardInfo = unitCard.getUnitCardInfo();

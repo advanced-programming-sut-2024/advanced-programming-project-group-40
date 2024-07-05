@@ -3,6 +3,7 @@ package controllers.MenuController;
 import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
+import enums.cards.CardInfo;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -34,7 +35,8 @@ public class GameMenuController {
 
     private static Card selectedCard;
 
-    public static void ClickedOnCard(Card selectedCard1) {
+    public static void ClickedOnCard(CardInfo cardInfo, boolean isSelectable, String parentID) {
+        Card selectedCard1 = GameBoardVisualData.getCardsFromEnum(cardInfo);
         if (isNewWindowOpen) {
             if (isMedic) {
                 if (matchTable.isFirstPlayerTurn()) {
@@ -73,12 +75,12 @@ public class GameMenuController {
             }
             isNewWindowOpen = false;
         } else {
-            if (isSelectable(selectedCard1)) selectedCard = selectedCard1;
+            if (isSelectable) selectedCard = selectedCard1;
             else {
                 if (selectedCard != null) {
                     if (Objects.equals(selectedCard.getName(), "Decoy")) {
-                        matchTable.doDecoy(new CardWrapper(selectedCard, getCardOrigin(selectedCard, matchTable.isFirstPlayerTurn())),
-                                new CardWrapper(selectedCard1, getCardOrigin(selectedCard1, matchTable.isFirstPlayerTurn())), matchTable.isFirstPlayerTurn());
+                        matchTable.doDecoy(new CardWrapper(selectedCard, getCardOrigin("Hand", matchTable.isFirstPlayerTurn())),
+                                new CardWrapper(selectedCard1, getCardOrigin(parentID, matchTable.isFirstPlayerTurn())), matchTable.isFirstPlayerTurn());
                         selectedCard = null;
                     }
                 }
@@ -179,11 +181,6 @@ public class GameMenuController {
     }
 
 
-    private static boolean isSelectable(Card selectedCard) {
-        return Objects.equals(selectedCard.getParent().getId(), "Hand");
-    }
-
-
     public static void initiateDeck() {
         matchTable.getFirstPlayer().getMatchesPlayed().add(matchTable);
         matchTable.getSecondPlayer().getMatchesPlayed().add(matchTable);
@@ -207,10 +204,10 @@ public class GameMenuController {
         return -1;
     }
 
-    private static Origin getCardOrigin(Card card, boolean isFirstPlayerTurn) {
+    private static Origin getCardOrigin(String parentID, boolean isFirstPlayerTurn) {
         Origin origin;
         if (isFirstPlayerTurn) {
-            switch (card.getParent().getId()) {
+            switch (parentID) {
                 case "firstPlayerCloseCombat" -> {
                     origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
                 }
@@ -247,7 +244,7 @@ public class GameMenuController {
             }
 
         } else {
-            switch (card.getParent().getId()) {
+            switch (parentID) {
                 case "firstPlayerCloseCombat" -> {
                     origin = Origin.SECONDPLAYER_CLOSECOMBAT;
                 }
@@ -406,6 +403,7 @@ public class GameMenuController {
                 , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
         gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
+
     public static void sendData(String message) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
@@ -417,4 +415,55 @@ public class GameMenuController {
     public static void sendMessage(String value) {
         sendData(value);
     }
+
+    public static void sendCommand(String s) {
+        if (s.startsWith("message")) {
+            sendMessage(s.substring(7));
+        } else {
+            switch (s) {
+                case "secondPlayerSiegeClicked":
+                    ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+                    break;
+                case "secondPlayerRangedClicked":
+                    ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+                    break;
+                case "secondPlayerCloseCombatClicked":
+                    ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
+                    break;
+                case "firstPlayerCloseCombatClicked":
+                    ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
+                    break;
+                case "firstPlayerRangedClicked":
+                    ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
+                    break;
+                case "firstPlayerSiegeClicked":
+                    ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
+                    break;
+                case "weatherClicked":
+                    clickedOnWeather();
+                    break;
+                case "0":
+                    ClickedOnBoost(0);
+                    break;
+                case "1":
+                    ClickedOnBoost(1);
+                    break;
+                case "2":
+                    ClickedOnBoost(2);
+                    break;
+                case "LeaderAction":
+                    LeaderAction();
+                    break;
+                case "PassRound":
+                    passRound();
+                    break;
+                case "initiateDeck":
+                    initiateDeck();
+                    break;
+                default:
+                    throw new RuntimeException("message is not registered");
+            }
+        }
+    }
+
 }

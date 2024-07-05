@@ -43,9 +43,18 @@ import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
 
-
+    private static final int SPAM_FILTER_TIME = 2000;
     private GameBoardVisualData visualData;
     private final Stage tempStage = new Stage();
+    Thread spamThread = new Thread(() -> {
+        try {
+
+            Thread.sleep(SPAM_FILTER_TIME);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
+
 
     public void setVisualData(String Json) {
         GameBoardVisualData temp;
@@ -155,7 +164,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         Messages.getItems().addAll(messages);
         emptyMessage();
         GameMenuController.setGameViewController2(this);
-        GameMenuController.initiateDeck();
+        GameMenuController.sendCommand("initiateDeck");
         InitiateCardEvents();
         update();
     }
@@ -268,14 +277,17 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                CardClickCommand cardClickCommand = new CardClickCommand(card);
+                CardClickCommand cardClickCommand = new CardClickCommand(card, isSelectable(card), card.getParent().getId());
                 cardClickCommand.excute();
                 unHighlight();
                 highLightRow(GetDestination(card));
-
             });
         }
 
+    }
+
+    private static boolean isSelectable(Card selectedCard) {
+        return Objects.equals(selectedCard.getParent().getId(), "Hand");
     }
 
     private void InitiateCardEvents(Pane pane) {
@@ -283,7 +295,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                CardClickCommand cardClickCommand = new CardClickCommand(card);
+                CardClickCommand cardClickCommand = new CardClickCommand(card, true, card.getParent().getId());
                 cardClickCommand.excute();
                 tempStage.close();
             });
@@ -349,6 +361,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn());
         if (visualData.getMessage() != null) {
             messageInput.setText(visualData.getMessage());
+
             Thread removeMessageThread = new Thread(() -> {
                 try {
 
@@ -668,48 +681,44 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+        GameMenuController.sendCommand("secondPlayerSiegeClicked");
     }
 
     public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+        GameMenuController.sendCommand("secondPlayerRangedClicked");
     }
 
 
     public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
+        GameMenuController.sendCommand("secondPlayerCloseCombatClicked");
     }
 
     public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
+        GameMenuController.sendCommand("firstPlayerCloseCombatClicked");
     }
 
     public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
+        GameMenuController.sendCommand("firstPlayerRangedClicked");
     }
 
     public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
+        GameMenuController.sendCommand("firstPlayerSiegeClicked");
     }
 
     public void closeCombatBoostClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnBoost(0);
-        update();
+        GameMenuController.sendCommand("0");
     }
 
     public void rangedBoostClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnBoost(1);
-        update();
+        GameMenuController.sendCommand("1");
     }
 
     public void siegeBoostClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnBoost(2);
-        update();
+        GameMenuController.sendCommand("2");
     }
 
     public void weatherClicked(MouseEvent mouseEvent) {
-        GameMenuController.clickedOnWeather();
-        update();
+        GameMenuController.sendCommand("weatherClicked");
     }
 
     public HBox getFirstPlayerDiscard() {
@@ -717,13 +726,12 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void LeaderAction(MouseEvent mouseEvent) {
-        GameMenuController.LeaderAction();
+        GameMenuController.sendCommand("LeaderAction");
         update();
     }
 
     public void PassRound(MouseEvent mouseEvent) {
-        GameMenuController.passRound();
-        update();
+        GameMenuController.sendCommand("PassRound");
     }
 
     public void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {
@@ -863,9 +871,26 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void SendMessage(MouseEvent mouseEvent) {
-        if (Messages.getValue() != null) {
-            System.out.println(Messages.getValue());
-            GameMenuController.sendMessage(Messages.getValue());
+        if (!spamThread.isAlive()) {
+            if (Messages.getValue() != null) {
+                try {
+                    spamThread.start();
+                } catch (Exception q) {
+                    spamThread = new Thread(() -> {
+                        try {
+
+                            Thread.sleep(SPAM_FILTER_TIME);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    spamThread.start();
+                }
+
+                GameMenuController.sendCommand(STR."message \{Messages.getValue()}");
+
+            }
         }
+
     }
 }
