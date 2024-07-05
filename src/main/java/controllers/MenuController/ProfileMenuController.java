@@ -15,8 +15,9 @@ public class ProfileMenuController extends UserInfoController {
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEE_PROFILE.toString());
     }
 
-    public static void sendRequest(User target){
+    public static void sendRequest(User target) {
         target.addRequest(Game.getLoggedInUser());
+        Game.getLoggedInUser().addSent(target);
     }
 
 }

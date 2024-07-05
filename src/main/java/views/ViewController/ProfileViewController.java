@@ -21,15 +21,17 @@ import models.Game;
 import models.User;
 import views.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class ProfileViewController {
-    //TODO LIst of waits
-    public VBox Following;
-    public VBox Followers;
     public TextField targetUser;
     public VBox requests;
+    public VBox sent;
+    public VBox friends;
+    public VBox gameRequest;
+    public VBox gameSent;
     @FXML
     private Label username;
     @FXML
@@ -111,9 +113,8 @@ public class ProfileViewController {
     }
 
 
-    private void creatRequest() {
-        User loggedInUser = Game.getLoggedInUser();
-        for (User request : loggedInUser.getRequests()) {
+    private void creatRequest(VBox vBox, ArrayList<User> target) {
+        for (User request : target) {
             ImageView imageView2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/reject.png")).toExternalForm()));
             ImageView imageView1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/accept.png")).toExternalForm()));
 
@@ -129,7 +130,7 @@ public class ProfileViewController {
             imageView1.setPickOnBounds(true);
             imageView1.setPreserveRatio(true);
             imageView1.setTranslateX(-10.0);
-            imageView1.setOnMouseClicked(event -> handleClick(event, label, imageView1, imageView2, request));
+            imageView1.setOnMouseClicked(event -> handleClick(event, vBox, label, imageView1, imageView2, request));
 
             // Create the second ImageView
             imageView2.setFitHeight(34.0);
@@ -137,7 +138,7 @@ public class ProfileViewController {
             imageView2.setPickOnBounds(true);
             imageView2.setPreserveRatio(true);
             imageView2.setTranslateX(10.0);
-            imageView2.setOnMouseClicked(event -> handleClick(event, label, imageView1, imageView2, request));
+            imageView2.setOnMouseClicked(event -> handleClick(event, vBox, label, imageView1, imageView2, request));
 
             // Create the HBox and add children
             HBox hBox = new HBox();
@@ -146,23 +147,36 @@ public class ProfileViewController {
             hBox.setPrefWidth(138.0);
             hBox.getChildren().addAll(label, imageView1, imageView2);
             // Add HBox to VBox
-            requests.getChildren().add(hBox);
+            vBox.getChildren().add(hBox);
         }
     }
 
-    private void handleClick(MouseEvent event, Label label, ImageView accept, ImageView reject, User request) {
+    private void handleClick(MouseEvent event, VBox vBox, Label label, ImageView accept, ImageView reject, User request) {
         ImageView clickedImageView = (ImageView) event.getSource();
-        if (clickedImageView.equals(accept)) {
-            Game.getLoggedInUser().addFollower(request);
-            request.addFollowing(Game.getLoggedInUser());
+        if (vBox.equals(requests)) {
+            if (clickedImageView.equals(accept)) {
+                Game.getLoggedInUser().getFrineds().add(request);
+                request.getFrineds().add(Game.getLoggedInUser());
+            } else {
+                request.getRejectedRequests().add(Game.getLoggedInUser());
+            }
+            request.getRequestsHasSent().remove(Game.getLoggedInUser());
+            Game.getLoggedInUser().getRequests().remove(request);
+        } else {
+            if (clickedImageView.equals(accept)) {
+                // todo start game here
+
+            } else {
+            }
+
         }
-        Game.getLoggedInUser().getRequests().remove(request);
-        requests.getChildren().remove(label.getParent());
+        vBox.getChildren().remove(label.getParent());
     }
 
-    private void creatFollower() {
-        User loggedInUser = Game.getLoggedInUser();
-        for (User request : loggedInUser.getFollowers()) {
+
+    private void fillVBox(VBox vBox, ArrayList<User> target) {
+        // todo for sent & game sent
+        for (User request : target) {
             // Create the Label
             Label label = new Label(request.getUsername());
             label.setPrefHeight(16.0);
@@ -170,24 +184,10 @@ public class ProfileViewController {
             label.setFont(new Font(14.0));
 //            label.setOnMouseClicked(event -> handleClick(event,label));
 
-            Followers.getChildren().add(label);
+            vBox.getChildren().add(label);
         }
     }
 
-    private void creatFollowing() {
-        User loggedInUser = Game.getLoggedInUser();
-        for (User request : loggedInUser.getFollowers()) {
-            // Create the Label
-            Label label = new Label(request.getUsername());
-            label.setPrefHeight(16.0);
-            label.setPrefWidth(116.0);
-            label.setFont(new Font(14.0));
-//            label.setOnMouseClicked(event -> handleClick(event,label));
-
-
-            Following.getChildren().add(label);
-        }
-    }
 
     public void GameRequest(MouseEvent mouseEvent) {
     }

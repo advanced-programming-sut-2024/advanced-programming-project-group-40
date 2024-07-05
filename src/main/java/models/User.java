@@ -25,9 +25,13 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    private ArrayList<User> followers = new ArrayList<>();
-    private ArrayList<User> followings = new ArrayList<>();
+    private ArrayList<User> frineds = new ArrayList<>();
     private ArrayList<User> requests = new ArrayList<>();
+    private ArrayList<User> requestsHasSent = new ArrayList<>();
+    private ArrayList<User> rejectedRequests = new ArrayList<>();
+    private ArrayList<User> gameRequests = new ArrayList<>();
+    private ArrayList<User> gameRequestsHasSent = new ArrayList<>();
+    private ArrayList<User> gameRejectedRequests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
@@ -218,24 +222,29 @@ public class User {
         point += addingPoint;
     }
 
-    public void addFollowing(User user) {
-        followings.add(user);
+    public ArrayList<User> getGameRequests() {
+        return gameRequests;
     }
 
-    public void addFollower(User user) {
-        followers.add(user);
+    public ArrayList<User> getGameRequestsHasSent() {
+        return gameRequestsHasSent;
     }
 
-    public void addRequest(User user) {
-        requests.add(user);
+    public ArrayList<User> getGameRejectedRequests() {
+        return gameRejectedRequests;
     }
 
-    public ArrayList<User> getFollowers() {
-        return followers;
+    public ArrayList<User> getRejectedRequests() {
+        return rejectedRequests;
     }
 
-    public ArrayList<User> getFollowings() {
-        return followings;
+
+    public ArrayList<User> getFrineds() {
+        return frineds;
+    }
+
+    public ArrayList<User> getRequestsHasSent() {
+        return requestsHasSent;
     }
 
     public ArrayList<User> getRequests() {
@@ -252,6 +261,7 @@ public class User {
             }
         }
     }
+
     public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
@@ -261,6 +271,7 @@ public class User {
         }
         return count;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
