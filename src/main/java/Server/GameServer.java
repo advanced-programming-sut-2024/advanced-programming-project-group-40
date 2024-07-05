@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameServer extends Thread{
+public class GameServer extends Thread {
     public static final Random random = new Random();
     private static ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Card> allCards = GameServer.setAllCards();
@@ -27,92 +27,97 @@ public class GameServer extends Thread{
 
     public static Stage stage;
 
-    private static ServerSocket serverSocket;
-    public Socket socket;
+//    private static ServerSocket serverSocket;
     private static Gson gsonAgent;
     private static int WORKERS;
 
-    private static final ArrayList<Socket> connections = new ArrayList<>();
+//    private static final ArrayList<Socket> connections = new ArrayList<>();
 
-    private static void setupServer() {
-        try {
-            serverSocket = new ServerSocket(8000);
-            WORKERS = 10;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private static void setupServer() {
+//        try {
+//            serverSocket = new ServerSocket(1643);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public GameServer() {
         GsonBuilder builder = new GsonBuilder();
         gsonAgent = builder.create();
     }
 
-    public void listen() throws IOException {
-        Socket socket;
-        while (true) {
-            socket = serverSocket.accept();
-            connections.add(socket);
-            synchronized (connections) {
-                connections.notify();
-            }
-        }
-    }
+//    public void listen() throws IOException {
+//        while (true) {
+//            try {
+//                Socket socket = serverSocket.accept();
+//                synchronized (connections) {
+//                    connections.add(socket);
+//                    connections.notify();
+//                }
+//            } catch (IOException e) {
+//                System.err.println("Error accepting connection");
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-    @Override
-    public void run() {
-        Socket socket;
-        while (true) {
-            socket = null;
-            synchronized (connections) {
-                while (connections.isEmpty()) {
-                    try {
-                        connections.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                socket = connections.getFirst();
-                connections.removeFirst();
-            }
-            if (socket != null) {
-                handleConnection(socket);
-            }
-        }
-    }
-    private void handleConnection(Socket socket) {
-        String clientRequest;
-        try {
-            System.out.println("Handling connection...");
-            DataInputStream receiveBuffer = new DataInputStream(
-                    new BufferedInputStream(socket.getInputStream())
-            );
-            DataOutputStream sendBuffer = new DataOutputStream(
-                    new BufferedOutputStream(socket.getOutputStream())
-            );
-            clientRequest = receiveBuffer.readUTF();
-            System.out.println("Client request: " + clientRequest);
-            sendBuffer.close();
-            receiveBuffer.close();
-            socket.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred while handling the connection.");
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void run() {
+//        while (true) {
+//            Socket socket = null;
+//            synchronized (connections) {
+//                while (connections.isEmpty()) {
+//                    try {
+//                        connections.wait();
+//                    } catch (InterruptedException e) {
+//                        System.err.println("Connection wait interrupted");
+//                        e.printStackTrace();
+//                    }
+//                }
+//                if (!connections.isEmpty()) {
+//                    socket = connections.remove(0);
+//                }
+//            }
+//            if (socket != null) {
+//                handleConnection(socket);
+//            }
+//        }
+//    }
+
+//    private void handleConnection(Socket socket) {
+//        String clientRequest;
+//        try {
+//            DataInputStream receiveBuffer = new DataInputStream(
+//                    new BufferedInputStream(socket.getInputStream())
+//            );
+//            DataOutputStream sendBuffer = new DataOutputStream(
+//                    new BufferedOutputStream(socket.getOutputStream())
+//            );
+//            clientRequest = receiveBuffer.readUTF();
+//            System.out.println(STR."Client request: \{clientRequest}");
+//            System.out.println(socket.toString());
+//            System.out.println(connections.size());
+//            sendBuffer.close();
+//            receiveBuffer.close();
+//            socket.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void main(String[] args) {
         System.out.println(1211);
-        try {
-            GameServer.setupServer();
-            GameServer server1 = new GameServer();
-            GameServer server2 = new GameServer();
-            server1.start();
-            server2.listen();
-        } catch (Exception e) {
-            System.out.println("Server encountered a problem!");
-            e.printStackTrace();
-        }
+//        try {
+//            GameServer.setupServer();
+//            GameServer server1 = new GameServer();
+//            GameServer server2 = new GameServer();
+//            server1.start();
+//            server2.listen();
+//        } catch (Exception e) {
+//            System.err.println("Server encountered a problem!");
+//            e.printStackTrace();
+//            System.exit(1);
+//        }
     }
 
     private String generateNewToken() {
@@ -146,20 +151,24 @@ public class GameServer extends Thread{
         }
         return null;
     }
-    public static void addNewUser(User newUser){
+
+    public static void addNewUser(User newUser) {
         allUsers.add(newUser);
     }
 
     public static void setCurrentMenu(Menu currentMenu) {
         GameServer.currentMenu = currentMenu;
     }
+
     public static void setAllUsers(ArrayList<User> allUsers) {
         if (!allUsers.isEmpty())
             GameServer.allUsers = allUsers;
     }
+
     public static ArrayList<User> getAllUsers() {
-     return allUsers;
+        return allUsers;
     }
+
     public static ArrayList<Card> setAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
@@ -174,17 +183,16 @@ public class GameServer extends Thread{
         }
         return allCards;
     }
+
     public static ArrayList<Card> getAllCards() {
         return allCards;
     }
-    public static void addToSelectedCards(Card card){
+
+    public static void addToSelectedCards(Card card) {
         selectedCards.add(card);
     }
 
-
-    public static ArrayList<Leader> getAllLeaders(){
+    public static ArrayList<Leader> getAllLeaders() {
         return allLeaders;
     }
-
-
 }

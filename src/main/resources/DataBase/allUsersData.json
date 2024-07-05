@@ -1,0 +1,22 @@
+[
+  {
+    "username": "a",
+    "password": "GbPM4mR!",
+    "email": "a",
+    "nickname": "a@a.com",
+    "faction": "MONSTERS",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "1",
+    "SecurityQuestionNumber": 1,
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0,
+    "port": 0
+  }
+]
