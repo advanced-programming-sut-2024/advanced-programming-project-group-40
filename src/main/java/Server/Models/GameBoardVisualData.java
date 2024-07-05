@@ -50,6 +50,7 @@ public class GameBoardVisualData {
     boolean isRedRider;
     boolean isKingOfWildHunt;
     boolean isImperialMajesty;
+    String message;
     public GameBoardVisualData(MatchTable matchTable,boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt,boolean isImperialMajesty) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
@@ -128,6 +129,14 @@ public class GameBoardVisualData {
     }
     /////////////////////////////////
 
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public boolean isDestroyer() {
         return isDestroyer;

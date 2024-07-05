@@ -406,5 +406,15 @@ public class GameMenuController {
                 , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
         gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
+    public static void sendData(String message) {
+        matchTable.updatePoints();
+        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+                , false, false, false, false, false);
+        gameBoardVisualData.setMessage(message);
+        gameViewController2.setVisualData(gameBoardVisualData.toJSON());
+    }
 
+    public static void sendMessage(String value) {
+        sendData(value);
+    }
 }

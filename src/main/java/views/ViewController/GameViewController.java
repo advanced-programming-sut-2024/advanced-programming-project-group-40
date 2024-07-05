@@ -6,6 +6,7 @@ import controllers.MenuController.GameMenuController;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,7 @@ import javafx.scene.layout.*;
 
 
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
@@ -41,6 +43,7 @@ import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
 
+
     private GameBoardVisualData visualData;
     private final Stage tempStage = new Stage();
 
@@ -51,7 +54,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         update();
     }
 
-
+    @FXML
+    private Label messageInput;
     @FXML
     private ChoiceBox<String> Messages;
     @FXML
@@ -147,8 +151,9 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String[] messages = {"kys", "ALI ABD'EL AZIZ", "YOU MAD TERRORIST"
                 , "sure buddy",
-                "nice argument senator why don't you back it up with a source?","UwU"};
+                "nice argument senator why don't you back it up with a source?", "UwU"};
         Messages.getItems().addAll(messages);
+        emptyMessage();
         GameMenuController.setGameViewController2(this);
         GameMenuController.initiateDeck();
         InitiateCardEvents();
@@ -342,7 +347,21 @@ public class GameViewController extends PlayMenu implements Initializable {
         if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn());
         if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn());
         if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn());
+        if (visualData.getMessage() != null) {
+            messageInput.setText(visualData.getMessage());
+            Thread removeMessageThread = new Thread(() -> {
+                try {
 
+                    Thread.sleep(5000);
+                    Platform.runLater(() -> messageInput.setText(""));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            removeMessageThread.start();
+
+
+        }
         if (visualData.isFirstPlayerTurn()) {
             if (visualData.getLeader(0) != null) {
                 if (firstPlayerLeaderImage != null) {
@@ -839,7 +858,14 @@ public class GameViewController extends PlayMenu implements Initializable {
         tempStage.show();
     }
 
+    private void emptyMessage() {
+        messageInput.setText("");
+    }
+
     public void SendMessage(MouseEvent mouseEvent) {
-        if (Messages.getValue() != null) System.out.println(Messages.getValue());
+        if (Messages.getValue() != null) {
+            System.out.println(Messages.getValue());
+            GameMenuController.sendMessage(Messages.getValue());
+        }
     }
 }
