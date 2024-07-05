@@ -2,9 +2,7 @@ package Server.Models;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import enums.cards.CardInfo;
-import enums.cards.LeaderInfo;
-import enums.cards.UnitCardInfo;
+import enums.cards.*;
 import models.MatchTable;
 import models.User;
 import models.cards.*;
@@ -35,6 +33,17 @@ public class GameBoardVisualData {
     LeaderInfo secondPlayerLeader;
     int firstPlayerCrystals;
     int secondPlayerCrystals;
+    boolean isFirstPlayerTurn;
+    boolean isMatchFinished;
+
+    ArrayList<Integer> firstPlayerPoints = new ArrayList<>(3);
+    ArrayList<Integer> secondPlayerPoints = new ArrayList<>(3);
+
+    String firstPlayerNickName;
+    String secondPlayerNickName;
+
+    String firstPlayerFaction;
+    String secondPlayerFaction;
 
     public GameBoardVisualData(MatchTable matchTable) {
         InitializeArrays(matchTable);
@@ -78,6 +87,167 @@ public class GameBoardVisualData {
 
         firstPlayerCrystals = matchTable.getFirstPlayerCrystals();
         secondPlayerCrystals = matchTable.getSecondPlayerCrystals();
+        firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 0));
+        firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 1));
+        firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 2));
+        secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 0));
+        secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 1));
+        secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 2));
+        firstPlayerNickName = matchTable.getFirstPlayer().getNickname();
+        secondPlayerNickName = matchTable.getSecondPlayer().getNickname();
+        firstPlayerFaction = matchTable.getFirstPlayer().getFaction().name;
+        secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
+        isFirstPlayerTurn = matchTable.isFirstPlayerTurn();
+        isMatchFinished = matchTable.isMatchFinished();
+    }
+
+
+    //////////////////////////Serializations
+    public String toJSON() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(CardInfo.class, new InterfaceAdapter());
+        Gson gson = gsonBuilder.create();
+        return gson.toJson(this);
+    }
+
+    public static GameBoardVisualData deSerialize(String JSON) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(CardInfo.class, new InterfaceAdapter());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(JSON, GameBoardVisualData.class);
+    }
+    /////////////////////////////////
+
+
+    //getters
+    public Card getBoost(int userID, int Row) {
+        switch (userID) {
+            case 0:
+                switch (Row) {
+                    case 0:
+                        if (firstPlayerCCSpecial != null)
+                            return new SpecialCard((SpecialCardInfo) firstPlayerCCSpecial);
+
+                    case 1:
+                        if (firstPlayerRangedSpecial != null)
+                            return new SpecialCard((SpecialCardInfo) firstPlayerRangedSpecial);
+
+                    case 2:
+                        if (firstPlayerSiegeSpecial != null)
+                            return new SpecialCard((SpecialCardInfo) firstPlayerSiegeSpecial);
+
+                    default:
+                        return null;
+                }
+
+            case 1:
+                switch (Row) {
+                    case 0:
+                        if (secondPlayerCCSpecial != null)
+                            return new SpecialCard((SpecialCardInfo) secondPlayerCCSpecial);
+
+                    case 1:
+                        if (secondPlayerRangedSpecial != null)
+                            return new SpecialCard((SpecialCardInfo) secondPlayerRangedSpecial);
+
+                    case 2:
+                        if (secondPlayerSiegeSpecial != null)
+                            return new SpecialCard((SpecialCardInfo) secondPlayerSiegeSpecial);
+
+                    default:
+                        return null;
+                }
+            default:
+                return null;
+        }
+    }
+
+    public int getRowPoints(int userID, int row) {
+        if (userID == 0) {
+            return firstPlayerPoints.get(row);
+        } else {
+            return secondPlayerPoints.get(row);
+        }
+    }
+
+    public boolean isFirstPlayerTurn() {
+        return isFirstPlayerTurn;
+    }
+
+    public int getTotalPoints(int userID) {
+        if (userID == 0) {
+            return firstPlayerPoints.get(0) + firstPlayerPoints.get(1) + firstPlayerPoints.get(2);
+        } else {
+            return secondPlayerPoints.get(0) + secondPlayerPoints.get(1) + secondPlayerPoints.get(2);
+        }
+    }
+
+    public boolean isMatchFinished() {
+        return isMatchFinished;
+    }
+
+    public String getFaction(int userID) {
+        if (userID == 0) {
+            return firstPlayerFaction;
+        } else {
+            return secondPlayerFaction;
+        }
+    }
+
+    public String getNickName(int userID) {
+        if (userID == 0) {
+            return firstPlayerNickName;
+        } else {
+            return secondPlayerNickName;
+        }
+    }
+
+    public ArrayList<Card> getCardArrayByArrayName(String name) {
+        return switch (name) {
+            case "firstPlayerInPlay" -> getCardsFromEnumArray(firstPlayerInPlay);
+            case "secondPlayerInPlay" -> getCardsFromEnumArray(secondPlayerInPlay);
+            case "firstPlayerDiscard" -> getCardsFromEnumArray(firstPlayerDiscard);
+            case "secondPlayerDiscard" -> getCardsFromEnumArray(secondPlayerDiscard);
+            case "firstPlayerDeck" -> getCardsFromEnumArray(firstPlayerDeck);
+            case "secondPlayerDeck" -> getCardsFromEnumArray(secondPlayerDeck);
+            case "firstPlayerCC" -> getCardsFromEnumArray(firstPlayerCC);
+            case "firstPlayerRanged" -> getCardsFromEnumArray(firstPlayerRanged);
+            case "firstPlayerSiege" -> getCardsFromEnumArray(firstPlayerSiege);
+            case "secondPlayerCC" -> getCardsFromEnumArray(secondPlayerCC);
+            case "secondPlayerRanged" -> getCardsFromEnumArray(secondPlayerRanged);
+            case "secondPlayerSiege" -> getCardsFromEnumArray(secondPlayerSiege);
+            case "weather" -> getCardsFromEnumArray(weather);
+            default -> null;
+        };
+    }
+
+
+    public int getCrystals(int userID) {
+        if (userID == 0) return firstPlayerCrystals;
+        else return secondPlayerCrystals;
+    }
+
+    public Card getLeader(int userID) {
+        if (userID == 0) return new Leader(firstPlayerLeader);
+        else return new Leader(secondPlayerLeader);
+    }
+
+
+    ////////////////////// private static fields
+    private static ArrayList<Card> getCardsFromEnumArray(ArrayList<CardInfo> cardInfos) {
+        ArrayList<Card> cards = new ArrayList<>();
+        for (CardInfo cardInfo : cardInfos) {
+            if (cardInfo instanceof UnitCardInfo unitCardInfo) {
+                cards.add(new UnitCard(unitCardInfo));
+            }
+            if (cardInfo instanceof SpecialCardInfo specialCardInfo) {
+                cards.add(new SpecialCard(specialCardInfo));
+            }
+            if (cardInfo instanceof HeroInfo heroInfo) {
+                cards.add(new Hero(heroInfo));
+            }
+        }
+        return cards;
     }
 
     private static void fillInfoArray(ArrayList<CardInfo> infoArray, ArrayList<Card> cardArray) {
@@ -100,21 +270,9 @@ public class GameBoardVisualData {
         return cardInfo;
     }
 
-
-    public String toJSON() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(CardInfo.class,new InterfaceAdapter());
-        Gson gson = gsonBuilder.create();
-        return gson.toJson(this);
-    }
-
-    public static GameBoardVisualData deSerialize(String JSON) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(CardInfo.class,new InterfaceAdapter());
-        Gson gson = gsonBuilder.create();
-        return gson.fromJson(JSON, GameBoardVisualData.class);
-    }
-
-
-
 }
+
+
+
+
+
