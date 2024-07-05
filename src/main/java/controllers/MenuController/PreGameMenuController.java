@@ -4,7 +4,7 @@ import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import javafx.scene.control.Alert;
 import models.AlertMaker;
-import Server.GameServer;
+import models.Game;
 import models.User;
 
 public class PreGameMenuController extends UserInfoController {
@@ -12,11 +12,11 @@ public class PreGameMenuController extends UserInfoController {
 
     public static AlertMaker checkCompetitorData(String username) {
 
-        if (GameServer.getLoggedInUser().getNumberOfUnitCards() < 22)
+        if (Game.getLoggedInUser().getNumberOfUnitCards() < 22)
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.YOU_DO_NOT_HAVE_ENOUGH_CARDS.toString());
         if (isUsernameUnique(username))
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.INVALID_COMPETITOR_USERNAME.toString());
-        User user = GameServer.getUserByName(username);
+        User user = Game.getUserByName(username);
         if (user.getNumberOfUnitCards() < 22)
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.NOT_ENOUGH_CARDS.toString());
         if (user.getNumberOfSpecialCards() > 10)

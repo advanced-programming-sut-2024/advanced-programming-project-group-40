@@ -1,7 +1,8 @@
 package models.actions;
 
 import enums.Origin;
-import Server.GameServer;
+import enums.cards.SpecialCardInfo;
+import models.Game;
 import models.MatchTable;
 import models.cards.Card;
 import models.cards.CardWrapper;
@@ -119,7 +120,7 @@ public abstract class UnitCardActions {
             while (i < 2 && !matchTable.getFirstPlayerDeckCards().isEmpty()) {
                 i++;
                 randomUnitcard = matchTable.getFirstPlayerDeckCards().get(
-                        GameServer.random.nextInt(0, matchTable.getFirstPlayerDeckCards().size())
+                        Game.random.nextInt(0, matchTable.getFirstPlayerDeckCards().size())
                 );
                 matchTable.addToInPlayCards(0, new CardWrapper(randomUnitcard, Origin.FIRSTPLAYER_DECK));
 
@@ -128,7 +129,7 @@ public abstract class UnitCardActions {
             while (i < 2 && !matchTable.getSecondPlayerDeckCards().isEmpty()) {
                 i++;
                 randomUnitcard = matchTable.getSecondPlayerDeckCards().get(
-                        GameServer.random.nextInt(0, matchTable.getSecondPlayerDeckCards().size())
+                        Game.random.nextInt(0, matchTable.getSecondPlayerDeckCards().size())
                 );
                 matchTable.addToInPlayCards(1, new CardWrapper(randomUnitcard, Origin.SECONDPLAYER_DECK));
 

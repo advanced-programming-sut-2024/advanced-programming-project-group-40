@@ -2,7 +2,7 @@ package views;
 
 import javafx.application.Platform;
 import javafx.scene.control.ProgressBar;
-import Server.GameServer;
+import models.Game;
 
 public class LoadingScreen1Controller {
     public ProgressBar progressBar;
@@ -50,7 +50,7 @@ public class LoadingScreen1Controller {
     public void finish() {
         Platform.runLater(() -> {
             try {
-                new MainMenu().start(GameServer.stage);
+                new MainMenu().start(Game.stage);
             } catch (Exception e) {
                 e.printStackTrace();
             }
