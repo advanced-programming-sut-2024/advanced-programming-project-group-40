@@ -1,6 +1,7 @@
 package enums.AlertInfo.messages;
 
 public enum LoginMenuMessages {
+    LOGGED_IN_SUCCESSFULLY("Logged in successfully"),
     INCORRECT_USERNAME("Username is incorrect"),
     INCORRECT_PASSWORD("Password is incorrect"),
     STAY_LOGGED_IN("Do you want to stay logged in?"),

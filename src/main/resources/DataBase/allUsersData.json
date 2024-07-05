@@ -1,7 +1,7 @@
 [
   {
     "username": "a",
-    "password": "GbPM4mR!",
+    "password": "UT^*89Xl",
     "email": "a",
     "nickname": "a@a.com",
     "faction": "MONSTERS",
@@ -13,10 +13,12 @@
     "SecurityAnswer": "1",
     "SecurityQuestionNumber": 1,
     "stayLoggedIn": false,
+    "followers": [],
+    "followings": [],
+    "requests": [],
     "numberOfUnitCards": 0,
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,
-    "totalUnitCardsStrength": 0,
-    "port": 0
+    "totalUnitCardsStrength": 0
   }
 ]
