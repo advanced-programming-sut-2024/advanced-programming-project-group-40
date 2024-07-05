@@ -1,8 +1,10 @@
 package models.cards;
 
 import enums.Ability;
+import enums.Factions;
 import enums.Unit;
 import enums.cards.UnitCardInfo;
+import models.Game;
 
 public class UnitCard extends Card{
     private final int constantPower;

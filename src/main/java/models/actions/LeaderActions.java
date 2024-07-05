@@ -4,7 +4,7 @@ import controllers.MenuController.GameMenuController;
 import enums.Origin;
 import enums.Unit;
 import enums.cards.SpecialCardInfo;
-import Server.GameServer;
+import models.Game;
 import models.MatchTable;
 import models.cards.*;
 
@@ -106,14 +106,14 @@ public abstract class LeaderActions {
         if (matchTable.isFirstPlayerTurn()) {
             if (!isArrayOnlyHero(matchTable.getSecondPlayerDeadCards())) {
                 ArrayList<Card> herolessArray = getHerolessArray(matchTable.getSecondPlayerDeadCards());
-                int randomNumber = GameServer.random.nextInt(0, herolessArray.size());
+                int randomNumber = Game.random.nextInt(0, herolessArray.size());
                 matchTable.addToInPlayCards(0, new CardWrapper(herolessArray.get(randomNumber),
                         Origin.SECONDPLAYER_DEAD));
             }
         } else {
             if (!isArrayOnlyHero(matchTable.getFirstPlayerDeadCards())) {
                 ArrayList<Card> herolessArray = getHerolessArray(matchTable.getFirstPlayerDeadCards());
-                int randomNumber = GameServer.random.nextInt(0, herolessArray.size());
+                int randomNumber = Game.random.nextInt(0, herolessArray.size());
                 matchTable.addToInPlayCards(1, new CardWrapper(herolessArray.get(randomNumber),
                         Origin.FIRSTPLATER_DEAD));
             }
@@ -121,10 +121,10 @@ public abstract class LeaderActions {
     }
 
     private static void invaderOfTheNorth() {
-        int randomNumber = GameServer.random.nextInt(0, matchTable.getSecondPlayerDeadCards().size());
+        int randomNumber = Game.random.nextInt(0, matchTable.getSecondPlayerDeadCards().size());
         matchTable.addToInPlayCards(1, new CardWrapper(matchTable.getSecondPlayerDeadCards().get(randomNumber),
                 Origin.SECONDPLAYER_DEAD));
-        randomNumber = GameServer.random.nextInt(0, matchTable.getFirstPlayerDeadCards().size());
+        randomNumber = Game.random.nextInt(0, matchTable.getFirstPlayerDeadCards().size());
         matchTable.addToInPlayCards(0, new CardWrapper(matchTable.getFirstPlayerDeadCards().get(randomNumber),
                 Origin.FIRSTPLATER_DEAD));
     }

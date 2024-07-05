@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import Server.GameServer;
+import models.Game;
 
 import java.util.Objects;
 
@@ -15,7 +15,7 @@ public class GameHistory extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        GameServer.stage = stage;
+        Game.stage = stage;
         Pane pane = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("/FXML/GameHistoryFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();

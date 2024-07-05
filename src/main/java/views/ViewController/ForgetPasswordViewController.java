@@ -13,8 +13,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.AlertMaker;
 import models.ErrorMaker;
-import Server.GameServer;
+import models.Game;
 import models.User;
+import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.MainMenu;
 
@@ -64,7 +65,7 @@ public class  ForgetPasswordViewController {
     }
 
     public void submit1Clicked() {
-        if ((user = GameServer.getUserByName(username.getText())) == null) {
+        if ((user = Game.getUserByName(username.getText())) == null) {
             new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_USERNAME.toString()).showAlert();
         } else {
             firstVBox.setVisible(false);
@@ -89,9 +90,9 @@ public class  ForgetPasswordViewController {
     public void changeClicked() {
         if (validPass) {
             user.setPassword(newPassword.getText());
-            GameServer.setLoggedInUser(user);
+            Game.setLoggedInUser(user);
             try {
-                new MainMenu().start(GameServer.stage);
+                new MainMenu().start(Game.stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -114,7 +115,7 @@ public class  ForgetPasswordViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new LoginMenu().start(GameServer.stage);
+            new LoginMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

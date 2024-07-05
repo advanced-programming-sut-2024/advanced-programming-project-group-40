@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import models.User;
-import Server.GameServer;
+import models.Game;
 import models.cards.*;
+import views.ViewController.PreGameViewController;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class DataSaver {
         try {
             fileWriter = new FileWriter(USERS_DATABASE_PATH);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(GameServer.getAllUsers());
+            String json = gson.toJson(Game.getAllUsers());
             fileWriter.write(json);
             fileWriter.close();
         } catch (IOException e) {
@@ -72,7 +73,7 @@ public class DataSaver {
             }.getType());
             String leaderName = gson.fromJson(text2, String.class);
             Leader leader = Leader.getLeaderByName(leaderName);
-            User user = GameServer.getLoggedInUser();
+            User user = Game.getLoggedInUser();
             user.setLeader(leader);
             assert leader != null;
             user.setFaction(leader.getFaction());

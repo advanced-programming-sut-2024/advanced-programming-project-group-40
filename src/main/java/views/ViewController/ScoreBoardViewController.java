@@ -5,9 +5,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import Server.GameServer;
+import models.Game;
 import models.User;
 import views.MainMenu;
+import views.ScoreBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ public class ScoreBoardViewController {
     }
 
     private void initializeChart() {
-        ArrayList<User> sortedUsers = GameServer.getAllUsers();
+        ArrayList<User> sortedUsers = Game.getAllUsers();
         Collections.sort(sortedUsers, new Comparator<User>() {
             @Override
             public int compare(User u1, User u2) {
@@ -49,7 +50,7 @@ public class ScoreBoardViewController {
 
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
-            new MainMenu().start(GameServer.stage);
+            new MainMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

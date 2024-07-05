@@ -2,13 +2,13 @@ package views.ViewController;
 
 import controllers.DataSaver;
 import javafx.scene.input.MouseEvent;
-import Server.GameServer;
+import models.Game;
 import views.*;
 
 public class MainViewController {
     public void goToGameMenu(MouseEvent mouseEvent) {
         try {
-            new PreGameMenu().start(GameServer.stage);
+            new PreGameMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -16,7 +16,7 @@ public class MainViewController {
 
     public void goToProfileMenu(MouseEvent mouseEvent) {
         try {
-            new ProfileMenu().start(GameServer.stage);
+            new ProfileMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -25,7 +25,7 @@ public class MainViewController {
     public void SignOut(MouseEvent mouseEvent) {
         try {
             DataSaver.saveUsers();
-            new LoginMenu().start(GameServer.stage);
+            new LoginMenu().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -33,7 +33,7 @@ public class MainViewController {
 
     public void goToScoreBoard(MouseEvent mouseEvent) {
         try {
-            new ScoreBoard().start(GameServer.stage);
+            new ScoreBoard().start(Game.stage);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
