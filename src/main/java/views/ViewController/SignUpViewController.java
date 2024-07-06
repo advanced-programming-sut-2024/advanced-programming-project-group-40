@@ -16,11 +16,9 @@ import javafx.util.Duration;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
-import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignUpViewController {
@@ -121,10 +119,6 @@ public class SignUpViewController {
 
 
     private void goToQuestionPage() {
-        ArrayList<User> all = Game.getAllUsers();
-        for (User user : all) {
-            System.out.println(user.getUsername());
-        }
         try {
             new SecurityQuestionMenu().start(Game.stage);
         } catch (Exception e) {
@@ -134,11 +128,12 @@ public class SignUpViewController {
 
     public void ContinueClicked() {
         if (!validFiled.containsValue(false) && !nickname.getText().isEmpty()) {
-            AlertMaker alert = SignUpMenuController.Continue(username.getText());
+            String randomUsername=Generator.getRandomPassword();
+            AlertMaker alert = SignUpMenuController.Continue(username.getText(),randomUsername);
             alert.showAlert();
             if (alert.getAlertType().equals(Alert.AlertType.ERROR)) {
                 if (alert.isOK()) {
-                    SignUpMenuController.createUser(username.getText(), password.getText(), nickname.getText(), email.getText());
+                    SignUpMenuController.createUser(randomUsername, password.getText(), email.getText(), nickname.getText());
                 }
             } else {
                 if (alert.isOK()) {
@@ -146,6 +141,7 @@ public class SignUpViewController {
                     authorizationVbox.setVisible(true);
                     if (SignUpMenuController.checkLink(email.getText())) {
                         Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
+                            SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
                             goToQuestionPage();
                         }));
                         timer.setCycleCount(1);
