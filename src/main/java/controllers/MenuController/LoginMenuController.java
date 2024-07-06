@@ -26,7 +26,6 @@ public class LoginMenuController extends UserInfoController {
         if (!success && result.equals(LoginMenuMessages.INCORRECT_PASSWORD.toString()))
             return new AlertMaker(AlertType.ERROR, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.INCORRECT_PASSWORD.toString());
         user = Game.getUserByName(username);
-        System.out.println(user);
         Game.setLoggedInUser(user);
         return new AlertMaker(AlertType.CONFIRMATION, AlertHeader.SIGN_IN.toString(), LoginMenuMessages.STAY_LOGGED_IN.toString());
     }
