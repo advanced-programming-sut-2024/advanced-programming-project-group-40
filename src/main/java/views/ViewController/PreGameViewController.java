@@ -136,8 +136,8 @@ public class PreGameViewController {
                         (GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress))
                 .toExternalForm())).getImage());
         setUpLabels();
-
-
+        setUpCards();
+        setUpSelectedCards();
         unit.textProperty().addListener((observable, oldValue, newValue) -> {
             setUnitCardColor();
         });
@@ -432,6 +432,7 @@ public class PreGameViewController {
                         + ((Hero) newCard).getConstantPower()));
             }
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
+            loggedInUser.getDeckCardsName().add(newCard.getName());
             newCard.addToSelected();
             addToSelectedCards(Objects.requireNonNull(Card.getCardByName(newCard.getName())));
             Game.addToSelectedCards(newCard);
@@ -447,12 +448,8 @@ public class PreGameViewController {
 
     @FXML
     private void downloadDeck(MouseEvent mouseEvent) {
-        ArrayList<String> deckCards = new ArrayList<>();
-        for (Card card : loggedInUser.getDeckCards()) {
-            deckCards.add(card.getName());
-        }
+        ArrayList<String> deckCards = loggedInUser.getDeckCardsName();
         DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
-        DataSaver.saveDeckCards(deckCards, Game.getLoggedInUser().getLeader());
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
                 , PreGameMenuMessages.DOWNLOAD_DECK.toString());
         alertMaker.showAlert();
