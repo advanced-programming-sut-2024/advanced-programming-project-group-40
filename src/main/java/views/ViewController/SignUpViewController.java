@@ -16,11 +16,9 @@ import javafx.util.Duration;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
-import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignUpViewController {
@@ -46,6 +44,7 @@ public class SignUpViewController {
     private TextField username;
     private String randomNewPassword;
     private HashMap<Integer, Boolean> validFiled = new HashMap<>();
+    private static String randomUsername;
 
     {
         validFiled.put(1, false);
@@ -121,10 +120,6 @@ public class SignUpViewController {
 
 
     private void goToQuestionPage() {
-        ArrayList<User> all = Game.getAllUsers();
-        for (User user : all) {
-            System.out.println(user.getUsername());
-        }
         try {
             new SecurityQuestionMenu().start(Game.stage);
         } catch (Exception e) {
@@ -138,7 +133,7 @@ public class SignUpViewController {
             alert.showAlert();
             if (alert.getAlertType().equals(Alert.AlertType.ERROR)) {
                 if (alert.isOK()) {
-                    SignUpMenuController.createUser(username.getText(), password.getText(), nickname.getText(), email.getText());
+                    username.setText(randomUsername);
                 }
             } else {
                 if (alert.isOK()) {
@@ -146,6 +141,7 @@ public class SignUpViewController {
                     authorizationVbox.setVisible(true);
                     if (SignUpMenuController.checkLink(email.getText())) {
                         Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
+                            SignUpMenuController.createUser(username.getText(), password.getText(), nickname.getText(), email.getText());
                             goToQuestionPage();
                         }));
                         timer.setCycleCount(1);
@@ -187,5 +183,9 @@ public class SignUpViewController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void setRandomPass(String randomPass) {
+        randomPass = randomPass;
     }
 }
