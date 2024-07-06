@@ -13,7 +13,7 @@ import models.User;
 public class SignUpMenuController extends UserInfoController {
     public static AlertMaker Continue(String username) {
         if (!isUsernameUnique(username))
-            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + Generator.generateUsername(username));
+            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER );
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.CONTINUE.toString());
     }
 
