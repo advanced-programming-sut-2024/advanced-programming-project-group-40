@@ -1,27 +1,25 @@
 package Server;
 
+import controllers.DataSaver;
+import models.Game;
 import models.User;
+import views.LoginMenu;
+import views.Main;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class ClientHandler {
-    private final User user;
-    private final Server server;
-    private final Socket socket;
-    private BufferedReader bufferedReader;
-    private BufferedWriter bufferedWriter;
+    public static Client client;
 
-    public ClientHandler(User user, Server server, Socket socket) {
-        this.user = user;
-        this.server = server;
-        this.socket = socket;
-        try {
-            this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+    static void run(String[] args) throws Exception {
+        Main.main(args);
+    }
 
+    public static void main(String[] args) throws Exception {
+        client = new Client("localhost", 8000);
+        run(args);
     }
 }

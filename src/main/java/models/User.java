@@ -22,6 +22,7 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private final ArrayList<String> deckCardsName = new ArrayList<>();
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
@@ -261,7 +262,6 @@ public class User {
             }
         }
     }
-
     public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
@@ -272,10 +272,18 @@ public class User {
         return count;
     }
 
+    public ArrayList<String> getDeckCardsName() {
+        return deckCardsName;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
     }
 
 
+    public void setDeckCards(ArrayList<Card> cards) {
+        deckCards.clear();
+        deckCards.addAll(cards);
+    }
 }

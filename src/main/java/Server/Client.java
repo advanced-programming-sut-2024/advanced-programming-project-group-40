@@ -1,59 +1,102 @@
 package Server;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+import Server.Messages.Client.LoginMessages;
+import Server.Messages.Client.SignUpMessages;
+import Server.Messages.ServerMessages;
+import com.google.gson.*;
+import models.User;
+
 
 public class Client {
-    private final int BYTEBUFFER_SIZE = 256;
-    private static Client client;
-    private final SocketChannel clientChannel;
-    private final ByteBuffer buffer = ByteBuffer.allocate(BYTEBUFFER_SIZE);
+    private Socket socket;
+    private DataInputStream receiveBuffer;
+    private DataOutputStream sendBuffer;
+    private String serverIP;
+    private int serverPort;
 
-    private Client() throws IOException {
-        clientChannel = SocketChannel.open();
-        clientChannel.connect(new InetSocketAddress("localhost", 8080));
-        client = this;
-        Thread thread = new a();
-        thread.start();
+    private Gson gsonAgent;
+    private String token;
+
+
+    public Client(String serverIP, int serverPort) {
+        GsonBuilder builder = new GsonBuilder();
+        this.gsonAgent = builder.create();
+        this.serverIP = serverIP;
+        this.serverPort = serverPort;
     }
 
-    public static Client getClient() throws IOException {
-        if (client == null) {
-            client = new Client();
-
-        }
-        return client;
-    }
-
-    public ByteBuffer getBuffer() {
-        return buffer;
-    }
-
-    public SocketChannel getClientChannel() {
-        return clientChannel;
-    }
-    public static boolean isBufferFull(ByteBuffer buffer){
-        for (Byte b : buffer.array()){
-            if (b != 0) return true;
-        }
-        return false;
-    }
-    public static void clearBuffer(ByteBuffer buffer){
-        for (int i = 0; i < buffer.array().length; i++) {
-            buffer.put(i,(byte) 0);
+    private boolean establishConnection() {
+        try {
+            socket = new Socket(serverIP, serverPort);
+            sendBuffer = new DataOutputStream(socket.getOutputStream());
+            receiveBuffer = new DataInputStream(socket.getInputStream());
+            return true;
+        } catch (Exception e) {
+            System.err.println("Unable to initialize socket!");
+            e.printStackTrace();
+            return false;
         }
     }
 
-    public String getServerResponse() throws IOException {
-        ByteBuffer q = ByteBuffer.allocate(BYTEBUFFER_SIZE);
-        clientChannel.read(q);
-        q.flip();
-
-        // Convert the response to a String and print it
-        return new String(q.array(), 0, q.limit());
+    private boolean endConnection() {
+        if (socket == null) return true;
+        try {
+            socket.close();
+            receiveBuffer.close();
+            sendBuffer.close();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
+
+    private boolean sendMessage(String message) {
+        try {
+            sendBuffer.writeUTF(message);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private String receiveResponse() {
+        try {
+            return receiveBuffer.readUTF();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public void test() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Client is running");
+        establishConnection();
+        String input = scanner.nextLine();
+        sendMessage(input);
+        endConnection();
+    }
+
+    public ServerMessages login(LoginMessages loginMessages) {
+        establishConnection();
+        sendMessage(gsonAgent.toJson(loginMessages));
+        String response = receiveResponse();
+        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
+        endConnection();
+        return serverMessages;
+    }
+
+    public ServerMessages signup(SignUpMessages signUpMessages) {
+        establishConnection();
+        sendMessage(gsonAgent.toJson(signUpMessages));
+        String response = receiveResponse();
+        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
+        endConnection();
+        return serverMessages;
+    }
+
+
 }

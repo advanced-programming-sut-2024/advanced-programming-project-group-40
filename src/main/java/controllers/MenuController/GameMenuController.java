@@ -1,5 +1,6 @@
 package controllers.MenuController;
 
+import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
 import javafx.scene.Scene;
@@ -80,7 +81,8 @@ public class GameMenuController  {
             isNewWindowOpen = false;
 
 
-        } else {
+        }
+        else {
             if (isSelectable(selectedCard1)) {
                 selectedCard = selectedCard1;
                 gameViewController.unHighlight();
@@ -97,6 +99,7 @@ public class GameMenuController  {
                 matchTable.endTurn();
             }
         }
+        updatePoints();
     }
 
     private static Origin GetDestination(boolean isFirstPlayerTurn) {
@@ -294,7 +297,7 @@ public class GameMenuController  {
         return origin;
     }
 
-    public static void ClickedOnRow(Origin origin, GameViewController gameViewController) {
+    public static void ClickedOnRow(Origin origin) {
         Origin destination = GetDestination(matchTable.isFirstPlayerTurn());
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
@@ -315,7 +318,6 @@ public class GameMenuController  {
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY), 1, getRowID(origin));
                 }
                 if (!isMedic) matchTable.endTurn();
-                gameViewController.update();
                 if (matchTable.isFirstPlayerTurn()) {
                     if (isMedic && !matchTable.getFirstPlayerDeadCards().isEmpty()) {
                         MakeMedicWindow(matchTable.isFirstPlayerTurn());
@@ -329,7 +331,7 @@ public class GameMenuController  {
 
             }
         }
-
+        gameViewController2.update();
     }
 
     private static void MakeMedicWindow(boolean isFirstPlayerTurn) {
@@ -504,5 +506,12 @@ public class GameMenuController  {
         matchTable.endTurn();
     }
 
+    public static void sendData(){
+        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable);
+        GameViewController.setVisualData(gameBoardVisualData.toJSON());
 
+    }
+    public static void updatePoints() {
+        matchTable.updatePoints();
+    }
 }
