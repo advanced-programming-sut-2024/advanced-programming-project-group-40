@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SignUpViewController">
    <children>
-      <VBox alignment="CENTER" layoutX="377.0" layoutY="69.0" prefHeight="578.0" prefWidth="275.0" styleClass="Box">
+      <VBox fx:id="signUpVBox" alignment="CENTER" layoutX="362.0" layoutY="67.0" prefHeight="578.0" prefWidth="275.0" styleClass="Box">
          <children>
             <Label styleClass="label-header" text="Sign Up" textFill="#c2e7e3" translateY="-25.0">
                <font>
@@ -42,6 +42,22 @@
             <Button fx:id="randomPass" mnemonicParsing="false" onMouseClicked="#getRandomPasswordClicked" styleClass="button-no-background" stylesheets="@../CSS/Style.css" text="Get a random password" translateY="20.0" underline="true" />
             <Button fx:id="signUp" mnemonicParsing="false" onMouseClicked="#ContinueClicked" styleClass="button-regular" stylesheets="@../CSS/Style.css" text="Continue" translateY="30.0" />
             <Label translateY="20.0" />
+         </children>
+      </VBox>
+      <VBox fx:id="authorizationVbox" alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="210.0" prefWidth="296.0" styleClass="Box">
+         <children>
+            <Label prefHeight="71.0" prefWidth="224.0" styleClass="label-header" text="Confirm that it's you" translateY="-25.0">
+               <font>
+                  <Font size="25.0" />
+               </font></Label>
+            <Label text="We will send a link to your mail." translateY="-25.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <Label text="Please verify by click on that." translateY="-25.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
          </children>
       </VBox>
       <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="23.0" onMouseClicked="#goToLoginMenu" pickOnBounds="true" preserveRatio="true" styleClass="back">

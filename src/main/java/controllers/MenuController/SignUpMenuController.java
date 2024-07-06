@@ -1,8 +1,6 @@
 package controllers.MenuController;
 
-import Server.ClientHandler;
-import Server.Messages.Client.SignUpMessages;
-import Server.Messages.ServerMessages;
+import Mail.LinkAuthorization;
 import controllers.DataSaver;
 import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
@@ -11,15 +9,11 @@ import javafx.scene.control.Alert;
 import models.AlertMaker;
 import models.Game;
 import models.User;
-import views.ViewController.SignUpViewController;
 
 public class SignUpMenuController extends UserInfoController {
     public static AlertMaker Continue(String username) {
-        if (!isUsernameUnique(username)) {
-            String randomUser = Generator.generateUsername(username);
-            SignUpViewController.setRandomPass(username);
-            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + randomUser);
-        }
+        if (!isUsernameUnique(username))
+            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + Generator.generateUsername(username));
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.CONTINUE.toString());
     }
 
@@ -36,8 +30,6 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
         DataSaver.saveUsers();
-        SignUpMessages signUpMessages = new SignUpMessages(Game.getLoggedInUser());
-        ServerMessages serverMessages = ClientHandler.client.signup(signUpMessages);
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
 
@@ -48,9 +40,7 @@ public class SignUpMenuController extends UserInfoController {
 
 
     public static boolean checkLink(String email) {
-        // todo ---
-//        LinkAuthorization.sendLink(email);
-//        return LinkAuthorization.verifyLink();
-        return true;
+        LinkAuthorization.sendLink(email);
+        return LinkAuthorization.verifyLink();
     }
 }
