@@ -8,6 +8,7 @@ import java.io.*;
 
 import Server.Messages.Client.ClientMessages;
 import Server.Messages.Client.LoginMessages;
+import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
 import com.google.gson.*;
 import enums.AlertInfo.messages.LoginMenuMessages;
@@ -80,11 +81,12 @@ public class Server extends Thread {
             switch (clientMessage.getType()) {
                 case LOGIN:
                     return gsonAgent.fromJson(clientStr, LoginMessages.class);
+                case SIGNUP:
+                    return gsonAgent.fromJson(clientStr, SignUpMessages.class);
                 default:
                     return null;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return null;
         }
     }
@@ -101,10 +103,12 @@ public class Server extends Thread {
             );
             clientRequest = receiveBuffer.readUTF();
             ClientMessages clientMessage = extractClientMessage(clientRequest);
-            switch (Objects.requireNonNull(clientMessage).getType()){
+            switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
-                    User user = getUserByUsername(loginMessage.getUsername());
+                    System.out.println(loginMessage.getUsername() + " " + loginMessage.getPassword());
+                    User user = getUserByUsername(loginMessage.getUsername().trim());
+                    System.out.println(allUsers);
                     ServerMessages serverMessage;
                     if (user == null) {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
@@ -114,6 +118,11 @@ public class Server extends Thread {
                         serverMessage = new ServerMessages(true, LoginMenuMessages.LOGGED_IN_SUCCESSFULLY.toString());
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                    break;
+                case SIGNUP:
+                    SignUpMessages signUpMessage = (SignUpMessages) clientMessage;
+                    User newUser = signUpMessage.getUser();
+                    allUsers.add(newUser);
                     break;
             }
             sendBuffer.close();
@@ -136,6 +145,7 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
+
     public static User getUserByUsername(String username) {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
@@ -143,5 +153,11 @@ public class Server extends Thread {
             }
         }
         return null;
+    }
+
+    public static void addUser(User user) {
+        System.out.println(allUsers);
+        allUsers.add(user);
+        System.out.println(allUsers);
     }
 }

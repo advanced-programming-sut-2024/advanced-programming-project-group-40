@@ -4,21 +4,20 @@ import controllers.Generator;
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
+import models.User;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
+import views.SignUpMenu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SignUpViewController {
@@ -44,7 +43,6 @@ public class SignUpViewController {
     private TextField username;
     private String randomNewPassword;
     private HashMap<Integer, Boolean> validFiled = new HashMap<>();
-    private static String randomUsername;
 
     {
         validFiled.put(1, false);

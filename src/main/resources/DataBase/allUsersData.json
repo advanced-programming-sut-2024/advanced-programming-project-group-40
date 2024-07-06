@@ -1,9 +1,9 @@
 [
   {
-    "username": "a",
-    "password": "UT^*89Xl",
-    "email": "a",
-    "nickname": "a@a.com",
+    "username": "mahm",
+    "password": "1384Mmh!",
+    "email": "m",
+    "nickname": "m@m.com",
     "faction": "MONSTERS",
     "point": 0,
     "gamesPlayed": 0,
@@ -13,9 +13,6 @@
     "SecurityAnswer": "1",
     "SecurityQuestionNumber": 1,
     "stayLoggedIn": false,
-    "followers": [],
-    "followings": [],
-    "requests": [],
     "numberOfUnitCards": 0,
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,

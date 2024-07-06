@@ -1,5 +1,8 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
+import Server.Messages.Client.SignUpMessages;
+import Server.Messages.ServerMessages;
 import controllers.DataSaver;
 import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
@@ -33,6 +36,8 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
         DataSaver.saveUsers();
+        SignUpMessages signUpMessages = new SignUpMessages(Game.getLoggedInUser());
+        ServerMessages serverMessages = ClientHandler.client.signup(signUpMessages);
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
 

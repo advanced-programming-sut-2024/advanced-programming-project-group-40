@@ -5,8 +5,10 @@ import java.net.*;
 import java.util.Scanner;
 
 import Server.Messages.Client.LoginMessages;
+import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
 import com.google.gson.*;
+import models.User;
 
 
 public class Client {
@@ -81,6 +83,15 @@ public class Client {
     public ServerMessages login(LoginMessages loginMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(loginMessages));
+        String response = receiveResponse();
+        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
+        endConnection();
+        return serverMessages;
+    }
+
+    public ServerMessages signup(SignUpMessages signUpMessages) {
+        establishConnection();
+        sendMessage(gsonAgent.toJson(signUpMessages));
         String response = receiveResponse();
         ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
         endConnection();

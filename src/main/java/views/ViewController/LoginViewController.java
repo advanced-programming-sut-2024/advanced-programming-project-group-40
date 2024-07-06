@@ -13,6 +13,8 @@ import views.ForgetPasswordMenu;
 import views.MainMenu;
 import views.SignUpMenu;
 
+import java.util.Objects;
+
 public class LoginViewController {
     public TextField authorizationCode;
     public VBox userPassVbox;
@@ -22,9 +24,9 @@ public class LoginViewController {
     @FXML
     private TextField password;
 
-    public void initialize() {
-        authorizationVbox.setVisible(false);
-    }
+//    public void initialize() {
+//        authorizationVbox.setVisible(false);
+//    }
 
     public void signInClicked() {
         if (username.getText().equals("a") && password.getText().equals("a")) {
@@ -68,16 +70,16 @@ public class LoginViewController {
     }
 
 
-    public void verifyClicked(MouseEvent mouseEvent) {
-        AlertMaker alert = LoginMenuController.checkCode(authorizationCode.getText(), username.getText());
-        alert.showAlert();
-        if (alert.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
-            if (alert.isOK())
-                LoginMenuController.stayLoggedInSelected();
-            goToMainMenu();
-        } else {
-            authorizationVbox.setVisible(false);
-            userPassVbox.setVisible(true);
-        }
-    }
+//    public void verifyClicked(MouseEvent mouseEvent) {
+//        AlertMaker alert = LoginMenuController.checkCode(authorizationCode.getText(), username.getText());
+//        alert.showAlert();
+//        if (alert.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
+//            if (alert.isOK())
+//                LoginMenuController.stayLoggedInSelected();
+//            goToMainMenu();
+//        } else {
+//            authorizationVbox.setVisible(false);
+//            userPassVbox.setVisible(true);
+//        }
+//    }
 }
