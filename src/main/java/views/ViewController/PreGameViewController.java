@@ -222,7 +222,6 @@ public class PreGameViewController {
         leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
         int count = 0;
         for (String cardName : leaderNames) {
-            System.out.println(leaderAddresses.get(count));
             leaders.put(cardName, new ImageView(new Image(Objects.requireNonNull
                     (GameView.class.getResource(leaderAddresses.get(count))).toExternalForm())));
             count++;

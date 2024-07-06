@@ -72,5 +72,25 @@
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,
     "totalUnitCardsStrength": 36
+  },
+  {
+    "username": "MahMosTash",
+    "password": "RT4tYd#^",
+    "email": "m",
+    "nickname": "m@m.com",
+    "faction": "MONSTERS",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "1",
+    "SecurityQuestionNumber": 1,
+    "deckCardsName": [],
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
   }
 ]
