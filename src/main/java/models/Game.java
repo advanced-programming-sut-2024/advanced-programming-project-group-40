@@ -1,5 +1,6 @@
 package models;
 
+import controllers.DataSaver;
 import enums.Menu;
 import enums.cards.HeroInfo;
 import enums.cards.SpecialCardInfo;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class Game {
     public static final Random random = new Random();
-    private static ArrayList<User> allUsers = new ArrayList<>();
+    private static ArrayList<User> allUsers = DataSaver.loadUsers();
     private static final ArrayList<Card> allCards = Game.setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static final ArrayList<Card> selectedCards = new ArrayList<>();
@@ -48,20 +49,31 @@ public class Game {
         }
         return null;
     }
-    public static void addNewUser(User newUser){
+
+    public static void addNewUser(User newUser) {
         allUsers.add(newUser);
     }
 
     public static void setCurrentMenu(Menu currentMenu) {
         Game.currentMenu = currentMenu;
     }
+
     public static void setAllUsers(ArrayList<User> allUsers) {
-        if (!allUsers.isEmpty())
+        if (!allUsers.isEmpty()) {
             Game.allUsers = allUsers;
+            for (User user : allUsers) {
+                for (String name: user.getDeckCardsName()){
+                    user.setDeckCards(new ArrayList<>());
+                    user.getDeckCards().add(Objects.requireNonNull(Card.getCardByName(name)));
+                }
+            }
+        }
     }
+
     public static ArrayList<User> getAllUsers() {
-     return allUsers;
+        return allUsers;
     }
+
     public static ArrayList<Card> setAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
@@ -76,15 +88,17 @@ public class Game {
         }
         return allCards;
     }
+
     public static ArrayList<Card> getAllCards() {
         return allCards;
     }
-    public static void addToSelectedCards(Card card){
+
+    public static void addToSelectedCards(Card card) {
         selectedCards.add(card);
     }
 
 
-    public static ArrayList<Leader> getAllLeaders(){
+    public static ArrayList<Leader> getAllLeaders() {
         return allLeaders;
     }
 
