@@ -2,6 +2,7 @@ package controllers.MenuController;
 
 import Mail.LinkAuthorization;
 import controllers.DataSaver;
+import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.scene.control.Alert;
