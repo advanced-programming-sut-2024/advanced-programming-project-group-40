@@ -46,12 +46,14 @@ public abstract class FactionActions {
             case 0:
                 randomCards.addAll(MatchTable.randomSelectedCards(matchTable.getFirstPlayerDeadCards(),2));
                 for (Card card : randomCards){
+                    System.out.println(card.getName());
                     matchTable.placeCard(new CardWrapper(card,Origin.FIRSTPLATER_DEAD),0,MatchTable.getRowID(GetDestination(card)));
                 }
                 break;
             case 1:
                 randomCards.addAll(MatchTable.randomSelectedCards(matchTable.getSecondPlayerDeadCards(),2));
                 for (Card card : randomCards){
+                    System.out.println(card.getName());
                     matchTable.placeCard(new CardWrapper(card,Origin.SECONDPLAYER_DEAD),1,MatchTable.getRowID(GetDestination(card)));
                 }
 
