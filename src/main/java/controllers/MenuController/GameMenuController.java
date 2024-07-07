@@ -288,11 +288,22 @@ public class GameMenuController {
                 boolean isMedic = false;
                 if (selectedCard instanceof UnitCard unitCard) {
                     if (unitCard.getAbility() == Ability.MEDIC) {
-                        isMedic = true;
+                        if (matchTable.isFirstPlayerTurn()) {
+                            if (!matchTable.getFirstPlayerDeadCards().isEmpty()) isMedic = true;
+
+                        } else {
+                            if (!matchTable.getSecondPlayerDeadCards().isEmpty()) isMedic = true;
+                        }
+
                     }
                 } else if (selectedCard instanceof Hero hero) {
                     if (hero.getAbility() == Ability.MEDIC) {
-                        isMedic = true;
+                        if (matchTable.isFirstPlayerTurn()) {
+                            if (!matchTable.getFirstPlayerDeadCards().isEmpty()) isMedic = true;
+
+                        } else {
+                            if (!matchTable.getSecondPlayerDeadCards().isEmpty()) isMedic = true;
+                        }
                     }
                 }
                 if (matchTable.isFirstPlayerTurn()) {
