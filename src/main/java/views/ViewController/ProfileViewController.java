@@ -117,7 +117,7 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(Objects.requireNonNull(Game.getUserByName(targetUser.getText())));
+            ProfileMenuController.sendRequest(Game.getLoggedInUser(),Objects.requireNonNull(Game.getUserByName(targetUser.getText())));
     }
 
 
