@@ -3,10 +3,9 @@ package controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import models.User;
 import models.Game;
+import models.User;
 import models.cards.*;
-import views.ViewController.PreGameViewController;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +22,7 @@ public class DataSaver {
             Gson gson = new Gson();
             String text = new String(Files.readAllBytes(Paths.get(USERS_DATABASE_PATH)));
             ArrayList<User> users = gson.fromJson(text, new TypeToken<List<User>>() {
+
             }.getType());
 
             if (users == null)

@@ -1,5 +1,7 @@
 package Server;
 
+import Server.Messages.Client.ClientMessages;
+import Server.Messages.Client.GetUserMessage;
 import Server.Messages.Client.LoginMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
@@ -83,21 +85,25 @@ public class Client {
     }
 
     public ServerMessages login(LoginMessages loginMessages) {
+        return getServerMessage(loginMessages);
+    }
+
+    public ServerMessages signup(SignUpMessages signUpMessages) {
+        return getServerMessage(signUpMessages);
+    }
+
+    public ServerMessages getUser(GetUserMessage getUserMessage) {
+        return getServerMessage(getUserMessage);
+    }
+
+    private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
-        sendMessage(gsonAgent.toJson(loginMessages));
+        sendMessage(gsonAgent.toJson(clientMessages));
         String response = receiveResponse();
         ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
         endConnection();
         return serverMessages;
     }
 
-    public ServerMessages signup(SignUpMessages signUpMessages) {
-        establishConnection();
-        sendMessage(gsonAgent.toJson(signUpMessages));
-        String response = receiveResponse();
-        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
-        endConnection();
-        return serverMessages;
-    }
 
 }

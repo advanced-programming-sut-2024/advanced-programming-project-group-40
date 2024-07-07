@@ -1,6 +1,7 @@
 package views.ViewController;
 
 
+import Server.Server;
 import controllers.MenuController.ProfileMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
@@ -101,7 +102,7 @@ public class ProfileViewController {
         alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
             if (alertMaker.isOK()) {
-                TargetProfileViewController.setTargetUser(Game.getUserByName(targetUser.getText()));
+                TargetProfileViewController.setTargetUser(Server.getUserByUsername(targetUser.getText()));
                 Stage stage = new Stage();
                 new TargetProfile().start(stage);
                 stage.setOnCloseRequest((WindowEvent event) -> {
@@ -117,7 +118,7 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(Game.getLoggedInUser(),Objects.requireNonNull(Game.getUserByName(targetUser.getText())));
+            ProfileMenuController.search(targetUser.getText());
     }
 
 

@@ -5,8 +5,9 @@ public enum MessageType {
     SIGNUP,
     PREGAME,
     PROFILE,
+    SEND_REQUEST,
+    GET_USER,
 
-    REQUEST,
 
     ;
 }
