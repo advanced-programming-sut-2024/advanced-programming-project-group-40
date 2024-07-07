@@ -4,15 +4,12 @@ import controllers.Generator;
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
@@ -128,33 +125,36 @@ public class SignUpViewController {
 
     public void ContinueClicked() {
         if (!validFiled.containsValue(false) && !nickname.getText().isEmpty()) {
-            String randomUsername=Generator.getRandomPassword();
-            AlertMaker alert = SignUpMenuController.Continue(username.getText(),randomUsername);
+            String randomUsername = Generator.getRandomPassword();
+            AlertMaker alert = SignUpMenuController.Continue(username.getText(), randomUsername);
             alert.showAlert();
             if (alert.getAlertType().equals(Alert.AlertType.ERROR)) {
                 if (alert.isOK()) {
                     SignUpMenuController.createUser(randomUsername, password.getText(), email.getText(), nickname.getText());
                 }
             } else {
-                if (alert.isOK()) {
-                    signUpVBox.setVisible(false);
-                    authorizationVbox.setVisible(true);
-                    if (SignUpMenuController.checkLink(email.getText())) {
-                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
-                            SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
-                            goToQuestionPage();
-                        }));
-                        timer.setCycleCount(1);
-                        timer.play();
-                    } else {
-                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
-                            signUpVBox.setVisible(true);
-                            authorizationVbox.setVisible(false);
-                        }));
-                        timer.setCycleCount(1);
-                        timer.play();
-                    }
-                }
+//                if (alert.isOK()) {
+//                    signUpVBox.setVisible(false);
+//                    authorizationVbox.setVisible(true);
+//                    if (SignUpMenuController.checkLink(email.getText())) {
+//                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
+//                            SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
+//                            goToQuestionPage();
+//                        }));
+//                        timer.setCycleCount(1);
+//                        timer.play();
+//                    } else {
+//                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
+//                            signUpVBox.setVisible(true);
+//                            authorizationVbox.setVisible(false);
+//                        }));
+//                        timer.setCycleCount(1);
+//                        timer.play();
+//                    }
+                // todo should be deleted
+                SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
+                goToQuestionPage();
+//                }
             }
         }
     }

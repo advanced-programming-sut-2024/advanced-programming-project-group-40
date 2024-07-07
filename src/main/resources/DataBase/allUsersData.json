@@ -91,5 +91,25 @@
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,
     "totalUnitCardsStrength": 0
+  },
+  {
+    "username": "sarina",
+    "password": "sS1@1111",
+    "email": "a",
+    "nickname": "sarina.farzadnasab@gmail.com",
+    "faction": "MONSTERS",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "1",
+    "SecurityQuestionNumber": 1,
+    "deckCardsName": [],
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
   }
 ]

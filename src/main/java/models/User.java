@@ -26,13 +26,14 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    private ArrayList<User> frineds = new ArrayList<>();
-    private ArrayList<User> requests = new ArrayList<>();
-    private ArrayList<User> requestsHasSent = new ArrayList<>();
-    private ArrayList<User> rejectedRequests = new ArrayList<>();
-    private ArrayList<User> gameRequests = new ArrayList<>();
-    private ArrayList<User> gameRequestsHasSent = new ArrayList<>();
-    private ArrayList<User> gameRejectedRequests = new ArrayList<>();
+    // todo transient???
+    private transient ArrayList<User> frineds = new ArrayList<>();
+    private transient ArrayList<User> requests = new ArrayList<>();
+    private transient ArrayList<User> requestsHasSent = new ArrayList<>();
+    private transient ArrayList<User> rejectedRequests = new ArrayList<>();
+    private transient ArrayList<User> gameRequests = new ArrayList<>();
+    private transient ArrayList<User> gameRequestsHasSent = new ArrayList<>();
+    private transient ArrayList<User> gameRejectedRequests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;

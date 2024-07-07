@@ -1,14 +1,16 @@
 package Server;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-
 import Server.Messages.Client.LoginMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
-import com.google.gson.*;
-import models.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Client {
@@ -17,7 +19,6 @@ public class Client {
     private DataOutputStream sendBuffer;
     private String serverIP;
     private int serverPort;
-
     private Gson gsonAgent;
     private String token;
 
@@ -97,6 +98,7 @@ public class Client {
         endConnection();
         return serverMessages;
     }
+
 
 
 }
