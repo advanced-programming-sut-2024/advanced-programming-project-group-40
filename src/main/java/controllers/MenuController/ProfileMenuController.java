@@ -1,7 +1,6 @@
 package controllers.MenuController;
 
 import Server.ClientHandler;
-import Server.Messages.Client.ProfileMessages;
 import Server.Messages.ServerMessages;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
@@ -11,6 +10,7 @@ import models.Game;
 import models.User;
 
 public class ProfileMenuController extends UserInfoController {
+    public static
 
     public static AlertMaker search(String username) {
         if (isUsernameUnique(username))
@@ -24,5 +24,7 @@ public class ProfileMenuController extends UserInfoController {
         String result = serverMessages.getAdditionalInfo();
         target.getRequests().add(Game.getLoggedInUser());
     }
+
+
 
 }

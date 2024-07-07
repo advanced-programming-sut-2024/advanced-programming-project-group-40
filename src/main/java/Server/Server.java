@@ -2,7 +2,6 @@ package Server;
 
 import Server.Messages.Client.ClientMessages;
 import Server.Messages.Client.LoginMessages;
-import Server.Messages.Client.ProfileMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
@@ -86,8 +85,7 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, LoginMessages.class);
                 case SIGNUP:
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
-                case PROFILE:
-                    return gsonAgent.fromJson(clientStr, ProfileMessages.class);
+
                 default:
                     return null;
             }
@@ -129,8 +127,6 @@ public class Server extends Thread {
                     User newUser = signUpMessage.getUser();
                     allUsers.add(newUser);
                     break;
-                case PROFILE:
-                    ProfileMessages profileMessages = (ProfileMessages) clientMessage;
 
             }
             sendBuffer.close();

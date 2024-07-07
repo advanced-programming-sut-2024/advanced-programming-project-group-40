@@ -1,7 +1,6 @@
 package Server;
 
 import Server.Messages.Client.LoginMessages;
-import Server.Messages.Client.ProfileMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
@@ -100,15 +99,5 @@ public class Client {
         endConnection();
         return serverMessages;
     }
-
-    public ServerMessages profile(ProfileMessages profileMessages) {
-        establishConnection();
-        sendMessage(gsonAgent.toJson(profileMessages));
-        String response = receiveResponse();
-        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
-        endConnection();
-        return serverMessages;
-    }
-
 
 }
