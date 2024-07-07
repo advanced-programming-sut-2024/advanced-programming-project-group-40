@@ -1,5 +1,8 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
+import Server.Messages.Client.ProfileMessages;
+import Server.Messages.ServerMessages;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.scene.control.Alert;
@@ -15,7 +18,10 @@ public class ProfileMenuController extends UserInfoController {
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEE_PROFILE.toString());
     }
 
-    public static void sendRequest(User target){
+    public static void sendRequest(User loggedInuser,User target){
+        ProfileMessages profileMessages = new ProfileMessages(loggedInuser, target);
+        ServerMessages serverMessages = ClientHandler.client.profile(profileMessages);
+        String result = serverMessages.getAdditionalInfo();
         target.getRequests().add(Game.getLoggedInUser());
     }
 

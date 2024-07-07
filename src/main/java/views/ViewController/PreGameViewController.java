@@ -7,10 +7,14 @@ import controllers.MenuController.PreGameMenuController;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -20,18 +24,11 @@ import models.MatchTable;
 import models.User;
 import models.cards.*;
 import views.GameView;
-import models.cards.Hero;
-import models.cards.SpecialCard;
-import models.cards.UnitCard;
+import views.MainMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-
-import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
-import views.MainMenu;
-import views.PreGameMenu;
 
 public class PreGameViewController {
     @FXML
@@ -431,7 +428,7 @@ public class PreGameViewController {
                         + ((Hero) newCard).getConstantPower()));
             }
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
-            loggedInUser.getDeckCardsName().add(newCard.getName());
+//            loggedInUser.getDeckCardsName().add(newCard.getName());
             newCard.addToSelected();
             addToSelectedCards(Objects.requireNonNull(Card.getCardByName(newCard.getName())));
             Game.addToSelectedCards(newCard);
@@ -447,11 +444,11 @@ public class PreGameViewController {
 
     @FXML
     private void downloadDeck(MouseEvent mouseEvent) {
-        ArrayList<String> deckCards = loggedInUser.getDeckCardsName();
-        DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
-        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
-                , PreGameMenuMessages.DOWNLOAD_DECK.toString());
-        alertMaker.showAlert();
+//        ArrayList<String> deckCards = loggedInUser.getDeckCardsName();
+//        DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
+//        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
+//                , PreGameMenuMessages.DOWNLOAD_DECK.toString());
+//        alertMaker.showAlert();
     }
 
     @FXML

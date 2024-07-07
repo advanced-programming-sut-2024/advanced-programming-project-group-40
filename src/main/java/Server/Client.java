@@ -1,10 +1,7 @@
 package Server;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-
 import Server.Messages.Client.LoginMessages;
+import Server.Messages.Client.ProfileMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;

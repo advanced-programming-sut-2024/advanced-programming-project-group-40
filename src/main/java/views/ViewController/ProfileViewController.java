@@ -69,6 +69,14 @@ public class ProfileViewController {
         won.setText(Integer.toString(user.getWon()));
         lost.setText(Integer.toString(user.getLost()));
 
+        fillVBox(friends, Game.getLoggedInUser().getFrineds());
+        fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
+        fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
+        fillVBox(sent, Game.getLoggedInUser().getRejectedRequests());
+
+        fillRequestVBox(gameRequest, Game.getLoggedInUser().getGameRequests());
+        fillVBox(gameSent, Game.getLoggedInUser().getGameRequestsHasSent());
+        fillVBox(gameSent, Game.getLoggedInUser().getGameRejectedRequests());
     }
 
 
@@ -113,7 +121,7 @@ public class ProfileViewController {
     }
 
 
-    private void creatRequest(VBox vBox, ArrayList<User> target) {
+    private void fillRequestVBox(VBox vBox, ArrayList<User> target) {
         for (User request : target) {
             ImageView imageView2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/reject.png")).toExternalForm()));
             ImageView imageView1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/accept.png")).toExternalForm()));
@@ -157,6 +165,7 @@ public class ProfileViewController {
             if (clickedImageView.equals(accept)) {
                 Game.getLoggedInUser().getFrineds().add(request);
                 request.getFrineds().add(Game.getLoggedInUser());
+                fillVBox(friends, Game.getLoggedInUser().getFrineds());
             } else {
                 request.getRejectedRequests().add(Game.getLoggedInUser());
             }

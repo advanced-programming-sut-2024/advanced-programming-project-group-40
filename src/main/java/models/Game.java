@@ -7,12 +7,8 @@ import enums.cards.SpecialCardInfo;
 import enums.cards.UnitCardInfo;
 import javafx.stage.Stage;
 import models.cards.*;
-import views.GameView;
-import views.PlayMenu;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Comparator;
 import java.util.Random;
 
 public class Game {
@@ -59,15 +55,15 @@ public class Game {
     }
 
     public static void setAllUsers(ArrayList<User> allUsers) {
-        if (!allUsers.isEmpty()) {
-            Game.allUsers = allUsers;
-            for (User user : allUsers) {
-                for (String name: user.getDeckCardsName()){
-                    user.setDeckCards(new ArrayList<>());
-                    user.getDeckCards().add(Objects.requireNonNull(Card.getCardByName(name)));
-                }
-            }
-        }
+//        if (!allUsers.isEmpty()) {
+//            Game.allUsers = allUsers;
+//            for (User user : allUsers) {
+//                for (String name: user.getDeckCardsName()){
+//                    user.setDeckCards(new ArrayList<>());
+//                    user.getDeckCards().add(Objects.requireNonNull(Card.getCardByName(name)));
+//                }
+//            }
+//        }
     }
 
     public static ArrayList<User> getAllUsers() {

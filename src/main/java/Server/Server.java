@@ -1,18 +1,21 @@
 package Server;
 
-import java.net.*;
+import Server.Messages.Client.ClientMessages;
+import Server.Messages.Client.LoginMessages;
+import Server.Messages.Client.ProfileMessages;
+import Server.Messages.Client.SignUpMessages;
+import Server.Messages.ServerMessages;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import enums.AlertInfo.messages.LoginMenuMessages;
+import models.User;
+
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
-import java.io.*;
-
-import Server.Messages.Client.ClientMessages;
-import Server.Messages.Client.LoginMessages;
-import Server.Messages.Client.SignUpMessages;
-import Server.Messages.ServerMessages;
-import com.google.gson.*;
-import enums.AlertInfo.messages.LoginMenuMessages;
-import models.User;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
@@ -83,6 +86,8 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, LoginMessages.class);
                 case SIGNUP:
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
+                case PROFILE:
+                    return gsonAgent.fromJson(clientStr, ProfileMessages.class);
                 default:
                     return null;
             }
@@ -106,9 +111,9 @@ public class Server extends Thread {
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
-                    System.out.println(loginMessage.getUsername() + " " + loginMessage.getPassword());
+//                    System.out.println(loginMessage.getUsername() + " " + loginMessage.getPassword());
                     User user = getUserByUsername(loginMessage.getUsername().trim());
-                    System.out.println(allUsers);
+//                    System.out.println(allUsers);
                     ServerMessages serverMessage;
                     if (user == null) {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
@@ -124,6 +129,9 @@ public class Server extends Thread {
                     User newUser = signUpMessage.getUser();
                     allUsers.add(newUser);
                     break;
+                case PROFILE:
+                    ProfileMessages profileMessages = (ProfileMessages) clientMessage;
+
             }
             sendBuffer.close();
             receiveBuffer.close();
