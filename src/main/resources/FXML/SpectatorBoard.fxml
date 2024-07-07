@@ -174,11 +174,8 @@
       <ScrollPane fx:id="chat" layoutX="12.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
          <content>
             <VBox fx:id="vboxMessages" prefHeight="195.0" prefWidth="195.0">
-
             </VBox>
          </content>
-
-
       </ScrollPane>
       <TextField fx:id="textInput" layoutX="12.0" layoutY="418.0" prefHeight="25.0" prefWidth="200.0" promptText="type message" />
       <Button layoutX="91.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendMessage" text="send" />

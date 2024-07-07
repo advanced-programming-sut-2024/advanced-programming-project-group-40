@@ -4,17 +4,12 @@ import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
 import enums.cards.CardInfo;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import models.MatchTable;
-import models.Result;
-import models.UserInputHandler.CardClickCommand;
 import models.cards.*;
 import views.ViewController.GameViewController;
 
-import java.util.ArrayList;
 import java.util.Objects;
+
 
 public class GameMenuController {
     private static MatchTable matchTable;
@@ -421,13 +416,17 @@ public class GameMenuController {
         gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
 
-    public static void sendMessage(String value) {
+    public static void sendReaction(String value) {
         sendData(value);
     }
-
+    private static void sendMessage(String substring) {
+        //todo
+    }
     public static void sendCommand(String s) {
         if (s.startsWith("message")) {
-            sendMessage(s.substring(7));
+            sendReaction(s.substring(7));
+        } else if (s.startsWith("chat")) {
+            sendMessage(s.substring(4));
         } else {
             switch (s) {
                 case "secondPlayerSiegeClicked":
@@ -474,5 +473,7 @@ public class GameMenuController {
             }
         }
     }
+
+
 
 }

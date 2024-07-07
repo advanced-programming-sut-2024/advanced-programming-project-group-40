@@ -3,6 +3,7 @@ package views.ViewController;
 
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
+import controllers.MenuController.SpectatorBoardController;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
@@ -11,10 +12,13 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -24,6 +28,8 @@ import javafx.scene.layout.*;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import models.Game;
 import models.MatchTable;
@@ -44,6 +50,8 @@ import java.util.ResourceBundle;
 public class GameViewController extends PlayMenu implements Initializable {
 
     private static final int SPAM_FILTER_TIME = 2000;
+    public VBox vboxMessages;
+    public ScrollPane chat;
     private GameBoardVisualData visualData;
     private final Stage tempStage = new Stage();
     Thread spamThread = new Thread(() -> {
@@ -54,7 +62,14 @@ public class GameViewController extends PlayMenu implements Initializable {
             throw new RuntimeException(e);
         }
     });
+    Thread spamThread2 = new Thread(() -> {
+        try {
 
+            Thread.sleep(SPAM_FILTER_TIME);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
 
     public void setVisualData(String Json) {
         GameBoardVisualData temp;
@@ -163,6 +178,8 @@ public class GameViewController extends PlayMenu implements Initializable {
                 "nice argument senator why don't you back it up with a source?", "UwU"};
         Messages.getItems().addAll(messages);
         emptyMessage();
+        chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+        chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         GameMenuController.setGameViewController2(this);
         GameMenuController.sendCommand("initiateDeck");
         InitiateCardEvents();
@@ -680,7 +697,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
     }
 
-    public void secondPlayerSiegeClicked( ) {
+    public void secondPlayerSiegeClicked() {
         GameMenuController.sendCommand("secondPlayerSiegeClicked");
     }
 
@@ -689,35 +706,35 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
 
-    public void secondPlayerCloseCombatClicked( ) {
+    public void secondPlayerCloseCombatClicked() {
         GameMenuController.sendCommand("secondPlayerCloseCombatClicked");
     }
 
-    public void firstPlayerCloseCombatClicked( ) {
+    public void firstPlayerCloseCombatClicked() {
         GameMenuController.sendCommand("firstPlayerCloseCombatClicked");
     }
 
-    public void firstPlayerRangedClicked( ) {
+    public void firstPlayerRangedClicked() {
         GameMenuController.sendCommand("firstPlayerRangedClicked");
     }
 
-    public void firstPlayerSiegeClicked( ) {
+    public void firstPlayerSiegeClicked() {
         GameMenuController.sendCommand("firstPlayerSiegeClicked");
     }
 
-    public void closeCombatBoostClicked( ) {
+    public void closeCombatBoostClicked() {
         GameMenuController.sendCommand("0");
     }
 
-    public void rangedBoostClicked( ) {
+    public void rangedBoostClicked() {
         GameMenuController.sendCommand("1");
     }
 
-    public void siegeBoostClicked( ) {
+    public void siegeBoostClicked() {
         GameMenuController.sendCommand("2");
     }
 
-    public void weatherClicked( ) {
+    public void weatherClicked() {
         GameMenuController.sendCommand("weatherClicked");
     }
 
@@ -725,12 +742,12 @@ public class GameViewController extends PlayMenu implements Initializable {
         return firstPlayerDiscard;
     }
 
-    public void LeaderAction( ) {
+    public void LeaderAction() {
         GameMenuController.sendCommand("LeaderAction");
         update();
     }
 
-    public void PassRound( ) {
+    public void PassRound() {
         GameMenuController.sendCommand("PassRound");
     }
 
@@ -870,7 +887,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         messageInput.setText("");
     }
 
-    public void SendMessage( ) {
+    public void SendReaction() {
         if (!spamThread.isAlive()) {
             if (Messages.getValue() != null) {
                 try {
@@ -892,5 +909,56 @@ public class GameViewController extends PlayMenu implements Initializable {
             }
         }
 
+    }
+
+    public void SendMessage() {
+        if (!spamThread2.isAlive()) {
+            if (!messageInput.getText().isEmpty()) {
+                try {
+                    spamThread2.start();
+                } catch (Exception q) {
+                    spamThread2 = new Thread(() -> {
+                        try {
+
+                            Thread.sleep(SPAM_FILTER_TIME);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    spamThread2.start();
+
+                }
+                GameMenuController.sendCommand("chat " + messageInput.getText());
+                HBox hBox = new HBox();
+
+                if (Objects.equals(messageInput.getText(), "gay")) {
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text("username: " + messageInput.getText());
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                    messageInput.setText("");
+
+                } else {
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text("username: " + messageInput.getText());
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                    messageInput.setText("");
+                }
+            }
+        }
+        update();
     }
 }
