@@ -2,6 +2,7 @@ package views.ViewController;
 
 import Server.Models.GameBoardVisualData;
 
+import controllers.MenuController.SpectatorBoardController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +14,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -25,10 +25,11 @@ import views.PlayMenu;
 
 import java.net.URL;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class SpectatorViewController extends PlayMenu implements Initializable {
-    private static final int SPAM_FILTER_TIME = 5000;
+    private static final int SPAM_FILTER_TIME = 2000;
 
     Thread spamThread = new Thread(() -> {
         try {
@@ -146,6 +147,8 @@ public class SpectatorViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+        chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         //update();
     }
 
@@ -313,7 +316,7 @@ public class SpectatorViewController extends PlayMenu implements Initializable {
     }
 
 
-    public void sendMassege(MouseEvent keyEvent) {
+    public void sendMessage() {
         if (!spamThread.isAlive()) {
             if (!textInput.getText().isEmpty()) {
                 try {
@@ -330,19 +333,37 @@ public class SpectatorViewController extends PlayMenu implements Initializable {
                     spamThread.start();
 
                 }
+                SpectatorBoardController.sendMessage(textInput.getText());
                 HBox hBox = new HBox();
-                hBox.setAlignment(Pos.CENTER_RIGHT);
-                hBox.setPadding(new Insets(5, 5, 5, 10));
-                Text text = new Text(textInput.getText());
-                TextFlow textFlow = new TextFlow(text);
-                textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
-                        "-fx-background-radius: 20px;"
-                        + "-fx-color-label-visible: rgb(239,242,255);");
-                textFlow.setPadding(new Insets(5, 10, 5, 10));
-                hBox.getChildren().add(textFlow);
-                vboxMessages.getChildren().add(hBox);
-                textInput.setText("");
+
+                if (Objects.equals(textInput.getText(), "gay")) {
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text("username: " + textInput.getText());
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                    textInput.setText("");
+
+                } else {
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text("username: " + textInput.getText());
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                    textInput.setText("");
+                }
             }
         }
+        update();
     }
 }
