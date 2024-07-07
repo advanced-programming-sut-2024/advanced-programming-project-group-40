@@ -696,7 +696,7 @@ public class MatchTable {
     }
 
     public void factionAction(int playerID, Factions faction) {
-        FactionActions.doActionByName(playerID, faction.name(), this);
+        FactionActions.doActionByName(playerID, faction.name, this);
     }
 
 
