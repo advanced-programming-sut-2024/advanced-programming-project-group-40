@@ -16,7 +16,7 @@ public class ProfileMenuController extends UserInfoController {
     }
 
     public static void sendRequest(User target){
-        target.addRequest(Game.getLoggedInUser());
+        target.getRequests().add(Game.getLoggedInUser());
     }
 
 }

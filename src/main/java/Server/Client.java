@@ -7,8 +7,14 @@ import java.util.Scanner;
 import Server.Messages.Client.LoginMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
-import com.google.gson.*;
-import models.User;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Client {
@@ -92,6 +98,15 @@ public class Client {
     public ServerMessages signup(SignUpMessages signUpMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(signUpMessages));
+        String response = receiveResponse();
+        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
+        endConnection();
+        return serverMessages;
+    }
+
+    public ServerMessages profile(ProfileMessages profileMessages) {
+        establishConnection();
+        sendMessage(gsonAgent.toJson(profileMessages));
         String response = receiveResponse();
         ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
         endConnection();
