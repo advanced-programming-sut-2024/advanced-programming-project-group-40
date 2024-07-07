@@ -1,0 +1,24 @@
+[
+  {
+    "username": "aria",
+    "password": "M^O2zn-M",
+    "email": "w",
+    "nickname": "w@a.com",
+    "faction": "MONSTERS",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "2",
+    "SecurityQuestionNumber": 2,
+    "stayLoggedIn": false,
+    "followers": [],
+    "followings": [],
+    "requests": [],
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
+  }
+]

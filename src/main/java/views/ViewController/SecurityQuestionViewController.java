@@ -40,7 +40,7 @@ public class SecurityQuestionViewController {
 
     public void signUpClicked() {
         if (!confirmation.getText().isEmpty() && !questionNumber.getText().isEmpty() && !answer.getText().isEmpty()) {
-            AlertMaker alertMaker = SignUpMenuController.signUp(Integer.parseInt(questionNumber.getText()), answer.getText(), confirmation.getText());
+            AlertMaker alertMaker = SignUpMenuController.signUp(questionNumber.getText(), answer.getText(), confirmation.getText());
             alertMaker.showAlert();
             if (alertMaker.getAlertType() == Alert.AlertType.INFORMATION) {
                 try {

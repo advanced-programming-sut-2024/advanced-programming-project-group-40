@@ -1,13 +1,18 @@
 package views.ViewController;
 
+import controllers.DataSaver;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import models.Game;
 import models.MatchTable;
 import models.User;
+import views.GameHistory;
+import views.LoginMenu;
+import views.ProfileMenu;
 
 public class GameHistoryViewController {
 
@@ -130,4 +135,11 @@ public class GameHistoryViewController {
 
     }
 
+    public void goToProfileMenu(MouseEvent mouseEvent) {
+        try {
+            new ProfileMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

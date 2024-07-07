@@ -5,7 +5,7 @@ import enums.cards.LeaderInfo;
 import models.cards.Card;
 import models.cards.Leader;
 
-import java.net.InetAddress;
+
 import java.util.*;
 
 public class User {
@@ -25,12 +25,13 @@ public class User {
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
+    private ArrayList<User> followers = new ArrayList<>();
+    private ArrayList<User> followings = new ArrayList<>();
+    private ArrayList<User> requests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
     private int totalUnitCardsStrength;
-    public InetAddress ip;
-    public int port;
 
     public User(String username, String password, String email, String nickName) {
         this.username = username;
@@ -215,6 +216,30 @@ public class User {
 
     public void addPoint(int addingPoint) {
         point += addingPoint;
+    }
+
+    public void addFollowing(User user) {
+        followings.add(user);
+    }
+
+    public void addFollower(User user) {
+        followers.add(user);
+    }
+
+    public void addRequest(User user) {
+        requests.add(user);
+    }
+
+    public ArrayList<User> getFollowers() {
+        return followers;
+    }
+
+    public ArrayList<User> getFollowings() {
+        return followings;
+    }
+
+    public ArrayList<User> getRequests() {
+        return requests;
     }
 
     public void removeCardFromDeck(Card card) {
