@@ -87,7 +87,13 @@ public class MatchTable {
         int retVal = 0;
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
         for (Card card : row) {
-            retVal += ((UnitCard) card).getShowingPower();
+            if (card instanceof UnitCard unitCard) {
+                retVal += unitCard.getShowingPower();
+            }
+            if (card instanceof Hero hero) {
+                retVal += hero.getShowingPower();
+            }
+
         }
         return retVal;
     }
@@ -110,20 +116,6 @@ public class MatchTable {
 
     }
 
-    private static int getRowID(Origin origin) {
-        switch (origin) {
-            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
-                return 0;
-            }
-            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
-                return 1;
-            }
-            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
-                return 2;
-            }
-        }
-        return -1;
-    }
 
     public void setPlayerRowScore(int user_id, int rowNumber) {
         boolean areCardsUnderWeather = isRowUnderWeather(rowNumber);
@@ -424,43 +416,43 @@ public class MatchTable {
     public void removeCard(CardWrapper cardWrapper) {
         switch (cardWrapper.getOrigin()) {
             case Origin.FIRSTPLAYER_CLOSECOMBAT:
-                removeCard(cardWrapper.getCard(),firstPlayerCloseCombatRow);
+                removeCard(cardWrapper.getCard(), firstPlayerCloseCombatRow);
                 break;
             case Origin.FIRSTPLAYER_RANGED:
-                removeCard(cardWrapper.getCard(),firstPlayerRangedRow);
+                removeCard(cardWrapper.getCard(), firstPlayerRangedRow);
                 break;
             case Origin.FIRSTPLAYER_SIEGE:
-                removeCard(cardWrapper.getCard(),firstPlayerSiegeRow);
+                removeCard(cardWrapper.getCard(), firstPlayerSiegeRow);
                 break;
             case Origin.SECONDPLAYER_CLOSECOMBAT:
-                removeCard(cardWrapper.getCard(),secondPlayerCloseCombatRow);
+                removeCard(cardWrapper.getCard(), secondPlayerCloseCombatRow);
                 break;
             case Origin.SECONDPLAYER_RANGED:
-                removeCard(cardWrapper.getCard(),secondPlayerRangedRow);
+                removeCard(cardWrapper.getCard(), secondPlayerRangedRow);
                 break;
             case Origin.SECONDPLAYER_SIEGE:
-                removeCard(cardWrapper.getCard(),secondPlayerSiegeRow);
+                removeCard(cardWrapper.getCard(), secondPlayerSiegeRow);
                 break;
             case Origin.FIRSTPLATER_DEAD:
-                removeCard(cardWrapper.getCard(),firstPlayerDeadCards);
+                removeCard(cardWrapper.getCard(), firstPlayerDeadCards);
                 break;
             case Origin.SECONDPLAYER_DEAD:
-                removeCard(cardWrapper.getCard(),secondPlayerDeadCards);
+                removeCard(cardWrapper.getCard(), secondPlayerDeadCards);
                 break;
             case Origin.FIRSTPLAYER_INPLAY:
-                removeCard(cardWrapper.getCard(),firstPlayerInPlayCards);
+                removeCard(cardWrapper.getCard(), firstPlayerInPlayCards);
                 break;
             case Origin.SECONDPLAYER_INPLAY:
-                removeCard(cardWrapper.getCard(),secondPlayerInPlayCards);
+                removeCard(cardWrapper.getCard(), secondPlayerInPlayCards);
                 break;
             case Origin.FIRSTPLAYER_DECK:
-                removeCard(cardWrapper.getCard(),firstPlayerDeckCards);
+                removeCard(cardWrapper.getCard(), firstPlayerDeckCards);
                 break;
             case Origin.SECONDPLAYER_DECK:
-                removeCard(cardWrapper.getCard(),secondPlayerDeckCards);
+                removeCard(cardWrapper.getCard(), secondPlayerDeckCards);
                 break;
             case Origin.WEATHER:
-                removeCard(cardWrapper.getCard(),spellCards);
+                removeCard(cardWrapper.getCard(), spellCards);
                 break;
             default:
 
@@ -1087,6 +1079,23 @@ public class MatchTable {
         }
     }
 
+    public static int getRowID(Origin origin) {
+        switch (origin) {
+            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
+                return 0;
+            }
+            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
+                return 1;
+            }
+            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
+                return 2;
+            }
+            case FIRSTPLAYER_AGILE, SECONDPLAYER_AGILE -> {
+                return 0;
+            }
+        }
+        return -1;
+    }
     //-----------------------------------------------------private Functions------------------------------------------//
 
 
