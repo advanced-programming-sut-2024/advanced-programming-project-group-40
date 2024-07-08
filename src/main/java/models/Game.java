@@ -13,14 +13,13 @@ import java.util.Random;
 
 public class Game {
     public static final Random random = new Random();
-    private static ArrayList<User> allUsers = DataSaver.loadUsers();
-    private static final ArrayList<Card> allCards = Game.setAllCards();
+    private static final ArrayList<User> allUsers = DataSaver.loadUsers();
+    private static final ArrayList<Card> allCards = setAllCards();
     private static final ArrayList<Leader> allLeaders = new ArrayList<>();
     private static final ArrayList<Card> selectedCards = new ArrayList<>();
     private static User loggedInUser;
     private static Menu currentMenu = Menu.LoginMenu;
     public static Stage stage;
-
 
     public static ArrayList<User> getUsersRanked() {
         return null;

@@ -24,9 +24,11 @@ public class DataSaver {
             ArrayList<User> users = gson.fromJson(text, new TypeToken<List<User>>() {
 
             }.getType());
-
             if (users == null)
                 return (new ArrayList<>());
+            for (User user : users) {
+                user.createDeckCards();
+            }
             return users;
         } catch (Exception ignored) {
             return null;

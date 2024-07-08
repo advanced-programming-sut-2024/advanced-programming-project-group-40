@@ -21,7 +21,7 @@ public class User {
     private int lost;
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
-    private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private transient ArrayList<Card> deckCards = new ArrayList<>();
     private final ArrayList<String> deckCardsName = new ArrayList<>();
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
@@ -277,6 +277,12 @@ public class User {
         return deckCardsName;
     }
 
+    public void createDeckCards(){
+        deckCards = new ArrayList<>();
+        for (String name : deckCardsName){
+            deckCards.add(Card.getCardByName(name));
+        }
+    }
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);

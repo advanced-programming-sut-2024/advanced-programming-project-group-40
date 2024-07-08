@@ -1,6 +1,8 @@
 package views.ViewController;
 
 
+import Server.ClientHandler;
+import Server.Messages.Client.AddRemoveCardMessage;
 import controllers.DataSaver;
 import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
@@ -196,7 +198,7 @@ public class PreGameViewController {
     private void setUpFactionImages() {
         for (String cardName : factionName) {
             factions.put(cardName, new ImageView(new Image(Objects.requireNonNull
-                            (GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".jpg"))
+                            (GameView.class.getResource(STR."/Assets/Factions/faction_\{cardName}.jpg"))
                     .toExternalForm())));
         }
 
@@ -299,6 +301,9 @@ public class PreGameViewController {
             addToSelectCards(card);
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
+            saveData();
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), false);
+            ClientHandler.client.removeCard(addRemoveCardMessage);
         });
         selectedCardFlowPane.getChildren().add(pane);
     }
@@ -371,6 +376,7 @@ public class PreGameViewController {
     @FXML
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
+        DataSaver.saveUsers();
         try {
             new MainMenu().start(Game.stage);
         } catch (Exception e) {
@@ -428,7 +434,7 @@ public class PreGameViewController {
                         + ((Hero) newCard).getConstantPower()));
             }
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
-//            loggedInUser.getDeckCardsName().add(newCard.getName());
+            loggedInUser.getDeckCardsName().add(newCard.getName());
             newCard.addToSelected();
             addToSelectedCards(Objects.requireNonNull(Card.getCardByName(newCard.getName())));
             Game.addToSelectedCards(newCard);
@@ -438,17 +444,20 @@ public class PreGameViewController {
             }
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
+            saveData();
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), true);
+            ClientHandler.client.addCard(addRemoveCardMessage);
         });
         selectCardFlowPane.getChildren().add(pane);
     }
 
     @FXML
     private void downloadDeck(MouseEvent mouseEvent) {
-//        ArrayList<String> deckCards = loggedInUser.getDeckCardsName();
-//        DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
-//        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
-//                , PreGameMenuMessages.DOWNLOAD_DECK.toString());
-//        alertMaker.showAlert();
+        ArrayList<String> deckCards = loggedInUser.getDeckCardsName();
+        DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
+        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
+                , PreGameMenuMessages.DOWNLOAD_DECK.toString());
+        alertMaker.showAlert();
     }
 
     @FXML
@@ -488,6 +497,7 @@ public class PreGameViewController {
         loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
+
         leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull
                 (Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction
                         (loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
