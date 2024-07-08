@@ -84,9 +84,9 @@ public class ProfileViewController {
         fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_FOLLOW_REQUESTS)));
         fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_REQUESTS)));
 
-//        fillRequestVBox(gameRequest, Game.getLoggedInUser().getGameRequests());
-//        fillVBox(gameSent, Game.getLoggedInUser().getGameRequestsHasSent());
-//        fillVBox(gameSent, Game.getLoggedInUser().getGameRejectedRequests());
+        fillRequestVBox(gameRequest, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_GAME_REQUEST)));
+        fillVBox(gameSent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_GAME_REQUEST)));
+        fillVBox(gameSent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_GAME_REQUEST)));
     }
 
 
@@ -127,7 +127,7 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(),targetUser.getText(), MessageSubType.SEND_FOLLOW_REQUEST);
+            ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(), targetUser.getText(), MessageSubType.SEND_FOLLOW_REQUEST);
     }
 
 
@@ -173,9 +173,9 @@ public class ProfileViewController {
         ImageView clickedImageView = (ImageView) event.getSource();
         if (vBox.equals(requests)) {
             if (clickedImageView.equals(accept)) {
-                ProfileMenuController.sendRequest(request,Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
+                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
             } else {
-                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(),MessageSubType.REJECT_FOLLOW_REQUEST);
+                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_FOLLOW_REQUEST);
             }
 
         } else {

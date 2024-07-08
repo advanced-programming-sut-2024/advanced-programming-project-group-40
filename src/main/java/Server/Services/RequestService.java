@@ -9,6 +9,10 @@ public class RequestService {
     private final ArrayList<Relation> followRequests = new ArrayList<>();
     private final ArrayList<Relation> rejectedFollowRequests = new ArrayList<>();
     private final ArrayList<Relation> friends = new ArrayList<>();
+    private final ArrayList<Relation> gameRequest = new ArrayList<>();
+    private final ArrayList<Relation> rejectedGameRequest = new ArrayList<>();
+    private final ArrayList<Relation> acceptedGameRRequests = new ArrayList<>();
+
 
     private RequestService() {
     }
@@ -37,7 +41,6 @@ public class RequestService {
     }
 
     public ArrayList<String> getFriends(String user) {
-        System.out.println(8);
         ArrayList<String> friendsList = new ArrayList<>();
         for (Relation friend : friends) {
             if (friend.getFirst().equals(user) || friend.getSecond().equals(user)) {
@@ -77,20 +80,51 @@ public class RequestService {
         return friendsList;
     }
 
-    public boolean areFriends(String first, String second) {
-        for (Relation friend : friends)
-            if (friend.getFirst().equals(first) && friend.getSecond().equals(second))
-                return true;
-
-        return false;
-    }
-
-
     private Relation getFollowRequestByNames(String originUsername, String destinationUsername) {
         for (Relation friendRequest : followRequests) {
             if (friendRequest.getFirst().equals(originUsername) && friendRequest.getSecond().equals(destinationUsername))
                 return friendRequest;
         }
         return null;
+    }
+
+    public ArrayList<String> getGameRequests(String user) {
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : gameRequest) {
+            if (friend.getSecond().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
+        return friendsList;
+    }
+
+    public ArrayList<String>  getRejectedGameRequest(String user){
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : rejectedGameRequest) {
+            if (friend.getFirst().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
+        return friendsList;
+    }
+
+    public ArrayList<String> getAcceptedGameRequest(String user) {
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : acceptedGameRRequests) {
+            if (friend.getFirst().equals(user) || friend.getSecond().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
+        return friendsList;
+    }
+
+    public ArrayList<String> getPendingGameRequests(String user) {
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : gameRequest) {
+            if (friend.getFirst().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
+        return friendsList;
     }
 }

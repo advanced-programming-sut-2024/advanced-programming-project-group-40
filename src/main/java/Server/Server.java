@@ -94,9 +94,9 @@ public class Server extends Thread {
                 case GET_LIS_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
                 case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
+                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case ADD_CARD, REMOVE_CARD:
-                    return gsonAgent.fromJson(clientStr,AddRemoveCardMessage.class);
+                    return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 default:
                     return null;
             }
@@ -146,7 +146,7 @@ public class Server extends Thread {
                     if (user == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
-                        String userToJson = gson.toJson(allUsers);
+                        String userToJson = gson.toJson(user);
                         serverMessage = new ServerMessages(true, userToJson);
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
@@ -165,12 +165,10 @@ public class Server extends Thread {
                             break;
                     }
                 case GET_LIS_OF_NAMES:
-                    System.out.println(6);
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
                         case GET_FRIENDS:
-                            System.out.println(7);
                             names = requestService.getFriends(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_REQUESTS:
@@ -181,6 +179,15 @@ public class Server extends Thread {
                             break;
                         case GET_FOLLOW_REQUESTS:
                             names = requestService.getFollowRequests(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_GAME_REQUEST:
+                            names = requestService.getGameRequests(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_REJECTED_GAME_REQUEST:
+                            names = requestService.getRejectedGameRequest(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_PENDING_GAME_REQUEST:
+                            names = requestService.getPendingGameRequests(getListOfNamesMessage.getKeyName());
                             break;
                     }
                     if (names == null) {
