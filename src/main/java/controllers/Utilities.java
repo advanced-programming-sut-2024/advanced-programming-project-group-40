@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import models.User;
 
-public class Utility {
+public class Utilities {
     public static User getUser(String username) {
         GetUserMessage getUserMessage = new GetUserMessage(username);
         ServerMessages serverMessages = ClientHandler.client.getUser(getUserMessage);

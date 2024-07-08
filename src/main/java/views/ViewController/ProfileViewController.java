@@ -2,7 +2,7 @@ package views.ViewController;
 
 
 import controllers.MenuController.ProfileMenuController;
-import controllers.Utility;
+import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.fxml.FXML;
@@ -12,8 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -109,7 +109,7 @@ public class ProfileViewController {
         alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
             if (alertMaker.isOK()) {
-                TargetProfileViewController.setTargetUser(Utility.getUser(targetUser.getText()));
+                TargetProfileViewController.setTargetUser(Utilities.getUser(targetUser.getText()));
                 Stage stage = new Stage();
                 new TargetProfile().start(stage);
                 stage.setOnCloseRequest((WindowEvent event) -> {

@@ -1,9 +1,7 @@
 package Server;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
-
+import Server.Messages.Client.ClientMessages;
+import Server.Messages.Client.GetUserMessage;
 import Server.Messages.Client.LoginMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
