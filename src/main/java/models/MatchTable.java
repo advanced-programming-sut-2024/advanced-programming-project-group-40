@@ -54,7 +54,7 @@ public class MatchTable {
     private Leader secondPlayerLeader;
     private boolean isFirstPlayerLeaderUsed = false;
     private boolean isSecondPlayerLeaderUsed = false;
-
+    private boolean isStrongerCheatActivated = false;
 
     public MatchTable(User firstPlayer, User secondPlayer) {
         this.firstPlayer = firstPlayer;
@@ -64,6 +64,30 @@ public class MatchTable {
         initializeMatchTable();
     }
 
+
+    //cheats
+    public void makeCardsStronger() {
+        isStrongerCheatActivated = true;
+    }
+
+    public void GiveBackLeaderAbility(int userID) {
+        switch (userID) {
+            case 0:
+                isFirstPlayerLeaderUsed = false;
+                break;
+            case 1:
+                isSecondPlayerLeaderUsed = false;
+        }
+    }
+
+    public void clearWeather() {
+        spellCards.clear();
+
+    }
+
+    public void skipTurn() {
+        endTurn();
+    }
 
     public boolean isFirstPlayerTurn() {
         return isFirstPlayerTurn;
@@ -199,6 +223,16 @@ public class MatchTable {
             for (Card card : row) {
                 if (card instanceof UnitCard unitCard) {
                     unitCard.setShowingPower(unitCard.getShowingPower() * 2);
+                }
+            }
+        }
+        if (user_id == 0 && isStrongerCheatActivated) {
+            for (Card card : row) {
+                if (card instanceof UnitCard unitCard) {
+                    unitCard.setShowingPower(unitCard.getConstantPower() * 10);
+                }
+                if (card instanceof Hero hero) {
+                    hero.setShowingPower(hero.getConstantPower() * 10);
                 }
             }
         }
@@ -899,7 +933,7 @@ public class MatchTable {
                                         boolean weather,
                                         boolean boost,
                                         ArrayList<Card> row) {
-        System.out.println(row.size()+":size");
+        System.out.println(row.size() + ":size");
         int[] nums = new int[row.size()];
         ArrayList<Card> tightBondCards = getCardsWithAbility(Ability.TIGHT_BOND, row);
         ArrayList<Card> moralBoostCards = getCardsWithAbility(Ability.MORALE_BOOST, row);
