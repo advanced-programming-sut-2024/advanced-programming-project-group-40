@@ -399,8 +399,9 @@ public class GameMenuController {
             user1 = matchTable.getSecondPlayer();
             user2 = matchTable.getFirstPlayer();
         }
-
-        Message message = new Message(user1.getNickname(), substring, new ReplyData(isReply, user2.getNickname()),String.valueOf ((new Date()).getTime()));
+        Date date = new Date();
+        String time=date.getHours()+":"+date.getMinutes()+"\n";
+        Message message = new Message(user1.getNickname(), substring, new ReplyData(isReply, user2.getNickname()), time);
         sendDataWithMessage(message);
     }
 

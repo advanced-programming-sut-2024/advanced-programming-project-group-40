@@ -394,7 +394,7 @@ public class GameViewController extends PlayMenu implements Initializable {
                     hBox.setPadding(new Insets(5, 5, 5, 10));
                     Text text = new Text(STR."replyingTo:\{visualData.getUserName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
                             "-fx-background-radius: 20px;"
                             + "-fx-color-label-visible: rgb(239,242,255);");
                     textFlow.setPadding(new Insets(5, 10, 5, 10));
@@ -403,9 +403,9 @@ public class GameViewController extends PlayMenu implements Initializable {
                 } else {
                     hBox.setAlignment(Pos.CENTER_LEFT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
                             "-fx-background-radius: 20px;"
                             + "-fx-color-label-visible: rgb(239,242,255);");
                     textFlow.setPadding(new Insets(5, 10, 5, 10));
@@ -417,9 +417,9 @@ public class GameViewController extends PlayMenu implements Initializable {
                 if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
                             "-fx-background-radius: 20px;"
                             + "-fx-color-label-visible: rgb(239,242,255);");
                     textFlow.setPadding(new Insets(5, 10, 5, 10));
@@ -428,9 +428,9 @@ public class GameViewController extends PlayMenu implements Initializable {
                 } else {
                     hBox.setAlignment(Pos.CENTER_LEFT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
                             "-fx-background-radius: 20px;"
                             + "-fx-color-label-visible: rgb(239,242,255);");
                     textFlow.setPadding(new Insets(5, 10, 5, 10));
