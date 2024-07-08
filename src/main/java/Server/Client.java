@@ -1,9 +1,6 @@
 package Server;
 
-import Server.Messages.Client.ClientMessages;
-import Server.Messages.Client.GetUserMessage;
-import Server.Messages.Client.LoginMessages;
-import Server.Messages.Client.SignUpMessages;
+import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -96,6 +93,9 @@ public class Client {
         return getServerMessage(getUserMessage);
     }
 
+    public ServerMessages getListOfNames(GetListOfNamesMessage getListOfNamesMessage) {
+        return getServerMessage(getListOfNamesMessage);
+    }
     private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(clientMessages));

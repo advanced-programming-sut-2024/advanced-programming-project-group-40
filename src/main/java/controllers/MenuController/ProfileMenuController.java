@@ -1,7 +1,7 @@
 package controllers.MenuController;
 
 import Server.Messages.Client.RequestMessage;
-import Server.Messages.MessageType;
+import Server.Messages.MessageSubType;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
@@ -19,7 +19,7 @@ public class ProfileMenuController extends UserInfoController {
 
 
     public static void sendRequest(String target) {
-        RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target, MessageType.SEND_FOLLOW_REQUEST);
+        RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target, MessageSubType.SEND_FOLLOW_REQUEST);
     }
 
 }

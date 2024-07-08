@@ -90,8 +90,10 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
                 case GET_USER:
                     return gsonAgent.fromJson(clientStr, GetUserMessage.class);
-                case SEND_FOLLOW_REQUEST:
+                case REQUEST:
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
+                case GET_LIS_OF_NAMES:
+                    return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
                 default:
                     return null;
             }
