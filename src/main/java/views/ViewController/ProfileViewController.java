@@ -177,14 +177,13 @@ public class ProfileViewController {
             } else {
                 ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_FOLLOW_REQUEST);
             }
-
         } else {
             if (clickedImageView.equals(accept)) {
                 // todo start game here
-
+                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
             } else {
+                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_GAME_REQUEST);
             }
-
         }
         vBox.getChildren().remove(label.getParent());
     }
