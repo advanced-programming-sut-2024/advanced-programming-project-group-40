@@ -2,10 +2,10 @@ package Server.Models;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import enums.Origin;
 import enums.cards.*;
+import models.Chat.Message;
+import models.Chat.PublicChat;
 import models.MatchTable;
-import models.User;
 import models.cards.*;
 
 import java.util.ArrayList;
@@ -50,7 +50,9 @@ public class GameBoardVisualData {
     boolean isRedRider;
     boolean isKingOfWildHunt;
     boolean isImperialMajesty;
-    String message;
+    String Recation;
+    Message message;
+    boolean isThereAMessage = false;
 
     public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         InitializeArrays(matchTable);
@@ -131,12 +133,25 @@ public class GameBoardVisualData {
     /////////////////////////////////
 
 
-    public String getMessage() {
+    public void addToChat(Message message) {
+        this.message = message;
+        isThereAMessage = true;
+    }
+
+    public String getReaction() {
+        return Recation;
+    }
+
+    public void setRecation(String Recation) {
+        this.Recation = Recation;
+    }
+
+    public Message getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public boolean isThereAMessage() {
+        return isThereAMessage;
     }
 
     public boolean isDestroyer() {

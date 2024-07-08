@@ -3,9 +3,7 @@ package views.ViewController;
 
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
-import controllers.MenuController.SpectatorBoardController;
 import enums.Ability;
-import enums.Factions;
 import enums.Origin;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -16,24 +14,21 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import models.Game;
-import models.MatchTable;
-import models.User;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import models.cards.Hero;
@@ -52,6 +47,8 @@ public class GameViewController extends PlayMenu implements Initializable {
     private static final int SPAM_FILTER_TIME = 2000;
     public VBox vboxMessages;
     public ScrollPane chat;
+    public CheckBox isReply;
+    public Label ReactionInput;
     private GameBoardVisualData visualData;
     private final Stage tempStage = new Stage();
     Thread spamThread = new Thread(() -> {
@@ -376,8 +373,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn());
         if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn());
         if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn());
-        if (visualData.getMessage() != null) {
-            messageInput.setText(visualData.getMessage());
+        if (visualData.getReaction() != null) {
+            ReactionInput.setText(visualData.getReaction());
 
             Thread removeMessageThread = new Thread(() -> {
                 try {
@@ -391,6 +388,60 @@ public class GameViewController extends PlayMenu implements Initializable {
             removeMessageThread.start();
 
 
+        }
+        if (visualData.isThereAMessage()) {
+            HBox hBox = new HBox();
+            if (visualData.getMessage().replyData().isReply()) {
+                if (Objects.equals(visualData.getNickName(0), visualData.getMessage().username())) {
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."replyingTo:\{visualData.getMessage().replyData().userName()}\n\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                } else {
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\\n\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                }
+
+            } else {
+                if (Objects.equals(visualData.getNickName(0), visualData.getMessage().username())) {
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                } else {
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                }
+
+            }
         }
         if (visualData.isFirstPlayerTurn()) {
             if (visualData.getLeader(0) != null) {
@@ -928,35 +979,12 @@ public class GameViewController extends PlayMenu implements Initializable {
                     spamThread2.start();
 
                 }
-                GameMenuController.sendCommand("chat " + messageInput.getText());
-                HBox hBox = new HBox();
-
-                if (Objects.equals(messageInput.getText(), "gay")) {
-                    hBox.setAlignment(Pos.CENTER_LEFT);
-                    hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text("username: " + messageInput.getText());
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
-                            "-fx-background-radius: 20px;"
-                            + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5, 10, 5, 10));
-                    hBox.getChildren().add(textFlow);
-                    vboxMessages.getChildren().add(hBox);
-                    messageInput.setText("");
-
+                if (isReply.isSelected()) {
+                    GameMenuController.sendCommand("chat true" + messageInput.getText());
                 } else {
-                    hBox.setAlignment(Pos.CENTER_RIGHT);
-                    hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text("username: " + messageInput.getText());
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
-                            "-fx-background-radius: 20px;"
-                            + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5, 10, 5, 10));
-                    hBox.getChildren().add(textFlow);
-                    vboxMessages.getChildren().add(hBox);
-                    messageInput.setText("");
+                    GameMenuController.sendCommand("chat false" + messageInput.getText());
                 }
+                messageInput.setText("");
             }
         }
         update();

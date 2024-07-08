@@ -4,10 +4,14 @@ import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
 import enums.cards.CardInfo;
+import models.Chat.Message;
+import models.Chat.ReplyData;
 import models.MatchTable;
+import models.User;
 import models.cards.*;
 import views.ViewController.GameViewController;
 
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -214,8 +218,7 @@ public class GameMenuController {
                 default -> origin = Origin.NULL;
             }
 
-        }
-        else {
+        } else {
             switch (parentID) {
                 case "firstPlayerCloseCombat" -> origin = Origin.SECONDPLAYER_CLOSECOMBAT;
                 case "firstPlayerRanged" -> origin = Origin.SECONDPLAYER_RANGED;
@@ -365,25 +368,50 @@ public class GameMenuController {
         gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
 
-    public static void sendData(String message) {
+    public static void sendDataWithReaction(String Recation) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
-        gameBoardVisualData.setMessage(message);
+        gameBoardVisualData.setRecation(Recation);
+        gameViewController2.setVisualData(gameBoardVisualData.toJSON());
+    }
+
+    public static void sendDataWithMessage(Message message) {
+        matchTable.updatePoints();
+        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+                , false, false, false, false, false);
+        gameBoardVisualData.addToChat(message);
         gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
 
     public static void sendReaction(String value) {
-        sendData(value);
+        sendDataWithReaction(value);
     }
-    private static void sendMessage(String substring) {
+
+    private static void sendMessage(String substring,boolean isReply) {
+        User user1 = matchTable.getFirstPlayer();
+        User user2 = matchTable.getSecondPlayer();
+        if (!matchTable.isFirstPlayerTurn()) {
+            user1 = matchTable.getSecondPlayer();
+            user2 = matchTable.getFirstPlayer();
+        }
+
+        Message message = new Message(user1.getNickname(), substring, new ReplyData(isReply,user2.getNickname() ), (new Date()).toString());
+        sendDataWithMessage(message);
         //todo
     }
+
     public static void sendCommand(String s) {
         if (s.startsWith("message")) {
             sendReaction(s.substring(7));
         } else if (s.startsWith("chat")) {
-            sendMessage(s.substring(4));
+            if (s.substring(5, 9).equals("true")) {
+                sendMessage(s.substring(4),true);
+
+            } else {
+                sendMessage(s.substring(4),false);
+            }
+
         } else {
             switch (s) {
                 case "secondPlayerSiegeClicked":
@@ -430,7 +458,6 @@ public class GameMenuController {
             }
         }
     }
-
 
 
 }
