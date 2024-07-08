@@ -43,7 +43,36 @@ public class RequestService {
                 friendsList.add(friend.getSecond());
             }
         }
+        return friendsList;
+    }
 
+    public ArrayList<String> getFollowRequests(String user) {
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : followRequests) {
+            if (friend.getSecond().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
+        return friendsList;
+    }
+
+    public ArrayList<String> getPendingFollowRequests(String user) {
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : followRequests) {
+            if (friend.getFirst().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
+        return friendsList;
+    }
+
+    public ArrayList<String>  getRejectedFollowRequest(String user){
+        ArrayList<String> friendsList = new ArrayList<>();
+        for (Relation friend : rejectedFollowRequests) {
+            if (friend.getFirst().equals(user)) {
+                friendsList.add(friend.getSecond());
+            }
+        }
         return friendsList;
     }
 
@@ -55,19 +84,6 @@ public class RequestService {
         return false;
     }
 
-    public ArrayList<String> getPendingFriends(String username) {
-        System.err.println(username);
-        ArrayList<String> result = new ArrayList<>();
-        for (Relation friendRequest : followRequests) {
-            if (areFriends(friendRequest.getFirst(), friendRequest.getSecond()))
-                continue;
-
-            if (friendRequest.getSecond().equals(username) && !result.contains(friendRequest.getFirst()))
-                result.add(friendRequest.getFirst());
-        }
-
-        return result;
-    }
 
     private Relation getFollowRequestByNames(String originUsername, String destinationUsername) {
         for (Relation friendRequest : followRequests) {

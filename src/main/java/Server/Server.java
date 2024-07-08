@@ -24,7 +24,7 @@ public class Server extends Thread {
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Socket> connections = new ArrayList<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
+    private static final RequestService requestService = RequestService.getInstance();
 
     private static void setupServer() {
         try {
@@ -119,7 +119,7 @@ public class Server extends Thread {
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
-//                    System.out.println(loginMessage.getUsername() + " " + loginMessage.getPassword());
+//                    System.out.println(loginMessage.getKeyName() + " " + loginMessage.getPassword());
                     user = getUserByUsername(loginMessage.getUsername().trim());
 //                    System.out.println(allUsers);
                     System.out.println(loginMessage.getUsername());
@@ -150,7 +150,6 @@ public class Server extends Thread {
                     break;
                 case REQUEST:
                     RequestMessage requestMessage = (RequestMessage) clientMessage;
-                    RequestService requestService = RequestService.getInstance();
                     switch (requestMessage.getSubType()) {
                         case SEND_FOLLOW_REQUEST:
                             requestService.createFriendRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
@@ -162,6 +161,31 @@ public class Server extends Thread {
                             requestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                     }
+                case GET_LIS_OF_NAMES:
+                    GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
+                    ArrayList<String> names = new ArrayList<>();
+                    switch (getListOfNamesMessage.getSubType()) {
+                        case GET_FRIENDS:
+                            names = requestService.getFriends(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_REJECTED_REQUESTS:
+                            names = requestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_PENDING_FOLLOW_REQUESTS:
+                            names = requestService.getPendingFollowRequests(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_FOLLOW_REQUESTS:
+                            names = requestService.getFollowRequests(getListOfNamesMessage.getKeyName());
+                            break;
+                    }
+                    if (names == null) {
+                        serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
+                    } else {
+                        String namesToJson = gson.toJson(Game.getAllUsers());
+                        serverMessage = new ServerMessages(true, namesToJson);
+                    }
+                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                    break;
             }
             sendBuffer.close();
             receiveBuffer.close();
