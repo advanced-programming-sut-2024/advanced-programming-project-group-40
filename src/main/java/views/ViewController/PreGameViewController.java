@@ -343,7 +343,9 @@ public class PreGameViewController {
         }
         if (changeLeaderClicked) {
             loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
+            loggedInUser.setLeaderName(loggedInUser.getLeader().getName());
             description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
+
         }
 
     }
@@ -495,6 +497,7 @@ public class PreGameViewController {
     public void updateFaction(String name) {
         loggedInUser.setFaction(Factions.toFaction(name));
         loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
+        loggedInUser.setLeaderName(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).name);
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
 

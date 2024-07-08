@@ -99,11 +99,10 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case GET_LIS_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
-                    return gsonAgent.fromJson(clientStr,GetUserMessage.class);
                 case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
+                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case ADD_CARD, REMOVE_CARD:
-                    return gsonAgent.fromJson(clientStr,AddRemoveCardMessage.class);
+                    return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 default:
                     return null;
             }
@@ -153,7 +152,7 @@ public class Server extends Thread {
                     if (user == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
-                        String userToJson = gson.toJson(Game.getAllUsers());
+                        String userToJson = gson.toJson(allUsers);
                         serverMessage = new ServerMessages(true, userToJson);
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
@@ -191,7 +190,7 @@ public class Server extends Thread {
                     if (names == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
-                        String namesToJson = gson.toJson(Game.getAllUsers());
+                        String namesToJson = gson.toJson(names);
                         serverMessage = new ServerMessages(true, namesToJson);
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));

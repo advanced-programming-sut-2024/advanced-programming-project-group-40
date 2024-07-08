@@ -28,6 +28,8 @@ public class DataSaver {
                 return (new ArrayList<>());
             for (User user : users) {
                 user.createDeckCards();
+                user.setMatchesPlayed(new ArrayList<>());
+                user.setLeader(Leader.getLeaderByName(user.getLeaderName()));
             }
             return users;
         } catch (Exception ignored) {
