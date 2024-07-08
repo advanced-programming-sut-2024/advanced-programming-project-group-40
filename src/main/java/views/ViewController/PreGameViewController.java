@@ -285,6 +285,7 @@ public class PreGameViewController {
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
             int power = 0;
+            int cardType = 1;
             if (card instanceof UnitCard) {
                 unit.setText(Integer.toString(Integer.parseInt(unit.getText()) - 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
@@ -293,12 +294,14 @@ public class PreGameViewController {
             }
             if (card instanceof SpecialCard) {
                 special.setText(Integer.toString(Integer.parseInt(special.getText()) - 1));
+                cardType = 2;
             }
             if (card instanceof Hero) {
                 hero.setText(Integer.toString(Integer.parseInt(hero.getText()) - 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         - ((Hero) card).getConstantPower()));
                 power = ((Hero) card).getConstantPower();
+                cardType = 3;
             }
             loggedInUser.removeCardFromDeck(card);
             card.addToSelected();
@@ -307,7 +310,7 @@ public class PreGameViewController {
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
             saveData();
-            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), (card instanceof UnitCard || card instanceof Hero), power, false);
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), cardType, power, false);
             ClientHandler.client.removeCard(addRemoveCardMessage);
         });
         selectedCardFlowPane.getChildren().add(pane);
@@ -428,6 +431,7 @@ public class PreGameViewController {
         hBox.setLayoutY(newCard.getLayoutY() + newCard.getHeight() - 32);
         pane.setOnMouseClicked(e -> {
             int power = 0;
+            int cardType = 1;
             if (newCard instanceof UnitCard) {
                 unit.setText(Integer.toString(Integer.parseInt(unit.getText()) + 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
@@ -436,12 +440,14 @@ public class PreGameViewController {
             }
             if (newCard instanceof SpecialCard) {
                 special.setText(Integer.toString(Integer.parseInt(special.getText()) + 1));
+                cardType = 2;
             }
             if (newCard instanceof Hero) {
                 hero.setText(Integer.toString(Integer.parseInt(hero.getText()) + 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         + ((Hero) newCard).getConstantPower()));
                 power = ((Hero) newCard).getConstantPower();
+                cardType = 3;
             }
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
             loggedInUser.getDeckCardsName().add(newCard.getName());
@@ -455,7 +461,7 @@ public class PreGameViewController {
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
             saveData();
-            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), (newCard instanceof UnitCard || newCard instanceof Hero), power, true);
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), cardType, power, true);
             ClientHandler.client.addCard(addRemoveCardMessage);
         });
         selectCardFlowPane.getChildren().add(pane);
