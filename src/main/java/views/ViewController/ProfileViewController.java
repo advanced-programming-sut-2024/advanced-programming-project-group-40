@@ -77,7 +77,8 @@ public class ProfileViewController {
     }
 
     public void fillChart() {
-        fillVBox(friends, Game.getLoggedInUser().getFrineds());
+        String username=Game.getLoggedInUser().getUsername();
+        fillVBox(friends,Utilities.ge);
         fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
         fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
         fillVBox(sent, Game.getLoggedInUser().getRejectedRequests());
@@ -191,11 +192,11 @@ public class ProfileViewController {
     }
 
 
-    private void fillVBox(VBox vBox, ArrayList<User> target) {
+    private void fillVBox(VBox vBox, ArrayList<String> target) {
         // todo for sent & game sent
-        for (User request : target) {
+        for (String request : target) {
             // Create the Label
-            Label label = new Label(request.getUsername());
+            Label label = new Label(request);
             label.setPrefHeight(16.0);
             label.setPrefWidth(116.0);
             label.setFont(new Font(14.0));
