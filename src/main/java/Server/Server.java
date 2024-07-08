@@ -152,7 +152,7 @@ public class Server extends Thread {
                     if (user == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
-                        String userToJson = gson.toJson(allUsers);
+                        String userToJson = gson.toJson(user);
                         serverMessage = new ServerMessages(true, userToJson);
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
@@ -226,9 +226,4 @@ public class Server extends Thread {
         return null;
     }
 
-    public static void addUser(User user) {
-        System.out.println(allUsers);
-        allUsers.add(user);
-        System.out.println(allUsers);
-    }
 }

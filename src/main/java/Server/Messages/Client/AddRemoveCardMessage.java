@@ -6,8 +6,10 @@ import models.Game;
 public class AddRemoveCardMessage extends ClientMessages{
     private String cardName;
     private boolean add;
+    private boolean unitCard;
+    private int power;
 
-    public AddRemoveCardMessage(String cardName, boolean add) {
+    public AddRemoveCardMessage(String cardName, boolean unitCard, int power, boolean add) {
         this.token = Game.getLoggedInUser().getUsername();
         this.cardName = cardName;
         this.add = add;
