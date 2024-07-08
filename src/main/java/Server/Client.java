@@ -102,6 +102,7 @@ public class Client {
         String response = receiveResponse();
         ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
         endConnection();
+        System.out.println(clientMessages);
         return serverMessages;
     }
 

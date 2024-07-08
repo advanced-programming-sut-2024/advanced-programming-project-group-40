@@ -162,10 +162,12 @@ public class Server extends Thread {
                             break;
                     }
                 case GET_LIS_OF_NAMES:
+                    System.out.println(6);
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
                         case GET_FRIENDS:
+                            System.out.println(7);
                             names = requestService.getFriends(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_REQUESTS:
