@@ -3,20 +3,26 @@ package Server.Messages.Client;
 import Server.Messages.MessageType;
 
 public class RequestMessage extends ClientMessages {
-    private String originUser;
-    private String destinationUser;
+    private String originUsername;
+    private String destinationUsername;
+    private MessageType subType;
 
     public RequestMessage(String originUser, String destinationUser, MessageType type) {
-        this.type = type;
-        this.originUser = originUser;
-        this.destinationUser = destinationUser;
+        this.type = MessageType.REQUEST;
+        this.subType = type;
+        this.originUsername = originUser;
+        this.destinationUsername = destinationUser;
     }
 
-    public String getOriginUser() {
-        return originUser;
+    public String getOriginUsername() {
+        return originUsername;
     }
 
-    public String getDestinationUser() {
-        return destinationUser;
+    public String getDestinationUsername() {
+        return destinationUsername;
+    }
+
+    public MessageType getSubType() {
+        return subType;
     }
 }

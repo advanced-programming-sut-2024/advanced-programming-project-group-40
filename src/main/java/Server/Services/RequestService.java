@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class RequestService {
     private static RequestService instance;
     private final ArrayList<Relation> followRequests = new ArrayList<>();
+    private final ArrayList<Relation> rejectedFollowRequests = new ArrayList<>();
     private final ArrayList<Relation> friends = new ArrayList<>();
 
     private RequestService() {
@@ -20,13 +21,19 @@ public class RequestService {
     }
 
     public void createFriendRequest(String fromUsername, String targetUsername) {
-        followRequests.add(new Relation(fromUsername,targetUsername));
+        followRequests.add(new Relation(fromUsername, targetUsername));
     }
 
-    public void acceptFriendRequest(String fromUsername, String targetUsername) {
-        followRequests.remove(new Relation(fromUsername, targetUsername));
-        friends.add(new Relation(fromUsername, targetUsername));
-        friends.add(new Relation(targetUsername, fromUsername));
+    public void acceptFollowRequest(String originUsername, String targetUsername) {
+        followRequests.remove(new Relation(originUsername, targetUsername));
+        friends.add(new Relation(originUsername, targetUsername));
+    }
+
+    public void rejectFollowRequest(String originUsername, String targetUsername) {
+        // the person who rejects a request is target username in follow request
+        Relation rejected = getFollowRequestByNames(targetUsername, originUsername);
+        followRequests.remove(rejected);
+        rejectedFollowRequests.add(rejected);
     }
 
     public ArrayList<String> getFriends(String user) {
@@ -60,5 +67,13 @@ public class RequestService {
         }
 
         return result;
+    }
+
+    private Relation getFollowRequestByNames(String originUsername, String destinationUsername) {
+        for (Relation friendRequest : followRequests) {
+            if (friendRequest.getFirst().equals(originUsername) && friendRequest.getSecond().equals(destinationUsername))
+                return friendRequest;
+        }
+        return null;
     }
 }

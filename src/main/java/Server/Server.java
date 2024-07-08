@@ -2,6 +2,7 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
+import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
@@ -88,9 +89,9 @@ public class Server extends Thread {
                 case SIGNUP:
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
                 case GET_USER:
-                    return gsonAgent.fromJson(clientStr,GetUserMessage.class);
+                    return gsonAgent.fromJson(clientStr, GetUserMessage.class);
                 case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
+                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 default:
                     return null;
             }
@@ -145,19 +146,20 @@ public class Server extends Thread {
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                     break;
-                case SEND_FOLLOW_REQUEST:
+                case REQUEST:
                     RequestMessage requestMessage = (RequestMessage) clientMessage;
-                    User originUser = getUserByUsername(requestMessage.getOriginUser());
-                    User desiredUser = getUserByUsername(requestMessage.getDestinationUser());
-                    originUser.getRequestsHasSent().add(desiredUser);
-                    desiredUser.getRequests().add(originUser);
-                    break;
-                case ACCEPT_FOLLOW_REQUEST:
-//                    RequestMessage requestMessage = (RequestMessage) clientMessage;
-//                    User originUser = getUserByUsername(requestMessage.getOriginUser());
-//                    User desiredUser = getUserByUsername(requestMessage.getDestinationUser());
-//                    originUser.getRequestsHasSent().add(desiredUser);
-//                    desiredUser.getRequests().add(originUser);
+                    RequestService requestService = RequestService.getInstance();
+                    switch (requestMessage.getSubType()) {
+                        case SEND_FOLLOW_REQUEST:
+                            requestService.createFriendRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
+                        case ACCEPT_FOLLOW_REQUEST:
+                            requestService.acceptFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
+                        case REJECT_FOLLOW_REQUEST:
+                            requestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
+                    }
             }
             sendBuffer.close();
             receiveBuffer.close();
