@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import enums.cards.*;
 import models.Chat.Message;
 import models.Chat.PublicChat;
+import models.Chat.ReplyData;
 import models.MatchTable;
 import models.cards.*;
 
@@ -51,7 +52,12 @@ public class GameBoardVisualData {
     boolean isKingOfWildHunt;
     boolean isImperialMajesty;
     String Recation;
-    Message message;
+
+    String username;
+    String message;
+    boolean isReply;
+    String userName;
+    String time;
     boolean isThereAMessage = false;
 
     public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
@@ -133,9 +139,50 @@ public class GameBoardVisualData {
     /////////////////////////////////
 
 
-    public void addToChat(Message message) {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isReply() {
+        return isReply;
+    }
+
+    public void setReply(boolean reply) {
+        isReply = reply;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTime() {
+
+        return time;
+    }
+
+    public boolean isThereAMessage() {
+        return isThereAMessage;
+    }
+
+    public void setTime(String time) {
         isThereAMessage = true;
+        this.time = time;
     }
 
     public String getReaction() {
@@ -146,13 +193,6 @@ public class GameBoardVisualData {
         this.Recation = Recation;
     }
 
-    public Message getMessage() {
-        return message;
-    }
-
-    public boolean isThereAMessage() {
-        return isThereAMessage;
-    }
 
     public boolean isDestroyer() {
         return isDestroyer;

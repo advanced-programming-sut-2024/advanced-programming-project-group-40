@@ -1,9 +1,9 @@
 [
   {
     "username": "aria",
-    "password": "B6!aHTt#",
-    "email": "d",
-    "nickname": "w@c.com",
+    "password": "P0BR6M\u0026a",
+    "email": "s",
+    "nickname": "s@c.com",
     "faction": "MONSTERS",
     "point": 0,
     "gamesPlayed": 0,
@@ -16,9 +16,9 @@
     "followers": [],
     "followings": [],
     "requests": [],
-    "numberOfUnitCards": 0,
+    "numberOfUnitCards": 26,
     "numberOfSpecialCards": 0,
     "numberOfHeroCards": 0,
-    "totalUnitCardsStrength": 0
+    "totalUnitCardsStrength": 120
   }
 ]

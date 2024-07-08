@@ -10,9 +10,7 @@ import models.MatchTable;
 import models.User;
 import models.cards.Card;
 import models.cards.UnitCard;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
 import javafx.application.*;
 import views.GameView;
 

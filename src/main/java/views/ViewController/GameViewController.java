@@ -14,10 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -76,7 +73,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     @FXML
-    private Label messageInput;
+    private TextField messageInput;
     @FXML
     private ChoiceBox<String> Messages;
     @FXML
@@ -391,11 +388,11 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
         if (visualData.isThereAMessage()) {
             HBox hBox = new HBox();
-            if (visualData.getMessage().replyData().isReply()) {
-                if (Objects.equals(visualData.getNickName(0), visualData.getMessage().username())) {
+            if (visualData.isReply()) {
+                if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."replyingTo:\{visualData.getMessage().replyData().userName()}\n\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    Text text = new Text(STR."replyingTo:\{visualData.getUserName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
                     textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
                             "-fx-background-radius: 20px;"
@@ -406,7 +403,7 @@ public class GameViewController extends PlayMenu implements Initializable {
                 } else {
                     hBox.setAlignment(Pos.CENTER_LEFT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\\n\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
                     textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
                             "-fx-background-radius: 20px;"
@@ -417,10 +414,10 @@ public class GameViewController extends PlayMenu implements Initializable {
                 }
 
             } else {
-                if (Objects.equals(visualData.getNickName(0), visualData.getMessage().username())) {
+                if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
                     hBox.setAlignment(Pos.CENTER_RIGHT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
                     textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
                             "-fx-background-radius: 20px;"
@@ -431,7 +428,7 @@ public class GameViewController extends PlayMenu implements Initializable {
                 } else {
                     hBox.setAlignment(Pos.CENTER_LEFT);
                     hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."\{visualData.getMessage().time()} \{visualData.getMessage().username()}:\{visualData.getMessage().message()}");
+                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
                     TextFlow textFlow = new TextFlow(text);
                     textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
                             "-fx-background-radius: 20px;"

@@ -1,16 +1,11 @@
 package views;
 
-import Server.Models.GameBoardVisualData;
-import Tests.test;
-import enums.Menu;
 import enums.cards.UnitCardInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.Game;
-import models.MatchTable;
-import models.User;
 import models.actions.UnitCardActions;
 import models.cards.Card;
 import models.cards.UnitCard;
@@ -18,8 +13,7 @@ import models.cards.UnitCard;
 import java.net.URL;
 
 public class Main extends Application {
-    //this is a Tests.test class only and main extending application is not needed
-
+    //this is a test class only and main extending application is not needed
 
     public static void main(String[] args) {
         launch(args);

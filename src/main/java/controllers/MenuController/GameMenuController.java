@@ -380,7 +380,11 @@ public class GameMenuController {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
-        gameBoardVisualData.addToChat(message);
+        gameBoardVisualData.setTime(message.getTime());
+        gameBoardVisualData.setMessage(message.getMessage());
+        gameBoardVisualData.setUsername(message.getUsername());
+        gameBoardVisualData.setUserName(message.getReplyData().getUserName());
+        gameBoardVisualData.setReply(message.replyData.isReply());
         gameViewController2.setVisualData(gameBoardVisualData.toJSON());
     }
 
@@ -388,7 +392,7 @@ public class GameMenuController {
         sendDataWithReaction(value);
     }
 
-    private static void sendMessage(String substring,boolean isReply) {
+    private static void sendMessage(String substring, boolean isReply) {
         User user1 = matchTable.getFirstPlayer();
         User user2 = matchTable.getSecondPlayer();
         if (!matchTable.isFirstPlayerTurn()) {
@@ -396,9 +400,8 @@ public class GameMenuController {
             user2 = matchTable.getFirstPlayer();
         }
 
-        Message message = new Message(user1.getNickname(), substring, new ReplyData(isReply,user2.getNickname() ), (new Date()).toString());
+        Message message = new Message(user1.getNickname(), substring, new ReplyData(isReply, user2.getNickname()),String.valueOf ((new Date()).getTime()));
         sendDataWithMessage(message);
-        //todo
     }
 
     public static void sendCommand(String s) {
@@ -406,10 +409,9 @@ public class GameMenuController {
             sendReaction(s.substring(7));
         } else if (s.startsWith("chat")) {
             if (s.substring(5, 9).equals("true")) {
-                sendMessage(s.substring(4),true);
-
+                sendMessage(s.substring(9), true);
             } else {
-                sendMessage(s.substring(4),false);
+                sendMessage(s.substring(10), false);
             }
 
         } else {
