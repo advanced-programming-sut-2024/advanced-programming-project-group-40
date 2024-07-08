@@ -1,12 +1,12 @@
 package Server;
 
-import Server.Messages.Client.ClientMessages;
-import Server.Messages.Client.LoginMessages;
-import Server.Messages.Client.SignUpMessages;
+import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
+import enums.AlertInfo.messages.ProfileMenuMessages;
+import models.Game;
 import models.User;
 
 import java.io.*;
@@ -22,6 +22,8 @@ public class Server extends Thread {
     private static Gson gsonAgent;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Socket> connections = new ArrayList<>();
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
 
     private static void setupServer() {
         try {
@@ -85,7 +87,10 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, LoginMessages.class);
                 case SIGNUP:
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
-
+                case GET_USER:
+                    return gsonAgent.fromJson(clientStr,GetUserMessage.class);
+                case SEND_FOLLOW_REQUEST:
+                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
                 default:
                     return null;
             }
@@ -106,13 +111,15 @@ public class Server extends Thread {
             );
             clientRequest = receiveBuffer.readUTF();
             ClientMessages clientMessage = extractClientMessage(clientRequest);
+            User user;
+            ServerMessages serverMessage;
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
 //                    System.out.println(loginMessage.getUsername() + " " + loginMessage.getPassword());
-                    User user = getUserByUsername(loginMessage.getUsername().trim());
+                    user = getUserByUsername(loginMessage.getUsername().trim());
 //                    System.out.println(allUsers);
-                    ServerMessages serverMessage;
+                    System.out.println(loginMessage.getUsername());
                     if (user == null) {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
                     } else if (!user.getPassword().equals(loginMessage.getPassword())) {
@@ -124,10 +131,33 @@ public class Server extends Thread {
                     break;
                 case SIGNUP:
                     SignUpMessages signUpMessage = (SignUpMessages) clientMessage;
-                    User newUser = signUpMessage.getUser();
-                    allUsers.add(newUser);
+                    user = signUpMessage.getUser();
+                    allUsers.add(user);
                     break;
-
+                case GET_USER:
+                    GetUserMessage getUserMessage = (GetUserMessage) clientMessage;
+                    user = getUserByUsername(getUserMessage.getUsername());
+                    if (user == null) {
+                        serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
+                    } else {
+                        String userToJson = gson.toJson(Game.getAllUsers());
+                        serverMessage = new ServerMessages(true, userToJson);
+                    }
+                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                    break;
+                case SEND_FOLLOW_REQUEST:
+                    RequestMessage requestMessage = (RequestMessage) clientMessage;
+                    User originUser = getUserByUsername(requestMessage.getOriginUser());
+                    User desiredUser = getUserByUsername(requestMessage.getDestinationUser());
+                    originUser.getRequestsHasSent().add(desiredUser);
+                    desiredUser.getRequests().add(originUser);
+                    break;
+                case ACCEPT_FOLLOW_REQUEST:
+//                    RequestMessage requestMessage = (RequestMessage) clientMessage;
+//                    User originUser = getUserByUsername(requestMessage.getOriginUser());
+//                    User desiredUser = getUserByUsername(requestMessage.getDestinationUser());
+//                    originUser.getRequestsHasSent().add(desiredUser);
+//                    desiredUser.getRequests().add(originUser);
             }
             sendBuffer.close();
             receiveBuffer.close();

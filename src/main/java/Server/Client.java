@@ -87,22 +87,24 @@ public class Client {
     }
 
     public ServerMessages login(LoginMessages loginMessages) {
-        establishConnection();
-        sendMessage(gsonAgent.toJson(loginMessages));
-        String response = receiveResponse();
-        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
-        endConnection();
-        return serverMessages;
+        return getServerMessage(loginMessages);
     }
 
     public ServerMessages signup(SignUpMessages signUpMessages) {
+        return getServerMessage(signUpMessages);
+    }
+
+    public ServerMessages getUser(GetUserMessage getUserMessage) {
+        return getServerMessage(getUserMessage);
+    }
+
+    private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
-        sendMessage(gsonAgent.toJson(signUpMessages));
+        sendMessage(gsonAgent.toJson(clientMessages));
         String response = receiveResponse();
         ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
         endConnection();
         return serverMessages;
     }
-
 
 }

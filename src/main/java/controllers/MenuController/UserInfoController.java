@@ -1,6 +1,10 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
+import Server.Messages.Client.GetUserMessage;
+import Server.Messages.ServerMessages;
 import models.Game;
+import models.User;
 
 public abstract class UserInfoController {
 

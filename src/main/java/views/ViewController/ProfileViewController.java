@@ -2,21 +2,30 @@ package views.ViewController;
 
 
 import controllers.MenuController.ProfileMenuController;
+import controllers.Utility;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import models.AlertMaker;
 import models.Game;
 import models.User;
-import views.*;
+import views.ChangeInfoMenu;
+import views.GameHistory;
+import views.MainMenu;
+import views.TargetProfile;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
@@ -64,6 +73,10 @@ public class ProfileViewController {
         won.setText(Integer.toString(user.getWon()));
         lost.setText(Integer.toString(user.getLost()));
 
+        fillChart();
+    }
+
+    public void fillChart() {
         fillVBox(friends, Game.getLoggedInUser().getFrineds());
         fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
         fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
@@ -96,7 +109,7 @@ public class ProfileViewController {
         alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.CONFIRMATION)) {
             if (alertMaker.isOK()) {
-                TargetProfileViewController.setTargetUser(Game.getUserByName(targetUser.getText()));
+                TargetProfileViewController.setTargetUser(Utility.getUser(targetUser.getText()));
                 Stage stage = new Stage();
                 new TargetProfile().start(stage);
                 stage.setOnCloseRequest((WindowEvent event) -> {
@@ -112,7 +125,7 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(Objects.requireNonNull(Game.getUserByName(targetUser.getText())));
+            ProfileMenuController.sendRequest(targetUser.getText());
     }
 
 
@@ -170,9 +183,13 @@ public class ProfileViewController {
             if (clickedImageView.equals(accept)) {
                 // todo start game here
 
+            } else {
             }
+
         }
+        vBox.getChildren().remove(label.getParent());
     }
+
 
     private void fillVBox(VBox vBox, ArrayList<User> target) {
         // todo for sent & game sent
@@ -186,5 +203,9 @@ public class ProfileViewController {
 
             vBox.getChildren().add(label);
         }
+    }
+
+
+    public void GameRequest(MouseEvent mouseEvent) {
     }
 }
