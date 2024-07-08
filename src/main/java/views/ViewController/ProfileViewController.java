@@ -77,15 +77,15 @@ public class ProfileViewController {
     }
 
     public void fillChart() {
-        String username=Game.getLoggedInUser().getUsername();
-        fillVBox(friends,Utilities.ge);
-        fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
-        fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
-        fillVBox(sent, Game.getLoggedInUser().getRejectedRequests());
-
-        fillRequestVBox(gameRequest, Game.getLoggedInUser().getGameRequests());
-        fillVBox(gameSent, Game.getLoggedInUser().getGameRequestsHasSent());
-        fillVBox(gameSent, Game.getLoggedInUser().getGameRejectedRequests());
+//        String username=Game.getLoggedInUser().getUsername();
+//        fillVBox(friends,Utilities.ge);
+//        fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
+//        fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
+//        fillVBox(sent, Game.getLoggedInUser().getRejectedRequests());
+//
+//        fillRequestVBox(gameRequest, Game.getLoggedInUser().getGameRequests());
+//        fillVBox(gameSent, Game.getLoggedInUser().getGameRequestsHasSent());
+//        fillVBox(gameSent, Game.getLoggedInUser().getGameRejectedRequests());
     }
 
 
