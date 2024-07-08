@@ -7,8 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import enums.cards.HeroInfo;
+import enums.cards.LeaderInfo;
+import enums.cards.SpecialCardInfo;
+import enums.cards.UnitCardInfo;
 import models.Game;
 import models.User;
+import models.cards.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -94,6 +99,11 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case GET_LIS_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
+                    return gsonAgent.fromJson(clientStr,GetUserMessage.class);
+                case SEND_FOLLOW_REQUEST:
+                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
+                case ADD_CARD, REMOVE_CARD:
+                    return gsonAgent.fromJson(clientStr,AddRemoveCardMessage.class);
                 default:
                     return null;
             }

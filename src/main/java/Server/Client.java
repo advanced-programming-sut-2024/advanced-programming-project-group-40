@@ -80,13 +80,20 @@ public class Client {
         sendMessage(input);
         endConnection();
     }
+    public void addCard(AddRemoveCardMessage addRemoveCardMessage) {
+        getServerMessage(addRemoveCardMessage);
+    }
+
+    public void removeCard(AddRemoveCardMessage addRemoveCardMessage) {
+        getServerMessage(addRemoveCardMessage);
+    }
 
     public ServerMessages login(LoginMessages loginMessages) {
         return getServerMessage(loginMessages);
     }
 
-    public ServerMessages signup(SignUpMessages signUpMessages) {
-        return getServerMessage(signUpMessages);
+    public void signUp(SignUpMessages signUpMessages) {
+        getServerMessage(signUpMessages);
     }
 
     public ServerMessages getUser(GetUserMessage getUserMessage) {

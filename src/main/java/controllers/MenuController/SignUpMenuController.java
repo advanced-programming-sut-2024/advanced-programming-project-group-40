@@ -1,6 +1,8 @@
 package controllers.MenuController;
 
 import Mail.LinkAuthorization;
+import Server.ClientHandler;
+import Server.Messages.Client.SignUpMessages;
 import controllers.DataSaver;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
@@ -28,6 +30,8 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityQuestionNumber(questionNumber);
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
+        SignUpMessages signUpMessages = new SignUpMessages(Game.getLoggedInUser());
+        ClientHandler.client.signUp(signUpMessages);
         DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
