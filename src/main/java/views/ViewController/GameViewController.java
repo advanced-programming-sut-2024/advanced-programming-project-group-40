@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -33,6 +34,9 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
+    static String[] cheatStrings = {"skipTurn", "clear Weather", "reactivate leader Ability", "OP cards"};
+
+    public ChoiceBox<String> Cheats;
     @FXML
     private HBox secondPlayerLeaderImage;
     @FXML
@@ -125,6 +129,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         GameMenuController.setGameViewController2(this);
+        Cheats.getItems().addAll(cheatStrings);
         Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
         GameMenuController.initiateDeck(GameMenuController.getMatchTable());
         InitiateCardEvents();
@@ -564,6 +569,11 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void PassRound(MouseEvent mouseEvent) {
         GameMenuController.passRound();
         update();
+    }
+
+    public void activateCheat(MouseEvent mouseEvent) {
+        if (!Cheats.getValue().isEmpty()) GameMenuController.cheat(Cheats.getValue());
+
     }
 }
 

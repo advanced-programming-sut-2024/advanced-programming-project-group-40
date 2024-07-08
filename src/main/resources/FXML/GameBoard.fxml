@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -152,6 +153,7 @@
                <Font size="28.0" />
             </font>
          </Label>
+         <ChoiceBox fx:id="Cheats" layoutX="40.0" layoutY="200.0" prefWidth="150.0" />
       </Pane>
       <Pane layoutY="462.0" prefHeight="239.0" prefWidth="231.0">
          <StackPane layoutX="14.0" layoutY="57.0" prefHeight="124.0" prefWidth="98.0" styleClass="discard">
@@ -165,6 +167,7 @@
             </font>
          </Label>
       </Pane>
-      <Button layoutX="41.0" layoutY="337.0" mnemonicParsing="false" onMouseClicked="#PassRound" text="Pass Round" />
+      <Button layoutX="14.0" layoutY="409.0" mnemonicParsing="false" onMouseClicked="#PassRound" text="Pass Round" />
+      <Button layoutX="67.0" layoutY="239.0" mnemonicParsing="false" onMouseClicked="#activateCheat" text="Activate Cheat" />
    </Pane>
 </GridPane>

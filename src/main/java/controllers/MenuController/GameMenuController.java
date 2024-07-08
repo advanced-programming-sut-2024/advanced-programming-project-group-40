@@ -536,4 +536,24 @@ public class GameMenuController  {
     public static void updatePoints() {
         matchTable.updatePoints();
     }
+
+    public static void cheat(String value) {
+        switch (value){
+            case "skipTurn":
+                matchTable.skipTurn();
+                break;
+            case "clear Weather":
+                matchTable.clearWeather();
+                break;
+            case "reactivate leader Ability":
+                int userID =0;
+                if (!matchTable.isFirstPlayerTurn()) userID =1;
+                matchTable.GiveBackLeaderAbility(userID);
+                break;
+            case "OP cards":
+                matchTable.makeCardsStronger();
+                break;
+
+        }
+    }
 }
