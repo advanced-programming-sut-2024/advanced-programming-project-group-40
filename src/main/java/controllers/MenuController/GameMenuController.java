@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import models.MatchTable;
-import models.Result;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.*;
 import views.ViewController.GameViewController;
