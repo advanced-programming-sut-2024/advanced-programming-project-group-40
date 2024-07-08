@@ -8,9 +8,11 @@ module advanced.programming.project.group {
     requires javafx.base;
     requires java.logging;
     requires java.desktop;
+    requires org.junit.jupiter.api;
     exports views;
     exports enums.cards to com.google.gson;
     opens views to javafx.fxml;
+    opens Tests to junit;
     opens enums to com.google.gson,com.fasterxml.jackson.databind;
     opens controllers to com.google.gson,com.fasterxml.jackson.databind;
     exports views.ViewController;

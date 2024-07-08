@@ -65,7 +65,6 @@ public class Game {
     public static ArrayList<Card> setAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
-            UnitCard unitCard = new UnitCard(unitCardInfo);
             allCards.add(new UnitCard(unitCardInfo));
         }
         for (HeroInfo heroInfo : HeroInfo.values()) {

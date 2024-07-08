@@ -201,76 +201,33 @@ public class GameMenuController {
         Origin origin;
         if (isFirstPlayerTurn) {
             switch (parentID) {
-                case "firstPlayerCloseCombat" -> {
-                    origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
-                }
-                case "firstPlayerRanged" -> {
-                    origin = Origin.FIRSTPLAYER_RANGED;
-                }
-                case "firstPlayerSiege" -> {
-                    origin = Origin.FIRSTPLAYER_SIEGE;
-                }
-                case "secondPlayerCloseCombat" -> {
-                    origin = Origin.SECONDPLAYER_CLOSECOMBAT;
-                }
-                case "secondPlayerRanged" -> {
-                    origin = Origin.SECONDPLAYER_RANGED;
-                }
-                case "secondPlayerSiege" -> {
-                    origin = Origin.SECONDPLAYER_SIEGE;
-                }
-                case "spellCards" -> {
-                    origin = Origin.WEATHER;
-                }
-                case "firstPlayerDiscard" -> {
-                    origin = Origin.FIRSTPLATER_DEAD;
-                }
-                case "secondPlayerDiscard" -> {
-                    origin = Origin.SECONDPLAYER_DEAD;
-                }
-                case "Hand" -> {
-                    origin = Origin.FIRSTPLAYER_INPLAY;
-                }
-                default -> {
-                    origin = Origin.NULL;
-                }
+                case "firstPlayerCloseCombat" -> origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
+                case "firstPlayerRanged" -> origin = Origin.FIRSTPLAYER_RANGED;
+                case "firstPlayerSiege" -> origin = Origin.FIRSTPLAYER_SIEGE;
+                case "secondPlayerCloseCombat" -> origin = Origin.SECONDPLAYER_CLOSECOMBAT;
+                case "secondPlayerRanged" -> origin = Origin.SECONDPLAYER_RANGED;
+                case "secondPlayerSiege" -> origin = Origin.SECONDPLAYER_SIEGE;
+                case "spellCards" -> origin = Origin.WEATHER;
+                case "firstPlayerDiscard" -> origin = Origin.FIRSTPLATER_DEAD;
+                case "secondPlayerDiscard" -> origin = Origin.SECONDPLAYER_DEAD;
+                case "Hand" -> origin = Origin.FIRSTPLAYER_INPLAY;
+                default -> origin = Origin.NULL;
             }
 
-        } else {
+        }
+        else {
             switch (parentID) {
-                case "firstPlayerCloseCombat" -> {
-                    origin = Origin.SECONDPLAYER_CLOSECOMBAT;
-                }
-                case "firstPlayerRanged" -> {
-                    origin = Origin.SECONDPLAYER_RANGED;
-                }
-                case "firstPlayerSiege" -> {
-                    origin = Origin.SECONDPLAYER_SIEGE;
-                }
-                case "secondPlayerCloseCombat" -> {
-                    origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
-                }
-                case "secondPlayerRanged" -> {
-                    origin = Origin.FIRSTPLAYER_RANGED;
-                }
-                case "secondPlayerSiege" -> {
-                    origin = Origin.FIRSTPLAYER_SIEGE;
-                }
-                case "spellCards" -> {
-                    origin = Origin.WEATHER;
-                }
-                case "firstPlayerDiscard" -> {
-                    origin = Origin.SECONDPLAYER_DEAD;
-                }
-                case "secondPlayerDiscard" -> {
-                    origin = Origin.FIRSTPLATER_DEAD;
-                }
-                case "Hand" -> {
-                    origin = Origin.SECONDPLAYER_INPLAY;
-                }
-                default -> {
-                    origin = Origin.NULL;
-                }
+                case "firstPlayerCloseCombat" -> origin = Origin.SECONDPLAYER_CLOSECOMBAT;
+                case "firstPlayerRanged" -> origin = Origin.SECONDPLAYER_RANGED;
+                case "firstPlayerSiege" -> origin = Origin.SECONDPLAYER_SIEGE;
+                case "secondPlayerCloseCombat" -> origin = Origin.FIRSTPLAYER_CLOSECOMBAT;
+                case "secondPlayerRanged" -> origin = Origin.FIRSTPLAYER_RANGED;
+                case "secondPlayerSiege" -> origin = Origin.FIRSTPLAYER_SIEGE;
+                case "spellCards" -> origin = Origin.WEATHER;
+                case "firstPlayerDiscard" -> origin = Origin.SECONDPLAYER_DEAD;
+                case "secondPlayerDiscard" -> origin = Origin.FIRSTPLATER_DEAD;
+                case "Hand" -> origin = Origin.SECONDPLAYER_INPLAY;
+                default -> origin = Origin.NULL;
             }
         }
         return origin;
