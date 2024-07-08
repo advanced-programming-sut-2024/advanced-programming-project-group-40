@@ -1,5 +1,9 @@
 package Server;
 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
 import Server.Messages.Client.LoginMessages;
 import Server.Messages.Client.SignUpMessages;
 import Server.Messages.ServerMessages;
@@ -99,5 +103,6 @@ public class Client {
         endConnection();
         return serverMessages;
     }
+
 
 }

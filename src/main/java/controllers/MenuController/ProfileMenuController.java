@@ -10,7 +10,7 @@ import models.Game;
 import models.User;
 
 public class ProfileMenuController extends UserInfoController {
-    public static
+
 
     public static AlertMaker search(String username) {
         if (isUsernameUnique(username))
@@ -24,7 +24,5 @@ public class ProfileMenuController extends UserInfoController {
         String result = serverMessages.getAdditionalInfo();
         target.getRequests().add(Game.getLoggedInUser());
     }
-
-
 
 }

@@ -22,16 +22,18 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private final ArrayList<String> deckCardsName = new ArrayList<>();
     private transient Leader leader;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    private ArrayList<User> frineds = new ArrayList<>();
-    private ArrayList<User> requests = new ArrayList<>();
-    private ArrayList<User> requestsHasSent = new ArrayList<>();
-    private ArrayList<User> rejectedRequests = new ArrayList<>();
-    private ArrayList<User> gameRequests = new ArrayList<>();
-    private ArrayList<User> gameRequestsHasSent = new ArrayList<>();
-    private ArrayList<User> gameRejectedRequests = new ArrayList<>();
+    // todo transient???
+    private transient ArrayList<User> frineds = new ArrayList<>();
+    private transient ArrayList<User> requests = new ArrayList<>();
+    private transient ArrayList<User> requestsHasSent = new ArrayList<>();
+    private transient ArrayList<User> rejectedRequests = new ArrayList<>();
+    private transient ArrayList<User> gameRequests = new ArrayList<>();
+    private transient ArrayList<User> gameRequestsHasSent = new ArrayList<>();
+    private transient ArrayList<User> gameRejectedRequests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
@@ -261,7 +263,6 @@ public class User {
             }
         }
     }
-
     public int cardsInDeckFromCardName(String cardName) {
         int count = 0;
         for (Card card : deckCards) {
@@ -272,10 +273,18 @@ public class User {
         return count;
     }
 
+    public ArrayList<String> getDeckCardsName() {
+        return deckCardsName;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
     }
 
 
+    public void setDeckCards(ArrayList<Card> cards) {
+        deckCards.clear();
+        deckCards.addAll(cards);
+    }
 }
