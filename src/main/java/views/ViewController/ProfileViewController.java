@@ -174,7 +174,7 @@ public class ProfileViewController {
             if (clickedImageView.equals(accept)) {
                 Game.getLoggedInUser().getFrineds().add(request);
                 request.getFrineds().add(Game.getLoggedInUser());
-                fillVBox(friends, Game.getLoggedInUser().getFrineds());
+//                fillVBox(friends, Game.getLoggedInUser().getFrineds());
             } else {
                 request.getRejectedRequests().add(Game.getLoggedInUser());
             }
