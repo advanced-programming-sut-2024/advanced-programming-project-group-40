@@ -37,6 +37,7 @@ public class RequestService {
     }
 
     public ArrayList<String> getFriends(String user) {
+        System.out.println(8);
         ArrayList<String> friendsList = new ArrayList<>();
         for (Relation friend : friends) {
             if (friend.getFirst().equals(user) || friend.getSecond().equals(user)) {

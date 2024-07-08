@@ -1,6 +1,7 @@
 package views.ViewController;
 
 
+import Server.Messages.MessageSubType;
 import controllers.MenuController.ProfileMenuController;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
@@ -72,17 +73,17 @@ public class ProfileViewController {
         draw.setText(Integer.toString(user.getDraw()));
         won.setText(Integer.toString(user.getWon()));
         lost.setText(Integer.toString(user.getLost()));
-
+        System.out.println("1");
         fillChart();
     }
 
     public void fillChart() {
-//        String username=Game.getLoggedInUser().getUsername();
-//        fillVBox(friends,Utilities.ge);
-//        fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
-//        fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
-//        fillVBox(sent, Game.getLoggedInUser().getRejectedRequests());
-//
+        String username = Game.getLoggedInUser().getUsername();
+        fillVBox(friends, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FRIENDS)));
+        fillRequestVBox(requests, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FOLLOW_REQUESTS)));
+        fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_FOLLOW_REQUESTS)));
+        fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_REQUESTS)));
+        System.out.println(3);
 //        fillRequestVBox(gameRequest, Game.getLoggedInUser().getGameRequests());
 //        fillVBox(gameSent, Game.getLoggedInUser().getGameRequestsHasSent());
 //        fillVBox(gameSent, Game.getLoggedInUser().getGameRejectedRequests());
@@ -126,17 +127,17 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(targetUser.getText());
+            ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(),targetUser.getText(), MessageSubType.SEND_FOLLOW_REQUEST);
     }
 
 
-    private void fillRequestVBox(VBox vBox, ArrayList<User> target) {
-        for (User request : target) {
+    private void fillRequestVBox(VBox vBox, ArrayList<String> target) {
+        for (String request : target) {
             ImageView imageView2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/reject.png")).toExternalForm()));
             ImageView imageView1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/accept.png")).toExternalForm()));
 
             // Create the Label
-            Label label = new Label(request.getUsername());
+            Label label = new Label(request);
             label.setPrefHeight(16.0);
             label.setPrefWidth(116.0);
             label.setFont(new Font(14.0));
@@ -168,18 +169,15 @@ public class ProfileViewController {
         }
     }
 
-    private void handleClick(MouseEvent event, VBox vBox, Label label, ImageView accept, ImageView reject, User request) {
+    private void handleClick(MouseEvent event, VBox vBox, Label label, ImageView accept, ImageView reject, String request) {
         ImageView clickedImageView = (ImageView) event.getSource();
         if (vBox.equals(requests)) {
             if (clickedImageView.equals(accept)) {
-                Game.getLoggedInUser().getFrineds().add(request);
-                request.getFrineds().add(Game.getLoggedInUser());
-                fillVBox(friends, Game.getLoggedInUser().getFrineds());
+                ProfileMenuController.sendRequest(request,Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
             } else {
-                request.getRejectedRequests().add(Game.getLoggedInUser());
+                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(),MessageSubType.REJECT_FOLLOW_REQUEST);
             }
-            request.getRequestsHasSent().remove(Game.getLoggedInUser());
-            Game.getLoggedInUser().getRequests().remove(request);
+
         } else {
             if (clickedImageView.equals(accept)) {
                 // todo start game here
