@@ -1,9 +1,6 @@
 package Server;
 
-import Server.Messages.Client.ClientMessages;
-import Server.Messages.Client.GetUserMessage;
-import Server.Messages.Client.LoginMessages;
-import Server.Messages.Client.SignUpMessages;
+import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -90,7 +87,10 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, LoginMessages.class);
                 case SIGNUP:
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
-
+                case GET_USER:
+                    return gsonAgent.fromJson(clientStr,GetUserMessage.class);
+                case SEND_FOLLOW_REQUEST:
+                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
                 default:
                     return null;
             }
@@ -112,13 +112,14 @@ public class Server extends Thread {
             clientRequest = receiveBuffer.readUTF();
             ClientMessages clientMessage = extractClientMessage(clientRequest);
             User user;
+            ServerMessages serverMessage;
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
 //                    System.out.println(loginMessage.getUsername() + " " + loginMessage.getPassword());
                     user = getUserByUsername(loginMessage.getUsername().trim());
 //                    System.out.println(allUsers);
-                    ServerMessages serverMessage;
+                    System.out.println(loginMessage.getUsername());
                     if (user == null) {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
                     } else if (!user.getPassword().equals(loginMessage.getPassword())) {
@@ -144,9 +145,19 @@ public class Server extends Thread {
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                     break;
-                case SEND_REQUEST:
-
-
+                case SEND_FOLLOW_REQUEST:
+                    RequestMessage requestMessage = (RequestMessage) clientMessage;
+                    User originUser = getUserByUsername(requestMessage.getOriginUser());
+                    User desiredUser = getUserByUsername(requestMessage.getDestinationUser());
+                    originUser.getRequestsHasSent().add(desiredUser);
+                    desiredUser.getRequests().add(originUser);
+                    break;
+                case ACCEPT_FOLLOW_REQUEST:
+//                    RequestMessage requestMessage = (RequestMessage) clientMessage;
+//                    User originUser = getUserByUsername(requestMessage.getOriginUser());
+//                    User desiredUser = getUserByUsername(requestMessage.getDestinationUser());
+//                    originUser.getRequestsHasSent().add(desiredUser);
+//                    desiredUser.getRequests().add(originUser);
             }
             sendBuffer.close();
             receiveBuffer.close();

@@ -1,10 +1,13 @@
 package Server.Messages.Client;
 
-public class RequestMessage extends ClientMessages{
+import Server.Messages.MessageType;
+
+public class RequestMessage extends ClientMessages {
     private String originUser;
     private String destinationUser;
 
-    public RequestMessage(String originUser, String destinationUser) {
+    public RequestMessage(String originUser, String destinationUser, MessageType type) {
+        this.type = type;
         this.originUser = originUser;
         this.destinationUser = destinationUser;
     }

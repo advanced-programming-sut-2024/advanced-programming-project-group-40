@@ -21,7 +21,6 @@ public class Client {
     private DataOutputStream sendBuffer;
     private String serverIP;
     private int serverPort;
-
     private Gson gsonAgent;
     private String token;
 
