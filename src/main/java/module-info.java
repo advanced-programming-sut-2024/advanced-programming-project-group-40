@@ -9,6 +9,7 @@ module advanced.programming.project.group {
     requires java.logging;
     requires java.desktop;
     requires java.mail;
+    requires org.mockito;
     exports views;
     exports enums.cards to com.google.gson;
     opens views to javafx.fxml;
@@ -22,4 +23,5 @@ module advanced.programming.project.group {
     opens Server.Messages to com.google.gson,com.fasterxml.jackson.databind;
     opens Server.Messages.Client to com.google.gson,com.fasterxml.jackson.databind;
     opens models.cards to com.google.gson,com.fasterxml.jackson.databind;
+
 }
