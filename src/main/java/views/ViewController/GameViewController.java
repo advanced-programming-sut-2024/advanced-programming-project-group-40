@@ -156,8 +156,6 @@ public class GameViewController extends PlayMenu implements Initializable {
             card.setOnMouseClicked(_ -> {
                 CardClickCommand cardClickCommand = new CardClickCommand(card, this);
                 cardClickCommand.excute();
-
-
             });
         }
     }

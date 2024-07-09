@@ -5,6 +5,7 @@ import enums.Origin;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import models.Game;
 import models.MatchTable;
 import models.Result;
 import models.UserInputHandler.CardClickCommand;
@@ -14,7 +15,7 @@ import views.ViewController.GameViewController;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class GameMenuController  {
+public class GameMenuController {
     private static MatchTable matchTable;
     private static Stage tempStage;
     private static boolean isNewWindowOpen = false;
@@ -22,6 +23,7 @@ public class GameMenuController  {
     private static boolean isKingOfWildHunt = false;
     private static boolean isRedRider = false;
     private static boolean isDestroyer = false;
+    private static boolean isVeto = true;
     private static GameViewController gameViewController2;
 
     public static void setGameViewController2(GameViewController gameViewController2) {
@@ -40,67 +42,76 @@ public class GameMenuController  {
 
     public static void ClickedOnCard(Card selectedCard1, GameViewController gameViewController) {
         matchTable.updatePoints();
-        if (isNewWindowOpen) {
-            if (isMedic) {
-                if (matchTable.isFirstPlayerTurn()) {
-                    matchTable.doMedic(new CardWrapper(selectedCard1, Origin.FIRSTPLATER_DEAD));
-                } else {
-                    matchTable.doMedic(new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DEAD));
-                }
-                isMedic = false;
-                matchTable.endTurn();
-            }
-            if (isRedRider) {
-                if (matchTable.isFirstPlayerTurn()) {
-                    matchTable.addToSpellCards(new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
-                } else {
-                    matchTable.addToSpellCards(new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
-                }
-                isRedRider = false;
-            }
-            if (isDestroyer) {
-                if (matchTable.isFirstPlayerTurn()) {
-
-                    matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
-                } else {
-                    matchTable.addToInPlayCards(1, new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
-                }
-                isDestroyer = false;
-            }
-            if (isKingOfWildHunt) {
-                if (matchTable.isFirstPlayerTurn()) {
-
-                    matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
-                } else {
-                    matchTable.addToInPlayCards(1, new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
-                }
-                isKingOfWildHunt = false;
-            }
-            tempStage.close();
-            gameViewController.update();
-            isNewWindowOpen = false;
-
-            matchTable.updatePoints();
-
-        } else {
-            if (isSelectable(selectedCard1)) {
-                selectedCard = selectedCard1;
-                gameViewController.unHighlight();
-                Origin origin = GetDestination(matchTable.isFirstPlayerTurn());
-                gameViewController.highLightRow(origin);
-            } else {
-                if (selectedCard != null) {
-                    if (Objects.equals(selectedCard.getName(), "Decoy")) {
-                        matchTable.doDecoy(new CardWrapper(selectedCard, getCardOrigin(selectedCard, matchTable.isFirstPlayerTurn())),
-                                new CardWrapper(selectedCard1, getCardOrigin(selectedCard1, matchTable.isFirstPlayerTurn())), matchTable.isFirstPlayerTurn());
-                        selectedCard = null;
+        if (isVeto) {
+            Card randomCard = matchTable.getFirstPlayerDeckCards().get(Game.random.nextInt(matchTable.getFirstPlayerDeckCards().size()));
+            matchTable.addToInPlayCards(0,new CardWrapper(randomCard,Origin.FIRSTPLAYER_DECK));
+            matchTable.addToDeckCards(0,new CardWrapper(selectedCard1,Origin.FIRSTPLAYER_INPLAY));
+            isVeto = false;
+        }
+        else {
+            if (isNewWindowOpen) {
+                if (isMedic) {
+                    if (matchTable.isFirstPlayerTurn()) {
+                        matchTable.doMedic(new CardWrapper(selectedCard1, Origin.FIRSTPLATER_DEAD));
+                    } else {
+                        matchTable.doMedic(new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DEAD));
                     }
+                    isMedic = false;
+                    matchTable.endTurn();
                 }
-                matchTable.endTurn();
+                if (isRedRider) {
+                    if (matchTable.isFirstPlayerTurn()) {
+                        matchTable.addToSpellCards(new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
+                    } else {
+                        matchTable.addToSpellCards(new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
+                    }
+                    isRedRider = false;
+                }
+                if (isDestroyer) {
+                    if (matchTable.isFirstPlayerTurn()) {
+
+                        matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
+                    } else {
+                        matchTable.addToInPlayCards(1, new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
+                    }
+                    isDestroyer = false;
+                }
+                if (isKingOfWildHunt) {
+                    if (matchTable.isFirstPlayerTurn()) {
+
+                        matchTable.addToInPlayCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_DECK));
+                    } else {
+                        matchTable.addToInPlayCards(1, new CardWrapper(selectedCard1, Origin.SECONDPLAYER_DECK));
+                    }
+                    isKingOfWildHunt = false;
+                }
+                tempStage.close();
+                gameViewController.update();
+                isNewWindowOpen = false;
+
                 matchTable.updatePoints();
 
+            } else {
+                if (isSelectable(selectedCard1)) {
+                    selectedCard = selectedCard1;
+                    gameViewController.unHighlight();
+                    Origin origin = GetDestination(matchTable.isFirstPlayerTurn());
+                    gameViewController.highLightRow(origin);
+                } else {
+                    if (selectedCard != null) {
+                        if (Objects.equals(selectedCard.getName(), "Decoy")) {
+                            matchTable.doDecoy(new CardWrapper(selectedCard, getCardOrigin(selectedCard, matchTable.isFirstPlayerTurn())),
+                                    new CardWrapper(selectedCard1, getCardOrigin(selectedCard1, matchTable.isFirstPlayerTurn())), matchTable.isFirstPlayerTurn());
+                            selectedCard = null;
+                        }
+                    }
+                    matchTable.endTurn();
+
+                }
             }
         }
+        matchTable.updatePoints();
+        gameViewController.update();
     }
 
     private static Origin GetDestination(boolean isFirstPlayerTurn) {
@@ -317,7 +328,7 @@ public class GameMenuController  {
                 }
                 if (matchTable.isFirstPlayerTurn()) {
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, getRowID(origin));
-                }else {
+                } else {
 
                     matchTable.placeCard(new CardWrapper(selectedCard, Origin.SECONDPLAYER_INPLAY), 1, getRowID(origin));
                 }
@@ -541,7 +552,7 @@ public class GameMenuController  {
     }
 
     public static void cheat(String value) {
-        switch (value){
+        switch (value) {
             case "skipTurn":
                 matchTable.skipTurn();
                 break;
@@ -549,8 +560,8 @@ public class GameMenuController  {
                 matchTable.clearWeather();
                 break;
             case "reactivate leader Ability":
-                int userID =0;
-                if (!matchTable.isFirstPlayerTurn()) userID =1;
+                int userID = 0;
+                if (!matchTable.isFirstPlayerTurn()) userID = 1;
                 matchTable.GiveBackLeaderAbility(userID);
                 break;
             case "OP cards":
