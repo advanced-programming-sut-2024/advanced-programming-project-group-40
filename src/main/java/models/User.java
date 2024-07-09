@@ -24,7 +24,13 @@ public class User {
     private transient ArrayList<Card> deckCards = new ArrayList<>();
     private final ArrayList<String> deckCardsName = new ArrayList<>();
     private transient Leader leader;
-    private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private String leaderName;
+
+    public void setMatchesPlayed(ArrayList<MatchTable> matchesPlayed) {
+        this.matchesPlayed = matchesPlayed;
+    }
+
+    private transient ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
     // todo transient???
     private transient ArrayList<User> frineds = new ArrayList<>();
@@ -46,6 +52,7 @@ public class User {
         this.nickname = nickName;
         this.stayLoggedIn = false;
         faction = Factions.MONSTERS;
+        leaderName = LeaderInfo.BRINGER_OF_DEATH.name;
         leader = new Leader(LeaderInfo.BRINGER_OF_DEATH);
     }
 
@@ -134,6 +141,14 @@ public class User {
 
     public Leader getLeader() {
         return leader;
+    }
+
+    public String getLeaderName() {
+        return leaderName;
+    }
+
+    public void setLeaderName(String leaderName) {
+        this.leaderName = leaderName;
     }
 
     public void setLeader(Leader leader) {
