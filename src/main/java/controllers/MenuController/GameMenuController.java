@@ -522,13 +522,16 @@ public class GameMenuController  {
     }
 
     public static void passRound() {
+
         if (matchTable.isFirstPlayerTurn()) {
             matchTable.pass(0);
         } else {
             matchTable.pass(1);
         }
+
         matchTable.endTurn();
         matchTable.updatePoints();
+
 
     }
 

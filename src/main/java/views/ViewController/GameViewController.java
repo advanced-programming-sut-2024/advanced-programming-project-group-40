@@ -28,6 +28,7 @@ import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
 import views.Main;
 import views.PlayMenu;
+import views.WinMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -509,6 +510,11 @@ public class GameViewController extends PlayMenu implements Initializable {
         InitiateCardEvents();
         if (GameMenuController.getMatchTable().isMatchFinished()) {
             System.out.println("sock these nuts");
+            try {
+                new WinMenu().start(Game.stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

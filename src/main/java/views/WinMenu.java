@@ -4,21 +4,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.Objects;
 
 
-public class LoginMenu extends PlayMenu {
+public class WinMenu extends PlayMenu {
     public static void main(String[] args) throws IOException {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-      //TODO
-//        Game.setAllUsers(Objects.requireNonNull(DataSaver.loadUsers()));
-        LoginMenu.stage = stage;
-        Pane pane = FXMLLoader.load(Objects.requireNonNull(LoginMenu.class.getResource("/FXML/LoginMenuFXML.fxml")));
+        WinMenu.stage = stage;
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(WinMenu.class.getResource("/FXML/WinMenu.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }
