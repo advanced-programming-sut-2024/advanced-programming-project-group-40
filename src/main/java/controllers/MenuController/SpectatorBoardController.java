@@ -13,5 +13,8 @@ public class SpectatorBoardController {
             sendMessage(s.substring(7));
         }
     }
+    public static boolean isCommandValid(String command) {
+        return command.startsWith("message");
+    }
 
 }

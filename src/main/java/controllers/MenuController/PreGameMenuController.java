@@ -24,5 +24,7 @@ public class PreGameMenuController extends UserInfoController {
             return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.TOO_MUCH_SPECIAL_CARDS.toString());
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.GAME_STARTED.toString());
     }
-
+    public static boolean isCompetitorValid(User user) {
+        return user.getNumberOfUnitCards() >= 22 && user.getNumberOfSpecialCards() <= 10;
+    }
 }

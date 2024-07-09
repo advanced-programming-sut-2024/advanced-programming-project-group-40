@@ -8,8 +8,8 @@ import models.User;
 
 public abstract class UserInfoController {
 
-    public static void changePassword(String password) {
-        Game.getLoggedInUser().setPassword(password);
+    public static void changePassword(String password, User user) {
+        user.setPassword(password);
     }
 
     public static boolean isUsernameUnique(String username) {

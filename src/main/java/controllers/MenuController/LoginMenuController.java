@@ -35,8 +35,8 @@ public class LoginMenuController extends UserInfoController {
     }
 
 
-    public static void setPassword(String password) {
-
+    public static void setPassword(String password, User user) {
+        user.setPassword(password);
     }
 
 
