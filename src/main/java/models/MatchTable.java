@@ -80,6 +80,14 @@ public class MatchTable {
         }
     }
 
+    public void giveBackCrystal(int userID) {
+        if (userID == 0) {
+            if (firstPlayerCrystals != 2) firstPlayerCrystals++;
+        } else {
+            if (secondPlayerCrystals != 2) secondPlayerCrystals++;
+        }
+    }
+
     public void clearWeather() {
         spellCards.clear();
 
@@ -111,7 +119,9 @@ public class MatchTable {
         int retVal = 0;
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
         for (Card card : row) {
-            retVal += ((UnitCard) card).getShowingPower();
+            if (card != null) {
+                retVal += ((UnitCard) card).getShowingPower();
+            }
         }
         return retVal;
     }
@@ -785,11 +795,19 @@ public class MatchTable {
 
             }
             if (deleteCard != null) getRowByID(0, i).remove(deleteCard);
-            firstPlayerDeadCards.addAll(getRowByID(0, i));
-            getRowByID(0, i).clear();
+            Origin origin = switch (i) {
+                case 0 -> Origin.FIRSTPLAYER_CLOSECOMBAT;
+                case 1 -> Origin.FIRSTPLAYER_RANGED;
+                case 2 -> Origin.FIRSTPLAYER_SIEGE;
+                default -> null;
+            };
+            for (Card card : firstPlayerDeadCards) {
+                addToDeadCards(0, new CardWrapper(card, origin));
+
+            }
             if (replaceCard != null) getRowByID(0, i).add(replaceCard);
         }
-        if (isMonster) getRowByID(0, row).add(savedCard);
+        if (isMonster) addToInPlayCards(0, new CardWrapper(savedCard, Origin.FIRSTPLATER_DEAD));
 
 
         isMonster = false;
@@ -820,11 +838,19 @@ public class MatchTable {
                 }
             }
             if (deleteCard != null) getRowByID(1, i).remove(deleteCard);
-            secondPlayerDeadCards.addAll(getRowByID(1, i));
-            getRowByID(1, i).clear();
+            Origin origin = switch (i) {
+                case 0 -> Origin.FIRSTPLAYER_CLOSECOMBAT;
+                case 1 -> Origin.FIRSTPLAYER_RANGED;
+                case 2 -> Origin.FIRSTPLAYER_SIEGE;
+                default -> null;
+            };
+            for (Card card : firstPlayerDeadCards) {
+                addToDeadCards(0, new CardWrapper(card, origin));
+
+            }
             if (replaceCard != null) getRowByID(1, i).add(replaceCard);
         }
-        if (isMonster) getRowByID(1, row).add(savedCard);
+        if (isMonster) addToInPlayCards(1, new CardWrapper(savedCard, Origin.SECONDPLAYER_DEAD));
 
         //boost cards:
         firstPlayerCloseCombatBoostCard = null;
@@ -1077,9 +1103,11 @@ public class MatchTable {
                 break;
         }
         for (Card card : row) {
-            if (Objects.equals(card.getName(), "Draig Bon-Dhu") ||
-                    Objects.equals(card.getName(), "Dandelion")) {
-                return true;
+            if (card != null) {
+                if (Objects.equals(card.getName(), "Draig Bon-Dhu") ||
+                        Objects.equals(card.getName(), "Dandelion")) {
+                    return true;
+                }
             }
         }
 

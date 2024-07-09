@@ -44,11 +44,10 @@ public class GameMenuController {
         matchTable.updatePoints();
         if (isVeto) {
             Card randomCard = matchTable.getFirstPlayerDeckCards().get(Game.random.nextInt(matchTable.getFirstPlayerDeckCards().size()));
-            matchTable.addToInPlayCards(0,new CardWrapper(randomCard,Origin.FIRSTPLAYER_DECK));
-            matchTable.addToDeckCards(0,new CardWrapper(selectedCard1,Origin.FIRSTPLAYER_INPLAY));
+            matchTable.addToInPlayCards(0, new CardWrapper(randomCard, Origin.FIRSTPLAYER_DECK));
+            matchTable.addToDeckCards(0, new CardWrapper(selectedCard1, Origin.FIRSTPLAYER_INPLAY));
             isVeto = false;
-        }
-        else {
+        } else {
             if (isNewWindowOpen) {
                 if (isMedic) {
                     if (matchTable.isFirstPlayerTurn()) {
@@ -539,10 +538,8 @@ public class GameMenuController {
         } else {
             matchTable.pass(1);
         }
-
-        matchTable.endTurn();
         matchTable.updatePoints();
-
+        matchTable.endTurn();
 
     }
 
@@ -552,7 +549,12 @@ public class GameMenuController {
     }
 
     public static void cheat(String value) {
+        int userID = 0;
+        if (!matchTable.isFirstPlayerTurn()) userID = 1;
         switch (value) {
+            case "give back crystal":
+                matchTable.giveBackCrystal(userID);
+                break;
             case "skipTurn":
                 matchTable.skipTurn();
                 break;
@@ -560,8 +562,6 @@ public class GameMenuController {
                 matchTable.clearWeather();
                 break;
             case "reactivate leader Ability":
-                int userID = 0;
-                if (!matchTable.isFirstPlayerTurn()) userID = 1;
                 matchTable.GiveBackLeaderAbility(userID);
                 break;
             case "OP cards":

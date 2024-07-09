@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
-    static String[] cheatStrings = {"skipTurn", "clear Weather", "reactivate leader Ability", "OP cards"};
+    static String[] cheatStrings = {"skipTurn", "clear Weather", "reactivate leader Ability", "OP cards","give back crystal"};
 
     public ChoiceBox<String> Cheats;
     @FXML
