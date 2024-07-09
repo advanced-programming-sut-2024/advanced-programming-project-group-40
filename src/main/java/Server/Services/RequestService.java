@@ -59,7 +59,9 @@ public class RequestService {
 
     public ArrayList<String> getPendingFollowRequests(String user) {
         ArrayList<String> friendsList = new ArrayList<>();
+        System.out.println("follow requests is empty in request service");
         for (Relation friend : followRequests) {
+            System.out.println("followRequests in request service");
             if (friend.getFirst().equals(user)) {
                 friendsList.add(friend.getSecond());
             }

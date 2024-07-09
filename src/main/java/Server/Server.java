@@ -7,13 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
-import enums.cards.HeroInfo;
-import enums.cards.LeaderInfo;
-import enums.cards.SpecialCardInfo;
-import enums.cards.UnitCardInfo;
-import models.Game;
 import models.User;
-import models.cards.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -100,9 +94,9 @@ public class Server extends Thread {
                 case GET_LIS_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
                 case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
+                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case ADD_CARD, REMOVE_CARD:
-                    return gsonAgent.fromJson(clientStr,AddRemoveCardMessage.class);
+                    return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 default:
                     return null;
             }
@@ -125,6 +119,7 @@ public class Server extends Thread {
             ClientMessages clientMessage = extractClientMessage(clientRequest);
             User user;
             ServerMessages serverMessage;
+            System.out.println("****  "+clientMessage.getType());
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
@@ -171,6 +166,7 @@ public class Server extends Thread {
                             break;
                     }
                 case GET_LIS_OF_NAMES:
+                    System.out.println("00");
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
@@ -181,7 +177,9 @@ public class Server extends Thread {
                             names = requestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_PENDING_FOLLOW_REQUESTS:
+                            System.out.println("[][][][][]");
                             names = requestService.getPendingFollowRequests(getListOfNamesMessage.getKeyName());
+                            System.out.println("+-+-+" + names.size());
                             break;
                         case GET_FOLLOW_REQUESTS:
                             names = requestService.getFollowRequests(getListOfNamesMessage.getKeyName());
