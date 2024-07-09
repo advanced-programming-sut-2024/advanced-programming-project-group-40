@@ -1,5 +1,8 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
+import Server.Messages.Client.StartGameMessages;
+import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
@@ -25,4 +28,9 @@ public class PreGameMenuController extends UserInfoController {
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.GAME_STARTED.toString());
     }
 
+    public static void startGame(String username) {
+        StartGameMessages message = new StartGameMessages(username);
+        ServerMessages serverMessages = ClientHandler.client.startGame(message);
+
+    }
 }

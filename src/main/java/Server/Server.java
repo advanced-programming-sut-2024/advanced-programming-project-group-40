@@ -229,6 +229,15 @@ public class Server extends Thread {
                     ServerMessages removeCardServerMessage = new ServerMessages(true, "Card removed successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(removeCardServerMessage));
                     break;
+                case SEND_GAME_REQUEST:
+                    StartGameMessages message = (StartGameMessages) clientMessage;
+                    user = getUserByUsername(message.getDestinationUsername());
+                    if (user == null){
+                        ServerMessages serverMessages = new ServerMessages(false,"no such user");
+                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                    }
+                    //todo fuck me
+                    break;
             }
             sendBuffer.close();
             receiveBuffer.close();

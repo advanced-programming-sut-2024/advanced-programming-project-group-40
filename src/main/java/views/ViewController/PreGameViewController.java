@@ -501,12 +501,7 @@ public class PreGameViewController {
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             saveData();
             try {
-                User user = Objects.requireNonNull(Utilities.getUser(competitorUsername.getText()));
-                user.createDeckCards();
-                user.setMatchesPlayed(new ArrayList<>());
-                user.setLeader(Leader.getLeaderByName(user.getLeaderName()));
-                GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), user));
-                new GameView().start(Game.stage);
+                PreGameMenuController.startGame(competitorUsername.getText());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
