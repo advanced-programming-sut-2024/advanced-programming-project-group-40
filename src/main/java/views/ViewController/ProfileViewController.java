@@ -197,7 +197,7 @@ public class ProfileViewController {
             label.setPrefHeight(16.0);
             label.setPrefWidth(116.0);
             label.setFont(new Font(14.0));
-//            label.setOnMouseClicked(event -> handleClick(event,label));
+            label.setOnMouseClicked(event -> ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(), request, MessageSubType.SEND_GAME_REQUEST));
 
             vBox.getChildren().add(label);
         }
