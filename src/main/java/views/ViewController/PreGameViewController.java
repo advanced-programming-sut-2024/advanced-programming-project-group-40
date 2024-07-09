@@ -3,9 +3,11 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
+import Server.Messages.Client.GetUserMessage;
 import controllers.DataSaver;
 import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
+import controllers.Utilities;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
@@ -282,18 +284,24 @@ public class PreGameViewController {
         Pane pane = new Pane();
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
+            int power = 0;
+            int cardType = 1;
             if (card instanceof UnitCard) {
                 unit.setText(Integer.toString(Integer.parseInt(unit.getText()) - 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         - ((UnitCard) card).getConstantPower()));
+                power = ((UnitCard) card).getConstantPower();
             }
             if (card instanceof SpecialCard) {
                 special.setText(Integer.toString(Integer.parseInt(special.getText()) - 1));
+                cardType = 2;
             }
             if (card instanceof Hero) {
                 hero.setText(Integer.toString(Integer.parseInt(hero.getText()) - 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         - ((Hero) card).getConstantPower()));
+                power = ((Hero) card).getConstantPower();
+                cardType = 3;
             }
             loggedInUser.removeCardFromDeck(card);
             card.addToSelected();
@@ -302,7 +310,7 @@ public class PreGameViewController {
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
             saveData();
-            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), false);
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), cardType, power, false);
             ClientHandler.client.removeCard(addRemoveCardMessage);
         });
         selectedCardFlowPane.getChildren().add(pane);
@@ -343,7 +351,9 @@ public class PreGameViewController {
         }
         if (changeLeaderClicked) {
             loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
+            loggedInUser.setLeaderName(loggedInUser.getLeader().getName());
             description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
+
         }
 
     }
@@ -420,18 +430,24 @@ public class PreGameViewController {
         hBox.setLayoutX(newCard.getLayoutX() + newCard.getWidth() - 30);
         hBox.setLayoutY(newCard.getLayoutY() + newCard.getHeight() - 32);
         pane.setOnMouseClicked(e -> {
+            int power = 0;
+            int cardType = 1;
             if (newCard instanceof UnitCard) {
                 unit.setText(Integer.toString(Integer.parseInt(unit.getText()) + 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         + ((UnitCard) newCard).getConstantPower()));
+                power = ((UnitCard) newCard).getConstantPower();
             }
             if (newCard instanceof SpecialCard) {
                 special.setText(Integer.toString(Integer.parseInt(special.getText()) + 1));
+                cardType = 2;
             }
             if (newCard instanceof Hero) {
                 hero.setText(Integer.toString(Integer.parseInt(hero.getText()) + 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         + ((Hero) newCard).getConstantPower()));
+                power = ((Hero) newCard).getConstantPower();
+                cardType = 3;
             }
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
             loggedInUser.getDeckCardsName().add(newCard.getName());
@@ -445,7 +461,7 @@ public class PreGameViewController {
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
             saveData();
-            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), true);
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), cardType, power, true);
             ClientHandler.client.addCard(addRemoveCardMessage);
         });
         selectCardFlowPane.getChildren().add(pane);
@@ -485,16 +501,22 @@ public class PreGameViewController {
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             saveData();
             try {
-                GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), Objects.requireNonNull(Game.getUserByName(competitorUsername.getText()))));
+                User user = Objects.requireNonNull(Utilities.getUser(competitorUsername.getText()));
+                user.createDeckCards();
+                user.setMatchesPlayed(new ArrayList<>());
+                user.setLeader(Leader.getLeaderByName(user.getLeaderName()));
+                GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), user));
                 new GameView().start(Game.stage);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     }
+
     public void updateFaction(String name) {
         loggedInUser.setFaction(Factions.toFaction(name));
         loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
+        loggedInUser.setLeaderName(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).name);
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
 

@@ -94,9 +94,9 @@ public class Server extends Thread {
                 case GET_LIS_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
                 case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
+                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
                 case ADD_CARD, REMOVE_CARD:
-                    return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
+                    return gsonAgent.fromJson(clientStr,AddRemoveCardMessage.class);
                 default:
                     return null;
             }
@@ -165,10 +165,12 @@ public class Server extends Thread {
                             break;
                     }
                 case GET_LIS_OF_NAMES:
+                    System.out.println(6);
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
                         case GET_FRIENDS:
+                            System.out.println(7);
                             names = requestService.getFriends(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_REQUESTS:
@@ -176,6 +178,7 @@ public class Server extends Thread {
                             break;
                         case GET_PENDING_FOLLOW_REQUESTS:
                             names = requestService.getPendingFollowRequests(getListOfNamesMessage.getKeyName());
+                            System.out.println("+-+-+" + names.size());
                             break;
                         case GET_FOLLOW_REQUESTS:
                             names = requestService.getFollowRequests(getListOfNamesMessage.getKeyName());
@@ -197,6 +200,40 @@ public class Server extends Thread {
                         serverMessage = new ServerMessages(true, namesToJson);
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                    break;
+                case ADD_CARD:
+                    AddRemoveCardMessage addCardMessage = (AddRemoveCardMessage) clientMessage;
+                    user = getUserByUsername(addCardMessage.getToken());
+                    assert user != null;
+                    user.getDeckCardsName().add(addCardMessage.getCardName());
+                    if (addCardMessage.getCardType() == 1) {
+                        user.setNumberOfUnitCards(user.getNumberOfUnitCards() + 1);
+                        user.setTotalUnitCardsStrength(user.getTotalUnitCardsStrength() + addCardMessage.getPower());
+                    } else if (addCardMessage.getCardType() == 2) {
+                        user.setNumberOfSpecialCards(user.getNumberOfSpecialCards() + 1);
+                    } else if (addCardMessage.getCardType() == 3) {
+                        user.setNumberOfHeroCards(user.getNumberOfHeroCards() + 1);
+                        user.setTotalUnitCardsStrength(user.getTotalUnitCardsStrength() + addCardMessage.getPower());
+                    }
+                    ServerMessages addCardServerMessage = new ServerMessages(true, "Card added successfully!");
+                    sendBuffer.writeUTF(gsonAgent.toJson(addCardServerMessage));
+                    break;
+                case REMOVE_CARD:
+                    AddRemoveCardMessage removeCardMessage = (AddRemoveCardMessage) clientMessage;
+                    user = getUserByUsername(removeCardMessage.getToken());
+                    assert user != null;
+                    user.getDeckCardsName().remove(removeCardMessage.getCardName());
+                    if (removeCardMessage.getCardType() == 1) {
+                        user.setNumberOfUnitCards(user.getNumberOfUnitCards() - 1);
+                        user.setTotalUnitCardsStrength(user.getTotalUnitCardsStrength() - removeCardMessage.getPower());
+                    } else if (removeCardMessage.getCardType() == 2) {
+                        user.setNumberOfSpecialCards(user.getNumberOfSpecialCards() - 1);
+                    } else if (removeCardMessage.getCardType() == 3) {
+                        user.setNumberOfHeroCards(user.getNumberOfHeroCards() - 1);
+                        user.setTotalUnitCardsStrength(user.getTotalUnitCardsStrength() - removeCardMessage.getPower());
+                    }
+                    ServerMessages removeCardServerMessage = new ServerMessages(true, "Card removed successfully!");
+                    sendBuffer.writeUTF(gsonAgent.toJson(removeCardServerMessage));
                     break;
             }
             sendBuffer.close();

@@ -1,7 +1,6 @@
 package views.ViewController;
 
 import javafx.scene.control.Label;
-import models.Game;
 import models.User;
 
 public class TargetProfileViewController {
@@ -18,12 +17,12 @@ public class TargetProfileViewController {
     public void initialize() {
         username.setText(targetUser.getUsername());
         nickname.setText(targetUser.getNickname());
-        highestScore.setText(Integer.toString(targetUser.getHighestScore()));
-        rank.setText(Integer.toString(targetUser.getRank()));
-        numberOfGames.setText(Integer.toString(targetUser.getNumberOfMatches()));
-        draw.setText(Integer.toString(targetUser.getDraw()));
-        won.setText(Integer.toString(targetUser.getWon()));
-        lost.setText(Integer.toString(targetUser.getLost()));
+//        highestScore.setText(Integer.toString(targetUser.getHighestScore()));
+//        rank.setText(Integer.toString(targetUser.getRank()));
+//        numberOfGames.setText(Integer.toString(targetUser.getNumberOfMatches()));
+//        draw.setText(Integer.toString(targetUser.getDraw()));
+//        won.setText(Integer.toString(targetUser.getWon()));
+//        lost.setText(Integer.toString(targetUser.getLost()));
     }
 
     public static void setTargetUser(User targetUser) {

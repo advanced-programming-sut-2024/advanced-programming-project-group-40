@@ -79,9 +79,16 @@ public class ProfileViewController {
 
     public void fillChart() {
         String username = Game.getLoggedInUser().getUsername();
-        fillVBox(friends, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FRIENDS)));
+        ArrayList<String> names = Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FRIENDS));
+        fillVBox(friends, names);
         fillRequestVBox(requests, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FOLLOW_REQUESTS)));
-        fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_FOLLOW_REQUESTS)));
+        ArrayList<String> req = Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_FOLLOW_REQUESTS));
+        System.out.println("------------------------------------------------");
+        for (String name : req) {
+            System.out.println("================================");
+            System.out.println(name);
+        }
+        fillVBox(sent, req);
         fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_REQUESTS)));
 
         fillRequestVBox(gameRequest, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_GAME_REQUEST)));
