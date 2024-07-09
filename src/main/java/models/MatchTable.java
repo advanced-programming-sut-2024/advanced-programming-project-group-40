@@ -769,10 +769,15 @@ public class MatchTable {
         Card savedCard = null;
         boolean isMonster = false;
         if (Objects.equals(firstPlayer.getFaction().name, "monsters")) {
-            isMonster = true;
-            row = Game.random.nextInt(0, 3);
-            if (!getRowByID(0, row).isEmpty())
-                savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
+
+
+            if (!(getRowByID(0, 0).isEmpty() && getRowByID(0, 1).isEmpty() && getRowByID(0, 2).isEmpty())) {
+                isMonster = true;
+                row = Game.random.nextInt(0, 3);
+                while (getRowByID(0, row).isEmpty()) row = Game.random.nextInt(0, 3);
+                if (!getRowByID(0, row).isEmpty())
+                    savedCard = getRowByID(0, row).get(Game.random.nextInt(0, getRowByID(0, row).size()));
+            }
         }
         for (int i = 0; i < 3; i++) {
             Card replaceCard = null;
@@ -801,21 +806,27 @@ public class MatchTable {
                 case 2 -> Origin.FIRSTPLAYER_SIEGE;
                 default -> null;
             };
-            for (Card card : firstPlayerDeadCards) {
-                addToDeadCards(0, new CardWrapper(card, origin));
+            ArrayList<Card> d = new ArrayList<>(getRowByID(0, i));
+            for (Card card : d) {
+                if (isMonster && card == savedCard) {
 
+                } else {
+                    addToDeadCards(0, new CardWrapper(card, origin));
+                }
             }
             if (replaceCard != null) getRowByID(0, i).add(replaceCard);
         }
-        if (isMonster) addToInPlayCards(0, new CardWrapper(savedCard, Origin.FIRSTPLATER_DEAD));
 
 
         isMonster = false;
         if (Objects.equals(secondPlayer.getFaction().name, "monsters")) {
-            isMonster = true;
-            row = Game.random.nextInt(0, 3);
-            if (!getRowByID(1, row).isEmpty())
-                savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
+            if (!(getRowByID(1, 0).isEmpty() && getRowByID(1, 1).isEmpty() && getRowByID(1, 2).isEmpty())) {
+                isMonster = true;
+                row = Game.random.nextInt(0, 3);
+                while (getRowByID(1, row).isEmpty()) row = Game.random.nextInt(0, 3);
+                if (!getRowByID(1, row).isEmpty())
+                    savedCard = getRowByID(1, row).get(Game.random.nextInt(0, getRowByID(1, row).size()));
+            }
         }
         for (int i = 0; i < 3; i++) {
             Card replaceCard = null;
@@ -839,18 +850,23 @@ public class MatchTable {
             }
             if (deleteCard != null) getRowByID(1, i).remove(deleteCard);
             Origin origin = switch (i) {
-                case 0 -> Origin.FIRSTPLAYER_CLOSECOMBAT;
-                case 1 -> Origin.FIRSTPLAYER_RANGED;
-                case 2 -> Origin.FIRSTPLAYER_SIEGE;
+                case 0 -> Origin.SECONDPLAYER_CLOSECOMBAT;
+                case 1 -> Origin.SECONDPLAYER_RANGED;
+                case 2 -> Origin.SECONDPLAYER_SIEGE;
                 default -> null;
             };
-            for (Card card : firstPlayerDeadCards) {
-                addToDeadCards(0, new CardWrapper(card, origin));
+            ArrayList<Card> d = new ArrayList<>(getRowByID(1, i));
+            for (Card card : d) {
+                if (isMonster && card == savedCard) {
+
+                } else {
+                    addToDeadCards(0, new CardWrapper(card, origin));
+                }
 
             }
             if (replaceCard != null) getRowByID(1, i).add(replaceCard);
         }
-        if (isMonster) addToInPlayCards(1, new CardWrapper(savedCard, Origin.SECONDPLAYER_DEAD));
+        if (isMonster) addToDeadCards(1, new CardWrapper(savedCard, Origin.SECONDPLAYER_DEAD));
 
         //boost cards:
         firstPlayerCloseCombatBoostCard = null;
