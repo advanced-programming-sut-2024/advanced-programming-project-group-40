@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.LoginViewController">
    <children>
-      <VBox alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="300.0" prefWidth="296.0" styleClass="Box">
+      <VBox fx:id="userPassVbox" alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="300.0" prefWidth="296.0" styleClass="Box">
          <children>
             <Label styleClass="label-header" text="Sign In" translateY="-25.0">
                <font>
@@ -31,6 +31,27 @@
             <Button mnemonicParsing="false" onMouseClicked="#goToForgetPassword" prefHeight="34.0" prefWidth="146.0" styleClass="button-no-background" text="Forgot password" translateY="17.0">
                <font>
                   <Font size="14.0" />
+               </font></Button>
+         </children>
+      </VBox>
+
+      <VBox fx:id="authorizationVbox" alignment="CENTER" layoutX="352.0" layoutY="200.0" prefHeight="300.0" prefWidth="296.0" styleClass="Box">
+         <children>
+            <Label prefHeight="71.0" prefWidth="224.0" styleClass="label-header" text="Confirm that it's you " translateY="-25.0">
+               <font>
+                  <Font size="25.0" />
+               </font></Label>
+            <Label text="We will send a code to your mail" translateY="-25.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Label>
+            <TextField fx:id="authorizationCode" alignment="CENTER" maxWidth="190.0" prefHeight="35.0" prefWidth="120.0" promptText="Code" translateY="-20.0">
+               <font>
+                  <Font size="15.0" />
+               </font></TextField>
+            <Button mnemonicParsing="false" onMouseClicked="#verifyClicked" prefHeight="13.0" prefWidth="98.0" styleClass="button-regular" text="Verify" translateY="-10.0">
+               <font>
+                  <Font size="16.0" />
                </font></Button>
          </children>
       </VBox>

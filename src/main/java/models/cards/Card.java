@@ -7,6 +7,7 @@ import enums.cards.HeroInfo;
 import enums.cards.LeaderInfo;
 import enums.cards.SpecialCardInfo;
 import enums.cards.UnitCardInfo;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -34,10 +35,11 @@ public abstract class Card extends Rectangle {
         this.cardImage = cardImage;
         this.maxCapacity = maxCapacity;
         this.faction = faction;
-        this.cardId = Game.random.nextInt(0,10000);
+        this.cardId = Game.random.nextInt(0, 10000);
         this.setWidth(65);
         this.setHeight(90);
-        setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource(cardImage)).toExternalForm())));
+        setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource
+                (cardImage)).toExternalForm())));
         this.name = name;
     }
 

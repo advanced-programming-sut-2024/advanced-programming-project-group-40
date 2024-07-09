@@ -1,10 +1,15 @@
 package Server;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
+import Server.Messages.Client.*;
+import Server.Messages.ServerMessages;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import com.google.gson.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Client {
@@ -75,6 +80,36 @@ public class Client {
         sendMessage(input);
         endConnection();
     }
+    public void addCard(AddRemoveCardMessage addRemoveCardMessage) {
+        getServerMessage(addRemoveCardMessage);
+    }
 
+    public void removeCard(AddRemoveCardMessage addRemoveCardMessage) {
+        getServerMessage(addRemoveCardMessage);
+    }
+
+    public ServerMessages login(LoginMessages loginMessages) {
+        return getServerMessage(loginMessages);
+    }
+
+    public void signUp(SignUpMessages signUpMessages) {
+        getServerMessage(signUpMessages);
+    }
+
+    public ServerMessages getUser(GetUserMessage getUserMessage) {
+        return getServerMessage(getUserMessage);
+    }
+
+    public ServerMessages getListOfNames(GetListOfNamesMessage getListOfNamesMessage) {
+        return getServerMessage(getListOfNamesMessage);
+    }
+    private ServerMessages getServerMessage(ClientMessages clientMessages) {
+        establishConnection();
+        sendMessage(gsonAgent.toJson(clientMessages));
+        String response = receiveResponse();
+        ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
+        endConnection();
+        return serverMessages;
+    }
 
 }

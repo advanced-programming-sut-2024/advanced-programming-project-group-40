@@ -7,6 +7,7 @@ import enums.cards.CardInfo;
 import models.Chat.Message;
 import models.Chat.ReplyData;
 import models.MatchTable;
+import models.UserInputHandler.CardClickCommand;
 import models.User;
 import models.cards.*;
 import views.ViewController.GameViewController;

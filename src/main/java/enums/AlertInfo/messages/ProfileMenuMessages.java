@@ -1,9 +1,10 @@
 package enums.AlertInfo.messages;
 
 public enum ProfileMenuMessages {
-    NOT_FOUND("User not found!"),
+    USER_NOT_FOUND("User not found!"),
+    USER_FOUND("User found!"),
     SEE_PROFILE("User founded. Do you want to see profile?"),
-    SEND_REQUEST("We will send request to this user"),
+    SEND_REQUEST("We will send getUser to this user"),
     ;
     private final String message;
 

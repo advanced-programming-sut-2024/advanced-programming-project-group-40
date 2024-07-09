@@ -21,13 +21,25 @@ public class User {
     private int lost;
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
-    private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private transient ArrayList<Card> deckCards = new ArrayList<>();
+    private final ArrayList<String> deckCardsName = new ArrayList<>();
     private transient Leader leader;
-    private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
+    private String leaderName;
+
+    public void setMatchesPlayed(ArrayList<MatchTable> matchesPlayed) {
+        this.matchesPlayed = matchesPlayed;
+    }
+
+    private transient ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    private ArrayList<User> followers = new ArrayList<>();
-    private ArrayList<User> followings = new ArrayList<>();
-    private ArrayList<User> requests = new ArrayList<>();
+    // todo transient???
+    private transient ArrayList<User> frineds = new ArrayList<>();
+    private transient ArrayList<User> requests = new ArrayList<>();
+    private transient ArrayList<User> requestsHasSent = new ArrayList<>();
+    private transient ArrayList<User> rejectedRequests = new ArrayList<>();
+    private transient ArrayList<User> gameRequests = new ArrayList<>();
+    private transient ArrayList<User> gameRequestsHasSent = new ArrayList<>();
+    private transient ArrayList<User> gameRejectedRequests = new ArrayList<>();
     private int numberOfUnitCards;
     private int numberOfSpecialCards;
     private int numberOfHeroCards;
@@ -40,6 +52,7 @@ public class User {
         this.nickname = nickName;
         this.stayLoggedIn = false;
         faction = Factions.MONSTERS;
+        leaderName = LeaderInfo.BRINGER_OF_DEATH.name;
         leader = new Leader(LeaderInfo.BRINGER_OF_DEATH);
     }
 
@@ -130,6 +143,14 @@ public class User {
         return leader;
     }
 
+    public String getLeaderName() {
+        return leaderName;
+    }
+
+    public void setLeaderName(String leaderName) {
+        this.leaderName = leaderName;
+    }
+
     public void setLeader(Leader leader) {
         this.leader = leader;
     }
@@ -218,24 +239,29 @@ public class User {
         point += addingPoint;
     }
 
-    public void addFollowing(User user) {
-        followings.add(user);
+    public ArrayList<User> getGameRequests() {
+        return gameRequests;
     }
 
-    public void addFollower(User user) {
-        followers.add(user);
+    public ArrayList<User> getGameRequestsHasSent() {
+        return gameRequestsHasSent;
     }
 
-    public void addRequest(User user) {
-        requests.add(user);
+    public ArrayList<User> getGameRejectedRequests() {
+        return gameRejectedRequests;
     }
 
-    public ArrayList<User> getFollowers() {
-        return followers;
+    public ArrayList<User> getRejectedRequests() {
+        return rejectedRequests;
     }
 
-    public ArrayList<User> getFollowings() {
-        return followings;
+
+    public ArrayList<User> getFrineds() {
+        return frineds;
+    }
+
+    public ArrayList<User> getRequestsHasSent() {
+        return requestsHasSent;
     }
 
     public ArrayList<User> getRequests() {
@@ -261,10 +287,25 @@ public class User {
         }
         return count;
     }
+
+    public ArrayList<String> getDeckCardsName() {
+        return deckCardsName;
+    }
+
+    public void createDeckCards(){
+        deckCards = new ArrayList<>();
+        for (String name : deckCardsName){
+            deckCards.add(Card.getCardByName(name));
+        }
+    }
     @Override
     public int hashCode() {
         return Objects.hash(username, password, email, nickname, faction);
     }
 
 
+    public void setDeckCards(ArrayList<Card> cards) {
+        deckCards.clear();
+        deckCards.addAll(cards);
+    }
 }

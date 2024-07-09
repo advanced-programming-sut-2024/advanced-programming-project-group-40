@@ -1,7 +1,9 @@
 package controllers.MenuController;
 
+import Mail.LinkAuthorization;
+import Server.ClientHandler;
+import Server.Messages.Client.SignUpMessages;
 import controllers.DataSaver;
-import controllers.Generator;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.scene.control.Alert;
@@ -10,9 +12,9 @@ import models.Game;
 import models.User;
 
 public class SignUpMenuController extends UserInfoController {
-    public static AlertMaker Continue(String username) {
+    public static AlertMaker Continue(String username,String randomUsername) {
         if (!isUsernameUnique(username))
-            return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + Generator.generateUsername(username));
+            return new AlertMaker(Alert.AlertType.ERROR, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.DUPLICATE_USER + randomUsername);
         return new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.CONTINUE.toString());
     }
 
@@ -28,6 +30,8 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityQuestionNumber(questionNumber);
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
+        SignUpMessages signUpMessages = new SignUpMessages(Game.getLoggedInUser());
+        ClientHandler.client.signUp(signUpMessages);
         DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
     }
@@ -37,4 +41,9 @@ public class SignUpMenuController extends UserInfoController {
         Game.setLoggedInUser(new User(username, password, email, nickname));
     }
 
+
+    public static boolean checkLink(String email) {
+        LinkAuthorization.sendLink(email);
+        return LinkAuthorization.verifyLink();
+    }
 }
