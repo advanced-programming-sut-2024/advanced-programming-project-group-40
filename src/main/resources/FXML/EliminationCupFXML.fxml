@@ -16,7 +16,7 @@
             <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="421.0" layoutY="227.0" startX="213.79998779296875" startY="-136.8000030517578" />
             <BorderPane layoutX="250.0" layoutY="126.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="BL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
 
 
@@ -30,28 +30,28 @@
 
             <BorderPane layoutX="419.0" layoutY="34.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="A" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="346.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="DL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="151.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="CL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="506.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="CR" BorderPane.alignment="CENTER" />
                </center></BorderPane>
 
             <BorderPane layoutX="712.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="DR" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="594.0" layoutY="126.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="BR" BorderPane.alignment="CENTER" />
                </center></BorderPane>
 
             <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="332.0" layoutY="380.0" startX="213.79998779296875" startY="-136.8000030517578" />
@@ -76,35 +76,35 @@
 
             <BorderPane layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="FL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="90.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="EL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="386.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="HL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="296.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="GL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="766.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="HL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="657.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="GL" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="565.0" layoutY="309.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="FR" BorderPane.alignment="CENTER" />
                </center></BorderPane>
             <BorderPane layoutX="466.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
                <center>
-                  <Label text="Label" BorderPane.alignment="CENTER" />
+                  <Label text="ER" BorderPane.alignment="CENTER" />
                </center></BorderPane>
 
          </children>
