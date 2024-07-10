@@ -1,5 +1,7 @@
 package models.UserInputHandler;
 
+import Server.ClientHandler;
+import Server.Messages.Client.ClickedOnCardMessages;
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
 import models.cards.Card;
@@ -19,6 +21,8 @@ private final String parentID;
 
     @Override
     public void excute() {
-        GameMenuController.ClickedOnCard(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
+        ClickedOnCardMessages messages = new ClickedOnCardMessages(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
+        ClientHandler.client.clickedOnCard(messages);
+        //GameMenuController.ClickedOnCard(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
     }
 }
