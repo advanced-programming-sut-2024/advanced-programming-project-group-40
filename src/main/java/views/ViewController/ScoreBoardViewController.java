@@ -7,9 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Game;
 import models.User;
 import views.MainMenu;
+import views.TerminalView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,6 +110,13 @@ public class ScoreBoardViewController {
                     e.printStackTrace();
                 }
             });
+        }
+    }
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

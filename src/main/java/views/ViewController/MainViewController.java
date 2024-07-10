@@ -2,6 +2,7 @@ package views.ViewController;
 
 import controllers.DataSaver;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.Game;
 import views.*;
 
@@ -34,6 +35,14 @@ public class MainViewController {
     public void goToScoreBoard(MouseEvent mouseEvent) {
         try {
             new ScoreBoard().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

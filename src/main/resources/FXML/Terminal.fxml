@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" stylesheets="@../CSS/Style.css"  xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.TerminalController">
+    <ScrollPane fx:id="terminal" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="300.0" styleClass="terminal" vbarPolicy="NEVER">
+        <TextArea fx:id="area" prefHeight="366.0" prefWidth="303.0" styleClass="area" />
+    </ScrollPane>
+</AnchorPane>

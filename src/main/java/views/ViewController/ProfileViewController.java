@@ -229,5 +229,12 @@ public class ProfileViewController {
         }
     }
 
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

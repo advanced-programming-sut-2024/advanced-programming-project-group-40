@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
-
 <AnchorPane prefHeight="680.0" prefWidth="1000.0" styleClass="Login-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SecurityQuestionViewController">
     <children>
         <BorderPane layoutX="310.0" layoutY="76.0" prefHeight="506.0" prefWidth="380.0" styleClass="Box" />
@@ -49,5 +52,10 @@
             <Font size="30.0" />
          </font>
       </Label>
+        <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="645.0" onMouseClicked="#openTerminal" pickOnBounds="true" preserveRatio="true" styleClass="back">
+            <image>
+                <Image url="@../images/Icnos/terminal.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>
