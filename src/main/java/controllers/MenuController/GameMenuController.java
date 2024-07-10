@@ -555,6 +555,9 @@ public class GameMenuController {
             case "give back crystal":
                 matchTable.giveBackCrystal(userID);
                 break;
+            case "win":
+                matchTable.win(userID);
+                break;
             case "skipTurn":
                 matchTable.skipTurn();
                 break;

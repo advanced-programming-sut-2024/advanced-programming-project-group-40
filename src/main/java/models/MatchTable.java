@@ -66,6 +66,14 @@ public class MatchTable {
 
 
     //cheats
+    public void win(int userID) {
+        if (userID == 0) {
+            secondPlayerCrystals = 0;
+        } else {
+            firstPlayerCrystals = 0;
+        }
+    }
+
     public void makeCardsStronger() {
         isStrongerCheatActivated = true;
     }
