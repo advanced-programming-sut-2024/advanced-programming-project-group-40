@@ -320,7 +320,6 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());
