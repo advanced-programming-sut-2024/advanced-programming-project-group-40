@@ -1,6 +1,8 @@
 package Server;
 
 import Server.Messages.Client.*;
+import Server.Messages.MessageSubType;
+import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +21,7 @@ public class Client {
 
     private Gson gsonAgent;
     private String token;
+    private Thread updateThread = null;
 
 
     public Client(String serverIP, int serverPort) {
@@ -26,37 +29,14 @@ public class Client {
         this.gsonAgent = builder.create();
         this.serverIP = serverIP;
         this.serverPort = serverPort;
-    }
 
-    private void listener() {
-        Thread listener = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        BufferedReader v = new BufferedReader(new InputStreamReader(receiveBuffer));
-                        if (v.ready()) {
-                            String s = v.readLine();
-                            System.out.println(s);
-                        }
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        listener.start();
     }
 
     private boolean establishConnection() {
         try {
-            //if (socket == null)
-                socket = new Socket(serverIP, serverPort);
-            //if (sendBuffer == null)
-                sendBuffer = new DataOutputStream(socket.getOutputStream());
-            //if (receiveBuffer == null)
-                receiveBuffer = new DataInputStream(socket.getInputStream());
-            listener();
+            socket = new Socket(serverIP, serverPort);
+            sendBuffer = new DataOutputStream(socket.getOutputStream());
+            receiveBuffer = new DataInputStream(socket.getInputStream());
             return true;
         } catch (Exception e) {
             System.err.println("Unable to initialize socket!");
@@ -66,7 +46,7 @@ public class Client {
     }
 
     private boolean endConnection() {
-        /*if (socket == null) return true;
+        if (socket == null) return true;
         try {
             socket.close();
             receiveBuffer.close();
@@ -74,11 +54,7 @@ public class Client {
             return true;
         } catch (IOException e) {
             return false;
-        }*/
-
-        //commented above code because apparently there is no need to end connection
-        // (fuck my life if it actually is important)
-        return true;
+        }
     }
 
     private boolean sendMessage(String message) {
@@ -141,5 +117,40 @@ public class Client {
         endConnection();
         return serverMessages;
     }
+
+    public void update(UpdateMessage updateMessage) {
+        if (updateThread != null)
+            stopUpdateThread();
+        startUpdateThread(updateMessage.getSubType());
+    }
+
+    private void startUpdateThread(MessageSubType messageSubType) {
+        updateThread = new Thread(() -> {
+            while (true) {
+                establishConnection();
+                UpdateMessage updateMessage = new UpdateMessage(token, messageSubType);
+                sendMessage(gsonAgent.toJson(updateMessage));
+                String response = receiveResponse();
+                ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
+                endConnection();
+                if (serverMessages.wasSuccessfull()) {
+                    //TODO
+
+
+                }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updateThread.start();
+    }
+
+    private void stopUpdateThread() {
+        updateThread.interrupt();
+    }
+
 
 }
