@@ -25,20 +25,18 @@ public class RequestService {
     }
 
     public void createFriendRequest(String fromUsername, String targetUsername) {
-        System.out.println("a relation added to follow request");
         followRequests.add(new Relation(fromUsername, targetUsername));
     }
 
     public void acceptFollowRequest(String originUsername, String targetUsername) {
-        followRequests.remove(getFollowRequestByNames(originUsername,targetUsername));
-        friends.add(new Relation(originUsername, targetUsername));
+        Relation accepted = getRequestByNames(originUsername, targetUsername, followRequests);
+        followRequests.remove(accepted);
+        friends.add(accepted);
     }
 
     public void rejectFollowRequest(String originUsername, String targetUsername) {
         // the person who rejects a request is target username in follow request
-        System.out.println("rejecting a request" + originUsername + " " + targetUsername);
-        Relation rejected = getFollowRequestByNames(originUsername, targetUsername);
-        System.out.println("== " + rejected);
+        Relation rejected = getRequestByNames(originUsername, targetUsername, followRequests);
         followRequests.remove(rejected);
         rejectedFollowRequests.add(rejected);
     }
@@ -46,8 +44,10 @@ public class RequestService {
     public ArrayList<String> getFriends(String user) {
         ArrayList<String> friendsList = new ArrayList<>();
         for (Relation friend : friends) {
-            if (friend.getFirst().equals(user) || friend.getSecond().equals(user)) {
+            if (friend.getFirst().equals(user) ) {
                 friendsList.add(friend.getSecond());
+            }else if (friend.getSecond().equals(user)){
+                friendsList.add(friend.getFirst());
             }
         }
         return friendsList;
@@ -65,9 +65,7 @@ public class RequestService {
 
     public ArrayList<String> getPendingFollowRequests(String user) {
         ArrayList<String> friendsList = new ArrayList<>();
-        System.out.println("follow requests is empty in request service");
         for (Relation friend : followRequests) {
-            System.out.println("followRequests in request service");
             if (friend.getFirst().equals(user)) {
                 friendsList.add(friend.getSecond());
             }
@@ -86,28 +84,29 @@ public class RequestService {
         return friendsList;
     }
 
-    private Relation getFollowRequestByNames(String originUsername, String destinationUsername) {
-        System.out.println(originUsername);
-        System.out.println(destinationUsername);
-        for (Relation friendRequest : followRequests) {
-            System.out.println("get follow request by names in request service");
-            System.out.println(followRequests.size());
-            System.out.println(friendRequest.getFirst());
-            System.out.println(friendRequest.getSecond());
-            System.out.println("--------------------------------");
-            if (friendRequest.getFirst().equals(originUsername) && friendRequest.getSecond().equals(destinationUsername)) {
-
-                return friendRequest;
-            }
-        }
-        return null;
+    public void createGameRequest(String fromUsername, String targetUsername) {
+        gameRequest.add(new Relation(fromUsername, targetUsername));
     }
+
+    public void acceptGameRequest(String originUsername, String targetUsername) {
+        Relation accepted = getRequestByNames(originUsername, targetUsername,gameRequest);
+        gameRequest.remove(accepted);
+        acceptedGameRRequests.add(accepted);
+    }
+
+    public void rejectGameRequest(String originUsername, String targetUsername) {
+        // the person who rejects a request is target username in follow request
+        Relation rejected = getRequestByNames(originUsername, targetUsername,gameRequest);
+        gameRequest.remove(rejected);
+        rejectedGameRequest.add(rejected);
+    }
+
 
     public ArrayList<String> getGameRequests(String user) {
         ArrayList<String> friendsList = new ArrayList<>();
         for (Relation friend : gameRequest) {
             if (friend.getSecond().equals(user)) {
-                friendsList.add(friend.getSecond());
+                friendsList.add(friend.getFirst());
             }
         }
         return friendsList;
@@ -115,8 +114,8 @@ public class RequestService {
 
     public ArrayList<String> getRejectedGameRequest(String user) {
         ArrayList<String> friendsList = new ArrayList<>();
-        System.out.println("Rejected Request origin: "+user);
         for (Relation friend : rejectedGameRequest) {
+            System.out.println();
             if (friend.getSecond().equals(user)) {
                 friendsList.add(friend.getFirst());
             }
@@ -142,5 +141,15 @@ public class RequestService {
             }
         }
         return friendsList;
+    }
+
+
+    private Relation getRequestByNames(String originUsername, String destinationUsername, ArrayList<Relation> list) {
+        for (Relation friendRequest : list) {
+            if (friendRequest.getFirst().equals(originUsername) && friendRequest.getSecond().equals(destinationUsername)) {
+                return friendRequest;
+            }
+        }
+        return null;
     }
 }

@@ -10,6 +10,7 @@ import models.User;
 
 public class PreGameMenuController extends UserInfoController {
 
+    private static String specificUser;
 
     public static AlertMaker checkCompetitorData(String username) {
 
@@ -25,4 +26,11 @@ public class PreGameMenuController extends UserInfoController {
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.GAME_STARTED.toString());
     }
 
+    public static String getSpecificUser() {
+        return specificUser;
+    }
+
+    public static void setSpecificUser(String specificUser) {
+        PreGameMenuController.specificUser = specificUser;
+    }
 }

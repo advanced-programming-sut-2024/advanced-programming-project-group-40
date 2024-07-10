@@ -112,7 +112,7 @@
                         <Image url="@../images/Icnos/GameHistory.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="31.0" fitWidth="24.0" layoutX="551.0" layoutY="74.0" onMouseClicked="#GameRequest" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="31.0" fitWidth="24.0" layoutX="551.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/Icnos/GameRequest.png" />
                     </image>

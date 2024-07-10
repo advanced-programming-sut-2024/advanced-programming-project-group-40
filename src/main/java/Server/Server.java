@@ -117,10 +117,6 @@ public class Server extends Thread {
             ClientMessages clientMessage = extractClientMessage(clientRequest);
             User user;
             ServerMessages serverMessage;
-            if (clientMessage!=null)
-                System.out.println("*** " + clientMessage.getType());
-            else
-                System.out.println("*** null");
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
@@ -155,29 +151,33 @@ public class Server extends Thread {
                     break;
                 case REQUEST:
                     RequestMessage requestMessage = (RequestMessage) clientMessage;
-                    System.out.println("* " + requestMessage.getSubType());
                     switch (requestMessage.getSubType()) {
                         case SEND_FOLLOW_REQUEST:
-                            System.out.println("send request in server");
                             requestService.createFriendRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case ACCEPT_FOLLOW_REQUEST:
                             requestService.acceptFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case REJECT_FOLLOW_REQUEST:
-                            System.out.println("line 168: " + requestMessage.getOriginUsername() + " " + requestMessage.getDestinationUsername());
                             requestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
+                        case SEND_GAME_REQUEST:
+                            requestService.createGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
+                        case ACCEPT_GAME_REQUEST:
+                            requestService.acceptGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
+                        case REJECT_GAME_REQUEST:
+                            requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
                     }
                     break;
                 case GET_LIST_OF_NAMES:
-                    System.out.println(6);
                     //assert GetListOfNamesMessage instanceof ClientMessages;
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
                         case GET_FRIENDS:
-                            System.out.println(7);
                             names = requestService.getFriends(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_REQUESTS:
@@ -185,13 +185,15 @@ public class Server extends Thread {
                             break;
                         case GET_PENDING_FOLLOW_REQUESTS:
                             names = requestService.getPendingFollowRequests(getListOfNamesMessage.getKeyName());
-                            System.out.println("+-+-+" + names.size());
                             break;
                         case GET_FOLLOW_REQUESTS:
                             names = requestService.getFollowRequests(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_GAME_REQUEST:
                             names = requestService.getGameRequests(getListOfNamesMessage.getKeyName());
+                            break;
+                        case GET_ACCEPTED_GAME_REQUESTS:
+                            names = requestService.getAcceptedGameRequest(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_GAME_REQUEST:
                             names = requestService.getRejectedGameRequest(getListOfNamesMessage.getKeyName());

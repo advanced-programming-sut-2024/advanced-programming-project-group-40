@@ -3,7 +3,6 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
-import Server.Messages.Client.GetUserMessage;
 import controllers.DataSaver;
 import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
@@ -107,6 +106,7 @@ public class PreGameViewController {
 
     @FXML
     private static void loadDeck(ArrayList<String> deckCards) {
+        // todo ask ----------------------------------------------------------------
     }
 
     @FXML
@@ -126,6 +126,12 @@ public class PreGameViewController {
         leaderImages.add(leaderImage4);
         leaderImages.add(leaderImage5);
 
+
+        if (!PreGameMenuController.getSpecificUser().isEmpty()){
+            competitorUsername.setText(PreGameMenuController.getSpecificUser());
+            competitorUsername.setDisable(true);
+            PreGameMenuController.setSpecificUser("");
+        }
 
         setUpFactionImages();
         setUpLeadersImages();
