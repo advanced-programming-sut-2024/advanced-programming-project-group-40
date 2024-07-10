@@ -3,6 +3,7 @@ package controllers;
 import Server.ClientHandler;
 import Server.Messages.Client.GetListOfNamesMessage;
 import Server.Messages.Client.GetUserMessage;
+import Server.Messages.Client.RequestMessage;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
@@ -35,5 +36,11 @@ public class Utilities {
         System.out.println(4);
         return gson.fromJson(result, new TypeToken<ArrayList<String>>() {
         }.getType());
+    }
+
+    public static void sendRequest(String origin, String target, MessageSubType subType) {
+        RequestMessage requestMessage = new RequestMessage(origin, target, subType);
+        System.out.println("send request line 23: " + origin + " " + target);
+        ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
     }
 }

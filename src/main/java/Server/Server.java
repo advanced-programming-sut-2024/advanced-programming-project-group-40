@@ -2,6 +2,7 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
+import Server.Services.EliminationCup;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +25,7 @@ public class Server extends Thread {
     private static final ArrayList<Socket> connections = new ArrayList<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
+    private static final EliminationCup eliminationService = EliminationCup.getInstance();
 
     private static void setupServer() {
         try {
@@ -169,6 +171,9 @@ public class Server extends Thread {
                             break;
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
+                            break;
+                        case JOIN_ELIMINATION:
+                            eliminationService.addParticipate(requestMessage.getOriginUsername());
                             break;
                     }
                     break;
