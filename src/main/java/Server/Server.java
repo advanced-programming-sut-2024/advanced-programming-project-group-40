@@ -18,9 +18,7 @@ import models.cards.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
@@ -28,6 +26,7 @@ public class Server extends Thread {
     private static Gson gsonAgent;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Socket> connections = new ArrayList<>();
+    private static final HashMap<String, Socket> userConnections = new HashMap<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
 
@@ -138,12 +137,14 @@ public class Server extends Thread {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_PASSWORD.toString());
                     } else {
                         serverMessage = new ServerMessages(true, LoginMenuMessages.LOGGED_IN_SUCCESSFULLY.toString());
+                        userConnections.put(user.getUsername(), socket);
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                     break;
                 case SIGNUP:
                     SignUpMessages signUpMessage = (SignUpMessages) clientMessage;
                     user = signUpMessage.getUser();
+                    userConnections.put(user.getUsername(), socket);
                     allUsers.add(user);
                     break;
                 case GET_USER:
@@ -211,6 +212,9 @@ public class Server extends Thread {
                     }
                     ServerMessages addCardServerMessage = new ServerMessages(true, "Card added successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(addCardServerMessage));
+                    for (Map.Entry<String, Socket> a : userConnections.entrySet()) {
+                        System.out.println(a.getKey() + "->" + a.getValue().toString());
+                    }
                     break;
                 case REMOVE_CARD:
                     AddRemoveCardMessage removeCardMessage = (AddRemoveCardMessage) clientMessage;
@@ -232,11 +236,26 @@ public class Server extends Thread {
                 case SEND_GAME_REQUEST:
                     StartGameMessages message = (StartGameMessages) clientMessage;
                     user = getUserByUsername(message.getDestinationUsername());
-                    if (user == null){
-                        ServerMessages serverMessages = new ServerMessages(false,"no such user");
+                    if (user == null) {
+                        ServerMessages serverMessages = new ServerMessages(false, "no such user");
+                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                    } else if (user.getDeckCards().size() < 22) {
+                        ServerMessages serverMessages = new ServerMessages(false, "user deck is not full");
+                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                    }else {
+                        Socket enemySocket =getUserSocketByName(user.getUsername());
+                        DataInputStream enemyReceiveBuffer = new DataInputStream(
+                                new BufferedInputStream(enemySocket.getInputStream())
+                        );
+                        DataOutputStream enemySendBuffer = new DataOutputStream(
+                                new BufferedOutputStream(enemySocket.getOutputStream())
+                        );
+
+                        enemySendBuffer.writeUTF("kys");
+                        ServerMessages serverMessages = new ServerMessages(true, "sent");
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
                     }
-                    //todo fuck me
+                    System.out.println("game req");
                     break;
             }
             sendBuffer.close();
@@ -264,6 +283,15 @@ public class Server extends Thread {
         for (User user : allUsers) {
             if (user.getUsername().equals(username)) {
                 return user;
+            }
+        }
+        return null;
+    }
+
+    public static Socket getUserSocketByName(String username) {
+        for (String username2 : userConnections.keySet()) {
+            if (username2.equals(username)) {
+                return userConnections.get(username2);
             }
         }
         return null;

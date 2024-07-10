@@ -31,6 +31,7 @@ public class PreGameMenuController extends UserInfoController {
     public static void startGame(String username) {
         StartGameMessages message = new StartGameMessages(username);
         ServerMessages serverMessages = ClientHandler.client.startGame(message);
+        System.out.println(serverMessages.getAdditionalInfo());
 
     }
 }
