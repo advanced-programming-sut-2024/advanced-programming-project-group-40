@@ -299,6 +299,9 @@ public class Server extends Thread {
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             }
                             break;
+                        case RESET_GAME_REQUEST:
+                            requestSent = false;
+                            break;
                     }
                     break;
                 case ACCEPT_REJECT_REQUEST:

@@ -18,5 +18,6 @@ public enum MessageSubType {
     GET_PENDING_GAME_REQUEST,
     GAME_REQUEST,
     MAKE_PERSON_GO_TO_PRE_GAME,
+    RESET_GAME_REQUEST,
     ;
 }

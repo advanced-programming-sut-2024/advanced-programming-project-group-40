@@ -167,6 +167,10 @@ public class Client {
                                     sendMessage(gsonAgent.toJson(requestMessage));
                                     endConnection();
                                 }
+                                UpdateMessage updateMessage1 = new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.RESET_GAME_REQUEST);
+                                establishConnection();
+                                sendMessage(gsonAgent.toJson(updateMessage1));
+                                endConnection();
                             });
                         }
 
