@@ -10,6 +10,7 @@ public class EliminationCup {
     private final ArrayList<Relation> hasGame1 = new ArrayList<>();
     private final ArrayList<Relation> hasGame2 = new ArrayList<>();
     private final ArrayList<Relation> hasGame3 = new ArrayList<>();
+    private int row;
 
     private EliminationCup() {
     }
@@ -21,26 +22,7 @@ public class EliminationCup {
         return instance;
     }
 
-
-    public ArrayList<String> getLeftUsernames(int row) {
-        ArrayList<Relation> lis = getList(row);
-        ArrayList<String> output = new ArrayList<>();
-        for (Relation relation : lis) {
-            output.add(relation.getFirst());
-        }
-        return output;
-    }
-
-    public ArrayList<String> getRightUsernames(int row) {
-        ArrayList<Relation> lis = getList(row);
-        ArrayList<String> output = new ArrayList<>();
-        for (Relation relation : lis) {
-            output.add(relation.getSecond());
-        }
-        return output;
-    }
-
-    private ArrayList<Relation> getList(int row) {
+    public ArrayList<Relation> getRow() {
         return switch (row) {
             case 1 -> hasGame1;
             case 2 -> hasGame2;
@@ -49,9 +31,36 @@ public class EliminationCup {
         };
     }
 
+    public void createRelation(String left, String right, int number) {
+        Relation rel = new Relation(left, right);
+        rel.setNumber(number);
+        getRow().add(rel);
+    }
+
+
+    public void initialSetup() {
+        createRelation(participates.get(0), participates.get(1), 1);
+        createRelation(participates.get(2), participates.get(3), 2);
+        createRelation(participates.get(4), participates.get(5), 3);
+        createRelation(participates.get(6), participates.get(7), 4);
+    }
 
     public void addParticipate(String username) {
         participates.add(username);
+    }
+
+
+    public void winnerOfGame(String left) {
+        ArrayList<Relation> list = getRow();
+        for (Relation relation : list) {
+            if (relation.getFirst().equals(left) || relation.getSecond().equals(left)){
+
+            }
+        }
+    }
+
+    private Relation getRelationByNumber(int number){
+
     }
 
 }
