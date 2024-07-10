@@ -174,11 +174,11 @@ public class GameMenuController {
     }
 
 
-    public  void initiateDeck() {
+    public  GameBoardVisualData initiateDeck() {
         matchTable.getFirstPlayer().getMatchesPlayed().add(matchTable);
         matchTable.getSecondPlayer().getMatchesPlayed().add(matchTable);
         matchTable.initilizeTable();
-        sendData(false, false, false, false, false);
+        return sendData(false, false, false, false, false);
     }
 
 
@@ -232,7 +232,7 @@ public class GameMenuController {
         return origin;
     }
 
-    public  void ClickedOnRow(Origin origin) {
+    public  GameBoardVisualData ClickedOnRow(Origin origin) {
         Origin destination = GetDestination();
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
@@ -277,7 +277,7 @@ public class GameMenuController {
 
             }
         }
-        sendData(false, false, false, false, false);
+        return sendData(false, false, false, false, false);
     }
 
     private  void MakeMedicWindow() {
@@ -308,7 +308,7 @@ public class GameMenuController {
         sendData(true, false, false, false, false);
     }
 
-    public  void ClickedOnBoost(int rowID) {
+    public  GameBoardVisualData ClickedOnBoost(int rowID) {
         if (selectedCard instanceof SpecialCard) {
             if (matchTable.isFirstPlayerTurn()) {
                 matchTable.placeBoostCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, rowID);
@@ -318,10 +318,10 @@ public class GameMenuController {
             selectedCard = null;
             matchTable.endTurn();
         }
-        sendData(false, false, false, false, false);
+        return sendData(false, false, false, false, false);
     }
 
-    public  void clickedOnWeather() {
+    public  GameBoardVisualData clickedOnWeather() {
         if (selectedCard instanceof SpecialCard && !(
                 Objects.equals(selectedCard.getName(), "Commander’s horn") ||
                         Objects.equals(selectedCard.getName(), "Mardroeme"))) {
@@ -333,10 +333,10 @@ public class GameMenuController {
             selectedCard = null;
             matchTable.endTurn();
         }
-        sendData(false, false, false, false, false);
+        return sendData(false, false, false, false, false);
     }
 
-    public  void LeaderAction() {
+    public  GameBoardVisualData LeaderAction() {
         if (matchTable.isFirstPlayerTurn() && matchTable.getFirstPlayerLeader() != null) {
             matchTable.leaderAction();
             matchTable.setFirstPlayerLeaderUsed(true);
@@ -344,35 +344,36 @@ public class GameMenuController {
             matchTable.leaderAction();
             matchTable.setSecondPlayerLeaderUsed(true);
         }
+        return sendData(false, false, false, false, false);
     }
 
-    public  void passRound() {
+    public  GameBoardVisualData passRound() {
         if (matchTable.isFirstPlayerTurn()) {
             matchTable.pass(0);
         } else {
             matchTable.pass(1);
         }
         matchTable.endTurn();
-        sendData(false, false, false, false, false);
+        return sendData(false, false, false, false, false);
     }
 
-    public  void sendData(boolean isDestroyer, boolean isMedic,
+    public  GameBoardVisualData sendData(boolean isDestroyer, boolean isMedic,
                                 boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
-        //todo send data from server to client
+        return gameBoardVisualData;
     }
 
-    public  void sendDataWithReaction(String Recation) {
+    public  GameBoardVisualData sendDataWithReaction(String Recation) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
         gameBoardVisualData.setRecation(Recation);
-        //todo send data from server to client
+        return gameBoardVisualData;
     }
 
-    public  void sendDataWithMessage(Message message) {
+    public  GameBoardVisualData sendDataWithMessage(Message message) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
@@ -381,14 +382,14 @@ public class GameMenuController {
         gameBoardVisualData.setUsername(message.getUsername());
         gameBoardVisualData.setUserName(message.getReplyData().getUserName());
         gameBoardVisualData.setReply(message.replyData.isReply());
-        //todo send data from server to client
+        return gameBoardVisualData;
     }
 
-    public  void sendReaction(String value) {
-        sendDataWithReaction(value);
+    public  GameBoardVisualData sendReaction(String value) {
+        return sendDataWithReaction(value);
     }
 
-    private  void sendMessage(String substring, boolean isReply) {
+    private  GameBoardVisualData sendMessage(String substring, boolean isReply) {
         User user1 = matchTable.getFirstPlayer();
         User user2 = matchTable.getSecondPlayer();
         if (!matchTable.isFirstPlayerTurn()) {
@@ -398,63 +399,36 @@ public class GameMenuController {
         Date date = new Date();
         String time=date.getHours()+":"+date.getMinutes()+"\n";
         Message message = new Message(user1.getNickname(), substring, new ReplyData(isReply, user2.getNickname()), time);
-        sendDataWithMessage(message);
+        return sendDataWithMessage(message);
     }
 
-    public  void sendCommand(String s) {
+    public  GameBoardVisualData sendCommand(String s) {
         if (s.startsWith("message")) {
-            sendReaction(s.substring(7));
+            return sendReaction(s.substring(7));
         } else if (s.startsWith("chat")) {
             if (s.substring(5, 9).equals("true")) {
-                sendMessage(s.substring(9), true);
+                return  sendMessage(s.substring(9), true);
             } else {
-                sendMessage(s.substring(10), false);
+                return  sendMessage(s.substring(10), false);
             }
 
         } else {
-            switch (s) {
-                case "secondPlayerSiegeClicked":
-                    ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
-                    break;
-                case "secondPlayerRangedClicked":
-                    ClickedOnRow(Origin.SECONDPLAYER_RANGED);
-                    break;
-                case "secondPlayerCloseCombatClicked":
-                    ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
-                    break;
-                case "firstPlayerCloseCombatClicked":
-                    ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
-                    break;
-                case "firstPlayerRangedClicked":
-                    ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
-                    break;
-                case "firstPlayerSiegeClicked":
-                    ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
-                    break;
-                case "weatherClicked":
-                    clickedOnWeather();
-                    break;
-                case "0":
-                    ClickedOnBoost(0);
-                    break;
-                case "1":
-                    ClickedOnBoost(1);
-                    break;
-                case "2":
-                    ClickedOnBoost(2);
-                    break;
-                case "LeaderAction":
-                    LeaderAction();
-                    break;
-                case "PassRound":
-                    passRound();
-                    break;
-                case "initiateDeck":
-                    initiateDeck();
-                    break;
-                default:
-                    throw new RuntimeException("message is not registered");
-            }
+            return switch (s) {
+                case "secondPlayerSiegeClicked" -> ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+                case "secondPlayerRangedClicked" -> ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+                case "secondPlayerCloseCombatClicked" -> ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
+                case "firstPlayerCloseCombatClicked" -> ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
+                case "firstPlayerRangedClicked" -> ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
+                case "firstPlayerSiegeClicked" -> ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
+                case "weatherClicked" -> clickedOnWeather();
+                case "0" -> ClickedOnBoost(0);
+                case "1" -> ClickedOnBoost(1);
+                case "2" -> ClickedOnBoost(2);
+                case "LeaderAction" -> LeaderAction();
+                case "PassRound" -> passRound();
+                case "initiateDeck" -> initiateDeck();
+                default -> throw new RuntimeException("message is not registered");
+            };
         }
     }
     public  User changeTurn(User user1, User user2){
