@@ -9,6 +9,8 @@ import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.scene.control.Alert;
 import models.AlertMaker;
+import models.Game;
+import models.User;
 
 public class ProfileMenuController extends UserInfoController {
 
@@ -19,10 +21,11 @@ public class ProfileMenuController extends UserInfoController {
     }
 
 
-    public static void sendRequest(String origin, String target, MessageSubType subType) {
-        RequestMessage requestMessage = new RequestMessage(origin, target, subType);
-        System.out.println("send request line 23: " + origin + " " + target);
-        ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
+    public static void sendRequest(String target) {
+        RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target, MessageSubType.SEND_FOLLOW_REQUEST);
+    }
+    public static boolean isUserValid(User user) {
+        return isUsernameValid(user.getUsername());
     }
 
 }

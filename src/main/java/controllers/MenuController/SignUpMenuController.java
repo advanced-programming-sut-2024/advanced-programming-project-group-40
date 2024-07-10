@@ -46,4 +46,7 @@ public class SignUpMenuController extends UserInfoController {
         LinkAuthorization.sendLink(email);
         return LinkAuthorization.verifyLink();
     }
+    public static boolean isUserValid(User user) {
+        return isUsernameValid(user.getUsername()) && isEmailValid(user.getEmail()) && isPasswordValid(user.getPassword());
+    }
 }

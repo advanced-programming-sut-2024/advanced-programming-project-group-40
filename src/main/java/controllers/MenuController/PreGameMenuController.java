@@ -1,8 +1,5 @@
 package controllers.MenuController;
 
-import Server.ClientHandler;
-import Server.Messages.Client.StartGameMessages;
-import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
@@ -41,5 +38,8 @@ public class PreGameMenuController extends UserInfoController {
         ServerMessages serverMessages = ClientHandler.client.startGame(message);
         System.out.println(serverMessages.getAdditionalInfo());
 
+    }
+    public static boolean isCompetitorValid(User user) {
+        return user.getNumberOfUnitCards() >= 22 && user.getNumberOfSpecialCards() <= 10;
     }
 }

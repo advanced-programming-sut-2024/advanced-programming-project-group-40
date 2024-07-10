@@ -462,6 +462,10 @@ public class GameMenuController {
             }
         }
     }
-
-
+    public static User changeTurn(User user1, User user2){
+        User temp = user1;
+        user1 = user2;
+        user2 = temp;
+        return user1;
+    }
 }

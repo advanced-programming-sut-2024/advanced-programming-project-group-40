@@ -96,4 +96,21 @@ public class Game {
         return allLeaders;
     }
 
+    public static void setInstance(Game game) {
+        loggedInUser = getLoggedInUser();
+        currentMenu = getCurrentMenu();
+        assert allUsers != null;
+        allUsers.clear();
+        allUsers.addAll(getAllUsers());
+        allCards.clear();
+        allCards.addAll(getAllCards());
+        allLeaders.clear();
+        allLeaders.addAll(getAllLeaders());
+        selectedCards.clear();
+    }
+
+    public static void addUser(User user) {
+        assert allUsers != null;
+        allUsers.add(user);
+    }
 }
