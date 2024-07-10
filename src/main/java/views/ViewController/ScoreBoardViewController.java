@@ -43,7 +43,7 @@ public class ScoreBoardViewController {
             circle.setRadius(4.0);
             circle.setStroke(Color.BLACK);
 
-            Label usernames = new Label("Label");
+            Label usernames = new Label(user.getUsername());
             usernames.setPrefHeight(16.0);
             usernames.setPrefWidth(84.0);
             usernames.setTranslateX(5.0);
@@ -59,7 +59,7 @@ public class ScoreBoardViewController {
 
             name.getChildren().add(hbox);
 
-            Label score = new Label("Label");
+            Label score = new Label(Integer.toString(user.getWon()));
             score.setPrefHeight(49.0);
             score.setPrefWidth(134.0);
 
