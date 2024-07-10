@@ -12,7 +12,7 @@ import models.User;
 
 public class PreGameMenuController extends UserInfoController {
 
-    private static String specificUser;
+    private static String specificUser = "";
 
     public static AlertMaker checkCompetitorData(String username) {
 
