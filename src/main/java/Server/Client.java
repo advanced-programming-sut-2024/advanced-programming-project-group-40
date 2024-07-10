@@ -9,9 +9,12 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import models.Game;
 import views.ViewController.PreGameViewController;
+import enums.cards.CardInfo;
+import views.ViewController.GameViewController;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -25,7 +28,15 @@ public class Client {
     private Gson gsonAgent;
     private String token;
     private Thread updateThread = null;
+    private GameViewController gameViewController;
 
+    public GameViewController getGameViewController() {
+        return gameViewController;
+    }
+
+    public void setGameViewController(GameViewController gameViewController) {
+        this.gameViewController = gameViewController;
+    }
 
     public Client(String serverIP, int serverPort) {
         GsonBuilder builder = new GsonBuilder();
@@ -177,6 +188,17 @@ public class Client {
                         }
 
                     }
+                    //TODO
+                    switch (messageSubType) {
+                        case GAME_UPDATE -> {
+                            if (Objects.equals(serverMessages.getAdditionalInfo(), "finished")) {
+                                finishGame();
+                            } else {
+                                gameViewController.setVisualData(serverMessages.getAdditionalInfo());
+                            }
+                        }
+                    }
+
                 }
                 try {
                     Thread.sleep(500);
@@ -188,6 +210,19 @@ public class Client {
         updateThread.start();
     }
 
+    private void finishGame() {
+        //todo
+    }
+    public void clickedOnCard(ClickedOnCardMessages messages){
+        getServerMessage(messages);
+
+    }
+    public void sendCommand(String command){
+        ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
+        getServerMessage(messages);
+
+
+    }
     private void stopUpdateThread() {
         updateThread.interrupt();
     }

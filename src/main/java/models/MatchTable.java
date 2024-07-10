@@ -1,5 +1,6 @@
 package models;
 
+import controllers.MenuController.GameMenuController;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
@@ -13,6 +14,7 @@ import models.cards.*;
 import java.util.*;
 
 public class MatchTable {
+    private final GameMenuController gameMenuController;
     private final User firstPlayer;
     private final User secondPlayer;
     private boolean isFirstPlayerTurn;
@@ -56,7 +58,8 @@ public class MatchTable {
     private boolean isSecondPlayerLeaderUsed = false;
 
 
-    public MatchTable(User firstPlayer, User secondPlayer) {
+    public MatchTable(User firstPlayer, User secondPlayer,GameMenuController gameMenuController) {
+        this.gameMenuController = gameMenuController;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
@@ -64,6 +67,9 @@ public class MatchTable {
         initializeMatchTable();
     }
 
+    public GameMenuController getGameMenuController() {
+        return gameMenuController;
+    }
 
     public boolean isFirstPlayerTurn() {
         return isFirstPlayerTurn;
