@@ -1,5 +1,8 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
+import Server.Messages.Client.StartGameMessages;
+import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
@@ -32,5 +35,11 @@ public class PreGameMenuController extends UserInfoController {
 
     public static void setSpecificUser(String specificUser) {
         PreGameMenuController.specificUser = specificUser;
+    }
+    public static void startGame(String username) {
+        StartGameMessages message = new StartGameMessages(username);
+        ServerMessages serverMessages = ClientHandler.client.startGame(message);
+        System.out.println(serverMessages.getAdditionalInfo());
+
     }
 }

@@ -12,9 +12,7 @@ import models.User;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
@@ -22,6 +20,7 @@ public class Server extends Thread {
     private static Gson gsonAgent;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Socket> connections = new ArrayList<>();
+    private static final HashMap<String, Socket> userConnections = new HashMap<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
 
@@ -93,6 +92,8 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case GET_LIST_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
+                case SEND_FOLLOW_REQUEST:
+                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case ADD_CARD, REMOVE_CARD:
                     return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 default:
@@ -226,6 +227,9 @@ public class Server extends Thread {
                     }
                     ServerMessages addCardServerMessage = new ServerMessages(true, "Card added successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(addCardServerMessage));
+                    for (Map.Entry<String, Socket> a : userConnections.entrySet()) {
+                        System.out.println(a.getKey() + "->" + a.getValue().toString());
+                    }
                     break;
                 case REMOVE_CARD:
                     AddRemoveCardMessage removeCardMessage = (AddRemoveCardMessage) clientMessage;
@@ -243,6 +247,30 @@ public class Server extends Thread {
                     }
                     ServerMessages removeCardServerMessage = new ServerMessages(true, "Card removed successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(removeCardServerMessage));
+                    break;
+                case SEND_GAME_REQUEST:
+                    StartGameMessages message = (StartGameMessages) clientMessage;
+                    user = getUserByUsername(message.getDestinationUsername());
+                    if (user == null) {
+                        ServerMessages serverMessages = new ServerMessages(false, "no such user");
+                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                    } else if (user.getDeckCards().size() < 22) {
+                        ServerMessages serverMessages = new ServerMessages(false, "user deck is not full");
+                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                    }else {
+                        Socket enemySocket =getUserSocketByName(user.getUsername());
+                        DataInputStream enemyReceiveBuffer = new DataInputStream(
+                                new BufferedInputStream(enemySocket.getInputStream())
+                        );
+                        DataOutputStream enemySendBuffer = new DataOutputStream(
+                                new BufferedOutputStream(enemySocket.getOutputStream())
+                        );
+
+                        enemySendBuffer.writeUTF("kys");
+                        ServerMessages serverMessages = new ServerMessages(true, "sent");
+                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                    }
+                    System.out.println("game req");
                     break;
             }
             sendBuffer.close();
@@ -275,9 +303,16 @@ public class Server extends Thread {
         return null;
     }
 
+    public static Socket getUserSocketByName(String username) {
+        for (String username2 : userConnections.keySet()) {
+            if (username2.equals(username)) {
+                return userConnections.get(username2);
+            }
+        }
+        return null;
+    }
+
     public static void addUser(User user) {
-        System.out.println(allUsers);
         allUsers.add(user);
-        System.out.println(allUsers);
     }
 }
