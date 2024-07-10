@@ -15,5 +15,6 @@ public enum MessageType {
     ACCEPT_GAME_REQUEST,
     REJECT_GAME_REQUEST,
     ADD_CARD,
+    UPDATE,
     REMOVE_CARD;
 }

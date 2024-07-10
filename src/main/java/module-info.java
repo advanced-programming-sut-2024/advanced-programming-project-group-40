@@ -10,6 +10,8 @@ module advanced.programming.project.group {
     requires java.desktop;
     requires java.mail;
     requires org.mockito;
+    requires java.sql;
+    requires org.xerial.sqlitejdbc;
     exports views;
     exports enums.cards to com.google.gson;
     opens views to javafx.fxml;

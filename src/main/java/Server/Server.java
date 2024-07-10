@@ -1,5 +1,6 @@
 package Server;
 
+import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
 import Server.Services.RequestService;
@@ -8,7 +9,13 @@ import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import enums.cards.HeroInfo;
+import enums.cards.LeaderInfo;
+import enums.cards.SpecialCardInfo;
+import enums.cards.UnitCardInfo;
+import models.Game;
 import models.User;
+import models.cards.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -21,10 +28,9 @@ public class Server extends Thread {
     private static Gson gsonAgent;
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Socket> connections = new ArrayList<>();
-    private static final HashMap<String, Socket> userConnections = new HashMap<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
-
+    private static SQLDataBase sqlDataBase;
     private static void setupServer() {
         try {
             serverSocket = new ServerSocket(8000);
@@ -93,10 +99,11 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case GET_LIST_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
-                case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr, RequestMessage.class);
+
                 case ADD_CARD, REMOVE_CARD:
                     return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
+                case UPDATE:
+                    return gsonAgent.fromJson(clientStr, UpdateMessage.class);
                 default:
                     return null;
             }
@@ -136,10 +143,11 @@ public class Server extends Thread {
                     SignUpMessages signUpMessage = (SignUpMessages) clientMessage;
                     user = signUpMessage.getUser();
                     allUsers.add(user);
+                    sqlDataBase.addUser(user);
                     break;
                 case GET_USER:
                     GetUserMessage getUserMessage = (GetUserMessage) clientMessage;
-                    user = getUserByUsername(getUserMessage.getUsername());
+                    user = sqlDataBase.getUserWithUsername(getUserMessage.getUsername());
                     if (user == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
@@ -169,28 +177,11 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
-                        case GAME_REQUEST:
-                            user = getUserByUsername(requestMessage.getDestinationUsername());
-                            if (user == null) {
-                                ServerMessages serverMessages = new ServerMessages(false, PreGameMenuMessages.INVALID_COMPETITOR_USERNAME.toString());
-                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                            } else if (user.getDeckCards().size() < 22) {
-                                ServerMessages serverMessages = new ServerMessages(false, PreGameMenuMessages.NOT_ENOUGH_CARDS.toString());
-                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                            } else {
-                                Socket enemySocket = getUserSocketByName(user.getUsername());
-                                DataInputStream enemyReceiveBuffer = new DataInputStream(
-                                        new BufferedInputStream(enemySocket.getInputStream())
-                                );
-                                DataOutputStream enemySendBuffer = new DataOutputStream(
-                                        new BufferedOutputStream(enemySocket.getOutputStream())
-                                );
-                                enemySendBuffer.writeUTF("kys");
-                                ServerMessages serverMessages = new ServerMessages(true, "sent");
-                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                            }
-                            System.out.println("game req");
+                        case MAKE_PERSON_GO_TO_PRE_GAME:
+
                             break;
+                        case GAME_REQUEST:
+
                     }
                     break;
                 case GET_LIST_OF_NAMES:
@@ -222,7 +213,6 @@ public class Server extends Thread {
                             names = requestService.getPendingGameRequests(getListOfNamesMessage.getKeyName());
                             break;
                     }
-                    System.out.println("size of names in server: " + names.size());
                     if (names == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
@@ -247,9 +237,7 @@ public class Server extends Thread {
                     }
                     ServerMessages addCardServerMessage = new ServerMessages(true, "Card added successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(addCardServerMessage));
-                    for (Map.Entry<String, Socket> a : userConnections.entrySet()) {
-                        System.out.println(a.getKey() + "->" + a.getValue().toString());
-                    }
+                    sqlDataBase.updateUser(user, user.getUsername());
                     break;
                 case REMOVE_CARD:
                     AddRemoveCardMessage removeCardMessage = (AddRemoveCardMessage) clientMessage;
@@ -267,31 +255,10 @@ public class Server extends Thread {
                     }
                     ServerMessages removeCardServerMessage = new ServerMessages(true, "Card removed successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(removeCardServerMessage));
+                    sqlDataBase.updateUser(user, user.getUsername());
                     break;
-                case SEND_GAME_REQUEST:
-                    StartGameMessages message = (StartGameMessages) clientMessage;
-                    user = getUserByUsername(message.getDestinationUsername());
-                    if (user == null) {
-                        ServerMessages serverMessages = new ServerMessages(false, "no such user");
-                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                    } else if (user.getDeckCards().size() < 22) {
-                        ServerMessages serverMessages = new ServerMessages(false, "user deck is not full");
-                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                    }else {
-                        Socket enemySocket =getUserSocketByName(user.getUsername());
-                        DataInputStream enemyReceiveBuffer = new DataInputStream(
-                                new BufferedInputStream(enemySocket.getInputStream())
-                        );
-                        DataOutputStream enemySendBuffer = new DataOutputStream(
-                                new BufferedOutputStream(enemySocket.getOutputStream())
-                        );
-
-                        enemySendBuffer.writeUTF("kys");
-                        ServerMessages serverMessages = new ServerMessages(true, "sent");
-                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                    }
-                    System.out.println("game req");
-                    break;
+                case UPDATE:
+                    UpdateMessage updateMessage = (UpdateMessage) clientMessage;
             }
             sendBuffer.close();
             receiveBuffer.close();
@@ -302,6 +269,8 @@ public class Server extends Thread {
     }
 
     public static void main(String[] args) {
+        sqlDataBase = SQLDataBase.getInstance();
+        allUsers.addAll(sqlDataBase.getAllUsers());
         try {
             Server.setupServer();
             Server server1 = new Server();
@@ -323,16 +292,4 @@ public class Server extends Thread {
         return null;
     }
 
-    public static Socket getUserSocketByName(String username) {
-        for (String username2 : userConnections.keySet()) {
-            if (username2.equals(username)) {
-                return userConnections.get(username2);
-            }
-        }
-        return null;
-    }
-
-    public static void addUser(User user) {
-        allUsers.add(user);
-    }
 }
