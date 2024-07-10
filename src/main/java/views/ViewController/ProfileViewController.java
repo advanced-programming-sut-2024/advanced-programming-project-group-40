@@ -175,7 +175,7 @@ public class ProfileViewController {
                 Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
                 AlertMaker alert = new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
                 alert.showAlert();
-//                Utilities.sendRequest(Game.getLoggedInUser().getUsername(),request,MessageSubType.MAKE_USER_GO_TO_PRE_GAME);
+                // todo request user to pre game
                 goToPreGame(request);
             } else {
                 Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_GAME_REQUEST);

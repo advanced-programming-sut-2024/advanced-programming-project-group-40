@@ -6,6 +6,7 @@ import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
+import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import models.User;
 
@@ -168,6 +169,28 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
+<<<<<<< HEAD
+=======
+                        case MAKE_PERSON_GO_TO_PRE_GAME:
+
+                            break;
+                        case GAME_REQUEST:
+                            user = getUserByUsername(requestMessage.getDestinationUsername());
+                            if (user == null) {
+                                ServerMessages serverMessages = new ServerMessages(false, PreGameMenuMessages.INVALID_COMPETITOR_USERNAME.toString());
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            } else if (user.getDeckCards().size() < 22) {
+                                ServerMessages serverMessages = new ServerMessages(false, PreGameMenuMessages.NOT_ENOUGH_CARDS.toString());
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            } else {
+                                Socket enemySocket = getUserSocketByName(user.getUsername());
+                                getPersonSendBuffer(enemySocket).writeUTF("kys");
+                                ServerMessages serverMessages = new ServerMessages(true, "sent");
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            }
+                            System.out.println("game req");
+                            break;
+>>>>>>> parent of 8b23e5d (gham)
                     }
                     break;
                 case GET_LIST_OF_NAMES:
@@ -175,10 +198,7 @@ public class Server extends Thread {
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
                         case GET_FRIENDS:
-                            System.out.println("get list of friends in server");
                             names = requestService.getFriends(getListOfNamesMessage.getKeyName());
-                            System.out.println("names: "+names);
-                            System.out.println("names size: " +names.size());
                             break;
                         case GET_REJECTED_REQUESTS:
                             names = requestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
@@ -200,8 +220,6 @@ public class Server extends Thread {
                             break;
                         case GET_PENDING_GAME_REQUEST:
                             names = requestService.getPendingGameRequests(getListOfNamesMessage.getKeyName());
-                            break;
-                        default:
                             break;
                     }
                     if (names == null) {

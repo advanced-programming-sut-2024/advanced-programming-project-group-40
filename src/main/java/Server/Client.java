@@ -37,15 +37,7 @@ public class Client {
                         BufferedReader v = new BufferedReader(new InputStreamReader(receiveBuffer));
                         if (v.ready()) {
                             String s = v.readLine();
-                            if (s != null) {
-//                                if (s.equals("GoToPreGame")) {
-//                                    try {
-//                                        new PreGameMenu().start(Game.stage);
-//                                    } catch (Exception e) {
-//                                        throw new RuntimeException(e);
-//                                    }
-//                                }
-                            }
+                            System.out.println(s);
                         }
                     }
                 } catch (IOException e) {
@@ -59,11 +51,11 @@ public class Client {
     private boolean establishConnection() {
         try {
             //if (socket == null)
-            socket = new Socket(serverIP, serverPort);
+                socket = new Socket(serverIP, serverPort);
             //if (sendBuffer == null)
-            sendBuffer = new DataOutputStream(socket.getOutputStream());
+                sendBuffer = new DataOutputStream(socket.getOutputStream());
             //if (receiveBuffer == null)
-            receiveBuffer = new DataInputStream(socket.getInputStream());
+                receiveBuffer = new DataInputStream(socket.getInputStream());
             listener();
             return true;
         } catch (Exception e) {
@@ -114,7 +106,6 @@ public class Client {
         sendMessage(input);
         endConnection();
     }
-
     public void addCard(AddRemoveCardMessage addRemoveCardMessage) {
         getServerMessage(addRemoveCardMessage);
     }
@@ -146,7 +137,6 @@ public class Client {
     public ServerMessages request(RequestMessage requestMessage) {
         return getServerMessage(requestMessage);
     }
-
     private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(clientMessages));

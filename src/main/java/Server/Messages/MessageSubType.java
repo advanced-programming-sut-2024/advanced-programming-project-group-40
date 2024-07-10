@@ -15,7 +15,11 @@ public enum MessageSubType {
     GET_ACCEPTED_GAME_REQUESTS,
     GET_REJECTED_GAME_REQUEST,
     GET_PENDING_GAME_REQUEST,
+<<<<<<< HEAD
     GAME_REQUEST,
     MAKE_USER_GO_TO_PRE_GAME,
+=======
+    MAKE_PERSON_GO_TO_PRE_GAME,
+>>>>>>> parent of 8b23e5d (gham)
     ;
 }

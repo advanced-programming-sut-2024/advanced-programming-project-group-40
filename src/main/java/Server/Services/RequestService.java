@@ -25,8 +25,6 @@ public class RequestService {
     }
 
     public void createFriendRequest(String fromUsername, String targetUsername) {
-        System.out.println(fromUsername);
-        System.out.println(targetUsername);
         followRequests.add(new Relation(fromUsername, targetUsername));
     }
 
@@ -106,7 +104,6 @@ public class RequestService {
 
     public ArrayList<String> getGameRequests(String user) {
         ArrayList<String> friendsList = new ArrayList<>();
-        System.out.println("get game request");
         for (Relation friend : gameRequest) {
             if (friend.getSecond().equals(user)) {
                 friendsList.add(friend.getFirst());
