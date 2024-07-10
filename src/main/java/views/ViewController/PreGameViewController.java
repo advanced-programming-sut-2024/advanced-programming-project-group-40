@@ -538,6 +538,11 @@ public class PreGameViewController {
                         });
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
+                        try {
+                            new GameView().start(Game.stage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     } else {
                         Platform.runLater(() -> {
                             AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.GAME_REQUEST_REJECTED.toString());

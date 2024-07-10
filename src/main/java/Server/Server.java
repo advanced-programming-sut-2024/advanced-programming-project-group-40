@@ -4,6 +4,7 @@ import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
+import Server.Models.GameBoardVisualData;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +17,7 @@ import enums.cards.LeaderInfo;
 import enums.cards.SpecialCardInfo;
 import enums.cards.UnitCardInfo;
 import models.Game;
+import models.MatchTable;
 import models.User;
 import models.cards.*;
 
@@ -33,6 +35,7 @@ public class Server extends Thread {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
     private static final HashMap<String, String> requestedGames = new HashMap<>();
+    private static final ArrayList<MatchTable> matchTables = new ArrayList<>();
     private static SQLDataBase sqlDataBase;
     private static boolean requestSent = false;
 
@@ -306,23 +309,48 @@ public class Server extends Thread {
                         case RESET_GAME_REQUEST:
                             requestSent = false;
                             break;
-                      case GAME_UPDATE:
-                        //todo
-                        break;
+                        case GAME_UPDATE:
+                            //todo
+                            break;
                     }
                     break;
                 case ACCEPT_REJECT_REQUEST:
                     AcceptRejectRequest acceptRejectRequest = (AcceptRejectRequest) clientMessage;
                     if (acceptRejectRequest.isAccept()) {
                         requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
+                        User user1 = getUserByUsername(acceptRejectRequest.getUsername());
+                        User user2 = getUserByUsername(acceptRejectRequest.getToken());
+                        MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController());
+                        matchTable.getGameMenuController().setMatchTable(matchTable);
+                        matchTables.add(matchTable);
+                        GameBoardVisualData a = new GameBoardVisualData(matchTable
+                                , false, false, false, false, false);
+                        sendBuffer.writeUTF(a.toJSON());
                     } else {
                         requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                     }
-                    
+
                     break;
                 case CHANGE_MATCH_TABLE_DATA:
                     ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
-                    //todo call the GameMenuController function
+                    User user1 = getUserByUsername(changeMessage.getToken());
+                    MatchTable matchTable = null;
+                    boolean isFirstUser =false;
+                    for (MatchTable matchTable1 : matchTables) {
+                        if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
+                            matchTable = matchTable1;
+                            isFirstUser = true;
+                            break;
+                        } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user1.getUsername())) {
+                            matchTable = matchTable1;
+                            break;
+                        }
+                    }
+                    matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
+                    GameBoardVisualData visualData = new GameBoardVisualData(matchTable
+                    ,false,false,false,false,false);
+                    sendBuffer.writeUTF(visualData.toJSON());
+
                     break;
                 case CLICKED_ON_CARD:
                     ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
@@ -341,6 +369,7 @@ public class Server extends Thread {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());
         try {
+            JavaFXInitializer.initJavaFX();
             Server.setupServer();
             Server server1 = new Server();
             Server server2 = new Server();
