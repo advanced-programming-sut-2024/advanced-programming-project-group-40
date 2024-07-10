@@ -160,6 +160,8 @@ public class Client {
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
                                     endConnection();
+
+                                    //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), false);

@@ -537,7 +537,7 @@ public class PreGameViewController {
                             }
                         });
                         System.out.println("YOOOOHOOOOOOOOO");
-                        //TODO Aria
+                        //TODO : Start the game
                     } else {
                         Platform.runLater(() -> {
                             AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.GAME_REQUEST_REJECTED.toString());
