@@ -119,7 +119,7 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(), targetUser.getText(), MessageSubType.SEND_FOLLOW_REQUEST);
+            Utilities.sendRequest(Game.getLoggedInUser().getUsername(), targetUser.getText(), MessageSubType.SEND_FOLLOW_REQUEST);
     }
 
 
@@ -165,21 +165,20 @@ public class ProfileViewController {
         ImageView clickedImageView = (ImageView) event.getSource();
         if (vBox.equals(requests)) {
             if (clickedImageView.equals(accept)) {
-                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
             } else {
-                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_FOLLOW_REQUEST);
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_FOLLOW_REQUEST);
             }
         } else {
-            System.out.println("game request click");
             if (clickedImageView.equals(accept)) {
                 // todo ask ----------------------------------------------------------------
-                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
                 AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
                 alert.showAlert();
                 // todo request user to pre game
                 goToPreGame(request);
             } else {
-                ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_GAME_REQUEST);
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_GAME_REQUEST);
             }
         }
         vBox.getChildren().remove(label.getParent());
@@ -187,7 +186,6 @@ public class ProfileViewController {
 
 
     private void fillVBox(VBox vBox, ArrayList<String> target, String color) {
-        // todo for sent & game sent
         for (String request : target) {
             // Create the Label
             Label label = new Label(request);
@@ -210,7 +208,7 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK()) {
-            ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(), request, MessageSubType.SEND_GAME_REQUEST);
+            Utilities.sendRequest(Game.getLoggedInUser().getUsername(), request, MessageSubType.SEND_GAME_REQUEST);
         }
     }
 

@@ -3,10 +3,12 @@ package controllers;
 import Server.ClientHandler;
 import Server.Messages.Client.GetListOfNamesMessage;
 import Server.Messages.Client.GetUserMessage;
+import Server.Messages.Client.RequestMessage;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import models.Game;
 import models.User;
 
 import java.util.ArrayList;
@@ -32,8 +34,12 @@ public class Utilities {
         if (!success)
             return null;
         Gson gson = new Gson();
-        System.out.println(4);
         return gson.fromJson(result, new TypeToken<ArrayList<String>>() {
         }.getType());
+    }
+
+    public static void sendRequest(String origin, String target, MessageSubType subType) {
+        RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target,subType);
+        ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
     }
 }

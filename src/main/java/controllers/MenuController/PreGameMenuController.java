@@ -1,9 +1,6 @@
 package controllers.MenuController;
 
-import Server.ClientHandler;
-import Server.Messages.Client.RequestMessage;
 import Server.Messages.MessageSubType;
-import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
@@ -38,10 +35,7 @@ public class PreGameMenuController extends UserInfoController {
         PreGameMenuController.specificUser = specificUser;
     }
     public static void startGame(String username) {
-        RequestMessage message = new RequestMessage(Game.getLoggedInUser().getUsername(),username, MessageSubType.GAME_REQUEST);
-        ServerMessages serverMessages = ClientHandler.client.request(message);
-        System.out.println(serverMessages.getAdditionalInfo());
-
+        Utilities.sendRequest(Game.getLoggedInUser().getUsername(),username, MessageSubType.GAME_REQUEST);
     }
     public static boolean isCompetitorValid(User user) {
         return user.getNumberOfUnitCards() >= 22 && user.getNumberOfSpecialCards() <= 10;

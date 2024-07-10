@@ -1,15 +1,10 @@
 package controllers.MenuController;
 
-import Server.ClientHandler;
-import Server.Messages.Client.RequestMessage;
-import Server.Messages.MessageSubType;
-import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import javafx.scene.control.Alert;
 import models.AlertMaker;
-import models.Game;
 import models.User;
 
 public class ProfileMenuController extends UserInfoController {
@@ -21,9 +16,7 @@ public class ProfileMenuController extends UserInfoController {
     }
 
 
-    public static void sendRequest(String target) {
-        RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target, MessageSubType.SEND_FOLLOW_REQUEST);
-    }
+
     public static boolean isUserValid(User user) {
         return isUsernameValid(user.getUsername());
     }
