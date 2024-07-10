@@ -3,6 +3,8 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
+import Server.Messages.Client.UpdateMessage;
+import Server.Messages.MessageSubType;
 import controllers.DataSaver;
 import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
@@ -10,6 +12,7 @@ import controllers.Utilities;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -103,6 +106,7 @@ public class PreGameViewController {
     private boolean changeFactionClicked = false;
     private boolean changeLeaderClicked = false;
     private User loggedInUser = Game.getLoggedInUser();
+    public static String startGameStatus = "";
 
     @FXML
     private static void loadDeck(ArrayList<String> deckCards) {
@@ -127,7 +131,7 @@ public class PreGameViewController {
         leaderImages.add(leaderImage5);
 
 
-        if (!PreGameMenuController.getSpecificUser().isEmpty()){
+        if (!PreGameMenuController.getSpecificUser().isEmpty()) {
             competitorUsername.setText(PreGameMenuController.getSpecificUser());
             competitorUsername.setDisable(true);
             PreGameMenuController.setSpecificUser("");
@@ -159,6 +163,10 @@ public class PreGameViewController {
         selectedCardFlowPane.setHgap(8);
         selectedCardFlowPane.setVgap(8);
         setUpCards();
+        System.out.println(Game.getLoggedInUser().getUsername());
+        Platform.runLater(() -> {
+            ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
+        });
     }
 
     private void setUpCards() {
@@ -503,14 +511,46 @@ public class PreGameViewController {
     private void startGame(MouseEvent mouseEvent) {
         saveData();
         AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
-        alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
             saveData();
             try {
                 PreGameMenuController.startGame(competitorUsername.getText());
+                startGameStatus = "Waiting for response";
+                Thread thread = new Thread(() -> {
+                    while (true) {
+                        if (!startGameStatus.equals("Waiting for response")) {
+                            break;
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (startGameStatus.equals("Game Started")) {
+                        Platform.runLater(() -> {
+                            try {
+                                alertMaker.showAlert();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        System.out.println("YOOOOHOOOOOOOOO");
+                        //TODO : Start the game
+                    } else {
+                        Platform.runLater(() -> {
+                            AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.GAME_REQUEST_REJECTED.toString());
+                            alertMaker1.showAlert();
+                        });
+                    }
+                });
+                thread.start();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            alertMaker.showAlert();
         }
     }
 

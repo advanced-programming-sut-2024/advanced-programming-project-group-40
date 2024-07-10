@@ -8,7 +8,7 @@ public class UpdateMessage extends ClientMessages {
     private final MessageSubType subType;
 
     public UpdateMessage(String originUser, MessageSubType type) {
-        this.type = MessageType.REQUEST;
+        this.type = MessageType.UPDATE;
         this.subType = type;
         this.originUsername = originUser;
     }

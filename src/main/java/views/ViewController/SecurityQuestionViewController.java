@@ -6,10 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.AlertMaker;
 import models.Game;
 import views.MainMenu;
-import views.SecurityQuestionMenu;
+import views.TerminalView;
 
 
 public class SecurityQuestionViewController {
@@ -49,6 +51,14 @@ public class SecurityQuestionViewController {
                     throw new RuntimeException(e);
                 }
             }
+        }
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -8,7 +8,8 @@ public enum PreGameMenuMessages {
     GAME_STARTED("The game has started!"),
     DOWNLOAD_DECK("Deck Downloaded Successfully!"),
     UPLOAD_DECK("Deck Uploaded Successfully!"),
-YOU_DO_NOT_HAVE_ENOUGH_CARDS("You don't have enough unit cards'"),
+    YOU_DO_NOT_HAVE_ENOUGH_CARDS("You don't have enough unit cards'"),
+    GAME_REQUEST_REJECTED("Game request rejected"),
     ;
     private final String message;
 

@@ -17,6 +17,7 @@ public enum MessageType {
     CLICKED_ON_CARD,
     ADD_CARD,
     UPDATE,
+ ACCEPT_REJECT_REQUEST,
     CHANGE_MATCH_TABLE_DATA,
     REMOVE_CARD;
 }

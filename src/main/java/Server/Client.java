@@ -2,10 +2,13 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
-import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import models.Game;
+import views.ViewController.PreGameViewController;
 import enums.cards.CardInfo;
 import views.ViewController.GameViewController;
 
@@ -68,12 +71,10 @@ public class Client {
         }
     }
 
-    private boolean sendMessage(String message) {
+    private void sendMessage(String message) {
         try {
             sendBuffer.writeUTF(message);
-            return true;
         } catch (Exception e) {
-            return false;
         }
     }
 
@@ -140,13 +141,53 @@ public class Client {
     private void startUpdateThread(MessageSubType messageSubType) {
         updateThread = new Thread(() -> {
             while (true) {
-                establishConnection();
-                UpdateMessage updateMessage = new UpdateMessage(token, messageSubType);
-                sendMessage(gsonAgent.toJson(updateMessage));
-                String response = receiveResponse();
-                ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
-                endConnection();
+                UpdateMessage updateMessage = new UpdateMessage(Game.getLoggedInUser().getUsername(), messageSubType);
+                ServerMessages serverMessages = getServerMessage(updateMessage);
+                if (serverMessages == null) {
+                    try {
+                        System.out.println("Server is not responding");
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
                 if (serverMessages.wasSuccessfull()) {
+                    if (messageSubType == MessageSubType.PREGAME_UPDATE) {
+                        if (serverMessages.getAdditionalInfo().equals("accept")) {
+                            PreGameViewController.startGameStatus = "Game Started";
+                        } else if (serverMessages.getAdditionalInfo().equals("decline")) {
+                            PreGameViewController.startGameStatus = "Game Request Declined";
+                        } else {
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle("Game Request");
+                                alert.setHeaderText("Game Request");
+                                alert.setContentText("Game Request from " + serverMessages.getAdditionalInfo());
+                                alert.showAndWait();
+                                if (alert.getResult().getText().equals("OK")) {
+                                    PreGameViewController.startGameStatus = "Game Started";
+                                    AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage));
+                                    endConnection();
+
+                                    //TODO: Start the game
+                                } else {
+                                    PreGameViewController.startGameStatus = "Game Request Declined";
+                                    AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), false);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage));
+                                    endConnection();
+                                }
+                                UpdateMessage updateMessage1 = new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.RESET_GAME_REQUEST);
+                                establishConnection();
+                                sendMessage(gsonAgent.toJson(updateMessage1));
+                                endConnection();
+                            });
+                        }
+
+                    }
                     //TODO
                     switch (messageSubType) {
                         case GAME_UPDATE -> {

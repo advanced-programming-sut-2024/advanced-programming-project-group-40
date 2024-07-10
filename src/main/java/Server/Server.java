@@ -2,6 +2,7 @@ package Server;
 
 import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
+import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
@@ -31,7 +32,9 @@ public class Server extends Thread {
     private static final ArrayList<Socket> connections = new ArrayList<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
+    private static final HashMap<String, String> requestedGames = new HashMap<>();
     private static SQLDataBase sqlDataBase;
+    private static boolean requestSent = false;
 
     private static void setupServer() {
         try {
@@ -105,6 +108,8 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 case UPDATE:
                     return gsonAgent.fromJson(clientStr, UpdateMessage.class);
+                case ACCEPT_REJECT_REQUEST:
+                    return gsonAgent.fromJson(clientStr, AcceptRejectRequest.class);
                 case CHANGE_MATCH_TABLE_DATA:
                     return gsonAgent.fromJson(clientStr, ChangeMatchTableDataMessages.class);
                 case CLICKED_ON_CARD:
@@ -149,6 +154,7 @@ public class Server extends Thread {
                     user = signUpMessage.getUser();
                     allUsers.add(user);
                     sqlDataBase.addUser(user);
+                    requestedGames.put(user.getUsername(), "");
                     break;
                 case GET_USER:
                     GetUserMessage getUserMessage = (GetUserMessage) clientMessage;
@@ -186,7 +192,8 @@ public class Server extends Thread {
 
                             break;
                         case GAME_REQUEST:
-
+                            requestedGames.put(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            break;
                     }
                     break;
                 case GET_LIST_OF_NAMES:
@@ -264,11 +271,54 @@ public class Server extends Thread {
                     break;
                 case UPDATE:
                     UpdateMessage updateMessage = (UpdateMessage) clientMessage;
-                    switch (updateMessage.getSubType()) {
-                        case GAME_UPDATE -> {
-                            //todo send the matchtable info
-                        }
+                    user = getUserByUsername(updateMessage.getOriginUsername());
+                    MessageSubType subType = updateMessage.getSubType();
+                    switch (subType) {
+                        case PREGAME_UPDATE:
+                            assert user != null;
+                            String requestedUser = requestedGames.get(user.getUsername());
+                            if (!requestedUser.isEmpty()) {
+                                if (requestedGames.get(requestedUser).equals(user.getUsername())) {
+                                    requestedGames.put(user.getUsername(), "");
+                                    requestedGames.put(requestedUser, "");
+                                    serverMessage = new ServerMessages(true, "accept");
+                                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                } else if (requestedUser.equals("decline")) {
+                                    requestedGames.put(user.getUsername(), "");
+                                    requestedGames.put(requestedUser, "");
+                                    serverMessage = new ServerMessages(true, "decline");
+                                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                } else {
+                                    if (!requestSent) {
+                                        serverMessage = new ServerMessages(true, requestedUser);
+                                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                        requestSent = true;
+                                    } else {
+                                        serverMessage = new ServerMessages(false, "no request");
+                                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                    }
+                                }
+                            } else {
+                                serverMessage = new ServerMessages(false, "no request");
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            }
+                            break;
+                        case RESET_GAME_REQUEST:
+                            requestSent = false;
+                            break;
+                      case GAME_UPDATE:
+                        //todo
+                        break;
                     }
+                    break;
+                case ACCEPT_REJECT_REQUEST:
+                    AcceptRejectRequest acceptRejectRequest = (AcceptRejectRequest) clientMessage;
+                    if (acceptRejectRequest.isAccept()) {
+                        requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
+                    } else {
+                        requestedGames.put(acceptRejectRequest.getUsername(), "decline");
+                    }
+                    
                     break;
                 case CHANGE_MATCH_TABLE_DATA:
                     ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
