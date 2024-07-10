@@ -6,9 +6,9 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="MainMenu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.MainViewController">
    <children>
-      <VBox alignment="CENTER" layoutX="130.0" layoutY="98.0" prefHeight="539.0" prefWidth="278.0" styleClass="Box">
+      <VBox alignment="CENTER" layoutX="128.0" layoutY="108.0" prefHeight="521.0" prefWidth="278.0" styleClass="Box">
          <children>
-            <Label styleClass="label-header" text="Main Menu" translateY="-100.0">
+            <Label styleClass="label-header" text="Main Menu" translateY="-75.0">
                <font>
                   <Font size="30.0" />
                </font>
@@ -17,7 +17,15 @@
                <font>
                   <Font size="25.0" />
                </font></Button>
-            <Button mnemonicParsing="false" onMouseClicked="#goToProfileMenu" prefHeight="52.0" prefWidth="188.0" styleClass="button-main" text="Profile">
+            <Button mnemonicParsing="false" onMouseClicked="#goToProfileMenu" prefHeight="52.0" prefWidth="188.0" styleClass="button-main" text="Profile" translateY="-25">
+               <font>
+                  <Font size="25.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onMouseClicked="#goToScoreBoard" prefHeight="52.0" prefWidth="188.0" styleClass="button-main" text="Score Board">
+               <font>
+                  <Font size="25.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onMouseClicked="#goToEliminationCup" prefHeight="52.0" prefWidth="188.0" styleClass="button-main" text="Elimination Cup" translateY="25.0">
                <font>
                   <Font size="25.0" />
                </font></Button>
@@ -25,10 +33,7 @@
                <font>
                   <Font size="25.0" />
                </font></Button>
-            <Button mnemonicParsing="false" onMouseClicked="#goToScoreBoard" prefHeight="52.0" prefWidth="188.0" styleClass="button-main" text="Score Board" translateY="100.0">
-               <font>
-                  <Font size="25.0" />
-               </font></Button>
+
          </children>
       </VBox>
    </children>
