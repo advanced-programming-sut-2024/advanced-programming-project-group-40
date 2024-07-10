@@ -173,7 +173,7 @@ public class ProfileViewController {
             if (clickedImageView.equals(accept)) {
                 // todo ask ----------------------------------------------------------------
                 Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
-                AlertMaker alert = new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
+                AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
                 alert.showAlert();
                 // todo request user to pre game
                 goToPreGame(request);

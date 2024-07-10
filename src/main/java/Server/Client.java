@@ -34,6 +34,7 @@ public class Client {
             public void run() {
                 try {
                     while (true) {
+
                         BufferedReader v = new BufferedReader(new InputStreamReader(receiveBuffer));
                         if (v.ready()) {
                             String s = v.readLine();

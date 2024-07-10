@@ -42,5 +42,4 @@ public class Utilities {
         RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target,subType);
         ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
     }
-
 }

@@ -169,9 +169,6 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
-                        case MAKE_PERSON_GO_TO_PRE_GAME:
-
-                            break;
                         case GAME_REQUEST:
                             user = getUserByUsername(requestMessage.getDestinationUsername());
                             if (user == null) {
@@ -182,7 +179,13 @@ public class Server extends Thread {
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
                             } else {
                                 Socket enemySocket = getUserSocketByName(user.getUsername());
-                                getPersonSendBuffer(enemySocket).writeUTF("kys");
+                                DataInputStream enemyReceiveBuffer = new DataInputStream(
+                                        new BufferedInputStream(enemySocket.getInputStream())
+                                );
+                                DataOutputStream enemySendBuffer = new DataOutputStream(
+                                        new BufferedOutputStream(enemySocket.getOutputStream())
+                                );
+                                enemySendBuffer.writeUTF("kys");
                                 ServerMessages serverMessages = new ServerMessages(true, "sent");
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
                             }
@@ -331,19 +334,5 @@ public class Server extends Thread {
 
     public static void addUser(User user) {
         allUsers.add(user);
-    }
-
-    private static DataOutputStream getPersonSendBuffer(Socket socket) throws IOException {
-        DataOutputStream enemySendBuffer = new DataOutputStream(
-                new BufferedOutputStream(socket.getOutputStream())
-        );
-        return enemySendBuffer;
-    }
-
-    private static DataInputStream getPersonReceiveBuffer(Socket socket) throws IOException {
-        DataInputStream enemyReceiveBuffer = new DataInputStream(
-                new BufferedInputStream(socket.getInputStream())
-        );
-        return enemyReceiveBuffer;
     }
 }

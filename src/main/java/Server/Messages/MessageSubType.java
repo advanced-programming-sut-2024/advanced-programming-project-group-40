@@ -15,7 +15,10 @@ public enum MessageSubType {
     GET_ACCEPTED_GAME_REQUESTS,
     GET_REJECTED_GAME_REQUEST,
     GET_PENDING_GAME_REQUEST,
+<<<<<<< HEAD
     GAME_REQUEST,
     MAKE_PERSON_GO_TO_PRE_GAME,
     ;
+=======
+>>>>>>> parent of b9a4146 (feat(server): others buffer added)
 }
