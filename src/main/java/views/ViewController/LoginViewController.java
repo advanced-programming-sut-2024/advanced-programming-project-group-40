@@ -3,8 +3,10 @@ package views.ViewController;
 import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import models.AlertMaker;
 import models.Game;
@@ -24,6 +26,34 @@ public class LoginViewController {
 
     public void initialize() {
         authorizationVbox.setVisible(false);
+
+
+        TextArea textArea = new TextArea();
+        textArea.setPrefHeight(366.0);
+        textArea.setPrefWidth(286.0);
+//        textArea.getStyleClass().add("terminal");
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setLayoutX(13.0);
+        scrollPane.setLayoutY(400.0);
+        scrollPane.setPrefHeight(200.0);
+        scrollPane.setPrefWidth(287.0);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+//        scrollPane.getStyleClass().add("menu-scroll-pane");
+        scrollPane.setContent(textArea);
+        scrollPane.setVisible(false);
+
+        KeyCombination keyCombination = new KeyCodeCombination(KeyCode.T, KeyCode.A);
+        Game.stage.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (keyCombination.match(event)) {
+                scrollPane.setVisible(!scrollPane.isVisible());
+                if (scrollPane.isVisible()) {
+                    scrollPane.requestFocus();
+                }
+                event.consume();
+            }
+        });
     }
 
     public void signInClicked() {
