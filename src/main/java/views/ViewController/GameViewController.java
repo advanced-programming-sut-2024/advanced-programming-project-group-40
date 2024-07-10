@@ -1,6 +1,8 @@
 package views.ViewController;
 
 
+import Server.Client;
+import Server.ClientHandler;
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
 import enums.Ability;
@@ -167,6 +169,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ClientHandler.client.setGameViewController(this);
         String[] messages = {"kys", "ALI ABD'EL AZIZ", "YOU MAD TERRORIST"
                 , "sure buddy",
                 "nice argument senator why don't you back it up with a source?", "UwU"};

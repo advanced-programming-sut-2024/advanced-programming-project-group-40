@@ -6,9 +6,11 @@ import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import views.ViewController.GameViewController;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -22,7 +24,15 @@ public class Client {
     private Gson gsonAgent;
     private String token;
     private Thread updateThread = null;
+    private GameViewController gameViewController;
 
+    public GameViewController getGameViewController() {
+        return gameViewController;
+    }
+
+    public void setGameViewController(GameViewController gameViewController) {
+        this.gameViewController = gameViewController;
+    }
 
     public Client(String serverIP, int serverPort) {
         GsonBuilder builder = new GsonBuilder();
@@ -82,6 +92,7 @@ public class Client {
         sendMessage(input);
         endConnection();
     }
+
     public void addCard(AddRemoveCardMessage addRemoveCardMessage) {
         getServerMessage(addRemoveCardMessage);
     }
@@ -109,6 +120,7 @@ public class Client {
     public ServerMessages request(RequestMessage requestMessage) {
         return getServerMessage(requestMessage);
     }
+
     private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(clientMessages));
@@ -117,6 +129,7 @@ public class Client {
         endConnection();
         return serverMessages;
     }
+
     public void update(UpdateMessage updateMessage) {
         if (updateThread != null)
             stopUpdateThread();
@@ -134,7 +147,15 @@ public class Client {
                 endConnection();
                 if (serverMessages.wasSuccessfull()) {
                     //TODO
-
+                    switch (messageSubType) {
+                        case GAME_UPDATE -> {
+                            if (Objects.equals(serverMessages.getAdditionalInfo(), "finished")) {
+                                finishGame();
+                            } else {
+                                gameViewController.setVisualData(serverMessages.getAdditionalInfo());
+                            }
+                        }
+                    }
 
                 }
                 try {
@@ -145,6 +166,10 @@ public class Client {
             }
         });
         updateThread.start();
+    }
+
+    private void finishGame() {
+        //todo
     }
 
     private void stopUpdateThread() {

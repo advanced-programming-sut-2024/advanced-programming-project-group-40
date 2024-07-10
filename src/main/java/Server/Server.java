@@ -31,6 +31,7 @@ public class Server extends Thread {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
     private static SQLDataBase sqlDataBase;
+
     private static void setupServer() {
         try {
             serverSocket = new ServerSocket(8000);
@@ -99,7 +100,6 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case GET_LIST_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
-
                 case ADD_CARD, REMOVE_CARD:
                     return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 case UPDATE:
@@ -259,6 +259,11 @@ public class Server extends Thread {
                     break;
                 case UPDATE:
                     UpdateMessage updateMessage = (UpdateMessage) clientMessage;
+                    switch (updateMessage.getSubType()) {
+                        case GAME_UPDATE -> {
+                            //todo send the matchtable info
+                        }
+                    }
             }
             sendBuffer.close();
             receiveBuffer.close();
