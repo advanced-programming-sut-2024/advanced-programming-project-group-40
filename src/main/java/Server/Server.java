@@ -169,8 +169,6 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
-<<<<<<< HEAD
-=======
                         case MAKE_PERSON_GO_TO_PRE_GAME:
 
                             break;
@@ -190,7 +188,6 @@ public class Server extends Thread {
                             }
                             System.out.println("game req");
                             break;
->>>>>>> parent of 8b23e5d (gham)
                     }
                     break;
                 case GET_LIST_OF_NAMES:
@@ -222,6 +219,7 @@ public class Server extends Thread {
                             names = requestService.getPendingGameRequests(getListOfNamesMessage.getKeyName());
                             break;
                     }
+                    System.out.println("size of names in server: " + names.size());
                     if (names == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {

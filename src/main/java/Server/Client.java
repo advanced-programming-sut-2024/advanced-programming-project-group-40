@@ -56,7 +56,7 @@ public class Client {
                 sendBuffer = new DataOutputStream(socket.getOutputStream());
             //if (receiveBuffer == null)
                 receiveBuffer = new DataInputStream(socket.getInputStream());
-            listener();
+//            listener();
             return true;
         } catch (Exception e) {
             System.err.println("Unable to initialize socket!");
