@@ -2,11 +2,13 @@ package views.ViewController;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import models.Game;
 import models.User;
 import views.MainMenu;
@@ -35,17 +37,33 @@ public class ScoreBoardViewController {
             }
         });
         for (User user : sortedUsers) {
-            Label username = new Label(user.getUsername());
-            username.setPrefHeight(46);
-            username.setPrefWidth(124);
-            username.setAlignment(Pos.CENTER);
-            this.name.getChildren().add(username);
+            // Create a Circle
+            Circle circle = new Circle();
+            circle.setFill(Color.web("#b1dcd5"));
+            circle.setRadius(4.0);
+            circle.setStroke(Color.BLACK);
 
-            Label wins = new Label(Integer.toString(user.getWon()));
-            wins.setPrefHeight(46);
-            wins.setPrefWidth(124);
-            wins.setAlignment(Pos.CENTER);
-            this.wins.getChildren().add(wins);
+            Label usernames = new Label("Label");
+            usernames.setPrefHeight(16.0);
+            usernames.setPrefWidth(84.0);
+            usernames.setTranslateX(5.0);
+
+            // Create an HBox
+            HBox hbox = new HBox();
+            hbox.setAlignment(javafx.geometry.Pos.CENTER);
+            hbox.setPrefHeight(49.0);
+            hbox.setPrefWidth(134.0);
+
+            // Add children to HBox
+            hbox.getChildren().addAll(circle, usernames);
+
+            name.getChildren().add(hbox);
+
+            Label score = new Label("Label");
+            score.setPrefHeight(49.0);
+            score.setPrefWidth(134.0);
+
+            wins.getChildren().add(score);
         }
     }
 

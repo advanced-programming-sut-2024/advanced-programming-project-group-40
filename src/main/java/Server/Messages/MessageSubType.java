@@ -1,6 +1,7 @@
 package Server.Messages;
 
 public enum MessageSubType {
+    GET_ALL_USERS,
     SEND_FOLLOW_REQUEST,
     ACCEPT_FOLLOW_REQUEST,
     REJECT_FOLLOW_REQUEST,
