@@ -17,25 +17,20 @@ import java.util.Objects;
 
 
 public class GameMenuController {
-    private static MatchTable matchTable;
-    private static boolean isNewWindowOpen = false;
-    private static boolean isMedic = false;
-    private static boolean isKingOfWildHunt = false;
-    private static boolean isRedRider = false;
-    private static boolean isDestroyer = false;
-    private static GameViewController gameViewController2;
+    private  MatchTable matchTable;
+    private  boolean isNewWindowOpen = false;
+    private  boolean isMedic = false;
+    private  boolean isKingOfWildHunt = false;
+    private  boolean isRedRider = false;
+    private  boolean isDestroyer = false;
 
-    public static void setGameViewController2(GameViewController gameViewController2) {
-        GameMenuController.gameViewController2 = gameViewController2;
+    public  void setMatchTable(MatchTable matchTable) {
+        this.matchTable = matchTable;
     }
 
-    public static void setMatchTable(MatchTable matchTable) {
-        GameMenuController.matchTable = matchTable;
-    }
+    private  Card selectedCard;
 
-    private static Card selectedCard;
-
-    public static void ClickedOnCard(CardInfo cardInfo, boolean isSelectable, String parentID) {
+    public  void ClickedOnCard(CardInfo cardInfo, boolean isSelectable, String parentID) {
         Card selectedCard1 = GameBoardVisualData.getCardsFromEnum(cardInfo);
         if (isNewWindowOpen) {
             if (isMedic) {
@@ -90,7 +85,7 @@ public class GameMenuController {
         sendData(false, false, false, false, false);
     }
 
-    private static Origin GetDestination() {
+    private  Origin GetDestination() {
         if (selectedCard instanceof UnitCard unitCard) {
             if (unitCard.getAbility() == Ability.SPY) {
                 switch (unitCard.getUnit()) {
@@ -179,7 +174,7 @@ public class GameMenuController {
     }
 
 
-    public static void initiateDeck() {
+    public  void initiateDeck() {
         matchTable.getFirstPlayer().getMatchesPlayed().add(matchTable);
         matchTable.getSecondPlayer().getMatchesPlayed().add(matchTable);
         matchTable.initilizeTable();
@@ -187,7 +182,7 @@ public class GameMenuController {
     }
 
 
-    private static int getRowID(Origin origin) {
+    private  int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
                 return 0;
@@ -202,7 +197,7 @@ public class GameMenuController {
         return -1;
     }
 
-    private static Origin getCardOrigin(String parentID, boolean isFirstPlayerTurn) {
+    private  Origin getCardOrigin(String parentID, boolean isFirstPlayerTurn) {
         Origin origin;
         if (isFirstPlayerTurn) {
             switch (parentID) {
@@ -237,7 +232,7 @@ public class GameMenuController {
         return origin;
     }
 
-    public static void ClickedOnRow(Origin origin) {
+    public  void ClickedOnRow(Origin origin) {
         Origin destination = GetDestination();
         if (selectedCard != null) {
             if (origin.isSubOrigin(destination)) {
@@ -285,35 +280,35 @@ public class GameMenuController {
         sendData(false, false, false, false, false);
     }
 
-    private static void MakeMedicWindow() {
+    private  void MakeMedicWindow() {
         isMedic = true;
         isNewWindowOpen = true;
         sendData(false, true, false, false, false);
     }
 
-    public static void MakeHisImperialMajestyWindow() {
+    public  void MakeHisImperialMajestyWindow() {
         sendData(false, false, false, false, true);
     }
 
-    public static void MakeCommanderOfRedRidersWindow() {
+    public  void MakeCommanderOfRedRidersWindow() {
         isRedRider = true;
         isNewWindowOpen = true;
         sendData(false, false, true, false, false);
     }
 
-    public static void MakeKingOfWildHuntWindow() {
+    public  void MakeKingOfWildHuntWindow() {
         isKingOfWildHunt = true;
         isNewWindowOpen = true;
         sendData(false, false, false, true, false);
     }
 
-    public static void MakeDestroyerOfWorldsWindow() {
+    public  void MakeDestroyerOfWorldsWindow() {
         isDestroyer = true;
         isNewWindowOpen = true;
         sendData(true, false, false, false, false);
     }
 
-    public static void ClickedOnBoost(int rowID) {
+    public  void ClickedOnBoost(int rowID) {
         if (selectedCard instanceof SpecialCard) {
             if (matchTable.isFirstPlayerTurn()) {
                 matchTable.placeBoostCard(new CardWrapper(selectedCard, Origin.FIRSTPLAYER_INPLAY), 0, rowID);
@@ -326,7 +321,7 @@ public class GameMenuController {
         sendData(false, false, false, false, false);
     }
 
-    public static void clickedOnWeather() {
+    public  void clickedOnWeather() {
         if (selectedCard instanceof SpecialCard && !(
                 Objects.equals(selectedCard.getName(), "Commander’s horn") ||
                         Objects.equals(selectedCard.getName(), "Mardroeme"))) {
@@ -341,7 +336,7 @@ public class GameMenuController {
         sendData(false, false, false, false, false);
     }
 
-    public static void LeaderAction() {
+    public  void LeaderAction() {
         if (matchTable.isFirstPlayerTurn() && matchTable.getFirstPlayerLeader() != null) {
             matchTable.leaderAction();
             matchTable.setFirstPlayerLeaderUsed(true);
@@ -351,7 +346,7 @@ public class GameMenuController {
         }
     }
 
-    public static void passRound() {
+    public  void passRound() {
         if (matchTable.isFirstPlayerTurn()) {
             matchTable.pass(0);
         } else {
@@ -361,23 +356,23 @@ public class GameMenuController {
         sendData(false, false, false, false, false);
     }
 
-    public static void sendData(boolean isDestroyer, boolean isMedic,
+    public  void sendData(boolean isDestroyer, boolean isMedic,
                                 boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
-        gameViewController2.setVisualData(gameBoardVisualData.toJSON());
+        //todo send data from server to client
     }
 
-    public static void sendDataWithReaction(String Recation) {
+    public  void sendDataWithReaction(String Recation) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
         gameBoardVisualData.setRecation(Recation);
-        gameViewController2.setVisualData(gameBoardVisualData.toJSON());
+        //todo send data from server to client
     }
 
-    public static void sendDataWithMessage(Message message) {
+    public  void sendDataWithMessage(Message message) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
@@ -386,14 +381,14 @@ public class GameMenuController {
         gameBoardVisualData.setUsername(message.getUsername());
         gameBoardVisualData.setUserName(message.getReplyData().getUserName());
         gameBoardVisualData.setReply(message.replyData.isReply());
-        gameViewController2.setVisualData(gameBoardVisualData.toJSON());
+        //todo send data from server to client
     }
 
-    public static void sendReaction(String value) {
+    public  void sendReaction(String value) {
         sendDataWithReaction(value);
     }
 
-    private static void sendMessage(String substring, boolean isReply) {
+    private  void sendMessage(String substring, boolean isReply) {
         User user1 = matchTable.getFirstPlayer();
         User user2 = matchTable.getSecondPlayer();
         if (!matchTable.isFirstPlayerTurn()) {
@@ -406,7 +401,7 @@ public class GameMenuController {
         sendDataWithMessage(message);
     }
 
-    public static void sendCommand(String s) {
+    public  void sendCommand(String s) {
         if (s.startsWith("message")) {
             sendReaction(s.substring(7));
         } else if (s.startsWith("chat")) {
@@ -462,7 +457,7 @@ public class GameMenuController {
             }
         }
     }
-    public static User changeTurn(User user1, User user2){
+    public  User changeTurn(User user1, User user2){
         User temp = user1;
         user1 = user2;
         user2 = temp;

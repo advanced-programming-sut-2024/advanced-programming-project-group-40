@@ -6,6 +6,7 @@ import Server.Messages.ServerMessages;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.MenuController.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
@@ -104,6 +105,10 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 case UPDATE:
                     return gsonAgent.fromJson(clientStr, UpdateMessage.class);
+                case CHANGE_MATCH_TABLE_DATA:
+                    return gsonAgent.fromJson(clientStr, ChangeMatchTableDataMessages.class);
+                case CLICKED_ON_CARD:
+                    return gsonAgent.fromJson(clientStr, ClickedOnCardMessages.class);
                 default:
                     return null;
             }
@@ -264,6 +269,15 @@ public class Server extends Thread {
                             //todo send the matchtable info
                         }
                     }
+                    break;
+                case CHANGE_MATCH_TABLE_DATA:
+                    ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
+                    //todo call the GameMenuController function
+                    break;
+                case CLICKED_ON_CARD:
+                    ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
+                    //todo call the GameMenuController function
+                    break;
             }
             sendBuffer.close();
             receiveBuffer.close();

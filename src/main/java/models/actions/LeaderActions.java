@@ -93,7 +93,7 @@ public abstract class LeaderActions {
     }
 
     private static void hisImperialMajesty() {
-        GameMenuController.MakeHisImperialMajestyWindow();
+        matchTable.getGameMenuController().MakeHisImperialMajestyWindow();
     }
 
     private static void emperorOfNilfgaard() {
@@ -142,7 +142,7 @@ public abstract class LeaderActions {
     }
 
     private static void kingOfTheWildHunt() {
-        GameMenuController.MakeKingOfWildHuntWindow();
+        matchTable.getGameMenuController().MakeKingOfWildHuntWindow();
     }
 
     private static void destroyerOfWorlds() {
@@ -161,12 +161,12 @@ public abstract class LeaderActions {
                 matchTable.addToDeadCards(1, new CardWrapper(card, Origin.SECONDPLAYER_INPLAY));
             }
         }
-        GameMenuController.MakeDestroyerOfWorldsWindow();
+        matchTable.getGameMenuController().MakeDestroyerOfWorldsWindow();
 
     }
 
     private static void commanderOfTheRedRiders() {
-        GameMenuController.MakeCommanderOfRedRidersWindow();
+        matchTable.getGameMenuController().MakeCommanderOfRedRidersWindow();
     }
 
     private static void theTreacherous() {

@@ -177,8 +177,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         emptyMessage();
         chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-        GameMenuController.setGameViewController2(this);
-        GameMenuController.sendCommand("initiateDeck");
+        ClientHandler.client.sendCommand("initiateDeck");
         InitiateCardEvents();
         update();
     }
@@ -749,44 +748,44 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void secondPlayerSiegeClicked() {
-        GameMenuController.sendCommand("secondPlayerSiegeClicked");
+        ClientHandler.client.sendCommand("secondPlayerSiegeClicked");
     }
 
     public void secondPlayerRangedClicked() {
-        GameMenuController.sendCommand("secondPlayerRangedClicked");
+        ClientHandler.client.sendCommand("secondPlayerRangedClicked");
     }
 
 
     public void secondPlayerCloseCombatClicked() {
-        GameMenuController.sendCommand("secondPlayerCloseCombatClicked");
+        ClientHandler.client.sendCommand("secondPlayerCloseCombatClicked");
     }
 
     public void firstPlayerCloseCombatClicked() {
-        GameMenuController.sendCommand("firstPlayerCloseCombatClicked");
+        ClientHandler.client.sendCommand("firstPlayerCloseCombatClicked");
     }
 
     public void firstPlayerRangedClicked() {
-        GameMenuController.sendCommand("firstPlayerRangedClicked");
+        ClientHandler.client.sendCommand("firstPlayerRangedClicked");
     }
 
     public void firstPlayerSiegeClicked() {
-        GameMenuController.sendCommand("firstPlayerSiegeClicked");
+        ClientHandler.client.sendCommand("firstPlayerSiegeClicked");
     }
 
     public void closeCombatBoostClicked() {
-        GameMenuController.sendCommand("0");
+        ClientHandler.client.sendCommand("0");
     }
 
     public void rangedBoostClicked() {
-        GameMenuController.sendCommand("1");
+        ClientHandler.client.sendCommand("1");
     }
 
     public void siegeBoostClicked() {
-        GameMenuController.sendCommand("2");
+        ClientHandler.client.sendCommand("2");
     }
 
     public void weatherClicked() {
-        GameMenuController.sendCommand("weatherClicked");
+        ClientHandler.client.sendCommand("weatherClicked");
     }
 
     public HBox getFirstPlayerDiscard() {
@@ -794,12 +793,12 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void LeaderAction() {
-        GameMenuController.sendCommand("LeaderAction");
+        ClientHandler.client.sendCommand("LeaderAction");
         update();
     }
 
     public void PassRound() {
-        GameMenuController.sendCommand("PassRound");
+        ClientHandler.client.sendCommand("PassRound");
     }
 
     public void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {
@@ -955,7 +954,7 @@ public class GameViewController extends PlayMenu implements Initializable {
                     spamThread.start();
                 }
 
-                GameMenuController.sendCommand(STR."message \{Messages.getValue()}");
+                ClientHandler.client.sendCommand(STR."message \{Messages.getValue()}");
 
             }
         }
@@ -980,9 +979,9 @@ public class GameViewController extends PlayMenu implements Initializable {
 
                 }
                 if (isReply.isSelected()) {
-                    GameMenuController.sendCommand("chat true" + messageInput.getText());
+                    ClientHandler.client.sendCommand("chat true" + messageInput.getText());
                 } else {
-                    GameMenuController.sendCommand("chat false" + messageInput.getText());
+                    ClientHandler.client.sendCommand("chat false" + messageInput.getText());
                 }
                 messageInput.setText("");
             }

@@ -6,6 +6,7 @@ import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import enums.cards.CardInfo;
 import views.ViewController.GameViewController;
 
 import java.io.*;
@@ -171,7 +172,16 @@ public class Client {
     private void finishGame() {
         //todo
     }
+    public void clickedOnCard(ClickedOnCardMessages messages){
+        getServerMessage(messages);
 
+    }
+    public void sendCommand(String command){
+        ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
+        getServerMessage(messages);
+
+
+    }
     private void stopUpdateThread() {
         updateThread.interrupt();
     }
