@@ -11,13 +11,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 import models.User;
-import views.ForgetPasswordMenu;
 import views.LoginMenu;
 import views.MainMenu;
+import views.TerminalView;
 
 public class  ForgetPasswordViewController {
     @FXML
@@ -116,6 +117,14 @@ public class  ForgetPasswordViewController {
     public void goToLoginMenu(MouseEvent mouseEvent) {
         try {
             new LoginMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

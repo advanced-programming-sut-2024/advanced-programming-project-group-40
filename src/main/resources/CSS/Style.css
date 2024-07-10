@@ -305,8 +305,12 @@ pre-scroll-pane {
     -fx-cursor: hand; /* Change cursor to hand */
 }
 
-.text-area{
-    -fx-background-insets: 0; /* Remove background insets */
+.area{
     -fx-background-color: #31261D; /* Remove background color */
 
+}
+
+.terminal .viewport{
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-background-color: #31261D; /* Remove background color */
 }
