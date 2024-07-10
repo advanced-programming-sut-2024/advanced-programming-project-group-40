@@ -527,6 +527,7 @@ public class PreGameViewController {
                             e.printStackTrace();
                         }
                     }
+
                     if (startGameStatus.equals("Game Started")) {
                         Platform.runLater(() -> {
                             try {
