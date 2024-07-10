@@ -117,7 +117,6 @@ public class Client {
         endConnection();
         return serverMessages;
     }
-
     public void update(UpdateMessage updateMessage) {
         if (updateThread != null)
             stopUpdateThread();
