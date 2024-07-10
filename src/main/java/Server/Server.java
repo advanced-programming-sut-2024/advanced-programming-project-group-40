@@ -121,10 +121,7 @@ public class Server extends Thread {
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
-//                    System.out.println(loginMessage.getKeyName() + " " + loginMessage.getPassword());
                     user = getUserByUsername(loginMessage.getUsername().trim());
-//                    System.out.println(allUsers);
-                    System.out.println(loginMessage.getUsername());
                     if (user == null) {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
                     } else if (!user.getPassword().equals(loginMessage.getPassword())) {
@@ -174,7 +171,6 @@ public class Server extends Thread {
                     }
                     break;
                 case GET_LIST_OF_NAMES:
-                    //assert GetListOfNamesMessage instanceof ClientMessages;
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
