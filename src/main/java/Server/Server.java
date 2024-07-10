@@ -91,12 +91,10 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, GetUserMessage.class);
                 case REQUEST:
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
-                case GET_LIS_OF_NAMES:
+                case GET_LIST_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
-                case SEND_FOLLOW_REQUEST:
-                    return gsonAgent.fromJson(clientStr,RequestMessage.class);
                 case ADD_CARD, REMOVE_CARD:
-                    return gsonAgent.fromJson(clientStr,AddRemoveCardMessage.class);
+                    return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
                 default:
                     return null;
             }
@@ -119,6 +117,10 @@ public class Server extends Thread {
             ClientMessages clientMessage = extractClientMessage(clientRequest);
             User user;
             ServerMessages serverMessage;
+            if (clientMessage!=null)
+                System.out.println("*** " + clientMessage.getType());
+            else
+                System.out.println("*** null");
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
@@ -153,19 +155,24 @@ public class Server extends Thread {
                     break;
                 case REQUEST:
                     RequestMessage requestMessage = (RequestMessage) clientMessage;
+                    System.out.println("* " + requestMessage.getSubType());
                     switch (requestMessage.getSubType()) {
                         case SEND_FOLLOW_REQUEST:
+                            System.out.println("send request in server");
                             requestService.createFriendRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case ACCEPT_FOLLOW_REQUEST:
                             requestService.acceptFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case REJECT_FOLLOW_REQUEST:
+                            System.out.println("line 168: " + requestMessage.getOriginUsername() + " " + requestMessage.getDestinationUsername());
                             requestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                     }
-                case GET_LIS_OF_NAMES:
+                    break;
+                case GET_LIST_OF_NAMES:
                     System.out.println(6);
+                    //assert GetListOfNamesMessage instanceof ClientMessages;
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {

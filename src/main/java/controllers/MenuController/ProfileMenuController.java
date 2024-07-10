@@ -1,7 +1,9 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
 import Server.Messages.Client.RequestMessage;
 import Server.Messages.MessageSubType;
+import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.ProfileMenuMessages;
@@ -19,6 +21,8 @@ public class ProfileMenuController extends UserInfoController {
 
     public static void sendRequest(String origin, String target, MessageSubType subType) {
         RequestMessage requestMessage = new RequestMessage(origin, target, subType);
+        System.out.println("send request line 23: " + origin + " " + target);
+        ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
     }
 
 }

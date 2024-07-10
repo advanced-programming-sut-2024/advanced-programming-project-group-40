@@ -25,11 +25,8 @@ public class Utilities {
     }
 
     public  static ArrayList<String> getListOfNames(String keyName, MessageSubType subType) {
-        System.out.println(2);
         GetListOfNamesMessage getListOfNamesMessage = new GetListOfNamesMessage(keyName, subType);
-        System.out.println(10);
         ServerMessages serverMessages = ClientHandler.client.getListOfNames(getListOfNamesMessage);
-        System.out.println(11);
         String result = serverMessages.getAdditionalInfo();
         boolean success = serverMessages.wasSuccessfull();
         if (!success)

@@ -8,7 +8,7 @@ public class GetListOfNamesMessage extends ClientMessages {
     private MessageSubType subType;
 
     public GetListOfNamesMessage(String keyword, MessageSubType subType) {
-        this.type = MessageType.GET_LIS_OF_NAMES;
+        this.type = MessageType.GET_LIST_OF_NAMES;
         this.keyName = keyword;
         this.subType = subType;
     }

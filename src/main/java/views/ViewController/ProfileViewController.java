@@ -83,11 +83,6 @@ public class ProfileViewController {
         fillVBox(friends, names);
         fillRequestVBox(requests, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FOLLOW_REQUESTS)));
         ArrayList<String> req = Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_FOLLOW_REQUESTS));
-        System.out.println("------------------------------------------------");
-        for (String name : req) {
-            System.out.println("================================");
-            System.out.println(name);
-        }
         fillVBox(sent, req);
         fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_REQUESTS)));
 
@@ -182,6 +177,7 @@ public class ProfileViewController {
             if (clickedImageView.equals(accept)) {
                 ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
             } else {
+                System.out.println("request ba=name " + request);
                 ProfileMenuController.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_FOLLOW_REQUEST);
             }
         } else {
@@ -204,6 +200,7 @@ public class ProfileViewController {
             label.setPrefHeight(16.0);
             label.setPrefWidth(116.0);
             label.setFont(new Font(14.0));
+            label.setCenterShape(true);
             label.setOnMouseClicked(event -> ProfileMenuController.sendRequest(Game.getLoggedInUser().getUsername(), request, MessageSubType.SEND_GAME_REQUEST));
 
             vBox.getChildren().add(label);

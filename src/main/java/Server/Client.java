@@ -18,7 +18,6 @@ public class Client {
     private DataOutputStream sendBuffer;
     private String serverIP;
     private int serverPort;
-
     private Gson gsonAgent;
     private String token;
 
@@ -102,6 +101,10 @@ public class Client {
 
     public ServerMessages getListOfNames(GetListOfNamesMessage getListOfNamesMessage) {
         return getServerMessage(getListOfNamesMessage);
+    }
+
+    public ServerMessages request(RequestMessage requestMessage) {
+        return getServerMessage(requestMessage);
     }
     private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
