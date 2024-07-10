@@ -6,6 +6,7 @@ import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.AlertInfo.messages.LoginMenuMessages;
+import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import models.User;
 
@@ -168,6 +169,28 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
+                        case GAME_REQUEST:
+                            user = getUserByUsername(requestMessage.getDestinationUsername());
+                            if (user == null) {
+                                ServerMessages serverMessages = new ServerMessages(false, PreGameMenuMessages.INVALID_COMPETITOR_USERNAME.toString());
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            } else if (user.getDeckCards().size() < 22) {
+                                ServerMessages serverMessages = new ServerMessages(false, PreGameMenuMessages.NOT_ENOUGH_CARDS.toString());
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            } else {
+                                Socket enemySocket = getUserSocketByName(user.getUsername());
+                                DataInputStream enemyReceiveBuffer = new DataInputStream(
+                                        new BufferedInputStream(enemySocket.getInputStream())
+                                );
+                                DataOutputStream enemySendBuffer = new DataOutputStream(
+                                        new BufferedOutputStream(enemySocket.getOutputStream())
+                                );
+                                enemySendBuffer.writeUTF("kys");
+                                ServerMessages serverMessages = new ServerMessages(true, "sent");
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            }
+                            System.out.println("game req");
+                            break;
                     }
                     break;
                 case GET_LIST_OF_NAMES:
@@ -244,30 +267,7 @@ public class Server extends Thread {
                     ServerMessages removeCardServerMessage = new ServerMessages(true, "Card removed successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(removeCardServerMessage));
                     break;
-                case SEND_GAME_REQUEST:
-                    StartGameMessages message = (StartGameMessages) clientMessage;
-                    user = getUserByUsername(message.getDestinationUsername());
-                    if (user == null) {
-                        ServerMessages serverMessages = new ServerMessages(false, "no such user");
-                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                    } else if (user.getDeckCards().size() < 22) {
-                        ServerMessages serverMessages = new ServerMessages(false, "user deck is not full");
-                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                    }else {
-                        Socket enemySocket =getUserSocketByName(user.getUsername());
-                        DataInputStream enemyReceiveBuffer = new DataInputStream(
-                                new BufferedInputStream(enemySocket.getInputStream())
-                        );
-                        DataOutputStream enemySendBuffer = new DataOutputStream(
-                                new BufferedOutputStream(enemySocket.getOutputStream())
-                        );
 
-                        enemySendBuffer.writeUTF("kys");
-                        ServerMessages serverMessages = new ServerMessages(true, "sent");
-                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
-                    }
-                    System.out.println("game req");
-                    break;
             }
             sendBuffer.close();
             receiveBuffer.close();

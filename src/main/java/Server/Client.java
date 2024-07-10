@@ -119,10 +119,6 @@ public class Client {
         return getServerMessage(loginMessages);
     }
 
-    public ServerMessages startGame(StartGameMessages message) {
-        return getServerMessage(message);
-    }
-
     public void signUp(SignUpMessages signUpMessages) {
         getServerMessage(signUpMessages);
     }

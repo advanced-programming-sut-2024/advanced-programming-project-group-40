@@ -1,5 +1,9 @@
 package controllers.MenuController;
 
+import Server.ClientHandler;
+import Server.Messages.Client.RequestMessage;
+import Server.Messages.MessageSubType;
+import Server.Messages.ServerMessages;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
@@ -34,8 +38,8 @@ public class PreGameMenuController extends UserInfoController {
         PreGameMenuController.specificUser = specificUser;
     }
     public static void startGame(String username) {
-        StartGameMessages message = new StartGameMessages(username);
-        ServerMessages serverMessages = ClientHandler.client.startGame(message);
+        RequestMessage message = new RequestMessage(Game.getLoggedInUser().getUsername(),username, MessageSubType.GAME_REQUEST);
+        ServerMessages serverMessages = ClientHandler.client.request(message);
         System.out.println(serverMessages.getAdditionalInfo());
 
     }
