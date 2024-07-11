@@ -9,11 +9,12 @@ import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import models.Game;
-import views.ViewController.PreGameViewController;
-import enums.cards.CardInfo;
 import views.ViewController.GameViewController;
+import views.ViewController.PreGameViewController;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
@@ -114,6 +115,9 @@ public class Client {
 
     public ServerMessages getUser(GetUserMessage getUserMessage) {
         return getServerMessage(getUserMessage);
+    }
+    public ServerMessages elimination(EliminationMessage eliminationMessage) {
+        return getServerMessage(eliminationMessage);
     }
 
     public ServerMessages getListOfNames(GetListOfNamesMessage getListOfNamesMessage) {
