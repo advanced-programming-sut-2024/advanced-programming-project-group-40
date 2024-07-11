@@ -3,6 +3,8 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.GetUserMessage;
+import Server.Messages.Client.UpdateMessage;
+import Server.Messages.MessageSubType;
 import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
