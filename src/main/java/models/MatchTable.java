@@ -152,7 +152,7 @@ public class MatchTable {
 
     }
 
-    private static int getRowID(Origin origin) {
+    public static int getRowID(Origin origin) {
         switch (origin) {
             case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
                 return 0;
