@@ -220,7 +220,6 @@ public class Server extends Thread {
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                                 break;
                             case GET_ALL_GAMES_IN_PLAY:
-                                // todo madyar
                                 break;
                         }
                         break;
