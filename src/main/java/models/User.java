@@ -56,6 +56,15 @@ public class User {
         leader = new Leader(LeaderInfo.BRINGER_OF_DEATH);
     }
 
+    public User(String username, String password, String email, String nickName, boolean test) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.setSecurityAnswer(nickName);
+        this.stayLoggedIn = false;
+    }
+
+
     public int getRank() {
         return 0;
     }

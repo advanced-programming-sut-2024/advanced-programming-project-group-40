@@ -1,48 +1,83 @@
 package views.ViewController;
 
 
+import Server.Client;
+import Server.ClientHandler;
 import Server.Models.GameBoardVisualData;
 import controllers.MenuController.GameMenuController;
-import enums.Factions;
+import enums.Ability;
 import enums.Origin;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import models.Game;
-import models.MatchTable;
-import models.User;
 import models.UserInputHandler.CardClickCommand;
 import models.cards.Card;
+import models.cards.Hero;
+import models.cards.SpecialCard;
+import models.cards.UnitCard;
 import views.Main;
 import views.PlayMenu;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameViewController extends PlayMenu implements Initializable {
-    private static GameBoardVisualData visualData;
 
-    public static void setVisualData(String Json) {
-        visualData = null;
+    private static final int SPAM_FILTER_TIME = 2000;
+    public VBox vboxMessages;
+    public ScrollPane chat;
+    public CheckBox isReply;
+    public Label ReactionInput;
+    private GameBoardVisualData visualData;
+    private final Stage tempStage = new Stage();
+    Thread spamThread = new Thread(() -> {
+        try {
+
+            Thread.sleep(SPAM_FILTER_TIME);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
+    Thread spamThread2 = new Thread(() -> {
+        try {
+
+            Thread.sleep(SPAM_FILTER_TIME);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
+
+    public void setVisualData(String Json) {
         GameBoardVisualData temp;
         temp = GameBoardVisualData.deSerialize(Json);
-        GameViewController.visualData = temp;
+        this.visualData = temp;
+        update();
     }
 
+    @FXML
+    private TextField messageInput;
+    @FXML
+    private ChoiceBox<String> Messages;
     @FXML
     private HBox secondPlayerLeaderImage;
     @FXML
@@ -134,13 +169,109 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        GameMenuController.setGameViewController2(this);
-        Game.getLoggedInUser().getMatchesPlayed().add(GameMenuController.getMatchTable());
-        GameMenuController.initiateDeck(GameMenuController.getMatchTable());
+        ClientHandler.client.setGameViewController(this);
+        String[] messages = {"kys", "ALI ABD'EL AZIZ", "YOU MAD TERRORIST"
+                , "sure buddy",
+                "nice argument senator why don't you back it up with a source?", "UwU"};
+        Messages.getItems().addAll(messages);
+        emptyMessage();
+        chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+        chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
+        ClientHandler.client.sendCommand("initiateDeck");
         InitiateCardEvents();
-        GameMenuController.sendData();
         update();
     }
+
+    private static Origin GetDestination(Card selectedCard) {
+        if (selectedCard instanceof UnitCard unitCard) {
+            if (unitCard.getAbility() == Ability.SPY) {
+                switch (unitCard.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
+                }
+            } else {
+                switch (unitCard.getUnit()) {
+                    case AGILE -> {
+                        return Origin.FIRSTPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                    case All -> {
+                        return Origin.FIRSTPLAYER_ALL;
+                    }
+                }
+            }
+
+        }
+        if (selectedCard instanceof Hero hero) {
+            if (hero.getAbility() == Ability.SPY) {
+                switch (hero.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.SECONDPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.SECONDPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.SECONDPLAYER_RANGED;
+                    }
+                }
+            } else {
+                switch (hero.getUnit()) {
+                    case AGILE -> {
+                        return Origin.SECONDPLAYER_AGILE;
+
+                    }
+                    case CLOSE_COMBAT -> {
+                        return Origin.FIRSTPLAYER_CLOSECOMBAT;
+                    }
+                    case SIEGE -> {
+                        return Origin.FIRSTPLAYER_SIEGE;
+
+                    }
+                    case RANGED -> {
+                        return Origin.FIRSTPLAYER_RANGED;
+
+                    }
+                }
+            }
+        }
+        if (selectedCard instanceof SpecialCard specialCard) {
+            if (Objects.equals(specialCard.getName(), "Commander's horn")) {
+                return Origin.FIRSTPLAYER_ALL;
+            } else {
+                return Origin.WEATHER;
+
+            }
+        } else return null;
+
+
+    }
+
 
     private void getCards(Pane pane, ArrayList<Card> nodes) {
         ObservableList<Node> children = pane.getChildren();
@@ -159,12 +290,30 @@ public class GameViewController extends PlayMenu implements Initializable {
         getCards(pane, cards);
         for (Card card : cards) {
             card.setOnMouseClicked(_ -> {
-                CardClickCommand cardClickCommand = new CardClickCommand(card, this);
+                CardClickCommand cardClickCommand = new CardClickCommand(card, isSelectable(card), card.getParent().getId());
                 cardClickCommand.excute();
-
-
+                unHighlight();
+                highLightRow(GetDestination(card));
             });
         }
+
+    }
+
+    private static boolean isSelectable(Card selectedCard) {
+        return Objects.equals(selectedCard.getParent().getId(), "Hand");
+    }
+
+    private void InitiateCardEvents(Pane pane) {
+        ArrayList<Card> cards = new ArrayList<>();
+        getCards(pane, cards);
+        for (Card card : cards) {
+            card.setOnMouseClicked(_ -> {
+                CardClickCommand cardClickCommand = new CardClickCommand(card, true, card.getParent().getId());
+                cardClickCommand.excute();
+                tempStage.close();
+            });
+        }
+
     }
 
     public void highLightRow(Origin origin) {
@@ -218,8 +367,81 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void update() {
-        GameMenuController.updatePoints();
-        GameMenuController.sendData();
+        if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn());
+        if (visualData.getReaction() != null) {
+            ReactionInput.setText(visualData.getReaction());
+
+            Thread removeMessageThread = new Thread(() -> {
+                try {
+
+                    Thread.sleep(5000);
+                    Platform.runLater(() -> messageInput.setText(""));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            removeMessageThread.start();
+
+
+        }
+        if (visualData.isThereAMessage()) {
+            HBox hBox = new HBox();
+            if (visualData.isReply()) {
+                if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."replyingTo:\{visualData.getUserName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                } else {
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                }
+
+            } else {
+                if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
+                    hBox.setAlignment(Pos.CENTER_RIGHT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                } else {
+                    hBox.setAlignment(Pos.CENTER_LEFT);
+                    hBox.setPadding(new Insets(5, 5, 5, 10));
+                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
+                    TextFlow textFlow = new TextFlow(text);
+                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                            "-fx-background-radius: 20px;"
+                            + "-fx-color-label-visible: rgb(239,242,255);");
+                    textFlow.setPadding(new Insets(5, 10, 5, 10));
+                    hBox.getChildren().add(textFlow);
+                    vboxMessages.getChildren().add(hBox);
+                }
+
+            }
+        }
         if (visualData.isFirstPlayerTurn()) {
             if (visualData.getLeader(0) != null) {
                 if (firstPlayerLeaderImage != null) {
@@ -365,8 +587,7 @@ public class GameViewController extends PlayMenu implements Initializable {
             firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
             firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
             secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-        }
-        else {
+        } else {
             if (visualData.getLeader(1) != null) {
                 if (firstPlayerLeaderImage != null) {
                     if (firstPlayerLeaderImage.getChildren().isEmpty()) {
@@ -526,62 +747,245 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
     }
 
-    public void secondPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
+    public void secondPlayerSiegeClicked() {
+        ClientHandler.client.sendCommand("secondPlayerSiegeClicked");
     }
 
-    public void secondPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_RANGED);
+    public void secondPlayerRangedClicked() {
+        ClientHandler.client.sendCommand("secondPlayerRangedClicked");
     }
 
 
-    public void secondPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
+    public void secondPlayerCloseCombatClicked() {
+        ClientHandler.client.sendCommand("secondPlayerCloseCombatClicked");
     }
 
-    public void firstPlayerCloseCombatClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_CLOSECOMBAT);
+    public void firstPlayerCloseCombatClicked() {
+        ClientHandler.client.sendCommand("firstPlayerCloseCombatClicked");
     }
 
-    public void firstPlayerRangedClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_RANGED);
+    public void firstPlayerRangedClicked() {
+        ClientHandler.client.sendCommand("firstPlayerRangedClicked");
     }
 
-    public void firstPlayerSiegeClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnRow(Origin.FIRSTPLAYER_SIEGE);
+    public void firstPlayerSiegeClicked() {
+        ClientHandler.client.sendCommand("firstPlayerSiegeClicked");
     }
 
-    public void closeCombatBoostClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnBoost(0);
-        update();
+    public void closeCombatBoostClicked() {
+        ClientHandler.client.sendCommand("0");
     }
 
-    public void rangedBoostClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnBoost(1);
-        update();
+    public void rangedBoostClicked() {
+        ClientHandler.client.sendCommand("1");
     }
 
-    public void siegeBoostClicked(MouseEvent mouseEvent) {
-        GameMenuController.ClickedOnBoost(2);
-        update();
+    public void siegeBoostClicked() {
+        ClientHandler.client.sendCommand("2");
     }
 
-    public void weatherClicked(MouseEvent mouseEvent) {
-        GameMenuController.clickedOnWeather();
-        update();
+    public void weatherClicked() {
+        ClientHandler.client.sendCommand("weatherClicked");
     }
 
     public HBox getFirstPlayerDiscard() {
         return firstPlayerDiscard;
     }
 
-    public void LeaderAction(MouseEvent mouseEvent) {
-        GameMenuController.LeaderAction();
+    public void LeaderAction() {
+        ClientHandler.client.sendCommand("LeaderAction");
         update();
     }
 
-    public void PassRound(MouseEvent mouseEvent) {
-        GameMenuController.passRound();
+    public void PassRound() {
+        ClientHandler.client.sendCommand("PassRound");
+    }
+
+    public void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {
+
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> selectedCards;
+        if (isFirstPlayerTurn) {
+            selectedCards = new ArrayList<>(visualData.getCardArrayByArrayName("firstPlayerDeck"));
+        } else {
+            selectedCards = new ArrayList<>(visualData.getCardArrayByArrayName("secondPlayerDeck"));
+        }
+        hBox.getChildren().addAll(selectedCards);
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+
+    public void MakeCommanderOfRedRidersWindow(boolean isFirstPlayerTurn) {
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        ArrayList<Card> weatherCards = new ArrayList<>();
+
+        if (isFirstPlayerTurn) {
+            for (Card card : visualData.getCardArrayByArrayName("firstPlayerDeck")) {
+                if (card instanceof SpecialCard) {
+                    if (!(Objects.equals(card.getName(), "Commander’s horn") ||
+                            Objects.equals(card.getName(), "Scorch") ||
+                            Objects.equals(card.getName(), "Mardroeme"))
+                    ) {
+                        weatherCards.add(card);
+                    }
+
+                }
+            }
+        } else {
+            for (Card card : visualData.getCardArrayByArrayName("secondPlayerDeck")) {
+                if (card instanceof SpecialCard) {
+                    if (!(Objects.equals(card.getName(), "Commander’s horn") ||
+                            Objects.equals(card.getName(), "Scorch") ||
+                            Objects.equals(card.getName(), "Mardroeme"))
+                    ) {
+                        weatherCards.add(card);
+                    }
+
+                }
+            }
+        }
+        hBox.getChildren().addAll(weatherCards);
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+
+    public void MakeMedicWindow(boolean isFirstPlayerTurn) {
+        this.getFirstPlayerDiscard().getChildren().clear();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        if (isFirstPlayerTurn) {
+            hBox.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerDiscard"));
+        } else {
+            hBox.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerDiscard"));
+        }
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+
+    public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
+        ArrayList<Card> randomCards = new ArrayList<>();
+        int i = 0;
+        int size = deck.size();
+        while (i < numOfRandomCards) {
+            if (deck.isEmpty() || deck.size() < numOfRandomCards) {
+                return randomCards;
+            }
+            Card tempCard = deck.get(Game.random.nextInt(size));
+            if (!randomCards.contains(tempCard)) {
+                randomCards.add(tempCard);
+                i++;
+            }
+        }
+        return randomCards;
+    }
+
+    public void MakeKingOfWildHuntWindow(boolean isFirstPlayerTurn) {
+        this.getFirstPlayerDiscard().getChildren().clear();
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        if (isFirstPlayerTurn) {
+            for (Card card : visualData.getCardArrayByArrayName("firstPlayerDiscard")) {
+                if (!(card instanceof Hero)) {
+                    hBox.getChildren().add(card);
+                }
+            }
+
+        } else {
+            for (Card card : visualData.getCardArrayByArrayName("secondPlayerDiscard")) {
+                if (!(card instanceof Hero)) {
+                    hBox.getChildren().add(card);
+                }
+            }
+        }
+        tempStage.setScene(scene);
+        tempStage.show();
+        InitiateCardEvents(hBox);
+    }
+
+    public void MakeHisImperialMajestyWindow(boolean isFirstPlayerTurn) {
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        if (isFirstPlayerTurn) {
+
+            hBox.getChildren().addAll(randomSelectedCards(visualData.getCardArrayByArrayName("firstPlayerInPlay"), 3));
+        } else {
+            hBox.getChildren().addAll(randomSelectedCards(visualData.getCardArrayByArrayName("secondPlayerInPlay"), 3));
+        }
+        tempStage.setScene(scene);
+        tempStage.show();
+    }
+
+    private void emptyMessage() {
+        messageInput.setText("");
+    }
+
+    public void SendReaction() {
+        if (!spamThread.isAlive()) {
+            if (Messages.getValue() != null) {
+                try {
+                    spamThread.start();
+                } catch (Exception q) {
+                    spamThread = new Thread(() -> {
+                        try {
+
+                            Thread.sleep(SPAM_FILTER_TIME);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    spamThread.start();
+                }
+
+                ClientHandler.client.sendCommand(STR."message \{Messages.getValue()}");
+
+            }
+        }
+
+    }
+
+    public void SendMessage() {
+        if (!spamThread2.isAlive()) {
+            if (!messageInput.getText().isEmpty()) {
+                try {
+                    spamThread2.start();
+                } catch (Exception q) {
+                    spamThread2 = new Thread(() -> {
+                        try {
+
+                            Thread.sleep(SPAM_FILTER_TIME);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    spamThread2.start();
+
+                }
+                if (isReply.isSelected()) {
+                    ClientHandler.client.sendCommand("chat true" + messageInput.getText());
+                } else {
+                    ClientHandler.client.sendCommand("chat false" + messageInput.getText());
+                }
+                messageInput.setText("");
+            }
+        }
         update();
     }
 }

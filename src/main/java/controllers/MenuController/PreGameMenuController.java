@@ -1,5 +1,7 @@
 package controllers.MenuController;
 
+import Server.Messages.MessageSubType;
+
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
@@ -10,7 +12,7 @@ import models.User;
 
 public class PreGameMenuController extends UserInfoController {
 
-    private static String specificUser;
+    private static String specificUser = "";
 
     public static AlertMaker checkCompetitorData(String username) {
 
@@ -32,5 +34,13 @@ public class PreGameMenuController extends UserInfoController {
 
     public static void setSpecificUser(String specificUser) {
         PreGameMenuController.specificUser = specificUser;
+    }
+
+    public static void startGame(String username) {
+        Utilities.sendRequest(Game.getLoggedInUser().getUsername(), username, MessageSubType.GAME_REQUEST);
+    }
+
+    public static boolean isCompetitorValid(User user) {
+        return user.getNumberOfUnitCards() >= 22 && user.getNumberOfSpecialCards() <= 10;
     }
 }

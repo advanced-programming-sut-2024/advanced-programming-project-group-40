@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="pane" alignment="CENTER" prefHeight="700.0" prefWidth="1150.0" stylesheets="@../CSS/GameBoard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.SpectatorViewController">
+
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+   <VBox prefHeight="701.0" prefWidth="192.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <StackPane prefHeight="135.0" prefWidth="117.0" styleClass="leaderholder">
+            <children>
+               <HBox fx:id="secondPlayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
+      </Pane>
+      <StackPane>
+         <Pane prefHeight="200.0" prefWidth="200.0" styleClass="infoholderbackground" />
+         <Pane prefHeight="200.0" prefWidth="200.0">
+            <Label fx:id="secondPlayerFaction" alignment="CENTER" layoutY="105.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
+            <Label fx:id="secondPlayerName" alignment="CENTER" layoutY="73.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
+            <StackPane fx:id="secondPlayerFactionImage" layoutX="-2.0" layoutY="-3.0" prefHeight="72.0" prefWidth="76.0" styleClass="factionimage" />
+            <StackPane layoutX="79.0" layoutY="1.0" prefHeight="32.0" prefWidth="32.0" styleClass="cardimage" />
+            <Label fx:id="secondPlayerRemainingCards" layoutX="111.0" layoutY="1.0" prefHeight="32.0" prefWidth="76.0" text="20" textFill="#00e7ff">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <StackPane fx:id="secondPLayerCrystal1" layoutX="95.0" layoutY="41.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
+            <StackPane fx:id="secondPLayerCrystal2" layoutX="127.0" layoutY="41.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
+            <Label fx:id="secondPlayerTotalScore" layoutX="178.0" layoutY="59.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+         </Pane>
+      </StackPane>
+      <Pane prefHeight="221.0" prefWidth="192.0" styleClass="weather">
+         <children>
+            <HBox fx:id="spellCards" layoutX="3.0" layoutY="28.0" prefHeight="100.0" prefWidth="185.0" />
+         </children></Pane>
+      <StackPane>
+         <Pane prefHeight="200.0" prefWidth="200.0" styleClass="infoholderbackground" />
+         <Pane prefHeight="200.0" prefWidth="200.0">
+            <StackPane layoutX="80.0" prefHeight="32.0" prefWidth="32.0" styleClass="cardimage" />
+            <StackPane fx:id="firstPlayerFactionImage" prefHeight="72.0" prefWidth="76.0" styleClass="factionimage" />
+            <Label fx:id="firstPlayerFaction" alignment="CENTER" layoutY="106.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
+            <Label fx:id="firstPlayerName" alignment="CENTER" layoutY="74.0" prefHeight="32.0" prefWidth="192.0" text="11111111111111111" textAlignment="CENTER" textFill="#00e7ff" />
+            <Label fx:id="firstPlayerRemainingCards" layoutX="112.0" layoutY="-1.0" prefHeight="32.0" prefWidth="76.0" text="20" textFill="#00e7ff">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+            <StackPane fx:id="firstPLayerCrystal1" layoutX="96.0" layoutY="35.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
+            <StackPane fx:id="firstPLayerCrystal2" layoutX="128.0" layoutY="35.0" prefHeight="32.0" prefWidth="32.0" styleClass="crystal" />
+            <Label fx:id="firstPlayerTotalScore" layoutX="178.0" layoutY="59.0" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+         </Pane>
+      </StackPane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <StackPane layoutX="-1.0" layoutY="-1.0" prefHeight="136.0" prefWidth="117.0" styleClass="leaderholder">
+            <children>
+               <HBox fx:id="firstplayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
+      </Pane>
+   </VBox>
+   <Pane prefHeight="699.0" prefWidth="747.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+      <VBox alignment="CENTER" layoutX="141.0" layoutY="86.0" prefHeight="255.0" prefWidth="586.0">
+         <HBox fx:id="secondPlayerSiege" alignment="CENTER" prefHeight="100.0" prefWidth="631.0" styleClass="siege" />
+         <HBox fx:id="secondPlayerRanged" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="ranged" />
+         <HBox fx:id="secondPlayerCloseCombat" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="closecombat" />
+      </VBox>
+      <VBox alignment="CENTER" layoutX="141.0" layoutY="345.0" prefHeight="255.0" prefWidth="586.0" stylesheets="@../CSS/GameBoard.css">
+         <HBox fx:id="firstPlayerCloseCombat" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="closecombat" />
+         <HBox fx:id="firstPlayerRanged" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="ranged" />
+         <HBox fx:id="firstPlayerSiege" alignment="CENTER" prefHeight="100.0" prefWidth="625.0" styleClass="siege" />
+      </VBox>
+      <HBox fx:id="Hand" alignment="CENTER" layoutX="43.0" layoutY="601.0" prefHeight="100.0" prefWidth="686.0" styleClass="hand" />
+      <VBox alignment="TOP_CENTER" layoutX="49.0" layoutY="87.0" prefHeight="512.0" prefWidth="92.0">
+         <StackPane prefHeight="134.0" prefWidth="140.0" styleClass="special">
+            <children>
+               <HBox fx:id="secondplayersiegespecial" alignment="CENTER" prefHeight="93.0" prefWidth="117.0" StackPane.alignment="CENTER" />
+            </children>
+         </StackPane>
+         <StackPane prefHeight="136.0" prefWidth="173.0" styleClass="special">
+            <children>
+               <HBox fx:id="secondplayerrangedspecial" alignment="CENTER" prefHeight="100.0" prefWidth="50.0" StackPane.alignment="CENTER" />
+            </children>
+         </StackPane>
+         <StackPane prefHeight="143.0" prefWidth="151.0" styleClass="special">
+            <children>
+               <HBox fx:id="secondplayerclosecombatspecial" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children>
+         </StackPane>
+         <StackPane prefHeight="145.0" prefWidth="163.0" styleClass="special">
+            <children>
+               <HBox fx:id="firstplayerclosecombatspecial" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children>
+         </StackPane>
+         <StackPane prefHeight="145.0" prefWidth="154.0" styleClass="special">
+            <children>
+               <HBox fx:id="firstplayerrangedspecial" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children>
+         </StackPane>
+         <StackPane prefHeight="137.0" prefWidth="193.0" styleClass="special">
+            <children>
+               <HBox fx:id="firstplayersiegespecial" alignment="CENTER" prefHeight="197.0" prefWidth="201.0" StackPane.alignment="CENTER" />
+            </children>
+         </StackPane>
+      </VBox>
+      <Label fx:id="SecondPlayerSiegeNum" layoutX="14.0" layoutY="41.0" text="Label" textFill="WHITE" />
+      <Label fx:id="SecondPlayerRangedNum" layoutX="14.0" layoutY="141.0" text="Label" textFill="WHITE" />
+      <Label fx:id="SecondPlayerCloseCombatNum" layoutX="14.0" layoutY="238.0" text="Label" textFill="WHITE" />
+      <Label fx:id="FirstPlayerCloseCombatNum" layoutX="14.0" layoutY="341.0" text="Label" textFill="WHITE" />
+      <Label fx:id="FirstPlayerRangedNum" layoutX="14.0" layoutY="441.0" text="Label" textFill="WHITE" />
+      <Label fx:id="FirstPlayerSiegeNum" layoutX="14.0" layoutY="542.0" text="Label" textFill="WHITE" />
+      <HBox fx:id="SecondPlayerHand" alignment="CENTER" layoutX="43.0" prefHeight="100.0" prefWidth="686.0" styleClass="hand" />
+   </Pane>
+   <Pane prefHeight="699.0" prefWidth="231.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+      <Pane layoutX="-2.0" prefHeight="239.0" prefWidth="231.0">
+         <StackPane layoutX="14.0" layoutY="14.0" prefHeight="124.0" prefWidth="98.0" styleClass="discard">
+            <children>
+               <HBox fx:id="secondPlayerDiscard" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
+         <StackPane layoutX="132.0" layoutY="14.0" prefHeight="124.0" prefWidth="98.0" styleClass="deck" />
+         <Label fx:id="secondplayerdeckamount" alignment="CENTER" layoutX="142.0" layoutY="145.0" prefHeight="17.0" prefWidth="76.0" text="20" textAlignment="CENTER" textFill="#fa9f48">
+            <font>
+               <Font size="28.0" />
+            </font>
+         </Label>
+         <Label layoutX="14.0" layoutY="165.0" text="public Chat" textFill="#a8a8a8">
+            <font>
+               <Font size="29.0" />
+            </font>
+         </Label>
+      </Pane>
+      <Pane layoutY="462.0" prefHeight="239.0" prefWidth="231.0">
+         <StackPane layoutX="14.0" layoutY="57.0" prefHeight="124.0" prefWidth="98.0" styleClass="discard">
+            <children>
+               <HBox fx:id="firstPlayerDiscard" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
+            </children></StackPane>
+         <StackPane layoutX="119.0" layoutY="58.0" prefHeight="124.0" prefWidth="98.0" styleClass="deck" />
+         <Label fx:id="firstplayerdeckamount" alignment="CENTER" layoutX="127.0" layoutY="188.0" prefHeight="17.0" prefWidth="76.0" text="20" textAlignment="CENTER" textFill="#fa9f48">
+            <font>
+               <Font size="28.0" />
+            </font>
+         </Label>
+      </Pane>
+      <ScrollPane fx:id="chat" layoutX="12.0" layoutY="210.0" prefHeight="200.0" prefWidth="200.0">
+         <content>
+            <VBox fx:id="vboxMessages" prefHeight="195.0" prefWidth="195.0">
+            </VBox>
+         </content>
+      </ScrollPane>
+      <TextField fx:id="textInput" layoutX="12.0" layoutY="418.0" prefHeight="25.0" prefWidth="200.0" promptText="type message" />
+      <Button layoutX="91.0" layoutY="450.0" mnemonicParsing="false" onMouseClicked="#sendMessage" text="send" />
+   </Pane>
+</GridPane>

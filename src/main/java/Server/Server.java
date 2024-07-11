@@ -1,20 +1,28 @@
 package Server;
 
+import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
+import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.MenuController.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
+import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import enums.cards.HeroInfo;
+import enums.cards.LeaderInfo;
+import enums.cards.SpecialCardInfo;
+import enums.cards.UnitCardInfo;
+import models.Game;
 import models.User;
+import models.cards.*;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
@@ -24,6 +32,10 @@ public class Server extends Thread {
     private static final ArrayList<Socket> connections = new ArrayList<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
+    private static final HashMap<String, String> requestedGames = new HashMap<>();
+    private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
+    private static SQLDataBase sqlDataBase;
+    private static boolean requestSent = false;
 
     private static void setupServer() {
         try {
@@ -95,6 +107,14 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
                 case ADD_CARD, REMOVE_CARD:
                     return gsonAgent.fromJson(clientStr, AddRemoveCardMessage.class);
+                case UPDATE:
+                    return gsonAgent.fromJson(clientStr, UpdateMessage.class);
+                case ACCEPT_REJECT_REQUEST:
+                    return gsonAgent.fromJson(clientStr, AcceptRejectRequest.class);
+                case CHANGE_MATCH_TABLE_DATA:
+                    return gsonAgent.fromJson(clientStr, ChangeMatchTableDataMessages.class);
+                case CLICKED_ON_CARD:
+                    return gsonAgent.fromJson(clientStr, ClickedOnCardMessages.class);
                 default:
                     return null;
             }
@@ -120,10 +140,7 @@ public class Server extends Thread {
             switch (Objects.requireNonNull(clientMessage).getType()) {
                 case LOGIN:
                     LoginMessages loginMessage = (LoginMessages) clientMessage;
-//                    System.out.println(loginMessage.getKeyName() + " " + loginMessage.getPassword());
                     user = getUserByUsername(loginMessage.getUsername().trim());
-//                    System.out.println(allUsers);
-                    System.out.println(loginMessage.getUsername());
                     if (user == null) {
                         serverMessage = new ServerMessages(false, LoginMenuMessages.INCORRECT_USERNAME.toString());
                     } else if (!user.getPassword().equals(loginMessage.getPassword())) {
@@ -137,10 +154,12 @@ public class Server extends Thread {
                     SignUpMessages signUpMessage = (SignUpMessages) clientMessage;
                     user = signUpMessage.getUser();
                     allUsers.add(user);
+                    sqlDataBase.addUser(user);
+                    requestedGames.put(user.getUsername(), "");
                     break;
                 case GET_USER:
                     GetUserMessage getUserMessage = (GetUserMessage) clientMessage;
-                    user = getUserByUsername(getUserMessage.getUsername());
+                    user = sqlDataBase.getUserWithUsername(getUserMessage.getUsername());
                     if (user == null) {
                         serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
                     } else {
@@ -170,10 +189,19 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
+                        case MAKE_PERSON_GO_TO_PRE_GAME:
+
+                            break;
+                        case GAME_REQUEST:
+                            requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
+                            break;
+                        case CHECK_ONLINE:
+                            serverMessage = new ServerMessages(onlineStatus.get(requestMessage.getDestinationUsername()), "");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            break;
                     }
                     break;
                 case GET_LIST_OF_NAMES:
-                    //assert GetListOfNamesMessage instanceof ClientMessages;
                     GetListOfNamesMessage getListOfNamesMessage = (GetListOfNamesMessage) clientMessage;
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
@@ -226,6 +254,7 @@ public class Server extends Thread {
                     }
                     ServerMessages addCardServerMessage = new ServerMessages(true, "Card added successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(addCardServerMessage));
+                    sqlDataBase.updateUser(user, user.getUsername());
                     break;
                 case REMOVE_CARD:
                     AddRemoveCardMessage removeCardMessage = (AddRemoveCardMessage) clientMessage;
@@ -243,6 +272,72 @@ public class Server extends Thread {
                     }
                     ServerMessages removeCardServerMessage = new ServerMessages(true, "Card removed successfully!");
                     sendBuffer.writeUTF(gsonAgent.toJson(removeCardServerMessage));
+                    sqlDataBase.updateUser(user, user.getUsername());
+                    break;
+                case UPDATE:
+                    UpdateMessage updateMessage = (UpdateMessage) clientMessage;
+                    user = getUserByUsername(updateMessage.getOriginUsername());
+                    assert user != null;
+                    onlineStatus.put(user.getUsername(), true);
+                    MessageSubType subType = updateMessage.getSubType();
+                    switch (subType) {
+                        case PREGAME_UPDATE:
+                            assert user != null;
+                            String requestedUser = requestedGames.get(user.getUsername());
+                            if (!requestedUser.isEmpty()) {
+                                if (requestedGames.get(requestedUser).equals(user.getUsername())) {
+                                    requestedGames.put(user.getUsername(), "");
+                                    requestedGames.put(requestedUser, "");
+                                    serverMessage = new ServerMessages(true, "accept");
+                                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                } else if (requestedUser.equals("decline")) {
+                                    requestedGames.put(user.getUsername(), "");
+                                    requestedGames.put(requestedUser, "");
+                                    serverMessage = new ServerMessages(true, "decline");
+                                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                } else {
+                                    if (!requestSent) {
+                                        serverMessage = new ServerMessages(true, requestedUser);
+                                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                        requestSent = true;
+                                    } else {
+                                        serverMessage = new ServerMessages(false, "no request");
+                                        sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                                    }
+                                }
+                            } else {
+                                serverMessage = new ServerMessages(false, "no request");
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            }
+                            break;
+                        case MAIN_MENU_UPDATE:
+                            ServerMessages serverMessages = new ServerMessages(true, "Main Menu Updated");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            break;
+                        case RESET_GAME_REQUEST:
+                            requestSent = false;
+                            break;
+                      case GAME_UPDATE:
+                        //todo
+                        break;
+                    }
+                    break;
+                case ACCEPT_REJECT_REQUEST:
+                    AcceptRejectRequest acceptRejectRequest = (AcceptRejectRequest) clientMessage;
+                    if (acceptRejectRequest.isAccept()) {
+                        requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
+                    } else {
+                        requestedGames.put(acceptRejectRequest.getUsername(), "decline");
+                    }
+                    
+                    break;
+                case CHANGE_MATCH_TABLE_DATA:
+                    ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
+                    //todo call the GameMenuController function
+                    break;
+                case CLICKED_ON_CARD:
+                    ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
+                    //todo call the GameMenuController function
                     break;
             }
             sendBuffer.close();
@@ -252,8 +347,13 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
+        sqlDataBase = SQLDataBase.getInstance();
+        allUsers.addAll(sqlDataBase.getAllUsers());
+        for (User user : allUsers) {
+            requestedGames.put(user.getUsername(), "");
+            onlineStatus.put(user.getUsername(), false);
+        }
         try {
             Server.setupServer();
             Server server1 = new Server();
@@ -275,9 +375,4 @@ public class Server extends Thread {
         return null;
     }
 
-    public static void addUser(User user) {
-        System.out.println(allUsers);
-        allUsers.add(user);
-        System.out.println(allUsers);
-    }
 }

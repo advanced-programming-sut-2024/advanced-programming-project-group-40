@@ -72,7 +72,6 @@ public class Game {
     public static ArrayList<Card> setAllCards() {
         ArrayList<Card> allCards = new ArrayList<>();
         for (UnitCardInfo unitCardInfo : UnitCardInfo.values()) {
-            UnitCard unitCard = new UnitCard(unitCardInfo);
             allCards.add(new UnitCard(unitCardInfo));
         }
         for (HeroInfo heroInfo : HeroInfo.values()) {
@@ -97,4 +96,21 @@ public class Game {
         return allLeaders;
     }
 
+    public static void setInstance(Game game) {
+        loggedInUser = getLoggedInUser();
+        currentMenu = getCurrentMenu();
+        assert allUsers != null;
+        allUsers.clear();
+        allUsers.addAll(getAllUsers());
+        allCards.clear();
+        allCards.addAll(getAllCards());
+        allLeaders.clear();
+        allLeaders.addAll(getAllLeaders());
+        selectedCards.clear();
+    }
+
+    public static void addUser(User user) {
+        assert allUsers != null;
+        allUsers.add(user);
+    }
 }

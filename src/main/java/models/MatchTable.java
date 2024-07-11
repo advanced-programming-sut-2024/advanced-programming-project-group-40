@@ -1,5 +1,6 @@
 package models;
 
+import controllers.MenuController.GameMenuController;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
@@ -13,6 +14,7 @@ import models.cards.*;
 import java.util.*;
 
 public class MatchTable {
+    private final GameMenuController gameMenuController;
     private final User firstPlayer;
     private final User secondPlayer;
     private boolean isFirstPlayerTurn;
@@ -21,7 +23,7 @@ public class MatchTable {
     private int round = 1;
     private Date date;
     private final LeaderEffects leaderEffects = new LeaderEffects();
-
+    private boolean publicGame;
     private int firstPlayerCurrentPoint;
     private int secondPlayerCurrentPoint;
     private final ArrayList<Integer> firstPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
@@ -56,14 +58,19 @@ public class MatchTable {
     private boolean isSecondPlayerLeaderUsed = false;
 
 
-    public MatchTable(User firstPlayer, User secondPlayer) {
+    public MatchTable(User firstPlayer, User secondPlayer, GameMenuController gameMenuController, boolean publicGame) {
+        this.gameMenuController = gameMenuController;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+        this.publicGame = publicGame;
         initializeMatchTable();
     }
 
+    public GameMenuController getGameMenuController() {
+        return gameMenuController;
+    }
 
     public boolean isFirstPlayerTurn() {
         return isFirstPlayerTurn;
@@ -87,43 +94,35 @@ public class MatchTable {
         int retVal = 0;
         ArrayList<Card> row = getRowByID(user_id, rowNumber);
         for (Card card : row) {
-            retVal += ((UnitCard) card).getShowingPower();
+            if (card instanceof UnitCard unitCard) {
+                retVal += unitCard.getShowingPower();
+            }
+            if (card instanceof Hero hero) {
+                retVal += hero.getShowingPower();
+            }
+
         }
         return retVal;
     }
 
     public void doDecoy(CardWrapper decoy, CardWrapper cardToSwap, boolean isFirstPlayerTurn) {
         if (isFirstPlayerTurn) {
-            this.placeCard(decoy
+            placeCard(decoy
                     , 0
                     , getRowID(cardToSwap.getOrigin()));
 
-            this.addToInPlayCards(0, cardToSwap);
+            addToInPlayCards(0, cardToSwap);
         } else {
-            this.placeCard(decoy
+            placeCard(decoy
                     , 1
                     , getRowID(cardToSwap.getOrigin()));
 
-            this.addToInPlayCards(1, cardToSwap);
+            addToInPlayCards(1, cardToSwap);
         }
 
 
     }
 
-    private static int getRowID(Origin origin) {
-        switch (origin) {
-            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
-                return 0;
-            }
-            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
-                return 1;
-            }
-            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
-                return 2;
-            }
-        }
-        return -1;
-    }
 
     public void setPlayerRowScore(int user_id, int rowNumber) {
         boolean areCardsUnderWeather = isRowUnderWeather(rowNumber);
@@ -340,6 +339,14 @@ public class MatchTable {
         return secondPlayerRowPoints;
     }
 
+    public boolean isPublicGame() {
+        return publicGame;
+    }
+
+    public void setPublicGame(boolean publicGame) {
+        this.publicGame = publicGame;
+    }
+
     //gives some random card without removing them from the deck
     public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
         ArrayList<Card> randomCards = new ArrayList<>();
@@ -424,43 +431,43 @@ public class MatchTable {
     public void removeCard(CardWrapper cardWrapper) {
         switch (cardWrapper.getOrigin()) {
             case Origin.FIRSTPLAYER_CLOSECOMBAT:
-                removeCard(cardWrapper.getCard(),firstPlayerCloseCombatRow);
+                removeCard(cardWrapper.getCard(), firstPlayerCloseCombatRow);
                 break;
             case Origin.FIRSTPLAYER_RANGED:
-                removeCard(cardWrapper.getCard(),firstPlayerRangedRow);
+                removeCard(cardWrapper.getCard(), firstPlayerRangedRow);
                 break;
             case Origin.FIRSTPLAYER_SIEGE:
-                removeCard(cardWrapper.getCard(),firstPlayerSiegeRow);
+                removeCard(cardWrapper.getCard(), firstPlayerSiegeRow);
                 break;
             case Origin.SECONDPLAYER_CLOSECOMBAT:
-                removeCard(cardWrapper.getCard(),secondPlayerCloseCombatRow);
+                removeCard(cardWrapper.getCard(), secondPlayerCloseCombatRow);
                 break;
             case Origin.SECONDPLAYER_RANGED:
-                removeCard(cardWrapper.getCard(),secondPlayerRangedRow);
+                removeCard(cardWrapper.getCard(), secondPlayerRangedRow);
                 break;
             case Origin.SECONDPLAYER_SIEGE:
-                removeCard(cardWrapper.getCard(),secondPlayerSiegeRow);
+                removeCard(cardWrapper.getCard(), secondPlayerSiegeRow);
                 break;
             case Origin.FIRSTPLATER_DEAD:
-                removeCard(cardWrapper.getCard(),firstPlayerDeadCards);
+                removeCard(cardWrapper.getCard(), firstPlayerDeadCards);
                 break;
             case Origin.SECONDPLAYER_DEAD:
-                removeCard(cardWrapper.getCard(),secondPlayerDeadCards);
+                removeCard(cardWrapper.getCard(), secondPlayerDeadCards);
                 break;
             case Origin.FIRSTPLAYER_INPLAY:
-                removeCard(cardWrapper.getCard(),firstPlayerInPlayCards);
+                removeCard(cardWrapper.getCard(), firstPlayerInPlayCards);
                 break;
             case Origin.SECONDPLAYER_INPLAY:
-                removeCard(cardWrapper.getCard(),secondPlayerInPlayCards);
+                removeCard(cardWrapper.getCard(), secondPlayerInPlayCards);
                 break;
             case Origin.FIRSTPLAYER_DECK:
-                removeCard(cardWrapper.getCard(),firstPlayerDeckCards);
+                removeCard(cardWrapper.getCard(), firstPlayerDeckCards);
                 break;
             case Origin.SECONDPLAYER_DECK:
-                removeCard(cardWrapper.getCard(),secondPlayerDeckCards);
+                removeCard(cardWrapper.getCard(), secondPlayerDeckCards);
                 break;
             case Origin.WEATHER:
-                removeCard(cardWrapper.getCard(),spellCards);
+                removeCard(cardWrapper.getCard(), spellCards);
                 break;
             default:
 
@@ -648,7 +655,7 @@ public class MatchTable {
     }
 
     public void factionAction(int playerID, Factions faction) {
-        FactionActions.doActionByName(playerID, faction.name(), this);
+        FactionActions.doActionByName(playerID, faction.name, this);
     }
 
 
@@ -1087,6 +1094,23 @@ public class MatchTable {
         }
     }
 
+    public static int getRowID(Origin origin) {
+        switch (origin) {
+            case FIRSTPLAYER_CLOSECOMBAT, SECONDPLAYER_CLOSECOMBAT -> {
+                return 0;
+            }
+            case FIRSTPLAYER_RANGED, SECONDPLAYER_RANGED -> {
+                return 1;
+            }
+            case FIRSTPLAYER_SIEGE, SECONDPLAYER_SIEGE -> {
+                return 2;
+            }
+            case FIRSTPLAYER_AGILE, SECONDPLAYER_AGILE -> {
+                return 0;
+            }
+        }
+        return -1;
+    }
     //-----------------------------------------------------private Functions------------------------------------------//
 
 
