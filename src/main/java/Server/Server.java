@@ -385,8 +385,10 @@ public class Server extends Thread {
                                         break;
                                     }
                                 }
+                                boolean online1 = onlineStatus.get(matchTable.getFirstPlayer().getUsername());
+                                boolean online2 = onlineStatus.get(matchTable.getSecondPlayer().getUsername());
                                 GameBoardVisualData visualData = new GameBoardVisualData(matchTable
-                                        , false, false, false, false, false);
+                                        , false, false, false, false, false,online1,online2);
                                 ServerMessages serverMessages3 = new ServerMessages(true, visualData.toJSON());
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessages3));
                                 break;
@@ -404,7 +406,7 @@ public class Server extends Thread {
                             matchTable.getGameMenuController().setMatchTable(matchTable);
                             matchTables.add(matchTable);
                             GameBoardVisualData a = new GameBoardVisualData(matchTable
-                                    , false, false, false, false, false);
+                                    , false, false, false, false, false,true,true);
                             ServerMessages messages = new ServerMessages(true, a.toJSON());
                             sendBuffer.writeUTF(gsonAgent.toJson(messages));
                         } else {
@@ -429,7 +431,7 @@ public class Server extends Thread {
                         assert matchTable != null;
                         matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
                         GameBoardVisualData visualData = new GameBoardVisualData(matchTable
-                                , false, false, false, false, false);
+                                , false, false, false, false, false,true,true);
                         ServerMessages serverMessages = new ServerMessages(true, gsonAgent.toJson(visualData));
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
 
@@ -452,7 +454,7 @@ public class Server extends Thread {
                         matchTable2.getGameMenuController().ClickedOnCard(cardInfo, clickMessage.isSelectable(), clickMessage.getParentID());
                         System.out.println(matchTable2.getGameMenuController().selectedCard.getName());
                         GameBoardVisualData s = new GameBoardVisualData(matchTable2
-                                , false, false, false, false, false);
+                                , false, false, false, false, false,true,true);
                         ServerMessages serverMessages2 = new ServerMessages(true, s.toJSON());
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages2));
                         break;

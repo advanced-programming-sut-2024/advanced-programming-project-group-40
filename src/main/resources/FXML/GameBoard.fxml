@@ -177,7 +177,7 @@
          <Button layoutX="70.0" layoutY="34.0" mnemonicParsing="false" onMouseClicked="#SendReaction" text="Send reaction" />
          <ChoiceBox fx:id="Messages" layoutX="14.0" layoutY="5.0" prefHeight="25.0" prefWidth="199.0" />
       </Pane>
-      <Label fx:id="ReactionInput" alignment="CENTER" layoutX="14.0" layoutY="371.0" prefHeight="91.0" prefWidth="199.0" text="nice argumet senator why dont you back it up with a source?" textAlignment="CENTER" textFill="RED" wrapText="true">
+      <Label fx:id="ReactionInput" alignment="CENTER" layoutX="14.0" layoutY="371.0" prefHeight="91.0" prefWidth="199.0" textAlignment="CENTER" textFill="RED" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>

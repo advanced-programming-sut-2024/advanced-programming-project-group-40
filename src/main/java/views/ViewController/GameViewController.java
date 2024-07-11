@@ -53,7 +53,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     public CheckBox isReply;
     public Label ReactionInput;
     private GameBoardVisualData visualData;
-    private Stage tempStage;
+    private Stage tempStage = new Stage();
     Thread spamThread = new Thread(() -> {
         try {
 
@@ -383,14 +383,14 @@ public class GameViewController extends PlayMenu implements Initializable {
                 MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isKingOfWildHunt())
                 MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
-            if (visualData.getReaction() != null) {
+            if (visualData.getReaction() != null && Objects.equals(ReactionInput.getText(), "")) {
                 ReactionInput.setText(visualData.getReaction());
 
                 Thread removeMessageThread = new Thread(() -> {
                     try {
 
                         Thread.sleep(5000);
-                        Platform.runLater(() -> messageInput.setText(""));
+                        Platform.runLater(() -> ReactionInput.setText(""));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -452,6 +452,11 @@ public class GameViewController extends PlayMenu implements Initializable {
                     }
 
                 }
+            }
+            if (!(visualData.isOnline1()&& visualData.isOnline2())){
+                MakeFuckOffedFromLineWindow();
+                System.out.println("someone got fucked off the line");
+
             }
             if (isFirstPlayerMainUser) {
                 if (visualData.getLeader(0) != null) {
@@ -897,6 +902,18 @@ public class GameViewController extends PlayMenu implements Initializable {
         tempStage.setScene(scene);
         tempStage.show();
         InitiateCardEvents(hBox);
+    }
+
+    public void MakeFuckOffedFromLineWindow() {
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        Label hBox = new Label();
+        hBox.setText("user disconnected from game");
+        Scene scene = new Scene(hBox);
+
+        tempStage.setScene(scene);
+        tempStage.show();
     }
 
     public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {

@@ -63,17 +63,28 @@ public class GameBoardVisualData {
     String userName;
     String time;
     boolean isThereAMessage = false;
+    boolean online1;
+    boolean online2;
 
-    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
+    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty, boolean online1, boolean online2) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
-
+        this.online1 = online1;
+        this.online2 = online2;
         this.isDestroyer = isDestroyer;
         this.isMedic = isMedic;
         this.isRedRider = isRedRider;
         this.isKingOfWildHunt = isKingOfWildHunt;
         this.isImperialMajesty = isImperialMajesty;
         this.Recation = matchTable.getReaction();
+    }
+
+    public boolean isOnline1() {
+        return online1;
+    }
+
+    public boolean isOnline2() {
+        return online2;
     }
 
     private void InitializeArrays(MatchTable matchTable) {

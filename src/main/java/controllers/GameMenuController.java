@@ -358,7 +358,7 @@ public class GameMenuController {
                                 boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
-                , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
+                , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty,true,true);
         return gameBoardVisualData;
     }
 
@@ -366,13 +366,13 @@ public class GameMenuController {
         matchTable.updatePoints();
         matchTable.setReaction(Recation);
         return new GameBoardVisualData(matchTable
-                , false, false, false, false, false);
+                , false, false, false, false, false,true,true);
     }
 
     public  GameBoardVisualData sendDataWithMessage(Message message) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
-                , false, false, false, false, false);
+                , false, false, false, false, false,true,true);
         gameBoardVisualData.setTime(message.getTime());
         gameBoardVisualData.setMessage(message.getMessage());
         gameBoardVisualData.setUsername(message.getUsername());
