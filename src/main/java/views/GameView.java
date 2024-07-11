@@ -14,17 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import models.Game;
-import models.MatchTable;
-import models.User;
-import models.UserInputHandler.ClickCommand;
-import models.cards.Card;
-import models.cards.UnitCard;
-import org.junit.Test;
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 
 public class GameView extends PlayMenu {
