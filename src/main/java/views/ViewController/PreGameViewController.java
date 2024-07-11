@@ -3,6 +3,7 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
+import Server.Messages.Client.RequestMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
 import controllers.DataSaver;
@@ -163,9 +164,7 @@ public class PreGameViewController {
         selectedCardFlowPane.setVgap(8);
         setUpCards();
         System.out.println(Game.getLoggedInUser().getUsername());
-        Platform.runLater(() -> {
-            ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
-        });
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
     }
 
     private void setUpCards() {

@@ -33,6 +33,7 @@ public class Server extends Thread {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
     private static final HashMap<String, String> requestedGames = new HashMap<>();
+    private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
     private static SQLDataBase sqlDataBase;
     private static boolean requestSent = false;
 
@@ -192,7 +193,11 @@ public class Server extends Thread {
 
                             break;
                         case GAME_REQUEST:
-                            requestedGames.put(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
+                            break;
+                        case CHECK_ONLINE:
+                            serverMessage = new ServerMessages(onlineStatus.get(requestMessage.getDestinationUsername()), "");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             break;
                     }
                     break;
@@ -272,6 +277,8 @@ public class Server extends Thread {
                 case UPDATE:
                     UpdateMessage updateMessage = (UpdateMessage) clientMessage;
                     user = getUserByUsername(updateMessage.getOriginUsername());
+                    assert user != null;
+                    onlineStatus.put(user.getUsername(), true);
                     MessageSubType subType = updateMessage.getSubType();
                     switch (subType) {
                         case PREGAME_UPDATE:
@@ -302,6 +309,10 @@ public class Server extends Thread {
                                 serverMessage = new ServerMessages(false, "no request");
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             }
+                            break;
+                        case MAIN_MENU_UPDATE:
+                            ServerMessages serverMessages = new ServerMessages(true, "Main Menu Updated");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
                             break;
                         case RESET_GAME_REQUEST:
                             requestSent = false;
@@ -339,6 +350,10 @@ public class Server extends Thread {
     public static void main(String[] args) {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());
+        for (User user : allUsers) {
+            requestedGames.put(user.getUsername(), "");
+            onlineStatus.put(user.getUsername(), false);
+        }
         try {
             Server.setupServer();
             Server server1 = new Server();

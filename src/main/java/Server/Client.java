@@ -2,6 +2,7 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
+import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -133,21 +134,22 @@ public class Client {
     }
 
     public void update(UpdateMessage updateMessage) {
-        if (updateThread != null)
-            stopUpdateThread();
-        startUpdateThread(updateMessage.getSubType());
+//        if (updateThread != null)
+//            updateThread.;
+        startUpdateThread(updateMessage);
     }
 
-    private void startUpdateThread(MessageSubType messageSubType) {
+    private void startUpdateThread(UpdateMessage updateMessage) {
         updateThread = new Thread(() -> {
             while (true) {
-                UpdateMessage updateMessage = new UpdateMessage(Game.getLoggedInUser().getUsername(), messageSubType);
                 ServerMessages serverMessages = getServerMessage(updateMessage);
+                MessageSubType messageSubType = updateMessage.getSubType();
                 if (serverMessages == null) {
                     try {
                         System.out.println("Server is not responding");
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         e.printStackTrace();
                     }
                     continue;
@@ -165,6 +167,7 @@ public class Client {
                                 alert.setHeaderText("Game Request");
                                 alert.setContentText("Game Request from " + serverMessages.getAdditionalInfo());
                                 alert.showAndWait();
+                                System.out.println(Game.getLoggedInUser().getUsername());
                                 if (alert.getResult().getText().equals("OK")) {
                                     PreGameViewController.startGameStatus = "Game Started";
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
@@ -203,6 +206,7 @@ public class Client {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }
@@ -213,16 +217,19 @@ public class Client {
     private void finishGame() {
         //todo
     }
-    public void clickedOnCard(ClickedOnCardMessages messages){
+
+    public void clickedOnCard(ClickedOnCardMessages messages) {
         getServerMessage(messages);
 
     }
-    public void sendCommand(String command){
+
+    public void sendCommand(String command) {
         ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
         getServerMessage(messages);
 
 
     }
+
     private void stopUpdateThread() {
         updateThread.interrupt();
     }

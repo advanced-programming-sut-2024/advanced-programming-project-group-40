@@ -38,7 +38,6 @@ public class PreGameMenuController extends UserInfoController {
 
     public static void startGame(String username) {
         Utilities.sendRequest(Game.getLoggedInUser().getUsername(), username, MessageSubType.GAME_REQUEST);
-
     }
 
     public static boolean isCompetitorValid(User user) {
