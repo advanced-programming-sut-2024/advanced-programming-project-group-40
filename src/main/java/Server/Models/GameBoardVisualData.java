@@ -77,14 +77,11 @@ public class GameBoardVisualData {
         this.isKingOfWildHunt = isKingOfWildHunt;
         this.isImperialMajesty = isImperialMajesty;
         this.Recation = matchTable.getReaction();
+        isEmojiActive = matchTable.isEmoji();
     }
 
     public boolean isEmojiActive() {
         return isEmojiActive;
-    }
-
-    public void setEmojiActive(boolean emojiActive) {
-        isEmojiActive = emojiActive;
     }
 
     public boolean isOnline1() {

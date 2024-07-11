@@ -378,6 +378,11 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     public void update() {
         isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getFirstPlayerUserName());
+        if (EmojiBRRRRRR.getImage() == null && visualData.isEmojiActive()){
+
+            EmojiBRRRRRR.setImage(new Image(Objects.requireNonNull(Card.class.getResource
+                    ("/Assets/images.jpg")).toExternalForm()));
+        }
         Platform.runLater(() -> {
             if (visualData.isDestroyer())
                 MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
@@ -1050,10 +1055,5 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     public void emojiActive() {
         ClientHandler.client.sendCommand("Emoji");
-        if (EmojiBRRRRRR.getImage() == null){
-
-            EmojiBRRRRRR.setImage(new Image(Objects.requireNonNull(Card.class.getResource
-                    ("/Assets/images.jpg")).toExternalForm()));
-        }
     }
 }
