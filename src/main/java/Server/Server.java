@@ -192,7 +192,7 @@ public class Server extends Thread {
 
                             break;
                         case GAME_REQUEST:
-                            requestedGames.put(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
                             break;
                     }
                     break;

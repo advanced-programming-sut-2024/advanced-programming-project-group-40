@@ -164,9 +164,7 @@ public class PreGameViewController {
         selectedCardFlowPane.setVgap(8);
         setUpCards();
         System.out.println(Game.getLoggedInUser().getUsername());
-        Platform.runLater(() -> {
-            ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
-        });
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
     }
 
     private void setUpCards() {

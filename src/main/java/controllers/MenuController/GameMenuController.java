@@ -431,7 +431,13 @@ public class GameMenuController {
             };
         }
     }
-    public  User changeTurn(User user1, User user2){
+    public static User changeTurnShit(User user1, User user2){
+        User temp = user1;
+        user1 = user2;
+        user2 = temp;
+        return user1;
+    }
+    public static User changeShitTurn(User user1, User user2){
         User temp = user1;
         user1 = user2;
         user2 = temp;
