@@ -132,7 +132,7 @@ public class Server extends Thread {
     }
 
 
-    private void handleConnection(Socket socket) {
+    private synchronized void handleConnection(Socket socket) {
         String clientRequest = "";
         try {
             DataInputStream receiveBuffer = new DataInputStream(
@@ -329,7 +329,7 @@ public class Server extends Thread {
                         break;
                     case UPDATE:
                         UpdateMessage updateMessage = (UpdateMessage) clientMessage;
-                        user = getUserByUsername(updateMessage.getOriginUsername());
+                        user = getUserByUsername(updateMessage.getToken());
                         assert user != null;
                         onlineStatus.put(user.getUsername(), true);
                         MessageSubType subType = updateMessage.getSubType();
@@ -406,6 +406,7 @@ public class Server extends Thread {
                             GameBoardVisualData a = new GameBoardVisualData(matchTable
                                     , false, false, false, false, false);
                             ServerMessages messages = new ServerMessages(true, a.toJSON());
+                            sendBuffer.writeUTF(gsonAgent.toJson(messages));
                             System.out.println("yoo");
                         } else {
                             requestedGames.put(acceptRejectRequest.getUsername(), "decline");

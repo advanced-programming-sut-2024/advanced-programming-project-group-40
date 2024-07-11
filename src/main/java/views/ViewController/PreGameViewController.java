@@ -583,8 +583,6 @@ public class PreGameViewController {
                                 }
                             }
                         });
-                        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
-
 
                     } else {
                         Platform.runLater(() -> {

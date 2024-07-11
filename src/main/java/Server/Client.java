@@ -119,6 +119,7 @@ public class Client {
     public ServerMessages getUser(GetUserMessage getUserMessage) {
         return getServerMessage(getUserMessage);
     }
+
     public ServerMessages elimination(EliminationMessage eliminationMessage) {
         return getServerMessage(eliminationMessage);
     }
@@ -188,21 +189,25 @@ public class Client {
                                     sendMessage(gsonAgent.toJson(requestMessage1));
                                     endConnection();
 
-                                    if (messageType==MessageType.ELIMINATION){
+                                    if (messageType == MessageType.ELIMINATION) {
                                         // todo go to pre game
-                                    }
-                                    else {
-                                        try {
-                                            new GameView().start(Game.stage);
-                                        } catch (Exception e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                        //TODO: Start the game
+                                    } else {
                                         Platform.runLater(() ->{
                                             try {
                                                 new GameView().start(Game.stage);
+
                                             } catch (Exception e) {
-                                                throw new RuntimeException(e);
+                                                try {
+                                                    new GameView().start(Game.stage);
+
+                                                } catch (Exception w) {
+                                                    try {
+                                                        new GameView().start(Game.stage);
+
+                                                    } catch (Exception q) {
+                                                        throw new RuntimeException(e);
+                                                    }
+                                                }
                                             }
                                         });
                                     }
@@ -258,9 +263,10 @@ public class Client {
         getServerMessage(messages);
 
     }
-    public synchronized String sendCommand(String command){
+
+    public synchronized String sendCommand(String command) {
         ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
-        ServerMessages serverMessages =getServerMessage(messages);
+        ServerMessages serverMessages = getServerMessage(messages);
         return serverMessages.getAdditionalInfo();
     }
 
