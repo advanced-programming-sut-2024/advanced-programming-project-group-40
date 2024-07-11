@@ -8,7 +8,6 @@ import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import models.Game;
 import models.User;
 
 import java.util.ArrayList;
@@ -47,5 +46,13 @@ public class Utilities {
         RequestMessage requestMessage = new RequestMessage(origin, target,subType);
         ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
         return serverMessages.wasSuccessfull();
+    }
+
+
+    public static boolean isMatchTablePublic( MessageSubType subType){
+//        RequestMessage requestMessage = new RequestMessage(origin, target,subType);
+//        ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
+//        return serverMessages.wasSuccessfull();
+        return true;
     }
 }

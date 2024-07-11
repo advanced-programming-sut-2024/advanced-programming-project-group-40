@@ -4,11 +4,9 @@ import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
-import Server.Models.InterfaceAdapter;
-import Server.Models.MessageAdapter;
+import Server.Models.GameBoardVisualData;
 import Server.Services.EliminationCup.EliminationCup;
 import Server.Services.EliminationCup.Match;
-import Server.Models.GameBoardVisualData;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,10 +20,7 @@ import models.User;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
@@ -220,8 +215,19 @@ public class Server extends Thread {
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                                 break;
                             case GET_ALL_GAMES_IN_PLAY:
-                                // todo madyar
+                                HashMap<String ,String> list=new HashMap<String,String>();
+                                for (MatchTable match : matchTables){
+                                    list.put(match.getFirstPlayer().getUsername(),match.getSecondPlayer().getUsername());
+                                }
+                                if (list == null) {
+                                    serverMessage = new ServerMessages(false, ProfileMenuMessages.USER_NOT_FOUND.toString());
+                                } else {
+                                    String namesToJson = gson.toJson(list);
+                                    serverMessage = new ServerMessages(true, namesToJson);
+                                }
+                                sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                                 break;
+
                         }
                         break;
                     case GET_LIST_OF_NAMES:

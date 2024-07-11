@@ -1,12 +1,9 @@
 package Server;
 
-import Server.ClientHandler;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
-import Server.Models.InterfaceAdapter;
-import Server.Models.MessageAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
