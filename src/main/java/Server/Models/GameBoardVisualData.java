@@ -10,6 +10,7 @@ import models.MatchTable;
 import models.cards.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameBoardVisualData {
     ArrayList<CardInfo> firstPlayerInPlay = new ArrayList<>();
@@ -60,9 +61,11 @@ public class GameBoardVisualData {
     String time;
     boolean isThereAMessage = false;
 
-    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
-        InitializeArrays(matchTable);
-        InitializeVariables(matchTable);
+    public GameBoardVisualData(MatchTable matchTable
+            , boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
+            InitializeArrays(matchTable);
+            InitializeVariables(matchTable);
+
         this.isDestroyer = isDestroyer;
         this.isMedic = isMedic;
         this.isRedRider = isRedRider;
@@ -71,56 +74,58 @@ public class GameBoardVisualData {
     }
 
     private void InitializeArrays(MatchTable matchTable) {
-        fillInfoArray(firstPlayerInPlay, matchTable.getFirstPlayerInPlayCards());
-        fillInfoArray(secondPlayerInPlay, matchTable.getSecondPlayerInPlayCards());
 
-        fillInfoArray(firstPlayerDiscard, matchTable.getFirstPlayerDeadCards());
-        fillInfoArray(secondPlayerDiscard, matchTable.getSecondPlayerDeadCards());
+            fillInfoArray(firstPlayerInPlay, matchTable.getFirstPlayerInPlayCards());
+            fillInfoArray(secondPlayerInPlay, matchTable.getSecondPlayerInPlayCards());
 
-        fillInfoArray(firstPlayerDeck, matchTable.getFirstPlayerDeckCards());
-        fillInfoArray(secondPlayerDeck, matchTable.getSecondPlayerDeckCards());
+            fillInfoArray(firstPlayerDiscard, matchTable.getFirstPlayerDeadCards());
+            fillInfoArray(secondPlayerDiscard, matchTable.getSecondPlayerDeadCards());
+
+            fillInfoArray(firstPlayerDeck, matchTable.getFirstPlayerDeckCards());
+            fillInfoArray(secondPlayerDeck, matchTable.getSecondPlayerDeckCards());
 
 
-        fillInfoArray(firstPlayerCC, matchTable.getFirstPlayerCloseCombatRow());
-        fillInfoArray(firstPlayerRanged, matchTable.getFirstPlayerRangedRow());
-        fillInfoArray(firstPlayerSiege, matchTable.getFirstPlayerSiegeRow());
+            fillInfoArray(firstPlayerCC, matchTable.getFirstPlayerCloseCombatRow());
+            fillInfoArray(firstPlayerRanged, matchTable.getFirstPlayerRangedRow());
+            fillInfoArray(firstPlayerSiege, matchTable.getFirstPlayerSiegeRow());
 
-        fillInfoArray(secondPlayerCC, matchTable.getSecondPlayerCloseCombatRow());
-        fillInfoArray(secondPlayerRanged, matchTable.getSecondPlayerRangedRow());
-        fillInfoArray(secondPlayerSiege, matchTable.getSecondPlayerSiegeRow());
+            fillInfoArray(secondPlayerCC, matchTable.getSecondPlayerCloseCombatRow());
+            fillInfoArray(secondPlayerRanged, matchTable.getSecondPlayerRangedRow());
+            fillInfoArray(secondPlayerSiege, matchTable.getSecondPlayerSiegeRow());
 
-        fillInfoArray(weather, matchTable.getSpellCards());
+            fillInfoArray(weather, matchTable.getSpellCards());
+
     }
 
     private void InitializeVariables(MatchTable matchTable) {
-        firstPlayerCCSpecial = getCardInfoFromCard(matchTable.getFirstPlayerCloseCombatBoostCard());
-        firstPlayerRangedSpecial = getCardInfoFromCard(matchTable.getFirstPlayerRangedBoostCard());
-        firstPlayerSiegeSpecial = getCardInfoFromCard(matchTable.getFirstPlayerSiegeBoostCard());
+            firstPlayerCCSpecial = getCardInfoFromCard(matchTable.getFirstPlayerCloseCombatBoostCard());
+            firstPlayerRangedSpecial = getCardInfoFromCard(matchTable.getFirstPlayerRangedBoostCard());
+            firstPlayerSiegeSpecial = getCardInfoFromCard(matchTable.getFirstPlayerSiegeBoostCard());
 
-        secondPlayerCCSpecial = getCardInfoFromCard(matchTable.getSecondPlayerCloseCombatBoostCard());
-        secondPlayerRangedSpecial = getCardInfoFromCard(matchTable.getSecondPlayerRangedBoostCard());
-        secondPlayerSiegeSpecial = getCardInfoFromCard(matchTable.getSecondPlayerSiegeBoostCard());
-        if (matchTable.getFirstPlayerLeader() != null)
-            firstPlayerLeader = matchTable.getFirstPlayerLeader().getLeaderInfo();
-        if (matchTable.getSecondPlayerLeader() != null)
-            secondPlayerLeader = matchTable.getSecondPlayerLeader().getLeaderInfo();
+            secondPlayerCCSpecial = getCardInfoFromCard(matchTable.getSecondPlayerCloseCombatBoostCard());
+            secondPlayerRangedSpecial = getCardInfoFromCard(matchTable.getSecondPlayerRangedBoostCard());
+            secondPlayerSiegeSpecial = getCardInfoFromCard(matchTable.getSecondPlayerSiegeBoostCard());
+            if (matchTable.getFirstPlayerLeader() != null)
+                firstPlayerLeader = matchTable.getFirstPlayerLeader().getLeaderInfo();
+            if (matchTable.getSecondPlayerLeader() != null)
+                secondPlayerLeader = matchTable.getSecondPlayerLeader().getLeaderInfo();
 
-        firstPlayerCrystals = matchTable.getFirstPlayerCrystals();
-        secondPlayerCrystals = matchTable.getSecondPlayerCrystals();
-        firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 0));
-        firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 1));
-        firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 2));
-        secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 0));
-        secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 1));
-        secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 2));
-        firstPlayerNickName = matchTable.getFirstPlayer().getUsername();
-        secondPlayerNickName = matchTable.getSecondPlayer().getUsername();
-        firstPlayerFaction = matchTable.getFirstPlayer().getFaction().name;
-        secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
-        isFirstPlayerTurn = matchTable.isFirstPlayerTurn();
-        isMatchFinished = matchTable.isMatchFinished();
+            firstPlayerCrystals = matchTable.getFirstPlayerCrystals();
+            secondPlayerCrystals = matchTable.getSecondPlayerCrystals();
+            firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 0));
+            firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 1));
+            firstPlayerPoints.add(matchTable.getPlayerRowScore(0, 2));
+            secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 0));
+            secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 1));
+            secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 2));
+            firstPlayerNickName = matchTable.getFirstPlayer().getUsername();
+            secondPlayerNickName = matchTable.getSecondPlayer().getUsername();
+            firstPlayerFaction = matchTable.getFirstPlayer().getFaction().name;
+            secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
+            isFirstPlayerTurn = matchTable.isFirstPlayerTurn();
+            isMatchFinished = matchTable.isMatchFinished();
+
     }
-
 
     //////////////////////////Serializations
     public String toJSON() {
@@ -326,8 +331,7 @@ public class GameBoardVisualData {
         if (userID == 0) {
             if (firstPlayerLeader == null) return null;
             return new Leader(firstPlayerLeader);
-        }
-        else {
+        } else {
             if (secondPlayerLeader == null) return null;
             return new Leader(secondPlayerLeader);
         }

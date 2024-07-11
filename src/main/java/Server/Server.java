@@ -4,6 +4,8 @@ import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
+import Server.Models.InterfaceAdapter;
+import Server.Models.MessageAdapter;
 import Server.Services.EliminationCup.EliminationCup;
 import Server.Services.EliminationCup.Match;
 import Server.Models.GameBoardVisualData;
@@ -13,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import controllers.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import enums.cards.CardInfo;
 import models.MatchTable;
 import models.User;
 
@@ -122,7 +125,6 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, EliminationMessage.class);
                 case PREGAME:
                     return gsonAgent.fromJson(clientStr, PreGameMessages.class);
-
                 default:
                     return null;
             }
@@ -435,7 +437,6 @@ public class Server extends Thread {
                         break;
                     case CLICKED_ON_CARD:
                         ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
-                        System.out.println(clickMessage.getToken() + " clicked on card");
                         User user2 = getUserByUsername(clickMessage.getToken());
                         MatchTable matchTable2 = null;
                         for (MatchTable matchTable1 : matchTables) {
@@ -447,8 +448,10 @@ public class Server extends Thread {
                                 break;
                             }
                         }
-                        if (matchTable2 == null) System.out.println("bussy is empty");
-                        matchTable2.getGameMenuController().ClickedOnCard(clickMessage.getCardInfo(), clickMessage.isSelectable(), clickMessage.getParentID());
+                        CardInfo cardInfo = CardInfo.returnByName(clickMessage.getCardInfo());
+
+                        matchTable2.getGameMenuController().ClickedOnCard(cardInfo, clickMessage.isSelectable(), clickMessage.getParentID());
+                        System.out.println(matchTable2.getGameMenuController().selectedCard.getName());
                         GameBoardVisualData s = new GameBoardVisualData(matchTable2
                                 , false, false, false, false, false);
                         ServerMessages serverMessages2 = new ServerMessages(true, s.toJSON());

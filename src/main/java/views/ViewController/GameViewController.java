@@ -385,14 +385,14 @@ public class GameViewController extends PlayMenu implements Initializable {
     public void update() {
         Platform.runLater(() -> {
             if (visualData.isDestroyer())
-                MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isRedRider())
-                MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-            if (visualData.isMedic()) MakeMedicWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeCommanderOfRedRidersWindow( visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
+            if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isImperialMajesty())
-                MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isKingOfWildHunt())
-                MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.getReaction() != null) {
                 ReactionInput.setText(visualData.getReaction());
 
@@ -463,7 +463,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
                 }
             }
-            if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn()) {
+            if (isFirstPlayerMainUser) {
                 if (visualData.getLeader(0) != null) {
                     if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {

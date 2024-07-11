@@ -6,6 +6,7 @@ import enums.Unit;
 import models.cards.UnitCard;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public enum UnitCardInfo implements CardInfo {
     BERSERKER("Berserker", "/Assets/Cards/Plane/skellige_berserker.jpg", "/Assets/Cards/Detailed/skellige_berserker.jpg", 4, 1, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.BERSERKER),
@@ -159,5 +160,14 @@ public enum UnitCardInfo implements CardInfo {
     @Override
     public String getType() {
         return "unitCard";
+    }
+
+    public static CardInfo returnByName(String name) {
+        for (UnitCardInfo q : UnitCardInfo.values()){
+            if (Objects.equals(q.toString(), name)){
+                return q;
+            }
+        }
+        return null;
     }
 }

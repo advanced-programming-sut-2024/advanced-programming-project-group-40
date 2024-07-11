@@ -5,6 +5,8 @@ import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
+import Server.Models.InterfaceAdapter;
+import Server.Models.MessageAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
@@ -186,7 +188,6 @@ public class Client {
                             }
                         }
                     }
-                    //TODO: Handle other message subtypes
                 }
                 try {
                     Thread.sleep(500);
@@ -233,7 +234,7 @@ public class Client {
                             throw new RuntimeException(e);
                         }
                         //TODO: Start the game
-                        Platform.runLater(() ->{
+                        Platform.runLater(() -> {
                             try {
                                 new GameView().start(Game.stage);
                                 update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));

@@ -18,7 +18,7 @@ private final String parentID;
 
     @Override
     public void excute() {
-        ClickedOnCardMessages messages = new ClickedOnCardMessages(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
+        ClickedOnCardMessages messages = new ClickedOnCardMessages(GameBoardVisualData.getCardInfoFromCard(card).toString(),isSelectable,parentID);
         ClientHandler.client.clickedOnCard(messages);
         //GameMenuController.ClickedOnCard(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
     }

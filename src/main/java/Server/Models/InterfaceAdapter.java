@@ -30,8 +30,7 @@ public class InterfaceAdapter implements JsonSerializer<CardInfo>, JsonDeseriali
                 return specialCardInfo;
             }
         }
-
-        throw new JsonParseException("Unknown enum type: " + enumName);
+        return jsonDeserializationContext.deserialize(jsonElement,type);
     }
 
     @Override

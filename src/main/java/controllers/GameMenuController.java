@@ -6,6 +6,7 @@ import enums.Origin;
 import enums.cards.CardInfo;
 import models.Chat.Message;
 import models.Chat.ReplyData;
+import models.Game;
 import models.MatchTable;
 import models.User;
 import models.cards.*;
@@ -26,7 +27,7 @@ public class GameMenuController {
         this.matchTable = matchTable;
     }
 
-    private  Card selectedCard;
+    public   Card selectedCard;
 
     public  void ClickedOnCard(CardInfo cardInfo, boolean isSelectable, String parentID) {
         Card selectedCard1 = GameBoardVisualData.getCardsFromEnum(cardInfo);

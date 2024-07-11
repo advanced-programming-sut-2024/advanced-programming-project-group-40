@@ -2,6 +2,8 @@ package enums.cards;
 
 import models.cards.SpecialCard;
 
+import java.util.Objects;
+
 public enum SpecialCardInfo implements CardInfo {
     Mardoeme("Mardroeme","/Assets/Cards/Plane/special_mardroeme.jpg", "/Assets/Cards/Detailed/special_mardroeme.jpg", 3),
     BITING_FROST("Biting Frost", "/Assets/Cards/Plane/weather_frost.jpg", "/Assets/Cards/Detailed/weather_frost.jpg",3),
@@ -30,4 +32,6 @@ public enum SpecialCardInfo implements CardInfo {
     public String getType() {
         return "specialCard";
     }
+
+
 }
