@@ -563,11 +563,14 @@ public class PreGameViewController {
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
 
-                        try {
-                            new GameView().start(Game.stage);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                        Platform.runLater(() ->{
+                            try {
+                                new GameView().start(Game.stage);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+
 
                     } else {
                         Platform.runLater(() -> {
