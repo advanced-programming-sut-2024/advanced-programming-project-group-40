@@ -4,7 +4,6 @@ package views.ViewController;
 import Server.Client;
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
-import Server.Messages.Client.GetListOfNamesMessage;
 import Server.Messages.Client.RequestMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
@@ -567,7 +566,7 @@ public class PreGameViewController {
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
 
-                        Platform.runLater(() ->{
+                        Platform.runLater(() -> {
                             try {
                                 new GameView().start(Game.stage);
 
@@ -585,6 +584,8 @@ public class PreGameViewController {
                                 }
                             }
                         });
+                        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
+
 
                     } else {
                         Platform.runLater(() -> {
@@ -624,6 +625,14 @@ public class PreGameViewController {
     }
 
     public void startRandomGame(MouseEvent mouseEvent) {
+        String userName ;
+        ArrayList<String> userNames = Utilities.getListOfNames("UwU", MessageSubType.GET_ALL_USERNAMES);
+
+        while (true) {
+            userName = userNames.get(Game.random.nextInt(userNames.size()));
+            if (!Objects.equals(userName, Game.getLoggedInUser().getUsername())) break;
+
+        }
         AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.PUBLIC_GAME.toString());
         alert.showAlert();
         if (alert.isOK())
@@ -631,9 +640,10 @@ public class PreGameViewController {
         else
             publicGame = false;
         saveData();
-        AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
+        AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(userName);
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
-            RequestMessage requestMessage = new RequestMessage(loggedInUser.getUsername(), competitorUsername.getText(), MessageSubType.CHECK_ONLINE);
+
+            RequestMessage requestMessage = new RequestMessage(loggedInUser.getUsername(), userName, MessageSubType.CHECK_ONLINE);
             boolean isOnline = ClientHandler.client.request(requestMessage).wasSuccessfull();
             if (!isOnline) {
                 AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_NOT_ONLINE.toString());
@@ -649,7 +659,8 @@ public class PreGameViewController {
             }
             saveData();
             try {
-                PreGameMenuController.startGame(competitorUsername.getText());
+
+                PreGameMenuController.startGame(userName);
                 startGameStatus = "Waiting for response";
                 Thread thread = new Thread(() -> {
                     while (true) {
@@ -677,7 +688,7 @@ public class PreGameViewController {
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
 
-                        Platform.runLater(() ->{
+                        Platform.runLater(() -> {
                             try {
                                 new GameView().start(Game.stage);
 
@@ -695,6 +706,8 @@ public class PreGameViewController {
                                 }
                             }
                         });
+                        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
+
 
                     } else {
                         Platform.runLater(() -> {

@@ -6,6 +6,7 @@ import enums.Origin;
 import enums.cards.CardInfo;
 import models.Chat.Message;
 import models.Chat.ReplyData;
+import models.Game;
 import models.MatchTable;
 import models.User;
 import models.cards.*;
@@ -26,7 +27,7 @@ public class GameMenuController {
         this.matchTable = matchTable;
     }
 
-    private  Card selectedCard;
+    public   Card selectedCard;
 
     public  void ClickedOnCard(CardInfo cardInfo, boolean isSelectable, String parentID) {
         Card selectedCard1 = GameBoardVisualData.getCardsFromEnum(cardInfo);
@@ -173,8 +174,6 @@ public class GameMenuController {
 
 
     public  GameBoardVisualData initiateDeck() {
-        matchTable.getFirstPlayer().getMatchesPlayed().add(matchTable);
-        matchTable.getSecondPlayer().getMatchesPlayed().add(matchTable);
         matchTable.initilizeTable();
         return sendData(false, false, false, false, false);
     }
@@ -359,22 +358,21 @@ public class GameMenuController {
                                 boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
-                , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty);
+                , isDestroyer, isMedic, isRedRider, isKingOfWildHunt, isImperialMajesty,true,true);
         return gameBoardVisualData;
     }
 
     public  GameBoardVisualData sendDataWithReaction(String Recation) {
         matchTable.updatePoints();
-        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
-                , false, false, false, false, false);
-        gameBoardVisualData.setRecation(Recation);
-        return gameBoardVisualData;
+        matchTable.setReaction(Recation);
+        return new GameBoardVisualData(matchTable
+                , false, false, false, false, false,true,true);
     }
 
     public  GameBoardVisualData sendDataWithMessage(Message message) {
         matchTable.updatePoints();
         GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
-                , false, false, false, false, false);
+                , false, false, false, false, false,true,true);
         gameBoardVisualData.setTime(message.getTime());
         gameBoardVisualData.setMessage(message.getMessage());
         gameBoardVisualData.setUsername(message.getUsername());
@@ -412,6 +410,7 @@ public class GameMenuController {
 
         } else {
             return switch (s) {
+                case "emoji" -> Emojiset();
                 case "secondPlayerSiegeClicked" -> ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
                 case "secondPlayerRangedClicked" -> ClickedOnRow(Origin.SECONDPLAYER_RANGED);
                 case "secondPlayerCloseCombatClicked" -> ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
@@ -429,6 +428,15 @@ public class GameMenuController {
             };
         }
     }
+
+    private GameBoardVisualData Emojiset() {
+        matchTable.setEmoji(true);
+        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+                , false, false, false, false, false,true,true);
+        gameBoardVisualData.setEmojiActive(true);
+        return gameBoardVisualData;
+    }
+
     public static User changeTurnShit(User user1, User user2){
         User temp = user1;
         user1 = user2;

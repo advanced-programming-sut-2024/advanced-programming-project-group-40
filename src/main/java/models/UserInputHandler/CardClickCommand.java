@@ -7,10 +7,9 @@ import models.cards.Card;
 
 public class CardClickCommand extends Command {
     private final Card card;
-    private final boolean isSelectable;
-    private final String parentID;
-
-    public CardClickCommand(Card card, boolean isSelectable, String parentID) {
+private final boolean isSelectable;
+private final String parentID;
+    public CardClickCommand(Card card,boolean isSelectable,String parentID) {
         this.card = card;
         this.isSelectable = isSelectable;
         this.parentID = parentID;
@@ -19,7 +18,7 @@ public class CardClickCommand extends Command {
 
     @Override
     public void excute() {
-        ClickedOnCardMessages messages = new ClickedOnCardMessages(GameBoardVisualData.getCardInfoFromCard(card), isSelectable, parentID);
+        ClickedOnCardMessages messages = new ClickedOnCardMessages(GameBoardVisualData.getCardInfoFromCard(card).toString(),isSelectable,parentID);
         ClientHandler.client.clickedOnCard(messages);
         //GameMenuController.ClickedOnCard(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
     }

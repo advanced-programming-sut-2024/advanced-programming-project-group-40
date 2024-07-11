@@ -10,8 +10,12 @@ import models.MatchTable;
 import models.cards.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameBoardVisualData {
+    String firstPlayerUserName;
+    String secondPlayerUserName;
+
     ArrayList<CardInfo> firstPlayerInPlay = new ArrayList<>();
     ArrayList<CardInfo> secondPlayerInPlay = new ArrayList<>();
     ArrayList<CardInfo> firstPlayerDiscard = new ArrayList<>();
@@ -59,18 +63,40 @@ public class GameBoardVisualData {
     String userName;
     String time;
     boolean isThereAMessage = false;
-
-    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
+    boolean online1;
+    boolean online2;
+    boolean isEmojiActive;
+    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty, boolean online1, boolean online2) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
+        this.online1 = online1;
+        this.online2 = online2;
         this.isDestroyer = isDestroyer;
         this.isMedic = isMedic;
         this.isRedRider = isRedRider;
         this.isKingOfWildHunt = isKingOfWildHunt;
         this.isImperialMajesty = isImperialMajesty;
+        this.Recation = matchTable.getReaction();
+    }
+
+    public boolean isEmojiActive() {
+        return isEmojiActive;
+    }
+
+    public void setEmojiActive(boolean emojiActive) {
+        isEmojiActive = emojiActive;
+    }
+
+    public boolean isOnline1() {
+        return online1;
+    }
+
+    public boolean isOnline2() {
+        return online2;
     }
 
     private void InitializeArrays(MatchTable matchTable) {
+
         fillInfoArray(firstPlayerInPlay, matchTable.getFirstPlayerInPlayCards());
         fillInfoArray(secondPlayerInPlay, matchTable.getSecondPlayerInPlayCards());
 
@@ -90,6 +116,7 @@ public class GameBoardVisualData {
         fillInfoArray(secondPlayerSiege, matchTable.getSecondPlayerSiegeRow());
 
         fillInfoArray(weather, matchTable.getSpellCards());
+
     }
 
     private void InitializeVariables(MatchTable matchTable) {
@@ -119,8 +146,18 @@ public class GameBoardVisualData {
         secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
         isFirstPlayerTurn = matchTable.isFirstPlayerTurn();
         isMatchFinished = matchTable.isMatchFinished();
+        firstPlayerUserName = matchTable.getFirstPlayer().getUsername();
+        secondPlayerUserName = matchTable.getSecondPlayer().getUsername();
+
     }
 
+    public String getFirstPlayerUserName() {
+        return firstPlayerUserName;
+    }
+
+    public String getSecondPlayerUserName() {
+        return secondPlayerUserName;
+    }
 
     //////////////////////////Serializations
     public String toJSON() {
@@ -326,8 +363,7 @@ public class GameBoardVisualData {
         if (userID == 0) {
             if (firstPlayerLeader == null) return null;
             return new Leader(firstPlayerLeader);
-        }
-        else {
+        } else {
             if (secondPlayerLeader == null) return null;
             return new Leader(secondPlayerLeader);
         }

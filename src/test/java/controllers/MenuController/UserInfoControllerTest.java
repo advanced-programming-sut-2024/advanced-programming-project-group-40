@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserInfoControllerTest {
 
 
+
     @Test
     void changePassword() {
         User user = new User("username", "password", "What is your pet's name?", "Fluffy", true);
@@ -22,12 +23,14 @@ class UserInfoControllerTest {
 
     @Test
     void isUsernameValid() {
+
         assertTrue(UserInfoController.isUsernameValid("username"));
         assertFalse(UserInfoController.isUsernameValid("username!"));
     }
 
     @Test
     void isEmailValid() {
+
         assertTrue(UserInfoController.isEmailValid("a@a.com"));
         assertFalse(UserInfoController.isEmailValid("a@a"));
 
@@ -35,6 +38,7 @@ class UserInfoControllerTest {
 
     @Test
     void isPasswordValid() {
+
         assertTrue(UserInfoController.isPasswordValid("password"));
         assertFalse(UserInfoController.isPasswordValid("][!"));
     }

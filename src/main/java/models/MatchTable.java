@@ -15,6 +15,7 @@ import java.util.*;
 
 public class MatchTable {
     private final GameMenuController gameMenuController;
+    private boolean didInitialize = false;
     private final User firstPlayer;
     private final User secondPlayer;
     private boolean isFirstPlayerTurn;
@@ -58,6 +59,9 @@ public class MatchTable {
     private boolean isSecondPlayerLeaderUsed = false;
 
     private boolean isMatchRandom = false;
+    private String reaction;
+    private boolean Emoji;
+
     public MatchTable(User firstPlayer, User secondPlayer, GameMenuController gameMenuController, boolean publicGame) {
         this.gameMenuController = gameMenuController;
         this.firstPlayer = firstPlayer;
@@ -66,6 +70,22 @@ public class MatchTable {
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
         this.publicGame = publicGame;
         initializeMatchTable();
+    }
+
+    public void setEmoji(boolean emoji) {
+        Emoji = emoji;
+    }
+
+    public boolean isEmoji() {
+        return Emoji;
+    }
+
+    public String getReaction() {
+        return reaction;
+    }
+
+    public void setReaction(String reaction) {
+        this.reaction = reaction;
     }
 
     public GameMenuController getGameMenuController() {
@@ -1064,33 +1084,36 @@ public class MatchTable {
     }
 
     public void initilizeTable() {
-        ArrayList<Card> firstPlayerCards;
-        ArrayList<Card> secondPlayerCards;
-        firstPlayerLeader = firstPlayer.getLeader();
-        secondPlayerLeader = secondPlayer.getLeader();
+        if (!didInitialize) {
+            ArrayList<Card> firstPlayerCards;
+            ArrayList<Card> secondPlayerCards;
+            firstPlayerLeader = firstPlayer.getLeader();
+            secondPlayerLeader = secondPlayer.getLeader();
 
-        if (Objects.equals(firstPlayer.getFaction().name, "scoiatael") && !Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
-            isFirstPlayerTurn = true;
-        } else if (!Objects.equals(firstPlayer.getFaction().name, "scoiatael") && Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
-            isFirstPlayerTurn = false;
-        } else {
-            isFirstPlayerTurn = Game.random.nextBoolean();
-        }
-        if (Objects.equals(firstPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
-            firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 11);
-        } else {
-            firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 10);
-        }
-        if (Objects.equals(secondPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
-            secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 11);
-        } else {
-            secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
-        }
-        for (Card card : firstPlayerCards) {
-            addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
-        }
-        for (Card card : secondPlayerCards) {
-            addToInPlayCards(1, new CardWrapper(card, Origin.SECONDPLAYER_DECK));
+            if (Objects.equals(firstPlayer.getFaction().name, "scoiatael") && !Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
+                isFirstPlayerTurn = true;
+            } else if (!Objects.equals(firstPlayer.getFaction().name, "scoiatael") && Objects.equals(secondPlayer.getFaction().name, "scoiatael")) {
+                isFirstPlayerTurn = false;
+            } else {
+                isFirstPlayerTurn = Game.random.nextBoolean();
+            }
+            if (Objects.equals(firstPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
+                firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 11);
+            } else {
+                firstPlayerCards = randomSelectedCards(firstPlayerDeckCards, 10);
+            }
+            if (Objects.equals(secondPlayerLeader, new Leader(LeaderInfo.DAISY_OF_THE_VALLEY))) {
+                secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 11);
+            } else {
+                secondPlayerCards = randomSelectedCards(secondPlayerDeckCards, 10);
+            }
+            for (Card card : firstPlayerCards) {
+                addToInPlayCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_DECK));
+            }
+            for (Card card : secondPlayerCards) {
+                addToInPlayCards(1, new CardWrapper(card, Origin.SECONDPLAYER_DECK));
+            }
+            didInitialize = true;
         }
     }
 
@@ -1111,6 +1134,7 @@ public class MatchTable {
         }
         return -1;
     }
+
     //-----------------------------------------------------private Functions------------------------------------------//
 
 

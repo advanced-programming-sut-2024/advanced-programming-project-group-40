@@ -4,6 +4,8 @@ import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
+import Server.Models.InterfaceAdapter;
+import Server.Models.MessageAdapter;
 import Server.Services.EliminationCup.EliminationCup;
 import Server.Services.EliminationCup.Match;
 import Server.Models.GameBoardVisualData;
@@ -13,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import controllers.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import enums.cards.CardInfo;
 import models.MatchTable;
 import models.User;
 
@@ -122,7 +125,6 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, EliminationMessage.class);
                 case PREGAME:
                     return gsonAgent.fromJson(clientStr, PreGameMessages.class);
-
                 default:
                     return null;
             }
@@ -132,7 +134,7 @@ public class Server extends Thread {
     }
 
 
-    private synchronized void handleConnection(Socket socket) {
+    private void handleConnection(Socket socket) {
         String clientRequest = "";
         try {
             DataInputStream receiveBuffer = new DataInputStream(
@@ -218,6 +220,7 @@ public class Server extends Thread {
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                                 break;
                             case GET_ALL_GAMES_IN_PLAY:
+                                // todo madyar
                                 break;
                         }
                         break;
@@ -227,6 +230,9 @@ public class Server extends Thread {
                         switch (getListOfNamesMessage.getSubType()) {
                             case GET_FRIENDS:
                                 names = requestService.getFriends(getListOfNamesMessage.getKeyName());
+                                break;
+                            case GET_ALL_USERNAMES:
+                                names = getAllUsersName();
                                 break;
                             case GET_REJECTED_REQUESTS:
                                 names = requestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
@@ -329,12 +335,13 @@ public class Server extends Thread {
                         break;
                     case UPDATE:
                         UpdateMessage updateMessage = (UpdateMessage) clientMessage;
-                        user = getUserByUsername(updateMessage.getToken());
+                        user = getUserByUsername(updateMessage.getOriginUsername());
                         assert user != null;
                         onlineStatus.put(user.getUsername(), true);
                         MessageSubType subType = updateMessage.getSubType();
                         switch (subType) {
                             case PREGAME_UPDATE:
+                                assert user != null;
                                 String requestedUser = requestedGames.get(user.getUsername());
                                 if (!requestedUser.isEmpty()) {
                                     if (requestedGames.get(requestedUser).equals(user.getUsername())) {
@@ -370,7 +377,6 @@ public class Server extends Thread {
                                 requestSent = false;
                                 break;
                             case GAME_UPDATE:
-                                System.out.println(updateMessage.getToken() + " updating game");
                                 User user1 = getUserByUsername(updateMessage.getToken());
                                 MatchTable matchTable = null;
                                 for (MatchTable matchTable1 : matchTables) {
@@ -382,9 +388,10 @@ public class Server extends Thread {
                                         break;
                                     }
                                 }
-                                System.out.println(1);
+                                boolean online1 = onlineStatus.get(matchTable.getFirstPlayer().getUsername());
+                                boolean online2 = onlineStatus.get(matchTable.getSecondPlayer().getUsername());
                                 GameBoardVisualData visualData = new GameBoardVisualData(matchTable
-                                        , false, false, false, false, false);
+                                        , false, false, false, false, false,online1,online2);
                                 ServerMessages serverMessages3 = new ServerMessages(true, visualData.toJSON());
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessages3));
                                 break;
@@ -396,18 +403,15 @@ public class Server extends Thread {
                             requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
                             User user1 = getUserByUsername(acceptRejectRequest.getUsername());
                             User user2 = getUserByUsername(acceptRejectRequest.getToken());
-                            assert user1 != null;
                             user1.createDeckCards();
-                            assert user2 != null;
                             user2.createDeckCards();
-                            MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(), true);
+                            MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(), acceptRejectRequest.isAccept());
                             matchTable.getGameMenuController().setMatchTable(matchTable);
                             matchTables.add(matchTable);
                             GameBoardVisualData a = new GameBoardVisualData(matchTable
-                                    , false, false, false, false, false);
+                                    , false, false, false, false, false,true,true);
                             ServerMessages messages = new ServerMessages(true, a.toJSON());
                             sendBuffer.writeUTF(gsonAgent.toJson(messages));
-                            System.out.println("yoo");
                         } else {
                             requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                         }
@@ -416,6 +420,7 @@ public class Server extends Thread {
                     case CHANGE_MATCH_TABLE_DATA:
                         ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
                         User user1 = getUserByUsername(changeMessage.getToken());
+                        System.out.println(user1.getUsername());
                         MatchTable matchTable = null;
                         for (MatchTable matchTable1 : matchTables) {
                             if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
@@ -426,16 +431,16 @@ public class Server extends Thread {
                                 break;
                             }
                         }
+                        assert matchTable != null;
                         matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
                         GameBoardVisualData visualData = new GameBoardVisualData(matchTable
-                                , false, false, false, false, false);
-                        ServerMessages serverMessages = new ServerMessages(true, visualData.toJSON());
+                                , false, false, false, false, false,true,true);
+                        ServerMessages serverMessages = new ServerMessages(true, gsonAgent.toJson(visualData));
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
 
                         break;
                     case CLICKED_ON_CARD:
                         ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
-                        System.out.println(clickMessage.getToken() + " clicked on card");
                         User user2 = getUserByUsername(clickMessage.getToken());
                         MatchTable matchTable2 = null;
                         for (MatchTable matchTable1 : matchTables) {
@@ -447,10 +452,12 @@ public class Server extends Thread {
                                 break;
                             }
                         }
-                        if (matchTable2 == null) System.out.println("bussy is empty");
-                        matchTable2.getGameMenuController().ClickedOnCard(clickMessage.getCardInfo(), clickMessage.isSelectable(), clickMessage.getParentID());
+                        CardInfo cardInfo = CardInfo.returnByName(clickMessage.getCardInfo());
+
+                        matchTable2.getGameMenuController().ClickedOnCard(cardInfo, clickMessage.isSelectable(), clickMessage.getParentID());
+                        System.out.println(matchTable2.getGameMenuController().selectedCard.getName());
                         GameBoardVisualData s = new GameBoardVisualData(matchTable2
-                                , false, false, false, false, false);
+                                , false, false, false, false, false,true,true);
                         ServerMessages serverMessages2 = new ServerMessages(true, s.toJSON());
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages2));
                         break;
@@ -489,12 +496,11 @@ public class Server extends Thread {
         makeAllUsersOffline.start();
         try {
             Server.setupServer();
-            for (int i = 0; i < 10; i++) {
-                Server server = new Server();
-                server.start();
-            }
-            Server server = new Server();
-            server.listen();
+            Server server1 = new Server();
+            Server server2 = new Server();
+            server1.start();
+            server2.listen();
+
         } catch (Exception e) {
             System.out.println("Server encountered a problem!");
             e.printStackTrace();
@@ -509,5 +515,14 @@ public class Server extends Thread {
         }
         return null;
     }
-
+    public ArrayList<String> getAllUsersName(){
+        ArrayList<String> names=new ArrayList<>();
+        for (User user : allUsers) {
+            names.add(user.getUsername());
+        }
+        return names;
+    }
 }
+
+
+

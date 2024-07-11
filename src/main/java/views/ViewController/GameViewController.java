@@ -3,6 +3,8 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.GetUserMessage;
+import Server.Messages.Client.UpdateMessage;
+import Server.Messages.MessageSubType;
 import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
@@ -19,6 +21,8 @@ import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 
@@ -32,7 +36,9 @@ import models.cards.Card;
 import models.cards.Hero;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
+import views.GameView;
 import views.Main;
+import views.MainMenu;
 import views.PlayMenu;
 
 import java.net.URL;
@@ -40,16 +46,19 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class GameViewController  implements Initializable {
+public class GameViewController extends PlayMenu implements Initializable {
 
     private static final int SPAM_FILTER_TIME = 2000;
     public VBox vboxMessages;
+    public StackPane secondPlayerFactionImage;
+    public StackPane firstPlayerFactionImage;
+    public ImageView EmojiBRRRRRR;
     private boolean isFirstPlayerMainUser;
     public ScrollPane chat;
     public CheckBox isReply;
     public Label ReactionInput;
     private GameBoardVisualData visualData;
-    private Stage tempStage;
+    private Stage tempStage = new Stage();
     Thread spamThread = new Thread(() -> {
         try {
 
@@ -158,6 +167,16 @@ public class GameViewController  implements Initializable {
     private HBox secondPlayerRanged;
 
     @Override
+    public void start(Stage primaryStage) throws Exception {
+        URL url = Main.class.getResource("/FXML/GameBoard.fxml");
+        assert url != null;
+        Scene scene = new Scene(FXMLLoader.load(url));
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ClientHandler.client.setGameViewController(this);
         String[] messages = {"kys", "ALI ABD'EL AZIZ", "YOU MAD TERRORIST"
@@ -167,19 +186,9 @@ public class GameViewController  implements Initializable {
         emptyMessage();
         chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-        String a = "";
-        try {
-            a = ClientHandler.client.sendCommand("initiateDeck");
-        } catch (Exception e) {
-            try {
-                a = ClientHandler.client.sendCommand("initiateDeck");
-            } catch (Exception q) {
-                a = ClientHandler.client.sendCommand("initiateDeck");
-            }
-        }
-
+        String a = ClientHandler.client.sendCommand("initiateDeck");
         setVisualData(a);
-        isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
     }
 
     private static Origin GetDestination(Card selectedCard) {
@@ -368,24 +377,25 @@ public class GameViewController  implements Initializable {
     }
 
     public void update() {
+        isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getFirstPlayerUserName());
         Platform.runLater(() -> {
             if (visualData.isDestroyer())
-                MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isRedRider())
-                MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-            if (visualData.isMedic()) MakeMedicWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeCommanderOfRedRidersWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
+            if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isImperialMajesty())
-                MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+                MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
             if (visualData.isKingOfWildHunt())
-                MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-            if (visualData.getReaction() != null) {
+                MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
+            if (visualData.getReaction() != null && Objects.equals(ReactionInput.getText(), "")) {
                 ReactionInput.setText(visualData.getReaction());
 
                 Thread removeMessageThread = new Thread(() -> {
                     try {
 
                         Thread.sleep(5000);
-                        Platform.runLater(() -> messageInput.setText(""));
+                        Platform.runLater(() -> ReactionInput.setText(""));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -448,20 +458,23 @@ public class GameViewController  implements Initializable {
 
                 }
             }
-            if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn()) {
+            if (!(visualData.isOnline1()&& visualData.isOnline2())){
+                MakeFuckedOffFromLineWindow();
+                System.out.println("someone got fucked off the line");
+
+            }
+            if (isFirstPlayerMainUser) {
                 if (visualData.getLeader(0) != null) {
-                    if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {
                             firstPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
                         }
-                    }
+
                 }
                 if (visualData.getLeader(1) != null) {
-                    if (secondPlayerLeaderImage != null) {
                         if (secondPlayerLeaderImage.getChildren().isEmpty()) {
                             secondPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
                         }
-                    }
+
                 }
 
 
@@ -593,20 +606,19 @@ public class GameViewController  implements Initializable {
                 firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
                 firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
                 secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-            } else {
+            }
+            else {
                 if (visualData.getLeader(1) != null) {
-                    if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {
                             firstPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
                         }
-                    }
+
                 }
                 if (visualData.getLeader(0) != null) {
-                    if (secondPlayerLeaderImage != null) {
                         if (secondPlayerLeaderImage.getChildren().isEmpty()) {
                             secondPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
                         }
-                    }
+
                 }
 
 
@@ -894,6 +906,33 @@ public class GameViewController  implements Initializable {
         InitiateCardEvents(hBox);
     }
 
+    public void MakeFuckedOffFromLineWindow() {
+        tempStage.setHeight(140);
+        tempStage.setWidth(800);
+        tempStage.setResizable(false);
+        Label hBox = new Label();
+        Button button = new Button();
+        button.setLayoutX(60);
+        button.setLayoutY(60);
+        button.setText("click to go back to menu");
+        button.setOnMouseClicked(mouseEvent -> {
+            Platform.runLater(()->{
+                try {
+                    new MainMenu().start(Game.stage);
+
+                } catch (Exception q) {
+                    throw new RuntimeException(q);
+                }
+            });
+        });
+        hBox.setText("user disconnected from game. YOU WON!");
+        Pane pane1 = new Pane(hBox,button);
+        Scene scene = new Scene(pane1);
+
+        tempStage.setScene(scene);
+        tempStage.show();
+    }
+
     public static ArrayList<Card> randomSelectedCards(ArrayList<Card> deck, int numOfRandomCards) {
         ArrayList<Card> randomCards = new ArrayList<>();
         int i = 0;
@@ -1007,5 +1046,14 @@ public class GameViewController  implements Initializable {
             }
         }
         update();
+    }
+
+    public void emojiActive() {
+        ClientHandler.client.sendCommand("Emoji");
+        if (EmojiBRRRRRR.getImage() == null){
+
+            EmojiBRRRRRR.setImage(new Image(Objects.requireNonNull(Card.class.getResource
+                    ("/Assets/images.jpg")).toExternalForm()));
+        }
     }
 }
