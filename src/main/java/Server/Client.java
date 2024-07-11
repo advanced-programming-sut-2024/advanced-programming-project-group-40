@@ -172,12 +172,13 @@ public class Client {
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
-                                    endConnection();
+
                                     try {
                                         new GameView().start(Game.stage);
                                     } catch (Exception e) {
                                         throw new RuntimeException(e);
                                     }
+                                    endConnection();
                                     //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
@@ -224,7 +225,8 @@ public class Client {
     }
     public String sendCommand(String command){
         ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
-        return getServerMessage(messages).getAdditionalInfo();
+        ServerMessages serverMessages =getServerMessage(messages);
+        return serverMessages.getAdditionalInfo();
     }
     private void stopUpdateThread() {
         updateThread.interrupt();

@@ -290,6 +290,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         ArrayList<Card> cards = new ArrayList<>();
         getCards(pane, cards);
         for (Card card : cards) {
+            card.initilizePics();
             card.setOnMouseClicked(_ -> {
                 CardClickCommand cardClickCommand = new CardClickCommand(card, isSelectable(card), card.getParent().getId());
                 cardClickCommand.excute();

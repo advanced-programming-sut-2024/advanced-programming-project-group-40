@@ -6,10 +6,24 @@ import javafx.stage.Stage;
 public class JavaFXInitializer extends Application {
     @Override
     public void start(Stage primaryStage) {
-        // This method is required to launch the JavaFX application thread
+        // No need to implement anything here
     }
 
     public static void initJavaFX() {
-        launch();
+        new Thread(() -> Application.launch(JavaFXInitializer.class)).start();
+        try {
+            // Wait for JavaFX to be initialized
+            synchronized (JavaFXInitializer.class) {
+                JavaFXInitializer.class.wait();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void notifyJavaFXInitialized() {
+        synchronized (JavaFXInitializer.class) {
+            JavaFXInitializer.class.notify();
+        }
     }
 }

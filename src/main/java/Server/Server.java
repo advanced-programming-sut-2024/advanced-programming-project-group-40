@@ -320,12 +320,15 @@ public class Server extends Thread {
                         requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
                         User user1 = getUserByUsername(acceptRejectRequest.getUsername());
                         User user2 = getUserByUsername(acceptRejectRequest.getToken());
+                        user1.createDeckCards();
+                        user2.createDeckCards();
                         MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController());
                         matchTable.getGameMenuController().setMatchTable(matchTable);
                         matchTables.add(matchTable);
                         GameBoardVisualData a = new GameBoardVisualData(matchTable
                                 , false, false, false, false, false);
-                        sendBuffer.writeUTF(a.toJSON());
+                        ServerMessages messages = new ServerMessages(true,a.toJSON());
+                        sendBuffer.writeUTF(gsonAgent.toJson(messages));
                     } else {
                         requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                     }
@@ -349,7 +352,8 @@ public class Server extends Thread {
                     matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
                     GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                     ,false,false,false,false,false);
-                    sendBuffer.writeUTF(visualData.toJSON());
+                    ServerMessages serverMessages = new ServerMessages(true,visualData.toJSON());
+                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
 
                     break;
                 case CLICKED_ON_CARD:
@@ -369,12 +373,12 @@ public class Server extends Thread {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());
         try {
-            JavaFXInitializer.initJavaFX();
             Server.setupServer();
             Server server1 = new Server();
             Server server2 = new Server();
             server1.start();
             server2.listen();
+
         } catch (Exception e) {
             System.out.println("Server encountered a problem!");
             e.printStackTrace();

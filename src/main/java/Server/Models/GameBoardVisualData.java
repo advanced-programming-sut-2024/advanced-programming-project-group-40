@@ -323,8 +323,14 @@ public class GameBoardVisualData {
     }
 
     public Card getLeader(int userID) {
-        if (userID == 0) return new Leader(firstPlayerLeader);
-        else return new Leader(secondPlayerLeader);
+        if (userID == 0) {
+            if (firstPlayerLeader == null) return null;
+            return new Leader(firstPlayerLeader);
+        }
+        else {
+            if (secondPlayerLeader == null) return null;
+            return new Leader(secondPlayerLeader);
+        }
     }
 
 
