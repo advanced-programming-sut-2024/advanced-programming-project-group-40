@@ -22,12 +22,6 @@
                                     <Font name="System Bold" size="20.0" />
                                  </font></Label>
                            </center></BorderPane>
-                           <HBox alignment="CENTER" prefHeight="52.0" prefWidth="134.0">
-                              <children>
-                                 <Circle fill="#b1dcd5" radius="4.0" stroke="BLACK" strokeType="INSIDE" />
-                                 <Label prefHeight="16.0" prefWidth="84.0" text="Label" translateX="5.0" />
-                              </children>
-                           </HBox>
                      </children>
                   </VBox>
                   <VBox fx:id="wins" prefHeight="700.0" prefWidth="79.0" styleClass="Something">

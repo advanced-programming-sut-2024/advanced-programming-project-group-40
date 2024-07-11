@@ -1,5 +1,7 @@
 package views.ViewController;
 
+import Server.Messages.MessageSubType;
+import controllers.Utilities;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -39,11 +41,17 @@ public class ScoreBoardViewController {
             }
         });
         for (User user : sortedUsers) {
+            System.out.println(user.getUsername());
             // Create a Circle
             Circle circle = new Circle();
-            circle.setFill(Color.web("#b1dcd5"));
-            circle.setRadius(4.0);
+            circle.setRadius(6.0);
             circle.setStroke(Color.BLACK);
+
+            if (Utilities.isOnline(user.getUsername(), user.getUsername(), MessageSubType.CHECK_ONLINE))
+                circle.setFill(Color.web("green"));
+            else
+                circle.setFill(Color.web("red"));
+
 
             Label usernames = new Label(user.getUsername());
             usernames.setPrefHeight(16.0);
@@ -130,6 +138,7 @@ public class ScoreBoardViewController {
             });
         }
     }
+
     public void openTerminal(MouseEvent mouseEvent) {
         try {
             new TerminalView().start(new Stage());
