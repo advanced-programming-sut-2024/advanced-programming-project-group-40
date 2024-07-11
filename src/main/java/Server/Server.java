@@ -435,6 +435,7 @@ public class Server extends Thread {
                         break;
                     case CLICKED_ON_CARD:
                         ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
+                        System.out.println(clickMessage.getToken() + " clicked on card");
                         User user2 = getUserByUsername(clickMessage.getToken());
                         MatchTable matchTable2 = null;
                         for (MatchTable matchTable1 : matchTables) {
@@ -446,6 +447,7 @@ public class Server extends Thread {
                                 break;
                             }
                         }
+                        if (matchTable2 == null) System.out.println("bussy is empty");
                         matchTable2.getGameMenuController().ClickedOnCard(clickMessage.getCardInfo(), clickMessage.isSelectable(), clickMessage.getParentID());
                         GameBoardVisualData s = new GameBoardVisualData(matchTable2
                                 , false, false, false, false, false);

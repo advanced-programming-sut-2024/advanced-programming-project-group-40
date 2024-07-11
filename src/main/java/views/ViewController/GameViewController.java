@@ -53,7 +53,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     public CheckBox isReply;
     public Label ReactionInput;
     private GameBoardVisualData visualData;
-    private  Stage tempStage;
+    private Stage tempStage;
     Thread spamThread = new Thread(() -> {
         try {
 
@@ -181,7 +181,17 @@ public class GameViewController extends PlayMenu implements Initializable {
         emptyMessage();
         chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-        String a = ClientHandler.client.sendCommand("initiateDeck");
+        String a = "";
+        try {
+            a = ClientHandler.client.sendCommand("initiateDeck");
+        } catch (Exception e) {
+            try {
+                a = ClientHandler.client.sendCommand("initiateDeck");
+            } catch (Exception q) {
+                a = ClientHandler.client.sendCommand("initiateDeck");
+            }
+        }
+
         setVisualData(a);
         isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
         ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
@@ -374,11 +384,15 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     public void update() {
         Platform.runLater(() -> {
-            if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-            if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isDestroyer())
+                MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isRedRider())
+                MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
             if (visualData.isMedic()) MakeMedicWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-            if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-            if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isImperialMajesty())
+                MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isKingOfWildHunt())
+                MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
             if (visualData.getReaction() != null) {
                 ReactionInput.setText(visualData.getReaction());
 
@@ -449,7 +463,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
                 }
             }
-            if (isFirstPlayerMainUser) {
+            if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn()) {
                 if (visualData.getLeader(0) != null) {
                     if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {
@@ -594,8 +608,7 @@ public class GameViewController extends PlayMenu implements Initializable {
                 firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
                 firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
                 secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-            }
-            else {
+            } else {
                 if (visualData.getLeader(1) != null) {
                     if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {

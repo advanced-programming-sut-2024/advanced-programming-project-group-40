@@ -570,7 +570,17 @@ public class PreGameViewController {
                                 new GameView().start(Game.stage);
 
                             } catch (Exception e) {
-                                throw new RuntimeException(e);
+                                try {
+                                    new GameView().start(Game.stage);
+
+                                } catch (Exception w) {
+                                    try {
+                                        new GameView().start(Game.stage);
+
+                                    } catch (Exception q) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
                             }
                         });
                         ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
