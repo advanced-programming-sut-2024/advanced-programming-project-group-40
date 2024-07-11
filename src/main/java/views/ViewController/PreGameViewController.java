@@ -459,8 +459,6 @@ public class PreGameViewController {
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
             saveData();
-            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), cardType, power, true);
-            ClientHandler.client.addCard(addRemoveCardMessage);
         });
         selectCardFlowPane.getChildren().add(pane);
     }
@@ -602,6 +600,4 @@ public class PreGameViewController {
         setUpLeadersImages();
     }
 
-    public void startRandomGame(MouseEvent mouseEvent) {
-    }
 }

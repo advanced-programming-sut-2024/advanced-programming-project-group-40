@@ -21,7 +21,9 @@ public class User {
     private String SecurityAnswer;
     private int SecurityQuestionNumber;
     private transient final ArrayList<Card> deckCards = new ArrayList<>();
+    private final ArrayList<String> deckCardsNames = new ArrayList<>();
     private transient Leader leader;
+    private String leaderName;
     private transient final ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
 
@@ -40,7 +42,9 @@ public class User {
         faction = Factions.MONSTERS;
         leader = new Leader(LeaderInfo.BRINGER_OF_DEATH);
     }
-
+    public void setLeaderName(String leaderName) {
+        this.leaderName = leaderName;
+    }
     public int getRank() {
         return 0;
     }
@@ -241,4 +245,11 @@ public class User {
     }
 
 
+    public String getLeaderName() {
+        return leaderName;
+    }
+
+    public ArrayList<String> getDeckCardsName() {
+        return deckCardsNames;
+    }
 }
