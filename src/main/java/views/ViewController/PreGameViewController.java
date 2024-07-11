@@ -113,7 +113,6 @@ public class PreGameViewController {
 
     @FXML
     private static void loadDeck(ArrayList<String> deckCards) {
-        // todo ask ----------------------------------------------------------------
     }
 
     @FXML
@@ -564,7 +563,6 @@ public class PreGameViewController {
                         requestMessage1.setToken(Game.getLoggedInUser().getUsername());
                         ClientHandler.client.request(requestMessage1);
                         System.out.println("YOOOOHOOOOOOOOO");
-                        //TODO : Start the game
 
                         Platform.runLater(() -> {
                             try {
@@ -686,7 +684,6 @@ public class PreGameViewController {
                         requestMessage1.setToken(Game.getLoggedInUser().getUsername());
                         ClientHandler.client.request(requestMessage1);
                         System.out.println("YOOOOHOOOOOOOOO");
-                        //TODO : Start the game
 
                         Platform.runLater(() -> {
                             try {

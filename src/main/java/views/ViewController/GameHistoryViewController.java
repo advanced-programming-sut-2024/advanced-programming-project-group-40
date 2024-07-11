@@ -50,9 +50,7 @@ public class GameHistoryViewController {
 
 
     private void changeChart(User user, int number) {
-        // todo check they are from new to old
         for (MatchTable matchTable : user.getMatchesPlayed()) {
-            // todo  is competitor == second player?
             Label competitorLabel = new Label(matchTable.getSecondPlayerRowPoints().toString());
 
             competitorLabel.setPrefHeight(46);
@@ -112,14 +110,12 @@ public class GameHistoryViewController {
             F.setAlignment(Pos.CENTER);
             competitorFinalPoints.getChildren().add(F);
 
-            // todo check if the final points is the current point
             Label Fy = new Label(Integer.toString(matchTable.getFirstPlayerCurrentPoint()));
             Fy.setPrefHeight(46);
             Fy.setPrefWidth(124);
             Fy.setAlignment(Pos.CENTER);
             userFinalPoints.getChildren().add(Fy);
 
-            // todo a function for winner in match table
             Label W = new Label();
             W.setPrefHeight(46);
             W.setPrefWidth(124);

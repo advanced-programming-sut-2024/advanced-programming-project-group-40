@@ -1234,7 +1234,6 @@ public class MatchTable {
         } else {
             isFirstPlayerTurn = Game.random.nextBoolean();
         }
-        //todo
 
     }
 

@@ -11,7 +11,6 @@ public class LinkAuthorization {
     private static String sentLink;
 
     // real one
-    // todo do not delete this
     public static String generateShortLinkReal(String longUrl, String accessToken) {
         String shortUrl = "";
         try {
@@ -46,7 +45,6 @@ public class LinkAuthorization {
         return 1;
     }
 
-    // todo do not delete this
     public static int getLinkClicksReal(String bitlink, String accessToken) {
         int clicks = 0;
         try {

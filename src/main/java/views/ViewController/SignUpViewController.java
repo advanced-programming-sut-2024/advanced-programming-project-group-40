@@ -135,26 +135,7 @@ public class SignUpViewController {
                     SignUpMenuController.createUser(randomUsername, password.getText(), email.getText(), nickname.getText());
                 }
             } else {
-                // todo do not delete
-//                if (alert.isOK()) {
-//                    signUpVBox.setVisible(false);
-//                    authorizationVbox.setVisible(true);
-//                    if (SignUpMenuController.checkLink(email.getText())) {
-//                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
-//                            SignUpMenuController.createUser(randomUsername, password.getText(), email.getText(), nickname.getText());
-//                            goToQuestionPage();
-//                        }));
-//                        timer.setCycleCount(1);
-//                        timer.play();
-//                    } else {
-//                        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(10), actionEvent -> {
-//                            signUpVBox.setVisible(true);
-//                            authorizationVbox.setVisible(false);
-//                        }));
-//                        timer.setCycleCount(1);
-//                        timer.play();
-//                    }
-//                }
+
                 SignUpMenuController.createUser(username.getText(), password.getText(), email.getText(), nickname.getText());
                 goToQuestionPage();
             }

@@ -43,11 +43,7 @@ public class LoginViewController {
                 return;
             }
         }
-        // todo goToMainMenu should be deleted
         goToMainMenu();
-//        userPassVbox.setVisible(false);
-//        authorizationVbox.setVisible(true);
-//        CodeAuthorization.sendCode(Objects.requireNonNull(Game.getUserByName(username.getText())).getEmail());
     }
 
     public void goToForgetPassword() {

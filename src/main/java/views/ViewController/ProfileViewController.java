@@ -171,11 +171,9 @@ public class ProfileViewController {
             }
         } else {
             if (clickedImageView.equals(accept)) {
-                // todo ask ----------------------------------------------------------------
                 Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
                 AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
                 alert.showAlert();
-                // todo request user to pre game
                 goToPreGame(request);
             } else {
                 Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_GAME_REQUEST);

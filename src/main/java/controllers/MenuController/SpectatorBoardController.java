@@ -5,7 +5,6 @@ import enums.Origin;
 public class SpectatorBoardController {
 
     public static void sendMessage(String s){
-        //todo
     }
 
     public static void sendCommand(String s) {

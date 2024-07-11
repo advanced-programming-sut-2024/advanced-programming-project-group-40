@@ -32,7 +32,6 @@ public class User {
 
     private transient ArrayList<MatchTable> matchesPlayed = new ArrayList<>();
     private boolean stayLoggedIn;
-    // todo transient???
     private transient ArrayList<User> frineds = new ArrayList<>();
     private transient ArrayList<User> requests = new ArrayList<>();
     private transient ArrayList<User> requestsHasSent = new ArrayList<>();
@@ -70,7 +69,6 @@ public class User {
     }
 
     public int getHighestScore() {
-        // todo check if player one is the desired user
         int highestScore = 0;
         for (MatchTable match : matchesPlayed) {
             if (match.getPlayerTotalScore(0) > highestScore) {

@@ -223,14 +223,12 @@ public class Client {
                     endConnection();
 
                     if (messageType == MessageType.ELIMINATION) {
-                        // todo go to pre game
                     } else {
                         try {
                             new GameView().start(Game.stage);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                        //TODO: Start the game
                         Platform.runLater(() -> {
                             try {
                                 new GameView().start(Game.stage);
@@ -269,7 +267,6 @@ public class Client {
     }
 
     private void finishGame() {
-        // TODO: Implement finishGame logic
     }
 
     public void clickedOnCard(ClickedOnCardMessages messages) {

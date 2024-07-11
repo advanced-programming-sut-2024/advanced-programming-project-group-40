@@ -19,15 +19,12 @@ public abstract class UnitCardActions {
     }
 
     private static void decoy() {
-        //todo
     }
 
     private static void medic() {
-        //todo
     }
 
     private static void moralBoost() {
-        //filled
     }
 
     private static void muster(Card card, int userID, int rowNumber) {
@@ -162,7 +159,6 @@ public abstract class UnitCardActions {
                         }
                     }
                 }
-                //todo: make these CardWrapper
                 for (Card card : row) {
                     if (card instanceof UnitCard unitCard) {
                         if (unitCard.getShowingPower() == highestDamageCard.getShowingPower()) {
