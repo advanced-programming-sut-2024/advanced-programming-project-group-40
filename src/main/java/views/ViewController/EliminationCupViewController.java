@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.Game;
+import views.MainMenu;
+import views.TerminalView;
 
 public class EliminationCupViewController {
     public Button join;
@@ -45,7 +48,7 @@ public class EliminationCupViewController {
 //    private ArrayList<>
 
     public void initialize() {
-        start.setDisable(true);
+        start.setVisible(false);
         if (EliminationCupController.isStarted()) {
             setText(EL, FL, EliminationCupController.getMatch(1));
             setText(GL, HL, EliminationCupController.getMatch(2));
@@ -54,8 +57,8 @@ public class EliminationCupViewController {
             setText(CL, DL, EliminationCupController.getMatch(5));
             setText(CR, DR, EliminationCupController.getMatch(6));
 
-            join.setDisable(true);
-            start.setDisable(false);
+            join.setVisible(false);
+            start.setVisible(true);
         }
     }
 
@@ -75,5 +78,21 @@ public class EliminationCupViewController {
 
     public void start(MouseEvent mouseEvent) {
         Utilities.sendRequest(Game.getLoggedInUser().getUsername(), EliminationCupController.getCompetitorByDefenderName(), MessageSubType.GAME_REQUEST);
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToLoginMenu(MouseEvent mouseEvent) {
+        try {
+            new MainMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
