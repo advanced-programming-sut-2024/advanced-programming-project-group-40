@@ -32,7 +32,6 @@ public class GameView extends PlayMenu{
     }
     @Override
     public void start(Stage stage) throws Exception {
-        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
         Game.stage = stage;
         Pane pane = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("/FXML/GameBoard.fxml")));
         stage.setScene(new Scene(pane));

@@ -413,6 +413,7 @@ public class Server extends Thread {
                     case CHANGE_MATCH_TABLE_DATA:
                         ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
                         User user1 = getUserByUsername(changeMessage.getToken());
+                        System.out.println(user1.getUsername());
                         MatchTable matchTable = null;
                         for (MatchTable matchTable1 : matchTables) {
                             if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
@@ -423,10 +424,11 @@ public class Server extends Thread {
                                 break;
                             }
                         }
+                        assert matchTable != null;
                         matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
                         GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                                 , false, false, false, false, false);
-                        ServerMessages serverMessages = new ServerMessages(true, visualData.toJSON());
+                        ServerMessages serverMessages = new ServerMessages(true, gsonAgent.toJson(visualData));
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
 
                         break;
