@@ -308,8 +308,6 @@ public class PreGameViewController {
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
             saveData();
-            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), cardType, power, false);
-            ClientHandler.client.removeCard(addRemoveCardMessage);
         });
         selectedCardFlowPane.getChildren().add(pane);
     }

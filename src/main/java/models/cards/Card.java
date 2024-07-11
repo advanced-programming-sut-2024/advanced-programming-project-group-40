@@ -45,7 +45,14 @@ public abstract class Card extends Rectangle {
         return name;
     }
 
+    public void initilizePics() {
+        try {
+            setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource
+                    (cardImage)).toExternalForm())));
+        } catch (Exception e) {
 
+        }
+    }
     @Override
     public int hashCode() {
         return Objects.hash(name);
