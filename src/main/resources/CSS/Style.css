@@ -183,7 +183,6 @@ menu-scroll-pane {
     -fx-background-insets: 0; /* Remove background insets */
     -fx-border-color: #f8eecb; /* Remove border color */
     -fx-border-width: 2px; /* Remove border width */
-
     -fx-background-color: #31261D;
 }
 
@@ -285,7 +284,6 @@ pre-scroll-pane {
 
 
 .button-main {
-
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-border-radius: 5px;
@@ -296,18 +294,23 @@ pre-scroll-pane {
     -fx-text-fill: #C2E7E3; /* Set text color */
     font-weight: bold;
     -fx-cursor: hand; /* Change cursor to hand */
-
 }
 
 .button-main:hover {
-
     -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-color: rgb(194, 231, 227, 1); /* Remove background color */
     -fx-text-fill: #345B53FF; /* Set text color */
     font-weight: bold;
     -fx-cursor: hand; /* Change cursor to hand */
+}
+
+.area{
+    -fx-background-color: #31261D; /* Remove background color */
 
 }
 
-
+.terminal .viewport{
+    -fx-background-insets: 0; /* Remove background insets */
+    -fx-background-color: #31261D; /* Remove background color */
+}

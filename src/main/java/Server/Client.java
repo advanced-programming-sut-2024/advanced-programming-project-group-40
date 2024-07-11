@@ -1,14 +1,20 @@
 package Server;
 
 import Server.Messages.Client.*;
+import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import models.Game;
+import views.ViewController.PreGameViewController;
+import enums.cards.CardInfo;
+import views.ViewController.GameViewController;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.util.Objects;
 import java.util.Scanner;
 
 
@@ -18,15 +24,26 @@ public class Client {
     private DataOutputStream sendBuffer;
     private String serverIP;
     private int serverPort;
+
     private Gson gsonAgent;
     private String token;
+    private Thread updateThread = null;
+    private GameViewController gameViewController;
 
+    public GameViewController getGameViewController() {
+        return gameViewController;
+    }
+
+    public void setGameViewController(GameViewController gameViewController) {
+        this.gameViewController = gameViewController;
+    }
 
     public Client(String serverIP, int serverPort) {
         GsonBuilder builder = new GsonBuilder();
         this.gsonAgent = builder.create();
         this.serverIP = serverIP;
         this.serverPort = serverPort;
+
     }
 
     private boolean establishConnection() {
@@ -54,12 +71,10 @@ public class Client {
         }
     }
 
-    private boolean sendMessage(String message) {
+    private void sendMessage(String message) {
         try {
             sendBuffer.writeUTF(message);
-            return true;
         } catch (Exception e) {
-            return false;
         }
     }
 
@@ -79,6 +94,7 @@ public class Client {
         sendMessage(input);
         endConnection();
     }
+
     public void addCard(AddRemoveCardMessage addRemoveCardMessage) {
         getServerMessage(addRemoveCardMessage);
     }
@@ -106,14 +122,110 @@ public class Client {
     public ServerMessages request(RequestMessage requestMessage) {
         return getServerMessage(requestMessage);
     }
+
     private ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(clientMessages));
         String response = receiveResponse();
         ServerMessages serverMessages = gsonAgent.fromJson(response, ServerMessages.class);
         endConnection();
-        System.out.println(clientMessages);
         return serverMessages;
     }
+
+    public void update(UpdateMessage updateMessage) {
+        if (updateThread != null)
+            stopUpdateThread();
+        startUpdateThread(updateMessage.getSubType());
+    }
+
+    private void startUpdateThread(MessageSubType messageSubType) {
+        updateThread = new Thread(() -> {
+            while (true) {
+                UpdateMessage updateMessage = new UpdateMessage(Game.getLoggedInUser().getUsername(), messageSubType);
+                ServerMessages serverMessages = getServerMessage(updateMessage);
+                if (serverMessages == null) {
+                    try {
+                        System.out.println("Server is not responding");
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    continue;
+                }
+                if (serverMessages.wasSuccessfull()) {
+                    if (messageSubType == MessageSubType.PREGAME_UPDATE) {
+                        if (serverMessages.getAdditionalInfo().equals("accept")) {
+                            PreGameViewController.startGameStatus = "Game Started";
+                        } else if (serverMessages.getAdditionalInfo().equals("decline")) {
+                            PreGameViewController.startGameStatus = "Game Request Declined";
+                        } else {
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle("Game Request");
+                                alert.setHeaderText("Game Request");
+                                alert.setContentText("Game Request from " + serverMessages.getAdditionalInfo());
+                                alert.showAndWait();
+                                if (alert.getResult().getText().equals("OK")) {
+                                    PreGameViewController.startGameStatus = "Game Started";
+                                    AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage));
+                                    endConnection();
+
+                                    //TODO: Start the game
+                                } else {
+                                    PreGameViewController.startGameStatus = "Game Request Declined";
+                                    AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), false);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage));
+                                    endConnection();
+                                }
+                                UpdateMessage updateMessage1 = new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.RESET_GAME_REQUEST);
+                                establishConnection();
+                                sendMessage(gsonAgent.toJson(updateMessage1));
+                                endConnection();
+                            });
+                        }
+
+                    }
+                    //TODO
+                    switch (messageSubType) {
+                        case GAME_UPDATE -> {
+                            if (Objects.equals(serverMessages.getAdditionalInfo(), "finished")) {
+                                finishGame();
+                            } else {
+                                gameViewController.setVisualData(serverMessages.getAdditionalInfo());
+                            }
+                        }
+                    }
+
+                }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        updateThread.start();
+    }
+
+    private void finishGame() {
+        //todo
+    }
+    public void clickedOnCard(ClickedOnCardMessages messages){
+        getServerMessage(messages);
+
+    }
+    public void sendCommand(String command){
+        ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
+        getServerMessage(messages);
+
+
+    }
+    private void stopUpdateThread() {
+        updateThread.interrupt();
+    }
+
 
 }
