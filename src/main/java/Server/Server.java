@@ -133,7 +133,7 @@ public class Server extends Thread {
 
 
     private void handleConnection(Socket socket) {
-        String clientRequest;
+        String clientRequest = "";
         try {
             DataInputStream receiveBuffer = new DataInputStream(
                     new BufferedInputStream(socket.getInputStream())
@@ -141,7 +141,11 @@ public class Server extends Thread {
             DataOutputStream sendBuffer = new DataOutputStream(
                     new BufferedOutputStream(socket.getOutputStream())
             );
+
+
             clientRequest = receiveBuffer.readUTF();
+
+
             ClientMessages clientMessage = extractClientMessage(clientRequest);
             User user;
             ServerMessages serverMessage;
@@ -372,6 +376,7 @@ public class Server extends Thread {
                                 requestSent = false;
                                 break;
                             case GAME_UPDATE:
+                                System.out.println(updateMessage.getToken() + " updating game");
                                 User user1 = getUserByUsername(updateMessage.getToken());
                                 MatchTable matchTable = null;
                                 for (MatchTable matchTable1 : matchTables) {
@@ -427,6 +432,9 @@ public class Server extends Thread {
                         GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                                 , false, false, false, false, false);
                         ServerMessages serverMessages = new ServerMessages(true, visualData.toJSON());
+                        System.out.println(changeMessage.getToken() + " :");
+                        System.out.println(visualData.toJSON());
+                        System.out.println();
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
 
                         break;

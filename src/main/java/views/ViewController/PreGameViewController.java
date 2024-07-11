@@ -1,11 +1,13 @@
 package views.ViewController;
 
 
+import Server.Client;
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
 import Server.Messages.Client.RequestMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
+import Server.Messages.MessageType;
 import controllers.DataSaver;
 import controllers.MenuController.PreGameMenuController;
 import enums.AlertInfo.AlertHeader;
@@ -566,10 +568,12 @@ public class PreGameViewController {
                         Platform.runLater(() ->{
                             try {
                                 new GameView().start(Game.stage);
+
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
                         });
+                        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
 
 
                     } else {

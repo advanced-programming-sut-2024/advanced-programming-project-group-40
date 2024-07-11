@@ -201,6 +201,7 @@ public class Client {
                                         Platform.runLater(() ->{
                                             try {
                                                 new GameView().start(Game.stage);
+                                                ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
                                             } catch (Exception e) {
                                                 throw new RuntimeException(e);
                                             }
