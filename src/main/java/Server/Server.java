@@ -4,8 +4,6 @@ import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
-import Server.Models.InterfaceAdapter;
-import Server.Models.MessageAdapter;
 import Server.Services.EliminationCup.EliminationCup;
 import Server.Services.EliminationCup.Match;
 import Server.Models.GameBoardVisualData;
