@@ -184,7 +184,6 @@ public class GameViewController  implements Initializable {
 
         setVisualData(a);
         isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
-        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
     }
 
     private static Origin GetDestination(Card selectedCard) {

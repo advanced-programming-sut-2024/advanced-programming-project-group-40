@@ -336,7 +336,6 @@ public class Server extends Thread {
                         MessageSubType subType = updateMessage.getSubType();
                         switch (subType) {
                             case PREGAME_UPDATE:
-                                assert user != null;
                                 String requestedUser = requestedGames.get(user.getUsername());
                                 if (!requestedUser.isEmpty()) {
                                     if (requestedGames.get(requestedUser).equals(user.getUsername())) {
@@ -384,6 +383,7 @@ public class Server extends Thread {
                                         break;
                                     }
                                 }
+                                System.out.println(1);
                                 GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                                         , false, false, false, false, false);
                                 ServerMessages serverMessages3 = new ServerMessages(true, visualData.toJSON());
@@ -397,7 +397,9 @@ public class Server extends Thread {
                             requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
                             User user1 = getUserByUsername(acceptRejectRequest.getUsername());
                             User user2 = getUserByUsername(acceptRejectRequest.getToken());
+                            assert user1 != null;
                             user1.createDeckCards();
+                            assert user2 != null;
                             user2.createDeckCards();
                             MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(), true);
                             matchTable.getGameMenuController().setMatchTable(matchTable);
@@ -405,7 +407,7 @@ public class Server extends Thread {
                             GameBoardVisualData a = new GameBoardVisualData(matchTable
                                     , false, false, false, false, false);
                             ServerMessages messages = new ServerMessages(true, a.toJSON());
-                            sendBuffer.writeUTF(gsonAgent.toJson(messages));
+                            System.out.println("yoo");
                         } else {
                             requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                         }
@@ -414,7 +416,6 @@ public class Server extends Thread {
                     case CHANGE_MATCH_TABLE_DATA:
                         ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
                         User user1 = getUserByUsername(changeMessage.getToken());
-                        System.out.println(user1.getUsername());
                         MatchTable matchTable = null;
                         for (MatchTable matchTable1 : matchTables) {
                             if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
@@ -429,7 +430,7 @@ public class Server extends Thread {
                         matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
                         GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                                 , false, false, false, false, false);
-                        ServerMessages serverMessages = new ServerMessages(true, gsonAgent.toJson(visualData));
+                        ServerMessages serverMessages = new ServerMessages(true, visualData.toJSON());
                         sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
 
                         break;
