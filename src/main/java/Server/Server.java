@@ -2,7 +2,7 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.ServerMessages;
-import Server.Services.EliminationCup;
+import Server.Services.EliminationCup.EliminationCup;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
