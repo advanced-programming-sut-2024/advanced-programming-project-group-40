@@ -6,9 +6,8 @@ import Server.Messages.Client.AddRemoveCardMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
 import controllers.DataSaver;
-import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
-import controllers.Utilities;
+import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
@@ -26,7 +25,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
 import models.Game;
-import models.MatchTable;
 import models.User;
 import models.cards.*;
 import views.GameView;
@@ -107,6 +105,7 @@ public class PreGameViewController {
     private boolean changeLeaderClicked = false;
     private User loggedInUser = Game.getLoggedInUser();
     public static String startGameStatus = "";
+    private boolean publicGame;
 
     @FXML
     private static void loadDeck(ArrayList<String> deckCards) {
@@ -507,6 +506,12 @@ public class PreGameViewController {
 
     @FXML
     private void startGame(MouseEvent mouseEvent) {
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.PUBLIC_GAME.toString());
+        alert.showAlert();
+        if (alert.isOK())
+            publicGame = true;
+        else
+            publicGame = false;
         saveData();
         AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {

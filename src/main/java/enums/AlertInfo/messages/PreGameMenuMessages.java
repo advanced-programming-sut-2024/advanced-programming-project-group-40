@@ -10,7 +10,7 @@ public enum PreGameMenuMessages {
     UPLOAD_DECK("Deck Uploaded Successfully!"),
     YOU_DO_NOT_HAVE_ENOUGH_CARDS("You don't have enough unit cards'"),
     GAME_REQUEST_REJECTED("Game request rejected"),
-    ;
+    PUBLIC_GAME("DO you want a public game?");
     private final String message;
 
     PreGameMenuMessages(String message) {
