@@ -33,7 +33,6 @@ public class Utilities {
         if (!success)
             return null;
         Gson gson = new Gson();
-        System.out.println(4);
         return gson.fromJson(result, new TypeToken<ArrayList<String>>() {
         }.getType());
     }

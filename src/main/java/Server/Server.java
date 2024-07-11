@@ -5,6 +5,7 @@ import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import Server.Services.EliminationCup.EliminationCup;
+import Server.Services.EliminationCup.Match;
 import Server.Services.FriendRequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -238,6 +239,23 @@ public class Server extends Thread {
                             // todo update
                             eliminationService.addPlayer(eliminationMessage.getUsername());
                             break;
+                        case GET_MATCH_ELIMINATION:
+                            Match match = eliminationService.getMatchByGroupNumber(eliminationMessage.getNumber());
+                            if (match == null) {
+                                serverMessage = new ServerMessages(false, "match not found");
+                            } else {
+                                String namesToJson = gson.toJson(match);
+                                serverMessage = new ServerMessages(true, namesToJson);
+                            }
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            break;
+                        case IS_STARTED_ELIMINATION:
+                            if (eliminationService.isEliminationStarted())
+                                serverMessage = new ServerMessages(true, "started");
+                                else
+                                serverMessage = new ServerMessages(false, "not yet");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                             break;
                         case START_ELIMINATION:
                             // todo go to pre Game if user is online and in menus
                             break;

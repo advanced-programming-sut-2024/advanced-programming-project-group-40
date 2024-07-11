@@ -102,4 +102,12 @@ public class EliminationCup {
         return players.size() == 8;
     }
 
+
+    public Match getMatchByGroupNumber(int groupNumber) {
+        for (Match match : matches) {
+            if (match.getGroupNumber() == groupNumber)
+                return match;
+        }
+        return null;
+    }
 }
