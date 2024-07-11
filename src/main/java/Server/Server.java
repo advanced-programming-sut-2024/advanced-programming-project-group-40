@@ -111,6 +111,8 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, ChangeMatchTableDataMessages.class);
                 case CLICKED_ON_CARD:
                     return gsonAgent.fromJson(clientStr, ClickedOnCardMessages.class);
+                case ELIMINATION:
+                    return gsonAgent.fromJson(clientStr, EliminationMessage.class);
                 default:
                     return null;
             }
@@ -177,6 +179,7 @@ public class Server extends Thread {
                             friendRequestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case SEND_GAME_REQUEST:
+                            // todo update
                             friendRequestService.createGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case ACCEPT_GAME_REQUEST:
@@ -210,6 +213,7 @@ public class Server extends Thread {
                             names = friendRequestService.getGameRequests(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_ACCEPTED_GAME_REQUESTS:
+                            // todo go to pre Game if user is online and in menus
                             names = friendRequestService.getAcceptedGameRequest(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_GAME_REQUEST:
@@ -231,9 +235,12 @@ public class Server extends Thread {
                     EliminationMessage eliminationMessage = (EliminationMessage) clientMessage;
                     switch (eliminationMessage.getSubType()) {
                         case JOIN_ELIMINATION:
+                            // todo update
                             eliminationService.addPlayer(eliminationMessage.getUsername());
                             break;
-                            // todo update
+                        case START_ELIMINATION:
+                            // todo go to pre Game if user is online and in menus
+                            break;
                     }
                     break;
                 case ADD_CARD:

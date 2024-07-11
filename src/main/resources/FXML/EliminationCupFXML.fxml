@@ -109,7 +109,8 @@
 
          </children>
       </Pane>
-      <Button layoutX="474.0" layoutY="558.0" mnemonicParsing="false" text="Join" onMouseClicked="#joinORStart"/>
-      <Button layoutX="474.0" layoutY="595.0" mnemonicParsing="false" text="Television" onMouseClicked="#goToLive"/>
+      <Button layoutX="474.0" layoutY="558.0" mnemonicParsing="false" onMouseClicked="#join" text="Join" />
+      <Button layoutX="474.0" layoutY="595.0" mnemonicParsing="false" onMouseClicked="#goToLive" text="Television" />
+      <Button layoutX="589.0" layoutY="558.0" mnemonicParsing="false" text="Button" onMouseClicked="#start"/>
    </children>
 </AnchorPane>

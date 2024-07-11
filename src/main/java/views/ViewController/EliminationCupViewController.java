@@ -1,11 +1,10 @@
 package views.ViewController;
 
 import Server.Messages.MessageSubType;
-import controllers.Utilities;
+import controllers.MenuController.EliminationCupController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import models.Game;
 
 public class EliminationCupViewController {
     @FXML
@@ -47,7 +46,11 @@ public class EliminationCupViewController {
 
     }
 
-    public void joinORStart(MouseEvent mouseEvent) {
-        Utilities.sendFriendRequest(Game.getLoggedInUser().getUsername(), "", MessageSubType.JOIN_ELIMINATION);
+    public void join(MouseEvent mouseEvent) {
+        EliminationCupController.sendEliminationRequest(MessageSubType.JOIN_ELIMINATION);
+    }
+
+    public void start(MouseEvent mouseEvent) {
+        EliminationCupController.sendEliminationRequest(MessageSubType.SEND_GAME_REQUEST);
     }
 }

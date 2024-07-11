@@ -98,4 +98,8 @@ public class EliminationCup {
             return match.getPlayer1();
     }
 
+    public boolean isEliminationStarted() {
+        return players.size() == 8;
+    }
+
 }
