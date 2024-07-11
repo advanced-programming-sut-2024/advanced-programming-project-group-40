@@ -174,7 +174,10 @@ public class Client {
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
                                     endConnection();
-
+                                    RequestMessage requestMessage1 = new RequestMessage(Game.getLoggedInUser().getUsername(), Game.getLoggedInUser().getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage1));
+                                    endConnection();
                                     //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";

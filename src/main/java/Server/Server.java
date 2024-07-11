@@ -36,6 +36,7 @@ public class Server extends Thread {
     private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
     private static SQLDataBase sqlDataBase;
     private static boolean requestSent = false;
+    private static final ArrayList<String> usersInGame = new ArrayList<>();
 
     private static void setupServer() {
         try {
@@ -196,6 +197,16 @@ public class Server extends Thread {
                             break;
                         case CHECK_ONLINE:
                             serverMessage = new ServerMessages(onlineStatus.get(requestMessage.getDestinationUsername()), "");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            break;
+                        case ADD_TO_USERS_IN_GAME:
+                            usersInGame.add(requestMessage.getOriginUsername());
+                            break;
+                        case REMOVE_FROM_USERS_IN_GAME:
+                            usersInGame.remove(requestMessage.getOriginUsername());
+                            break;
+                        case CHECK_IN_GAME:
+                            serverMessage = new ServerMessages(usersInGame.contains(requestMessage.getOriginUsername()), "");
                             sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             break;
                     }
