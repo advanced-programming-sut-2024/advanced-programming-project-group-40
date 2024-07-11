@@ -217,6 +217,7 @@ public class Client {
                 }
             }
         });
+        updateThread.setDaemon(true);
         updateThread.start();
     }
 
