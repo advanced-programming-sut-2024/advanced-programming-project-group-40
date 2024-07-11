@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class GameViewController extends PlayMenu implements Initializable {
+public class GameViewController  implements Initializable {
 
     private static final int SPAM_FILTER_TIME = 2000;
     public VBox vboxMessages;
@@ -160,16 +160,6 @@ public class GameViewController extends PlayMenu implements Initializable {
     private HBox secondPlayerCloseCombat;
     @FXML
     private HBox secondPlayerRanged;
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        URL url = Main.class.getResource("/FXML/GameBoard.fxml");
-        assert url != null;
-        Scene scene = new Scene(FXMLLoader.load(url));
-        stage.setScene(scene);
-        stage.show();
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
