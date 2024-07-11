@@ -3,6 +3,8 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.GetUserMessage;
+import Server.Messages.Client.UpdateMessage;
+import Server.Messages.MessageSubType;
 import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
@@ -44,6 +46,8 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     private static final int SPAM_FILTER_TIME = 2000;
     public VBox vboxMessages;
+    public StackPane secondPlayerFactionImage;
+    public StackPane firstPlayerFactionImage;
     private boolean isFirstPlayerMainUser;
     public ScrollPane chat;
     public CheckBox isReply;
@@ -180,6 +184,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         String a = ClientHandler.client.sendCommand("initiateDeck");
         setVisualData(a);
         isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
     }
 
     private static Origin GetDestination(Card selectedCard) {

@@ -119,6 +119,7 @@ public class Client {
     public ServerMessages getUser(GetUserMessage getUserMessage) {
         return getServerMessage(getUserMessage);
     }
+
     public ServerMessages elimination(EliminationMessage eliminationMessage) {
         return getServerMessage(eliminationMessage);
     }
@@ -188,10 +189,9 @@ public class Client {
                                     sendMessage(gsonAgent.toJson(requestMessage1));
                                     endConnection();
 
-                                    if (messageType==MessageType.ELIMINATION){
+                                    if (messageType == MessageType.ELIMINATION) {
                                         // todo go to pre game
-                                    }
-                                    else {
+                                    } else {
                                         try {
                                             new GameView().start(Game.stage);
                                         } catch (Exception e) {
@@ -259,9 +259,13 @@ public class Client {
         getServerMessage(messages);
 
     }
-    public String sendCommand(String command){
+
+    public String sendCommand(String command) {
         ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
-        ServerMessages serverMessages =getServerMessage(messages);
+        ServerMessages serverMessages = getServerMessage(messages);
+        if (serverMessages == null) {
+            System.out.println("Server is not responding");
+        }
         return serverMessages.getAdditionalInfo();
     }
 
