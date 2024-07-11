@@ -4,8 +4,8 @@ import models.Relation;
 
 import java.util.ArrayList;
 
-public class RequestService {
-    private static RequestService instance;
+public class FriendRequestService {
+    private static FriendRequestService instance;
     private final ArrayList<Relation> followRequests = new ArrayList<>();
     private final ArrayList<Relation> rejectedFollowRequests = new ArrayList<>();
     private final ArrayList<Relation> friends = new ArrayList<>();
@@ -14,12 +14,12 @@ public class RequestService {
     private final ArrayList<Relation> acceptedGameRRequests = new ArrayList<>();
 
 
-    private RequestService() {
+    private FriendRequestService() {
     }
 
-    public static RequestService getInstance() {
+    public static FriendRequestService getInstance() {
         if (instance == null) {
-            instance = new RequestService();
+            instance = new FriendRequestService();
         }
         return instance;
     }

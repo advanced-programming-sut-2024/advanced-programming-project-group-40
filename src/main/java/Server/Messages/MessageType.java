@@ -6,7 +6,7 @@ public enum MessageType {
     PREGAME,
     PROFILE,
     GET_USER,
-    REQUEST,
+    FRIEND_REQUEST,
     GET_LIST_OF_NAMES,
     SEND_FOLLOW_REQUEST,
     ACCEPT_FOLLOW_REQUEST,
@@ -17,7 +17,13 @@ public enum MessageType {
     CLICKED_ON_CARD,
     ADD_CARD,
     UPDATE,
- ACCEPT_REJECT_REQUEST,
+    ACCEPT_REJECT_REQUEST,
     CHANGE_MATCH_TABLE_DATA,
-    REMOVE_CARD;
+    REMOVE_CARD,
+    ELIMINATION,
+
+
+
+
+    ;
 }

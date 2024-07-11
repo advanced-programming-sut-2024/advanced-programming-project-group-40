@@ -3,6 +3,7 @@ package controllers;
 import Server.ClientHandler;
 import Server.Messages.Client.GetListOfNamesMessage;
 import Server.Messages.Client.GetUserMessage;
+import Server.Messages.Client.RequestMessage;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
@@ -24,7 +25,7 @@ public class Utilities {
         }.getType());
     }
 
-    public  static ArrayList<String> getListOfNames(String keyName, MessageSubType subType) {
+    public static ArrayList<String> getListOfNames(String keyName, MessageSubType subType) {
         GetListOfNamesMessage getListOfNamesMessage = new GetListOfNamesMessage(keyName, subType);
         ServerMessages serverMessages = ClientHandler.client.getListOfNames(getListOfNamesMessage);
         String result = serverMessages.getAdditionalInfo();
@@ -37,8 +38,8 @@ public class Utilities {
         }.getType());
     }
 
-    public static void sendRequest(String origin, String target, MessageSubType subType) {
-        RequestMessage requestMessage = new RequestMessage(Game.getLoggedInUser().getUsername(), target,subType);
+    public static void sendFriendRequest(String origin, String target, MessageSubType subType) {
+        RequestMessage requestMessage = new RequestMessage(origin, target, subType);
         ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
     }
 }

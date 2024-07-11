@@ -48,6 +48,6 @@ public class EliminationCupViewController {
     }
 
     public void joinORStart(MouseEvent mouseEvent) {
-        Utilities.sendRequest(Game.getLoggedInUser().getUsername(), "", MessageSubType.JOIN_ELIMINATION);
+        Utilities.sendFriendRequest(Game.getLoggedInUser().getUsername(), "", MessageSubType.JOIN_ELIMINATION);
     }
 }

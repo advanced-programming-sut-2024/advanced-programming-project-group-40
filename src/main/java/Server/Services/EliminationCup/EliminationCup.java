@@ -90,5 +90,12 @@ public class EliminationCup {
         return -1;
     }
 
+    public String getCompetitor(String defender) {
+        Match match = getMatchByPlayer(defender);
+        if (match.getPlayer1().equals(defender))
+            return match.getPlayer2();
+        else
+            return match.getPlayer1();
+    }
 
 }
