@@ -541,7 +541,14 @@ public class PreGameViewController {
                         });
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
-                        PreGameMenuController.goToGameView();
+
+                        try {
+                            new GameView().start(Game.stage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
+
 
                     } else {
                         Platform.runLater(() -> {

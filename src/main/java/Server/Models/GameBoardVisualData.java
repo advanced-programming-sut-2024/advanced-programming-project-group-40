@@ -113,8 +113,8 @@ public class GameBoardVisualData {
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 0));
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 1));
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 2));
-        firstPlayerNickName = matchTable.getFirstPlayer().getNickname();
-        secondPlayerNickName = matchTable.getSecondPlayer().getNickname();
+        firstPlayerNickName = matchTable.getFirstPlayer().getUsername();
+        secondPlayerNickName = matchTable.getSecondPlayer().getUsername();
         firstPlayerFaction = matchTable.getFirstPlayer().getFaction().name;
         secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
         isFirstPlayerTurn = matchTable.isFirstPlayerTurn();

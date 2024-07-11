@@ -47,10 +47,6 @@ public class PreGameMenuController extends UserInfoController {
     }
 
     public static void goToGameView() {
-        try {
-            new GameView().start(Game.stage);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }

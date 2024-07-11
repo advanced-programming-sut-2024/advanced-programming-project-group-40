@@ -310,7 +310,21 @@ public class Server extends Thread {
                             requestSent = false;
                             break;
                         case GAME_UPDATE:
-                            //todo
+                            User user1 = getUserByUsername(updateMessage.getToken());
+                            MatchTable matchTable = null;
+                            for (MatchTable matchTable1 : matchTables) {
+                                if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
+                                    matchTable = matchTable1;
+                                    break;
+                                } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user1.getUsername())) {
+                                    matchTable = matchTable1;
+                                    break;
+                                }
+                            }
+                            GameBoardVisualData visualData = new GameBoardVisualData(matchTable
+                                    ,false,false,false,false,false);
+                            ServerMessages serverMessages = new ServerMessages(true,visualData.toJSON());
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
                             break;
                     }
                     break;
@@ -338,11 +352,9 @@ public class Server extends Thread {
                     ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
                     User user1 = getUserByUsername(changeMessage.getToken());
                     MatchTable matchTable = null;
-                    boolean isFirstUser =false;
                     for (MatchTable matchTable1 : matchTables) {
                         if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
                             matchTable = matchTable1;
-                            isFirstUser = true;
                             break;
                         } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user1.getUsername())) {
                             matchTable = matchTable1;
@@ -358,7 +370,22 @@ public class Server extends Thread {
                     break;
                 case CLICKED_ON_CARD:
                     ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
-                    //todo call the GameMenuController function
+                    User user2 = getUserByUsername(clickMessage.getToken());
+                    MatchTable matchTable2 = null;
+                    for (MatchTable matchTable1 : matchTables) {
+                        if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user2.getUsername())) {
+                            matchTable2 = matchTable1;
+                            break;
+                        } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user2.getUsername())) {
+                            matchTable2 = matchTable1;
+                            break;
+                        }
+                    }
+                    matchTable2.getGameMenuController().ClickedOnCard(clickMessage.getCardInfo(),clickMessage.isSelectable(),clickMessage.getParentID());
+                    GameBoardVisualData s = new GameBoardVisualData(matchTable2
+                            ,false,false,false,false,false);
+                    ServerMessages serverMessages2 = new ServerMessages(true,s.toJSON());
+                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessages2));
                     break;
             }
             sendBuffer.close();

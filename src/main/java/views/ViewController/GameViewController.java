@@ -51,7 +51,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     public CheckBox isReply;
     public Label ReactionInput;
     private GameBoardVisualData visualData;
-    private final Stage tempStage = new Stage();
+    private  Stage tempStage;
     Thread spamThread = new Thread(() -> {
         try {
 
@@ -589,7 +589,8 @@ public class GameViewController extends PlayMenu implements Initializable {
             firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
             firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
             secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-        } else {
+        }
+        else {
             if (visualData.getLeader(1) != null) {
                 if (firstPlayerLeaderImage != null) {
                     if (firstPlayerLeaderImage.getChildren().isEmpty()) {

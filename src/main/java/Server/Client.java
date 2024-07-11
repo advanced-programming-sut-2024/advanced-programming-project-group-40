@@ -9,15 +9,14 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import models.Game;
 import views.GameView;
-import views.MainMenu;
 import views.ViewController.PreGameViewController;
-import enums.cards.CardInfo;
 import views.ViewController.GameViewController;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class Client {
@@ -141,6 +140,7 @@ public class Client {
     }
 
     private void startUpdateThread(MessageSubType messageSubType) {
+        AtomicBoolean isInGame = new AtomicBoolean(false);
         updateThread = new Thread(() -> {
             while (true) {
                 UpdateMessage updateMessage = new UpdateMessage(Game.getLoggedInUser().getUsername(), messageSubType);
@@ -179,6 +179,10 @@ public class Client {
                                         throw new RuntimeException(e);
                                     }
                                     endConnection();
+                                    isInGame.set(true);
+                                    //update(new UpdateMessage(Game.getLoggedInUser().getUsername(),MessageSubType.GAME_UPDATE));
+                                    System.out.println("came to play you fucker");
+                                    updateThread.interrupt();
                                     //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
@@ -214,6 +218,7 @@ public class Client {
             }
         });
         updateThread.start();
+        if (isInGame.get()) update(new UpdateMessage(Game.getLoggedInUser().getUsername(),MessageSubType.GAME_UPDATE));
     }
 
     private void finishGame() {
