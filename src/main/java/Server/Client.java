@@ -9,6 +9,8 @@ import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import models.Game;
+import views.GameView;
+import views.ViewController.PreGameViewController;
 import views.ViewController.GameViewController;
 import views.ViewController.PreGameViewController;
 
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class Client {
@@ -177,6 +180,12 @@ public class Client {
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
+
+                                    try {
+                                        new GameView().start(Game.stage);
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
                                     endConnection();
                                     RequestMessage requestMessage1 = new RequestMessage(Game.getLoggedInUser().getUsername(), Game.getLoggedInUser().getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
                                     establishConnection();
@@ -230,12 +239,10 @@ public class Client {
         getServerMessage(messages);
 
     }
-
-    public void sendCommand(String command) {
+    public String sendCommand(String command){
         ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
-        getServerMessage(messages);
-
-
+        ServerMessages serverMessages =getServerMessage(messages);
+        return serverMessages.getAdditionalInfo();
     }
 
     private void stopUpdateThread() {

@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import models.AlertMaker;
 import models.Game;
 import models.User;
+import views.GameView;
 
 public class PreGameMenuController extends UserInfoController {
 
@@ -43,5 +44,9 @@ public class PreGameMenuController extends UserInfoController {
 
     public static boolean isCompetitorValid(User user) {
         return user.getNumberOfUnitCards() >= 22 && user.getNumberOfSpecialCards() <= 10;
+    }
+
+    public static void goToGameView() {
+
     }
 }
