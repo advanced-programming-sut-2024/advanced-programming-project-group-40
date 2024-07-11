@@ -9,11 +9,12 @@ import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import models.Game;
-import views.ViewController.PreGameViewController;
-import enums.cards.CardInfo;
 import views.ViewController.GameViewController;
+import views.ViewController.PreGameViewController;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
@@ -115,6 +116,9 @@ public class Client {
     public ServerMessages getUser(GetUserMessage getUserMessage) {
         return getServerMessage(getUserMessage);
     }
+    public ServerMessages elimination(EliminationMessage eliminationMessage) {
+        return getServerMessage(eliminationMessage);
+    }
 
     public ServerMessages getListOfNames(GetListOfNamesMessage getListOfNamesMessage) {
         return getServerMessage(getListOfNamesMessage);
@@ -174,7 +178,10 @@ public class Client {
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
                                     endConnection();
-
+                                    RequestMessage requestMessage1 = new RequestMessage(Game.getLoggedInUser().getUsername(), Game.getLoggedInUser().getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage1));
+                                    endConnection();
                                     //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";

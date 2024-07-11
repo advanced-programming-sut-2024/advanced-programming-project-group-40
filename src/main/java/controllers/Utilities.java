@@ -8,6 +8,7 @@ import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import models.Game;
 import models.User;
 
 import java.util.ArrayList;

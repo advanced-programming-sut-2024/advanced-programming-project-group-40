@@ -9,7 +9,7 @@ public class RequestMessage extends ClientMessages {
     private MessageSubType subType;
 
     public RequestMessage(String originUser, String destinationUser, MessageSubType type) {
-        this.type = MessageType.REQUEST;
+        this.type = MessageType.FRIEND_REQUEST;
         this.subType = type;
         this.originUsername = originUser;
         this.destinationUsername = destinationUser;
