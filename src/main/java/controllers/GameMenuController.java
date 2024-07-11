@@ -410,7 +410,7 @@ public class GameMenuController {
 
         } else {
             return switch (s) {
-                case "emoji" -> Emojiset();
+                case "Emoji" -> Emojiset();
                 case "secondPlayerSiegeClicked" -> ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
                 case "secondPlayerRangedClicked" -> ClickedOnRow(Origin.SECONDPLAYER_RANGED);
                 case "secondPlayerCloseCombatClicked" -> ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
@@ -431,10 +431,8 @@ public class GameMenuController {
 
     private GameBoardVisualData Emojiset() {
         matchTable.setEmoji(true);
-        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+        return new GameBoardVisualData(matchTable
                 , false, false, false, false, false,true,true);
-        gameBoardVisualData.setEmojiActive(true);
-        return gameBoardVisualData;
     }
 
     public static User changeTurnShit(User user1, User user2){
