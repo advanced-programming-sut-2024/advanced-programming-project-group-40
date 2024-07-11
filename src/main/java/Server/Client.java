@@ -137,7 +137,7 @@ public class Client {
         return getServerMessage(requestMessage);
     }
 
-    private ServerMessages getServerMessage(ClientMessages clientMessages) {
+    private synchronized ServerMessages getServerMessage(ClientMessages clientMessages) {
         if (establishConnection()) {
             sendMessage(gsonAgent.toJson(clientMessages));
             String response = receiveResponse();
@@ -171,6 +171,20 @@ public class Client {
                 if (serverMessages.wasSuccessfull()) {
                     if (messageSubType == MessageSubType.PREGAME_UPDATE) {
                         handlePreGameUpdate(serverMessages, messageType);
+                    }
+                    switch (messageSubType) {
+                        case GAME_UPDATE -> {
+                            if (Objects.equals(serverMessages.getAdditionalInfo(), "finished")) {
+                                finishGame();
+                            } else {
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                gameViewController.setVisualData(serverMessages.getAdditionalInfo());
+                            }
+                        }
                     }
                     //TODO: Handle other message subtypes
                 }
