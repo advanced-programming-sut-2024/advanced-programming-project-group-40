@@ -1,37 +1,35 @@
 package views.ViewController;
 
 
+import Server.Client;
 import controllers.DataSaver;
-import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
+import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
 import models.Game;
-import models.MatchTable;
 import models.User;
 import models.cards.*;
 import views.GameView;
-import models.cards.Hero;
-import models.cards.SpecialCard;
-import models.cards.UnitCard;
+import views.MainMenu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-
-import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
-import views.MainMenu;
-import views.PreGameMenu;
 
 public class PreGameViewController {
     @FXML
@@ -103,10 +101,9 @@ public class PreGameViewController {
     private boolean changeFactionClicked = false;
     private boolean changeLeaderClicked = false;
     private User loggedInUser = Game.getLoggedInUser();
+    public static String startGameStatus = "";
+    private boolean publicGame;
 
-    @FXML
-    private static void loadDeck(ArrayList<String> deckCards) {
-    }
 
     @FXML
     private void initialize() {
@@ -133,11 +130,11 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
         factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
-                (GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress))
+                        (GameView.class.getResource(Game.getLoggedInUser().getFaction().iconAddress))
                 .toExternalForm())).getImage());
         setUpLabels();
-
-
+        setUpCards();
+        setUpSelectedCards();
         unit.textProperty().addListener((observable, oldValue, newValue) -> {
             setUnitCardColor();
         });
@@ -152,6 +149,7 @@ public class PreGameViewController {
         selectedCardFlowPane.setHgap(8);
         selectedCardFlowPane.setVgap(8);
         setUpCards();
+        setUpSelectedCards();
     }
 
     private void setUpCards() {
@@ -199,7 +197,7 @@ public class PreGameViewController {
     private void setUpFactionImages() {
         for (String cardName : factionName) {
             factions.put(cardName, new ImageView(new Image(Objects.requireNonNull
-                    (GameView.class.getResource("/Assets/Factions/faction_" + cardName + ".jpg"))
+                            (GameView.class.getResource(STR."/Assets/Factions/faction_\{cardName}.jpg"))
                     .toExternalForm())));
         }
 
@@ -222,7 +220,6 @@ public class PreGameViewController {
         leaderAddresses = LeaderInfo.getLeaderAddressesByFaction(Game.getLoggedInUser().getFaction());
         int count = 0;
         for (String cardName : leaderNames) {
-            System.out.println(leaderAddresses.get(count));
             leaders.put(cardName, new ImageView(new Image(Objects.requireNonNull
                     (GameView.class.getResource(leaderAddresses.get(count))).toExternalForm())));
             count++;
@@ -281,21 +278,28 @@ public class PreGameViewController {
     private void addToSelectedCards(Card card) {
         card.setWidth(120);
         card.setHeight(195);
+        card.initilizePics();
         Pane pane = new Pane();
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
+            int power = 0;
+            int cardType = 1;
             if (card instanceof UnitCard) {
                 unit.setText(Integer.toString(Integer.parseInt(unit.getText()) - 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         - ((UnitCard) card).getConstantPower()));
+                power = ((UnitCard) card).getConstantPower();
             }
             if (card instanceof SpecialCard) {
                 special.setText(Integer.toString(Integer.parseInt(special.getText()) - 1));
+                cardType = 2;
             }
             if (card instanceof Hero) {
                 hero.setText(Integer.toString(Integer.parseInt(hero.getText()) - 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         - ((Hero) card).getConstantPower()));
+                power = ((Hero) card).getConstantPower();
+                cardType = 3;
             }
             loggedInUser.removeCardFromDeck(card);
             card.addToSelected();
@@ -303,6 +307,9 @@ public class PreGameViewController {
             addToSelectCards(card);
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
+            saveData();
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(card.getName(), cardType, power, false);
+            ClientHandler.client.removeCard(addRemoveCardMessage);
         });
         selectedCardFlowPane.getChildren().add(pane);
     }
@@ -317,6 +324,7 @@ public class PreGameViewController {
         for (Node pane1 : selectCardFlowPane.getChildren()) {
             pane1 = (Pane) pane1;
             Card card1 = (Card) ((Pane) pane1).getChildren().get(0);
+            card1.initilizePics();
             if (card1.getName().equals(card.getName())) {
                 card1.removeFromSelected();
                 Label label = (Label) ((HBox) ((Pane) pane1).getChildren().get(1)).getChildren().get(1);
@@ -338,26 +346,13 @@ public class PreGameViewController {
 
         name.setText(cardsName.get(tmp[2]));
         if (changeFactionClicked) {
-            loggedInUser.setFaction(Factions.toFaction(cardsName.get(tmp[2])));
-            assert LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()) != null;
-            loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
-            factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
-                    (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
-            assert LeaderInfo.getDefaultLeaderInfoByFaction
-                    (loggedInUser.getFaction()) != null;
-            leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull
-                    (Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction
-                            (loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
-            factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
-            setUpLeadersImages();
+            updateFaction(cardsName.get(tmp[2]));
         }
         if (changeLeaderClicked) {
             loggedInUser.setLeader(new Leader(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2])))));
+            loggedInUser.setLeaderName(loggedInUser.getLeader().getName());
             description.setText(Objects.requireNonNull(LeaderInfo.toLeaderInfo(cardsName.get(tmp[2]))).description);
-            loggedInUser.setFaction(Factions.toFaction(cardsName.get(tmp[2])));
-            selectedCardFlowPane.getChildren().clear();
-            selectCardFlowPane.getChildren().clear();
-            setUpCards();
+
         }
 
     }
@@ -390,6 +385,7 @@ public class PreGameViewController {
     @FXML
     private void goToLoginMenu(MouseEvent mouseEvent) {
         saveData();
+        DataSaver.saveUsers();
         try {
             new MainMenu().start(Game.stage);
         } catch (Exception e) {
@@ -410,6 +406,7 @@ public class PreGameViewController {
         HBox hBox = new HBox();
         newCard.setWidth(120);
         newCard.setHeight(195);
+        newCard.initilizePics();
         pane.getChildren().add(newCard);
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource("/Assets/Cards/counter.png")).toExternalForm()));
@@ -418,7 +415,7 @@ public class PreGameViewController {
         hBox.getChildren().add(imageView);
         Label label = new Label(Integer.toString(newCard.getMaxCapacity()
                 - loggedInUser.cardsInDeckFromCardName(newCard.getName())));
-        if (label.getText().equals("0")){
+        if (label.getText().equals("0")) {
             return;
         }
         if (isCardSelected) {
@@ -433,20 +430,27 @@ public class PreGameViewController {
         hBox.setLayoutX(newCard.getLayoutX() + newCard.getWidth() - 30);
         hBox.setLayoutY(newCard.getLayoutY() + newCard.getHeight() - 32);
         pane.setOnMouseClicked(e -> {
+            int power = 0;
+            int cardType = 1;
             if (newCard instanceof UnitCard) {
                 unit.setText(Integer.toString(Integer.parseInt(unit.getText()) + 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         + ((UnitCard) newCard).getConstantPower()));
+                power = ((UnitCard) newCard).getConstantPower();
             }
             if (newCard instanceof SpecialCard) {
                 special.setText(Integer.toString(Integer.parseInt(special.getText()) + 1));
+                cardType = 2;
             }
             if (newCard instanceof Hero) {
                 hero.setText(Integer.toString(Integer.parseInt(hero.getText()) + 1));
                 strength.setText(Integer.toString(Integer.parseInt(strength.getText())
                         + ((Hero) newCard).getConstantPower()));
+                power = ((Hero) newCard).getConstantPower();
+                cardType = 3;
             }
             loggedInUser.getDeckCards().add(Card.getCardByName(newCard.getName()));
+            loggedInUser.getDeckCardsName().add(newCard.getName());
             newCard.addToSelected();
             addToSelectedCards(Objects.requireNonNull(Card.getCardByName(newCard.getName())));
             Game.addToSelectedCards(newCard);
@@ -456,18 +460,17 @@ public class PreGameViewController {
             }
             count.setText(Integer.toString(Integer.parseInt(unit.getText())
                     + Integer.parseInt(special.getText()) + Integer.parseInt(hero.getText())));
+            saveData();
+            AddRemoveCardMessage addRemoveCardMessage = new AddRemoveCardMessage(newCard.getName(), cardType, power, true);
+            ClientHandler.client.addCard(addRemoveCardMessage);
         });
         selectCardFlowPane.getChildren().add(pane);
     }
 
     @FXML
     private void downloadDeck(MouseEvent mouseEvent) {
-        ArrayList<String> deckCards = new ArrayList<>();
-        for (Card card : loggedInUser.getDeckCards()) {
-            deckCards.add(card.getName());
-        }
+        ArrayList<String> deckCards = loggedInUser.getDeckCardsName();
         DataSaver.saveDeckCards(deckCards, loggedInUser.getLeader());
-        DataSaver.saveDeckCards(deckCards, Game.getLoggedInUser().getLeader());
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Download Deck"
                 , PreGameMenuMessages.DOWNLOAD_DECK.toString());
         alertMaker.showAlert();
@@ -482,7 +485,7 @@ public class PreGameViewController {
         leaderImage.setImage(leaders.get(loggedInUser.getLeader().getName()).getImage());
         setUpCards();
         setUpLabels();
-        leaderImage.setImage(leaders.get(Game.getLoggedInUser().getLeader().getName()).getImage());
+        factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
         factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.INFORMATION, "Upload Deck"
@@ -492,17 +495,115 @@ public class PreGameViewController {
 
     @FXML
     private void startGame(MouseEvent mouseEvent) {
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.PUBLIC_GAME.toString());
+        alert.showAlert();
+        if (alert.isOK())
+            publicGame = true;
+        else
+            publicGame = false;
         saveData();
         AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
-        alertMaker.showAlert();
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            RequestMessage requestMessage = new RequestMessage(loggedInUser.getUsername(), competitorUsername.getText(), MessageSubType.CHECK_ONLINE);
+            boolean isOnline = ClientHandler.client.request(requestMessage).wasSuccessfull();
+            if (!isOnline) {
+                AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_NOT_ONLINE.toString());
+                alertMaker1.showAlert();
+                return;
+            }
+            RequestMessage requestMessage2 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.CHECK_IN_GAME);
+            boolean isInGame = ClientHandler.client.request(requestMessage2).wasSuccessfull();
+            if (isInGame) {
+                AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_IN_GAME.toString());
+                alertMaker1.showAlert();
+                return;
+            }
             saveData();
             try {
-                GameMenuController.setMatchTable(new MatchTable(Game.getLoggedInUser(), Objects.requireNonNull(Game.getUserByName(competitorUsername.getText()))));
-                new GameView().start(Game.stage);
+                PreGameMenuController.startGame(competitorUsername.getText());
+                startGameStatus = "Waiting for response";
+                Thread thread = new Thread(() -> {
+                    while (true) {
+                        if (!startGameStatus.equals("Waiting for response")) {
+                            break;
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (startGameStatus.equals("Game Started")) {
+                        Platform.runLater(() -> {
+                            try {
+                                alertMaker.showAlert();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        RequestMessage requestMessage1 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                        requestMessage1.setToken(Game.getLoggedInUser().getUsername());
+                        ClientHandler.client.request(requestMessage1);
+                        System.out.println("YOOOOHOOOOOOOOO");
+                        //TODO : Start the game
+
+                        Platform.runLater(() ->{
+                            try {
+                                new GameView().start(Game.stage);
+
+                            } catch (Exception e) {
+                                try {
+                                    new GameView().start(Game.stage);
+
+                                } catch (Exception w) {
+                                    try {
+                                        new GameView().start(Game.stage);
+
+                                    } catch (Exception q) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            }
+                        });
+
+                    } else {
+                        Platform.runLater(() -> {
+                            AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.GAME_REQUEST_REJECTED.toString());
+                            alertMaker1.showAlert();
+                        });
+                    }
+                });
+                thread.start();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            alertMaker.showAlert();
         }
+    }
+
+    public void updateFaction(String name) {
+        loggedInUser.setFaction(Factions.toFaction(name));
+        loggedInUser.setLeader(new Leader(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction())));
+        loggedInUser.setLeaderName(LeaderInfo.getDefaultLeaderInfoByFaction(loggedInUser.getFaction()).name);
+        factionIcon.setImage(new ImageView(new Image(Objects.requireNonNull
+                (GameView.class.getResource(loggedInUser.getFaction().iconAddress)).toExternalForm())).getImage());
+
+        leaderImage.setImage(new ImageView(new Image(Objects.requireNonNull
+                (Objects.requireNonNull(GameView.class.getResource(LeaderInfo.getDefaultLeaderInfoByFaction
+                        (loggedInUser.getFaction()).cardImage)).toExternalForm()))).getImage());
+        factionNameHeader.setText(loggedInUser.getFaction().name.toUpperCase());
+        setUpLeadersImages();
+        selectCardFlowPane.getChildren().clear();
+        selectedCardFlowPane.getChildren().clear();
+        loggedInUser.getDeckCards().clear();
+        setUpCards();
+        setUpSelectedCards();
+        setUpLabels();
+        setUpLeadersImages();
+    }
+
+    public void startRandomGame(MouseEvent mouseEvent) {
     }
 }
