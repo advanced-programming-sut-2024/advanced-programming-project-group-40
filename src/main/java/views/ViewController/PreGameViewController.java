@@ -293,6 +293,7 @@ public class PreGameViewController {
     private void addToSelectedCards(Card card) {
         card.setWidth(120);
         card.setHeight(195);
+        card.initilizePics();
         Pane pane = new Pane();
         pane.getChildren().add(card);
         pane.setOnMouseClicked(e -> {
@@ -338,6 +339,7 @@ public class PreGameViewController {
         for (Node pane1 : selectCardFlowPane.getChildren()) {
             pane1 = (Pane) pane1;
             Card card1 = (Card) ((Pane) pane1).getChildren().get(0);
+            card1.initilizePics();
             if (card1.getName().equals(card.getName())) {
                 card1.removeFromSelected();
                 Label label = (Label) ((HBox) ((Pane) pane1).getChildren().get(1)).getChildren().get(1);
@@ -419,6 +421,7 @@ public class PreGameViewController {
         HBox hBox = new HBox();
         newCard.setWidth(120);
         newCard.setHeight(195);
+        newCard.initilizePics();
         pane.getChildren().add(newCard);
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull
                 (GameView.class.getResource("/Assets/Cards/counter.png")).toExternalForm()));
@@ -558,6 +561,13 @@ public class PreGameViewController {
                         ClientHandler.client.request(requestMessage1);
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
+
+                        try {
+                            new GameView().start(Game.stage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+
                     } else {
                         Platform.runLater(() -> {
                             AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.GAME_REQUEST_REJECTED.toString());

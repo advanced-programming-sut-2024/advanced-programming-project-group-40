@@ -6,11 +6,14 @@ import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
 import Server.Services.EliminationCup.EliminationCup;
 import Server.Services.EliminationCup.Match;
+import Server.Models.GameBoardVisualData;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import models.MatchTable;
 import models.User;
 
 import java.io.*;
@@ -32,6 +35,7 @@ public class Server extends Thread {
     private static final EliminationCup eliminationService = EliminationCup.getInstance();
     private static final HashMap<String, String> requestedGames = new HashMap<>();
     private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
+    private static final ArrayList<MatchTable> matchTables = new ArrayList<>();
     private static SQLDataBase sqlDataBase;
     private static boolean requestSent = false;
     private static final ArrayList<String> usersInGame = new ArrayList<>();
@@ -362,7 +366,21 @@ public class Server extends Thread {
                             requestSent = false;
                             break;
                         case GAME_UPDATE:
-                            //todo
+                            User user1 = getUserByUsername(updateMessage.getToken());
+                            MatchTable matchTable = null;
+                            for (MatchTable matchTable1 : matchTables) {
+                                if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
+                                    matchTable = matchTable1;
+                                    break;
+                                } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user1.getUsername())) {
+                                    matchTable = matchTable1;
+                                    break;
+                                }
+                            }
+                            GameBoardVisualData visualData = new GameBoardVisualData(matchTable
+                                    ,false,false,false,false,false);
+                            ServerMessages serverMessages3 = new ServerMessages(true,visualData.toJSON());
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages3));
                             break;
                     }
                     break;
@@ -370,6 +388,17 @@ public class Server extends Thread {
                     AcceptRejectRequest acceptRejectRequest = (AcceptRejectRequest) clientMessage;
                     if (acceptRejectRequest.isAccept()) {
                         requestedGames.put(acceptRejectRequest.getUsername(), acceptRejectRequest.getToken());
+                        User user1 = getUserByUsername(acceptRejectRequest.getUsername());
+                        User user2 = getUserByUsername(acceptRejectRequest.getToken());
+                        user1.createDeckCards();
+                        user2.createDeckCards();
+                        MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(),true);
+                        matchTable.getGameMenuController().setMatchTable(matchTable);
+                        matchTables.add(matchTable);
+                        GameBoardVisualData a = new GameBoardVisualData(matchTable
+                                , false, false, false, false, false);
+                        ServerMessages messages = new ServerMessages(true,a.toJSON());
+                        sendBuffer.writeUTF(gsonAgent.toJson(messages));
                     } else {
                         requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                     }
@@ -377,11 +406,42 @@ public class Server extends Thread {
                     break;
                 case CHANGE_MATCH_TABLE_DATA:
                     ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
-                    //todo call the GameMenuController function
+                    User user1 = getUserByUsername(changeMessage.getToken());
+                    MatchTable matchTable = null;
+                    for (MatchTable matchTable1 : matchTables) {
+                        if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user1.getUsername())) {
+                            matchTable = matchTable1;
+                            break;
+                        } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user1.getUsername())) {
+                            matchTable = matchTable1;
+                            break;
+                        }
+                    }
+                    matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
+                    GameBoardVisualData visualData = new GameBoardVisualData(matchTable
+                    ,false,false,false,false,false);
+                    ServerMessages serverMessages = new ServerMessages(true,visualData.toJSON());
+                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+
                     break;
                 case CLICKED_ON_CARD:
                     ClickedOnCardMessages clickMessage = (ClickedOnCardMessages) clientMessage;
-                    //todo call the GameMenuController function
+                    User user2 = getUserByUsername(clickMessage.getToken());
+                    MatchTable matchTable2 = null;
+                    for (MatchTable matchTable1 : matchTables) {
+                        if (Objects.equals(matchTable1.getFirstPlayer().getUsername(), user2.getUsername())) {
+                            matchTable2 = matchTable1;
+                            break;
+                        } else if (Objects.equals(matchTable1.getSecondPlayer().getUsername(), user2.getUsername())) {
+                            matchTable2 = matchTable1;
+                            break;
+                        }
+                    }
+                    matchTable2.getGameMenuController().ClickedOnCard(clickMessage.getCardInfo(),clickMessage.isSelectable(),clickMessage.getParentID());
+                    GameBoardVisualData s = new GameBoardVisualData(matchTable2
+                            ,false,false,false,false,false);
+                    ServerMessages serverMessages2 = new ServerMessages(true,s.toJSON());
+                    sendBuffer.writeUTF(gsonAgent.toJson(serverMessages2));
                     break;
             }
             sendBuffer.close();
@@ -418,6 +478,7 @@ public class Server extends Thread {
             Server server2 = new Server();
             server1.start();
             server2.listen();
+
         } catch (Exception e) {
             System.out.println("Server encountered a problem!");
             e.printStackTrace();

@@ -38,9 +38,17 @@ public abstract class Card extends Rectangle {
         this.cardId = Game.random.nextInt(0, 10000);
         this.setWidth(65);
         this.setHeight(90);
-        setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource
-                (cardImage)).toExternalForm())));
+
         this.name = name;
+    }
+
+    public void initilizePics() {
+        try {
+            setFill(new ImagePattern(new Image(Objects.requireNonNull(Card.class.getResource
+                    (cardImage)).toExternalForm())));
+        } catch (Exception e) {
+
+        }
     }
 
     public String getName() {

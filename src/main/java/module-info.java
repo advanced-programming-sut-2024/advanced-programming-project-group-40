@@ -21,7 +21,7 @@ module advanced.programming.project.group {
     opens views.ViewController to javafx.fxml;
     opens Server.Models to com.google.gson;
     opens models to com.google.gson, com.fasterxml.jackson.databind, org.mockito;
-    opens Server to com.google.gson, com.fasterxml.jackson.databind, org.mockito;
+    opens Server to com.google.gson, com.fasterxml.jackson.databind, org.mockito, javafx.graphics;
     opens Server.Messages to com.google.gson, com.fasterxml.jackson.databind, org.mockito;
     opens Server.Messages.Client to com.google.gson, com.fasterxml.jackson.databind, org.mockito;
     opens models.cards to com.google.gson, com.fasterxml.jackson.databind, org.mockito;

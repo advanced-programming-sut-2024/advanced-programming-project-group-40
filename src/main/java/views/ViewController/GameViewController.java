@@ -2,6 +2,7 @@ package views.ViewController;
 
 
 import Server.ClientHandler;
+import Server.Messages.Client.GetUserMessage;
 import Server.Models.GameBoardVisualData;
 import enums.Ability;
 import enums.Origin;
@@ -43,11 +44,12 @@ public class GameViewController extends PlayMenu implements Initializable {
 
     private static final int SPAM_FILTER_TIME = 2000;
     public VBox vboxMessages;
+    private boolean isFirstPlayerMainUser;
     public ScrollPane chat;
     public CheckBox isReply;
     public Label ReactionInput;
     private GameBoardVisualData visualData;
-    private final Stage tempStage = new Stage();
+    private  Stage tempStage;
     Thread spamThread = new Thread(() -> {
         try {
 
@@ -175,9 +177,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         emptyMessage();
         chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-        ClientHandler.client.sendCommand("initiateDeck");
-        InitiateCardEvents();
-        update();
+        setVisualData(ClientHandler.client.sendCommand("initiateDeck"));
+        isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
     }
 
     private static Origin GetDestination(Card selectedCard) {
@@ -287,6 +288,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         ArrayList<Card> cards = new ArrayList<>();
         getCards(pane, cards);
         for (Card card : cards) {
+            card.initilizePics();
             card.setOnMouseClicked(_ -> {
                 CardClickCommand cardClickCommand = new CardClickCommand(card, isSelectable(card), card.getParent().getId());
                 cardClickCommand.excute();
@@ -365,11 +367,11 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void update() {
-        if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn());
-        if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(visualData.isFirstPlayerTurn());
-        if (visualData.isMedic()) MakeMedicWindow(visualData.isFirstPlayerTurn());
-        if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(visualData.isFirstPlayerTurn());
-        if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(visualData.isFirstPlayerTurn());
+        if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+        if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+        if (visualData.isMedic()) MakeMedicWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+        if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+        if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
         if (visualData.getReaction() != null) {
             ReactionInput.setText(visualData.getReaction());
 
@@ -440,7 +442,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
             }
         }
-        if (visualData.isFirstPlayerTurn()) {
+        if (isFirstPlayerMainUser) {
             if (visualData.getLeader(0) != null) {
                 if (firstPlayerLeaderImage != null) {
                     if (firstPlayerLeaderImage.getChildren().isEmpty()) {
@@ -585,7 +587,8 @@ public class GameViewController extends PlayMenu implements Initializable {
             firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
             firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
             secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-        } else {
+        }
+        else {
             if (visualData.getLeader(1) != null) {
                 if (firstPlayerLeaderImage != null) {
                     if (firstPlayerLeaderImage.getChildren().isEmpty()) {
@@ -746,44 +749,54 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void secondPlayerSiegeClicked() {
-        ClientHandler.client.sendCommand("secondPlayerSiegeClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("secondPlayerSiegeClicked");
     }
 
     public void secondPlayerRangedClicked() {
-        ClientHandler.client.sendCommand("secondPlayerRangedClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("secondPlayerRangedClicked");
     }
 
 
     public void secondPlayerCloseCombatClicked() {
-        ClientHandler.client.sendCommand("secondPlayerCloseCombatClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("secondPlayerCloseCombatClicked");
     }
 
     public void firstPlayerCloseCombatClicked() {
-        ClientHandler.client.sendCommand("firstPlayerCloseCombatClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("firstPlayerCloseCombatClicked");
     }
 
     public void firstPlayerRangedClicked() {
-        ClientHandler.client.sendCommand("firstPlayerRangedClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("firstPlayerRangedClicked");
     }
 
     public void firstPlayerSiegeClicked() {
-        ClientHandler.client.sendCommand("firstPlayerSiegeClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("firstPlayerSiegeClicked");
     }
 
     public void closeCombatBoostClicked() {
-        ClientHandler.client.sendCommand("0");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("0");
     }
 
     public void rangedBoostClicked() {
-        ClientHandler.client.sendCommand("1");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("1");
     }
 
     public void siegeBoostClicked() {
-        ClientHandler.client.sendCommand("2");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("2");
     }
 
     public void weatherClicked() {
-        ClientHandler.client.sendCommand("weatherClicked");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("weatherClicked");
     }
 
     public HBox getFirstPlayerDiscard() {
@@ -791,12 +804,14 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void LeaderAction() {
-        ClientHandler.client.sendCommand("LeaderAction");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("LeaderAction");
         update();
     }
 
     public void PassRound() {
-        ClientHandler.client.sendCommand("PassRound");
+        if (isFirstPlayerMainUser == visualData.isFirstPlayerTurn())
+            ClientHandler.client.sendCommand("PassRound");
     }
 
     public void MakeDestroyerOfWorldsWindow(boolean isFirstPlayerTurn) {

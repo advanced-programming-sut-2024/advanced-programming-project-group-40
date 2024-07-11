@@ -113,8 +113,8 @@ public class GameBoardVisualData {
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 0));
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 1));
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 2));
-        firstPlayerNickName = matchTable.getFirstPlayer().getNickname();
-        secondPlayerNickName = matchTable.getSecondPlayer().getNickname();
+        firstPlayerNickName = matchTable.getFirstPlayer().getUsername();
+        secondPlayerNickName = matchTable.getSecondPlayer().getUsername();
         firstPlayerFaction = matchTable.getFirstPlayer().getFaction().name;
         secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
         isFirstPlayerTurn = matchTable.isFirstPlayerTurn();
@@ -323,8 +323,14 @@ public class GameBoardVisualData {
     }
 
     public Card getLeader(int userID) {
-        if (userID == 0) return new Leader(firstPlayerLeader);
-        else return new Leader(secondPlayerLeader);
+        if (userID == 0) {
+            if (firstPlayerLeader == null) return null;
+            return new Leader(firstPlayerLeader);
+        }
+        else {
+            if (secondPlayerLeader == null) return null;
+            return new Leader(secondPlayerLeader);
+        }
     }
 
 
