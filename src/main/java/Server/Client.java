@@ -152,6 +152,7 @@ public class Client {
                 updateMessage.setToken(Game.getLoggedInUser().getUsername());
                 ServerMessages serverMessages = getServerMessage(updateMessage);
                 MessageSubType messageSubType = updateMessage.getSubType();
+                MessageType messageType = updateMessage.getType();
                 if (serverMessages == null) {
                     try {
                         System.out.println("Server is not responding");
@@ -181,19 +182,23 @@ public class Client {
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
-
                                     endConnection();
                                     RequestMessage requestMessage1 = new RequestMessage(Game.getLoggedInUser().getUsername(), Game.getLoggedInUser().getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage1));
                                     endConnection();
 
-                                    try {
-                                        new GameView().start(Game.stage);
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
+                                    if (messageType==MessageType.ELIMINATION){
+                                        // todo go to pre game
                                     }
-                                    //TODO: Start the game
+                                    else {
+                                        try {
+                                            new GameView().start(Game.stage);
+                                        } catch (Exception e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        //TODO: Start the game
+                                    }
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), false);

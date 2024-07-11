@@ -40,4 +40,10 @@ public class EliminationCupController {
     public static boolean checkTeams(ArrayList<String> teams){
         return teams.size() == 8;
     }
+
+    public static String getCompetitorByDefenderName(){
+        EliminationMessage eliminationMessage = new EliminationMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GET_COMPETITOR_IN_ELIMINATION, -1);
+        ServerMessages serverMessages = ClientHandler.client.elimination(eliminationMessage);
+        return serverMessages.getAdditionalInfo();
+    }
 }

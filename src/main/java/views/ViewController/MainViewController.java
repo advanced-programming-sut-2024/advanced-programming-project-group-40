@@ -55,4 +55,12 @@ public class MainViewController {
             throw new RuntimeException(e);
         }
     }
+
+    public void goToTelevision(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
