@@ -60,6 +60,7 @@ public class MatchTable {
 
     private boolean isMatchRandom = false;
     private String reaction;
+    private boolean Emoji;
 
     public MatchTable(User firstPlayer, User secondPlayer, GameMenuController gameMenuController, boolean publicGame) {
         this.gameMenuController = gameMenuController;
@@ -69,6 +70,14 @@ public class MatchTable {
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
         this.publicGame = publicGame;
         initializeMatchTable();
+    }
+
+    public void setEmoji(boolean emoji) {
+        Emoji = emoji;
+    }
+
+    public boolean isEmoji() {
+        return Emoji;
     }
 
     public String getReaction() {

@@ -231,6 +231,9 @@ public class Server extends Thread {
                             case GET_FRIENDS:
                                 names = requestService.getFriends(getListOfNamesMessage.getKeyName());
                                 break;
+                            case GET_ALL_USERNAMES:
+                                names = getAllUsersName();
+                                break;
                             case GET_REJECTED_REQUESTS:
                                 names = requestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
                                 break;
@@ -512,5 +515,14 @@ public class Server extends Thread {
         }
         return null;
     }
-
+    public ArrayList<String> getAllUsersName(){
+        ArrayList<String> names=new ArrayList<>();
+        for (User user : allUsers) {
+            names.add(user.getUsername());
+        }
+        return names;
+    }
 }
+
+
+

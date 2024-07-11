@@ -21,6 +21,8 @@ import javafx.scene.control.*;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 
@@ -50,6 +52,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     public VBox vboxMessages;
     public StackPane secondPlayerFactionImage;
     public StackPane firstPlayerFactionImage;
+    public ImageView EmojiBRRRRRR;
     private boolean isFirstPlayerMainUser;
     public ScrollPane chat;
     public CheckBox isReply;
@@ -1043,5 +1046,14 @@ public class GameViewController extends PlayMenu implements Initializable {
             }
         }
         update();
+    }
+
+    public void emojiActive() {
+        ClientHandler.client.sendCommand("Emoji");
+        if (EmojiBRRRRRR.getImage() == null){
+
+            EmojiBRRRRRR.setImage(new Image(Objects.requireNonNull(Card.class.getResource
+                    ("/Assets/images.jpg")).toExternalForm()));
+        }
     }
 }

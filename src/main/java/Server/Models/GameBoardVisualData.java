@@ -65,7 +65,7 @@ public class GameBoardVisualData {
     boolean isThereAMessage = false;
     boolean online1;
     boolean online2;
-
+    boolean isEmojiActive;
     public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty, boolean online1, boolean online2) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
@@ -77,6 +77,14 @@ public class GameBoardVisualData {
         this.isKingOfWildHunt = isKingOfWildHunt;
         this.isImperialMajesty = isImperialMajesty;
         this.Recation = matchTable.getReaction();
+    }
+
+    public boolean isEmojiActive() {
+        return isEmojiActive;
+    }
+
+    public void setEmojiActive(boolean emojiActive) {
+        isEmojiActive = emojiActive;
     }
 
     public boolean isOnline1() {

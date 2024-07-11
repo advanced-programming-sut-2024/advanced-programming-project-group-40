@@ -410,6 +410,7 @@ public class GameMenuController {
 
         } else {
             return switch (s) {
+                case "emoji" -> Emojiset();
                 case "secondPlayerSiegeClicked" -> ClickedOnRow(Origin.SECONDPLAYER_SIEGE);
                 case "secondPlayerRangedClicked" -> ClickedOnRow(Origin.SECONDPLAYER_RANGED);
                 case "secondPlayerCloseCombatClicked" -> ClickedOnRow(Origin.SECONDPLAYER_CLOSECOMBAT);
@@ -427,6 +428,15 @@ public class GameMenuController {
             };
         }
     }
+
+    private GameBoardVisualData Emojiset() {
+        matchTable.setEmoji(true);
+        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+                , false, false, false, false, false,true,true);
+        gameBoardVisualData.setEmojiActive(true);
+        return gameBoardVisualData;
+    }
+
     public static User changeTurnShit(User user1, User user2){
         User temp = user1;
         user1 = user2;

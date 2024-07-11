@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -37,6 +38,7 @@
             <children>
                <HBox fx:id="secondPlayerLeaderImage" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="CENTER" />
             </children></StackPane>
+         <ImageView fx:id="EmojiBRRRRRR" fitHeight="72.0" fitWidth="77.0" layoutX="121.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
       </Pane>
       <StackPane>
          <Pane prefHeight="200.0" prefWidth="200.0" styleClass="infoholderbackground" />
@@ -62,6 +64,7 @@
       <Pane prefHeight="213.0" prefWidth="192.0" styleClass="weather">
          <children>
             <HBox fx:id="spellCards" alignment="CENTER_LEFT" layoutX="3.0" layoutY="28.0" onMouseClicked="#weatherClicked" prefHeight="100.0" prefWidth="185.0" />
+            <Button layoutX="70.0" layoutY="124.0" mnemonicParsing="false" onMouseClicked="#emojiActive" text="Send Emoji" />
          </children></Pane>
       <StackPane>
          <Pane prefHeight="200.0" prefWidth="200.0" styleClass="infoholderbackground" />
