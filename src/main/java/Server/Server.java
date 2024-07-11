@@ -30,7 +30,6 @@ public class Server extends Thread {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
     private static final EliminationCup eliminationService = EliminationCup.getInstance();
-
     private static final HashMap<String, String> requestedGames = new HashMap<>();
     private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
     private static SQLDataBase sqlDataBase;
@@ -191,9 +190,6 @@ public class Server extends Thread {
                         case REJECT_GAME_REQUEST:
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
-                        case MAKE_PERSON_GO_TO_PRE_GAME:
-
-                            break;
                         case GAME_REQUEST:
                             requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
                             break;
@@ -254,7 +250,6 @@ public class Server extends Thread {
                     EliminationMessage eliminationMessage = (EliminationMessage) clientMessage;
                     switch (eliminationMessage.getSubType()) {
                         case JOIN_ELIMINATION:
-                            // todo update
                             eliminationService.addPlayer(eliminationMessage.getUsername());
                             break;
                         case GET_MATCH_ELIMINATION:
@@ -270,12 +265,17 @@ public class Server extends Thread {
                         case IS_STARTED_ELIMINATION:
                             if (eliminationService.isEliminationStarted())
                                 serverMessage = new ServerMessages(true, "started");
-                                else
+                            else
                                 serverMessage = new ServerMessages(false, "not yet");
                             sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
-                             break;
-                        case START_ELIMINATION:
-                            // todo go to pre Game if user is online and in menus
+                            break;
+                        case GET_COMPETITOR_IN_ELIMINATION:
+                            String name = eliminationService.getCompetitor(eliminationMessage.getUsername());
+                            if (name.isEmpty())
+                                serverMessage = new ServerMessages(false, "user not found");
+                            else
+                                serverMessage = new ServerMessages(true, name);
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             break;
                     }
                     break;
@@ -370,7 +370,7 @@ public class Server extends Thread {
                     } else {
                         requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                     }
-                    
+
                     break;
                 case CHANGE_MATCH_TABLE_DATA:
                     ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
@@ -388,6 +388,7 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());

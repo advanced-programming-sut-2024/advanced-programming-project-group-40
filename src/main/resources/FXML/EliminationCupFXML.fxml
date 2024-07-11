@@ -4,113 +4,155 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ViewController.EliminationCupViewController">
-   <children>
-      <Pane layoutX="47.0" layoutY="83.0" prefHeight="453.0" prefWidth="890.0">
-         <children>
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" styleClass="menu-background" stylesheets="@../CSS/Style.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="views.ViewController.EliminationCupViewController">
+    <children>
+        <Pane layoutX="47.0" layoutY="83.0" prefHeight="453.0" prefWidth="890.0">
+            <children>
 
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="82.0" layoutY="227.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="332.0" layoutY="321.0" startX="213.79998779296875" startY="-136.8000030517578" />
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="82.0" layoutY="227.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="332.0" layoutY="321.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
 
-            <Line endX="172.4000244140625" layoutX="462.0" layoutY="89.0" startX="-166.79998779296875" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="421.0" layoutY="227.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <BorderPane layoutX="250.0" layoutY="126.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label text="BL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-
-
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="177.0" layoutY="322.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="229.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="245.0" layoutY="196.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="421.0" layoutY="289.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="82.0" layoutY="289.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="25.399993896484375" layoutX="365.0" layoutY="184.0" startX="-175.70001220703125" startY="0.699981689453125" />
-            <Line endX="51.399993896484375" layoutX="700.0" layoutY="185.0" startX="-153.5999755859375" />
-
-            <BorderPane layoutX="419.0" layoutY="34.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="A" text="A" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="346.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="DL" text="DL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="151.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="CL" text="CL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="506.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="CR" text="CR" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-
-            <BorderPane layoutX="712.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="DR" text="DR" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="594.0" layoutY="126.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="BR" text="BR" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="332.0" layoutY="380.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="-25.0" layoutY="322.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="538.0" layoutY="322.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="-80.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="-23.0" layoutY="380.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="121.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="176.0" layoutY="380.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="28.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="392.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="285.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="538.0" layoutY="380.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="592.0" layoutY="412.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="484.0" layoutY="413.0" startX="213.79998779296875" startY="-136.8000030517578" />
-            <Line endX="-60.600006103515625" layoutX="302.0" layoutY="275.0" startX="-166.79998779296875" />
-            <Line endX="-60.600006103515625" layoutX="666.0" layoutY="274.0" startX="-166.79998779296875" />
-            <Line endX="-60.600006103515625" layoutX="503.0" layoutY="275.0" startX="-166.79998779296875" />
-            <Line endX="-60.600006103515625" layoutX="866.0" layoutY="275.0" startX="-166.79998779296875" />
+                <Line endX="172.4000244140625" layoutX="462.0" layoutY="89.0" startX="-166.79998779296875"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="421.0" layoutY="227.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <BorderPane layoutX="250.0" layoutY="126.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label text="BL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
 
 
-            <BorderPane layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="FL" text="FL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="90.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="EL" text="EL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="386.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="HL" text="HL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="296.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="GL" text="GL" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="766.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="HR" text="HR" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="657.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="GR" text="GR" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="565.0" layoutY="309.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="FR" text="FR" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
-            <BorderPane layoutX="466.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
-               <center>
-                  <Label fx:id="ER" text="ER" BorderPane.alignment="CENTER" />
-               </center></BorderPane>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="177.0" layoutY="322.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="229.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="245.0" layoutY="196.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="421.0" layoutY="289.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="82.0" layoutY="289.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="25.399993896484375" layoutX="365.0" layoutY="184.0" startX="-175.70001220703125"
+                      startY="0.699981689453125"/>
+                <Line endX="51.399993896484375" layoutX="700.0" layoutY="185.0" startX="-153.5999755859375"/>
 
-         </children>
-      </Pane>
-      <Button layoutX="474.0" layoutY="558.0" mnemonicParsing="false" onMouseClicked="#join" text="Join" />
-      <Button layoutX="474.0" layoutY="595.0" mnemonicParsing="false" onMouseClicked="#goToLive" text="Television" />
-      <Button layoutX="589.0" layoutY="558.0" mnemonicParsing="false" text="Button" onMouseClicked="#start"/>
-   </children>
+                <BorderPane layoutX="419.0" layoutY="34.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="A" text="A" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="346.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="DL" text="DL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="151.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="CL" text="CL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="506.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="CR" text="CR" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+
+                <BorderPane layoutX="712.0" layoutY="218.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="DR" text="DR" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="594.0" layoutY="126.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="BR" text="BR" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="332.0" layoutY="380.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="-25.0" layoutY="322.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="538.0" layoutY="322.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="-80.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="-23.0" layoutY="380.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="121.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="176.0" layoutY="380.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="28.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="392.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="285.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="538.0" layoutY="380.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="592.0" layoutY="412.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="213.79998779296875" endY="-104.60000610351562" layoutX="484.0" layoutY="413.0"
+                      startX="213.79998779296875" startY="-136.8000030517578"/>
+                <Line endX="-60.600006103515625" layoutX="302.0" layoutY="275.0" startX="-166.79998779296875"/>
+                <Line endX="-60.600006103515625" layoutX="666.0" layoutY="274.0" startX="-166.79998779296875"/>
+                <Line endX="-60.600006103515625" layoutX="503.0" layoutY="275.0" startX="-166.79998779296875"/>
+                <Line endX="-60.600006103515625" layoutX="866.0" layoutY="275.0" startX="-166.79998779296875"/>
+
+
+                <BorderPane layoutX="201.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="FL" text="FL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="90.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="EL" text="EL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="386.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="HL" text="HL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="296.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="GL" text="GL" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="766.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="HR" text="HR" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="657.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="GR" text="GR" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="565.0" layoutY="309.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="FR" text="FR" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+                <BorderPane layoutX="466.0" layoutY="308.0" prefHeight="25.0" prefWidth="80.0" styleClass="brown-box">
+                    <center>
+                        <Label fx:id="ER" text="ER" BorderPane.alignment="CENTER"/>
+                    </center>
+                </BorderPane>
+
+            </children>
+        </Pane>
+        <Button fx:id="join" layoutX="474.0" layoutY="558.0" mnemonicParsing="false" onMouseClicked="#join" text="Join"
+                styleClass="button-regular"/>
+        <Button layoutX="474.0" layoutY="595.0" mnemonicParsing="false" onMouseClicked="#goToLive" text="Television"
+                styleClass="button-regular"/>
+        <Button fx:id="start" layoutX="589.0" layoutY="558.0" mnemonicParsing="false" text="start"
+                onMouseClicked="#start" styleClass="button-regular"/>
+    </children>
 </AnchorPane>

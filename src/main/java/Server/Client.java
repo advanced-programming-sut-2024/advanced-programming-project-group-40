@@ -2,6 +2,7 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
+import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -147,6 +148,7 @@ public class Client {
             while (true) {
                 ServerMessages serverMessages = getServerMessage(updateMessage);
                 MessageSubType messageSubType = updateMessage.getSubType();
+                MessageType messageType = updateMessage.getType();
                 if (serverMessages == null) {
                     try {
                         System.out.println("Server is not responding");
@@ -181,7 +183,13 @@ public class Client {
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage1));
                                     endConnection();
-                                    //TODO: Start the game
+
+                                    if (messageType==MessageType.ELIMINATION){
+                                        // todo go to pre game
+                                    }
+                                    else {
+                                        //TODO: Start the game
+                                    }
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), false);
