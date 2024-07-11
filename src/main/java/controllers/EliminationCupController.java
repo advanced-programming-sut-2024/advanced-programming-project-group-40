@@ -1,4 +1,4 @@
-package controllers.MenuController;
+package controllers;
 
 import Server.ClientHandler;
 import Server.Messages.Client.EliminationMessage;
@@ -8,6 +8,8 @@ import Server.Services.EliminationCup.Match;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import models.Game;
+
+import java.util.ArrayList;
 
 public class EliminationCupController {
 
@@ -34,5 +36,8 @@ public class EliminationCupController {
         String result = serverMessages.getAdditionalInfo();
         boolean success = serverMessages.wasSuccessfull();
         return success;
+    }
+    public static boolean checkTeams(ArrayList<String> teams){
+        return teams.size() == 8;
     }
 }

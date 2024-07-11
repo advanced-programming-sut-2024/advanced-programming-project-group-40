@@ -1,15 +1,9 @@
-package controllers.MenuController;
+package controllers;
 
-import models.MatchTable;
 import models.User;
-import models.UserInputHandler.CardClickCommand;
-import models.cards.Card;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class GameMenuControllerTest {
     @Test

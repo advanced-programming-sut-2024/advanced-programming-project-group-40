@@ -1,4 +1,4 @@
-package controllers.MenuController;
+package controllers;
 
 import Server.Models.GameBoardVisualData;
 import enums.Ability;
@@ -7,10 +7,8 @@ import enums.cards.CardInfo;
 import models.Chat.Message;
 import models.Chat.ReplyData;
 import models.MatchTable;
-import models.UserInputHandler.CardClickCommand;
 import models.User;
 import models.cards.*;
-import views.ViewController.GameViewController;
 
 import java.util.Date;
 import java.util.Objects;
