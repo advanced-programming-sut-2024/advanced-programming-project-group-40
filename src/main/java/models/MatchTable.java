@@ -1,6 +1,6 @@
 package models;
 
-import controllers.MenuController.GameMenuController;
+import controllers.GameMenuController;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;

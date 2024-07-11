@@ -395,6 +395,19 @@ public class Server extends Thread {
             requestedGames.put(user.getUsername(), "");
             onlineStatus.put(user.getUsername(), false);
         }
+        Thread makeAllUsersOffline = new Thread(() -> {
+            while (true) {
+                for (String username : onlineStatus.keySet()) {
+                    onlineStatus.put(username, false);
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        makeAllUsersOffline.start();
         try {
             Server.setupServer();
             Server server1 = new Server();

@@ -2,7 +2,7 @@ package views.ViewController;
 
 import Server.Messages.MessageSubType;
 import Server.Services.EliminationCup.Match;
-import controllers.MenuController.EliminationCupController;
+import controllers.EliminationCupController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;

@@ -1,5 +1,8 @@
 package views;
 
+import Server.ClientHandler;
+import Server.Messages.Client.UpdateMessage;
+import Server.Messages.MessageSubType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -12,7 +15,7 @@ public class ScoreBoard extends PlayMenu{
     }
     @Override
     public void start(Stage stage) throws Exception {
-
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.MAIN_MENU_UPDATE));
         Game.stage = stage;
         Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/ScoreBoardFXML.fxml"));
 
