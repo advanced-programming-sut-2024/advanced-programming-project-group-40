@@ -181,16 +181,17 @@ public class Client {
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage));
 
-                                    try {
-                                        new GameView().start(Game.stage);
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
                                     endConnection();
                                     RequestMessage requestMessage1 = new RequestMessage(Game.getLoggedInUser().getUsername(), Game.getLoggedInUser().getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
                                     establishConnection();
                                     sendMessage(gsonAgent.toJson(requestMessage1));
                                     endConnection();
+
+                                    try {
+                                        new GameView().start(Game.stage);
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
                                     //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";

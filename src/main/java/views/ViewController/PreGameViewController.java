@@ -567,8 +567,6 @@ public class PreGameViewController {
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
-
 
                     } else {
                         Platform.runLater(() -> {
