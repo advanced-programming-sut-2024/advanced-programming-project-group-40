@@ -491,11 +491,12 @@ public class Server extends Thread {
         makeAllUsersOffline.start();
         try {
             Server.setupServer();
-            Server server1 = new Server();
-            Server server2 = new Server();
-            server1.start();
-            server2.listen();
-
+            for (int i = 0; i < 10; i++) {
+                Server server = new Server();
+                server.start();
+            }
+            Server server = new Server();
+            server.listen();
         } catch (Exception e) {
             System.out.println("Server encountered a problem!");
             e.printStackTrace();
