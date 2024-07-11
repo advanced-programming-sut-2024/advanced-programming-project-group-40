@@ -1,0 +1,23 @@
+[
+  {
+    "username": "sarina",
+    "password": "!8Wtp*Jt",
+    "email": "dwkow",
+    "nickname": "njfnje@dwjh.com",
+    "faction": "MONSTERS",
+    "point": 0,
+    "gamesPlayed": 0,
+    "won": 0,
+    "draw": 0,
+    "lost": 0,
+    "SecurityAnswer": "1",
+    "SecurityQuestionNumber": 1,
+    "deckCardsName": [],
+    "leaderName": "Bringer of Death",
+    "stayLoggedIn": false,
+    "numberOfUnitCards": 0,
+    "numberOfSpecialCards": 0,
+    "numberOfHeroCards": 0,
+    "totalUnitCardsStrength": 0
+  }
+]
