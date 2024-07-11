@@ -10,6 +10,7 @@ import Server.Models.GameBoardVisualData;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import models.MatchTable;
@@ -375,8 +376,8 @@ public class Server extends Thread {
                             }
                             GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                                     ,false,false,false,false,false);
-                            ServerMessages serverMessages = new ServerMessages(true,visualData.toJSON());
-                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
+                            ServerMessages serverMessages3 = new ServerMessages(true,visualData.toJSON());
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages3));
                             break;
                     }
                     break;
@@ -388,7 +389,7 @@ public class Server extends Thread {
                         User user2 = getUserByUsername(acceptRejectRequest.getToken());
                         user1.createDeckCards();
                         user2.createDeckCards();
-                        MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController());
+                        MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(),true);
                         matchTable.getGameMenuController().setMatchTable(matchTable);
                         matchTables.add(matchTable);
                         GameBoardVisualData a = new GameBoardVisualData(matchTable
