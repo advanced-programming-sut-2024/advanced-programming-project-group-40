@@ -193,7 +193,7 @@ public class GameViewController extends PlayMenu implements Initializable {
         }
 
         setVisualData(a);
-        isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
+
         ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GAME_UPDATE));
     }
 
@@ -383,6 +383,7 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void update() {
+        isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getFirstPlayerUserName());
         Platform.runLater(() -> {
             if (visualData.isDestroyer())
                 MakeDestroyerOfWorldsWindow(visualData.isFirstPlayerTurn() == isFirstPlayerMainUser);
@@ -436,7 +437,8 @@ public class GameViewController extends PlayMenu implements Initializable {
                         vboxMessages.getChildren().add(hBox);
                     }
 
-                } else {
+                }
+                else {
                     if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
                         hBox.setAlignment(Pos.CENTER_RIGHT);
                         hBox.setPadding(new Insets(5, 5, 5, 10));
@@ -463,6 +465,7 @@ public class GameViewController extends PlayMenu implements Initializable {
 
                 }
             }
+            System.out.println(STR."\{Game.getLoggedInUser().getUsername()}  \{isFirstPlayerMainUser}");
             if (isFirstPlayerMainUser) {
                 if (visualData.getLeader(0) != null) {
                     if (firstPlayerLeaderImage != null) {
@@ -608,7 +611,8 @@ public class GameViewController extends PlayMenu implements Initializable {
                 firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
                 firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
                 secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-            } else {
+            }
+            else {
                 if (visualData.getLeader(1) != null) {
                     if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {
