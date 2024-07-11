@@ -57,7 +57,7 @@ public class MatchTable {
     private boolean isFirstPlayerLeaderUsed = false;
     private boolean isSecondPlayerLeaderUsed = false;
 
-
+    private boolean isMatchRandom = false;
     public MatchTable(User firstPlayer, User secondPlayer, GameMenuController gameMenuController, boolean publicGame) {
         this.gameMenuController = gameMenuController;
         this.firstPlayer = firstPlayer;

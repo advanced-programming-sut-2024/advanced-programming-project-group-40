@@ -9,9 +9,17 @@ import Server.Services.EliminationCup.Match;
 import Server.Services.FriendRequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.MenuController.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
+import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
+import enums.cards.HeroInfo;
+import enums.cards.LeaderInfo;
+import enums.cards.SpecialCardInfo;
+import enums.cards.UnitCardInfo;
+import models.Game;
 import models.User;
+import models.cards.*;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -28,12 +36,14 @@ public class Server extends Thread {
     private static final ArrayList<User> allUsers = new ArrayList<>();
     private static final ArrayList<Socket> connections = new ArrayList<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private static final FriendRequestService friendRequestService = FriendRequestService.getInstance();
+    private static final RequestService requestService = RequestService.getInstance();
     private static final EliminationCup eliminationService = EliminationCup.getInstance();
+
     private static final HashMap<String, String> requestedGames = new HashMap<>();
     private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
     private static SQLDataBase sqlDataBase;
     private static boolean requestSent = false;
+    private static final ArrayList<String> usersInGame = new ArrayList<>();
 
     private static void setupServer() {
         try {
@@ -99,7 +109,7 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, SignUpMessages.class);
                 case GET_USER:
                     return gsonAgent.fromJson(clientStr, GetUserMessage.class);
-                case FRIEND_REQUEST:
+                case REQUEST:
                     return gsonAgent.fromJson(clientStr, RequestMessage.class);
                 case GET_LIST_OF_NAMES:
                     return gsonAgent.fromJson(clientStr, GetListOfNamesMessage.class);
@@ -168,33 +178,45 @@ public class Server extends Thread {
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                     break;
-                case FRIEND_REQUEST:
+                case REQUEST:
                     RequestMessage requestMessage = (RequestMessage) clientMessage;
                     switch (requestMessage.getSubType()) {
                         case SEND_FOLLOW_REQUEST:
-                            friendRequestService.createFriendRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestService.createFriendRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case ACCEPT_FOLLOW_REQUEST:
-                            friendRequestService.acceptFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestService.acceptFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case REJECT_FOLLOW_REQUEST:
-                            friendRequestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestService.rejectFollowRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case SEND_GAME_REQUEST:
-                            // todo update
-                            friendRequestService.createGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestService.createGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case ACCEPT_GAME_REQUEST:
-                            friendRequestService.acceptGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestService.acceptGameRequest(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
                             break;
                         case REJECT_GAME_REQUEST:
-                            friendRequestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
+                            requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
+                            break;
+                        case MAKE_PERSON_GO_TO_PRE_GAME:
+
                             break;
                         case GAME_REQUEST:
                             requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
                             break;
                         case CHECK_ONLINE:
                             serverMessage = new ServerMessages(onlineStatus.get(requestMessage.getDestinationUsername()), "");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            break;
+                        case ADD_TO_USERS_IN_GAME:
+                            usersInGame.add(requestMessage.getOriginUsername());
+                            break;
+                        case REMOVE_FROM_USERS_IN_GAME:
+                            usersInGame.remove(requestMessage.getOriginUsername());
+                            break;
+                        case CHECK_IN_GAME:
+                            serverMessage = new ServerMessages(usersInGame.contains(requestMessage.getOriginUsername()), "");
                             sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             break;
                     }
@@ -204,29 +226,28 @@ public class Server extends Thread {
                     ArrayList<String> names = new ArrayList<>();
                     switch (getListOfNamesMessage.getSubType()) {
                         case GET_FRIENDS:
-                            names = friendRequestService.getFriends(getListOfNamesMessage.getKeyName());
+                            names = requestService.getFriends(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_REQUESTS:
-                            names = friendRequestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
+                            names = requestService.getRejectedFollowRequest(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_PENDING_FOLLOW_REQUESTS:
-                            names = friendRequestService.getPendingFollowRequests(getListOfNamesMessage.getKeyName());
+                            names = requestService.getPendingFollowRequests(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_FOLLOW_REQUESTS:
-                            names = friendRequestService.getFollowRequests(getListOfNamesMessage.getKeyName());
+                            names = requestService.getFollowRequests(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_GAME_REQUEST:
-                            names = friendRequestService.getGameRequests(getListOfNamesMessage.getKeyName());
+                            names = requestService.getGameRequests(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_ACCEPTED_GAME_REQUESTS:
-                            // todo go to pre Game if user is online and in menus
-                            names = friendRequestService.getAcceptedGameRequest(getListOfNamesMessage.getKeyName());
+                            names = requestService.getAcceptedGameRequest(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_REJECTED_GAME_REQUEST:
-                            names = friendRequestService.getRejectedGameRequest(getListOfNamesMessage.getKeyName());
+                            names = requestService.getRejectedGameRequest(getListOfNamesMessage.getKeyName());
                             break;
                         case GET_PENDING_GAME_REQUEST:
-                            names = friendRequestService.getPendingGameRequests(getListOfNamesMessage.getKeyName());
+                            names = requestService.getPendingGameRequests(getListOfNamesMessage.getKeyName());
                             break;
                     }
                     if (names == null) {
@@ -357,7 +378,7 @@ public class Server extends Thread {
                     } else {
                         requestedGames.put(acceptRejectRequest.getUsername(), "decline");
                     }
-
+                    
                     break;
                 case CHANGE_MATCH_TABLE_DATA:
                     ChangeMatchTableDataMessages changeMessage = (ChangeMatchTableDataMessages) clientMessage;
@@ -375,7 +396,6 @@ public class Server extends Thread {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args) {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());

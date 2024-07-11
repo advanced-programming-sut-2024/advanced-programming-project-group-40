@@ -506,6 +506,20 @@ public class PreGameViewController {
 
     @FXML
     private void startGame(MouseEvent mouseEvent) {
+        RequestMessage requestMessage = new RequestMessage(loggedInUser.getUsername(), competitorUsername.getText(), MessageSubType.CHECK_ONLINE);
+        boolean isOnline = ClientHandler.client.request(requestMessage).wasSuccessfull();
+        if (!isOnline) {
+            AlertMaker alertMaker = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_NOT_ONLINE.toString());
+            alertMaker.showAlert();
+            return;
+        }
+        RequestMessage requestMessage2 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.CHECK_IN_GAME);
+        boolean isInGame = ClientHandler.client.request(requestMessage2).wasSuccessfull();
+        if (isInGame) {
+            AlertMaker alertMaker = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_IN_GAME.toString());
+            alertMaker.showAlert();
+            return;
+        }
         AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.PUBLIC_GAME.toString());
         alert.showAlert();
         if (alert.isOK())
@@ -539,6 +553,8 @@ public class PreGameViewController {
                                 throw new RuntimeException(e);
                             }
                         });
+                        RequestMessage requestMessage1 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                        ClientHandler.client.request(requestMessage1);
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
                     } else {
