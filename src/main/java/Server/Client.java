@@ -134,8 +134,8 @@ public class Client {
     }
 
     public void update(UpdateMessage updateMessage) {
-        if (updateThread != null)
-            stopUpdateThread();
+//        if (updateThread != null)
+//            updateThread.;
         startUpdateThread(updateMessage);
     }
 
@@ -149,6 +149,7 @@ public class Client {
                         System.out.println("Server is not responding");
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         e.printStackTrace();
                     }
                     continue;
@@ -205,6 +206,7 @@ public class Client {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }

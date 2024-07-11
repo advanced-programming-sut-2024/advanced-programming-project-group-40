@@ -3,6 +3,7 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
+import Server.Messages.Client.RequestMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
 import controllers.DataSaver;
