@@ -55,4 +55,7 @@ public class MainViewController {
             throw new RuntimeException(e);
         }
     }
+
+    public void goToTelevision(MouseEvent mouseEvent) {
+    }
 }
