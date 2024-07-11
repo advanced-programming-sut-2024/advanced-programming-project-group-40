@@ -245,9 +245,9 @@ public class Client {
         return serverMessages.getAdditionalInfo();
     }
 
-    private void stopUpdateThread() {
-        updateThread.interrupt();
-    }
+//    public void stopUpdateThread() {
+//        updateThread.;
+//    }
 
 
 }
