@@ -29,7 +29,7 @@ public class EliminationCupController {
     }
 
     public static boolean isStarted() {
-        EliminationMessage eliminationMessage = new EliminationMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GET_MATCH_ELIMINATION, number);
+        EliminationMessage eliminationMessage = new EliminationMessage(Game.getLoggedInUser().getUsername(), MessageSubType.GET_MATCH_ELIMINATION, -1);
         ServerMessages serverMessages = ClientHandler.client.elimination(eliminationMessage);
         String result = serverMessages.getAdditionalInfo();
         boolean success = serverMessages.wasSuccessfull();

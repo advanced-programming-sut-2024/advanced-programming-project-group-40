@@ -6,7 +6,7 @@ public enum MessageType {
     PREGAME,
     PROFILE,
     GET_USER,
-    FRIEND_REQUEST,
+    REQUEST,
     GET_LIST_OF_NAMES,
     SEND_FOLLOW_REQUEST,
     ACCEPT_FOLLOW_REQUEST,

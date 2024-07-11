@@ -37,7 +37,7 @@ public class Utilities {
         }.getType());
     }
 
-    public static void sendFriendRequest(String origin, String target, MessageSubType subType) {
+    public static void sendRequest(String origin, String target, MessageSubType subType) {
         RequestMessage requestMessage = new RequestMessage(origin, target, subType);
         ServerMessages serverMessages = ClientHandler.client.request(requestMessage);
     }
