@@ -1,9 +1,9 @@
 [
   {
-    "username": "q",
-    "password": "4$B#UdvQ",
-    "email": "q",
-    "nickname": "q@q.com",
+    "username": "mahdyar",
+    "password": "l3K8$#@j",
+    "email": "m",
+    "nickname": "m@m.com",
     "faction": "MONSTERS",
     "point": 0,
     "gamesPlayed": 0,
@@ -12,6 +12,7 @@
     "lost": 0,
     "SecurityAnswer": "1",
     "SecurityQuestionNumber": 1,
+    "deckCardsNames": [],
     "stayLoggedIn": false,
     "numberOfUnitCards": 0,
     "numberOfSpecialCards": 0,
