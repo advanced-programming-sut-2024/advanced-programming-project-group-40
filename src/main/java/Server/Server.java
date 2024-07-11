@@ -190,7 +190,6 @@ public class Server extends Thread {
                             requestService.rejectGameRequest(requestMessage.getOriginUsername(), requestMessage.getOriginUsername());
                             break;
                         case MAKE_PERSON_GO_TO_PRE_GAME:
-
                             break;
                         case GAME_REQUEST:
                             requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
