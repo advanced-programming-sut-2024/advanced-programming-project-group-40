@@ -4,12 +4,14 @@ package views.ViewController;
 import Server.Client;
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
+import Server.Messages.Client.GetListOfNamesMessage;
 import Server.Messages.Client.RequestMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
 import Server.Messages.MessageType;
 import controllers.DataSaver;
 import controllers.MenuController.PreGameMenuController;
+import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
@@ -622,5 +624,91 @@ public class PreGameViewController {
     }
 
     public void startRandomGame(MouseEvent mouseEvent) {
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.PUBLIC_GAME.toString());
+        alert.showAlert();
+        if (alert.isOK())
+            publicGame = true;
+        else
+            publicGame = false;
+        saveData();
+        AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
+        if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            RequestMessage requestMessage = new RequestMessage(loggedInUser.getUsername(), competitorUsername.getText(), MessageSubType.CHECK_ONLINE);
+            boolean isOnline = ClientHandler.client.request(requestMessage).wasSuccessfull();
+            if (!isOnline) {
+                AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_NOT_ONLINE.toString());
+                alertMaker1.showAlert();
+                return;
+            }
+            RequestMessage requestMessage2 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.CHECK_IN_GAME);
+            boolean isInGame = ClientHandler.client.request(requestMessage2).wasSuccessfull();
+            if (isInGame) {
+                AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_IN_GAME.toString());
+                alertMaker1.showAlert();
+                return;
+            }
+            saveData();
+            try {
+                PreGameMenuController.startGame(competitorUsername.getText());
+                startGameStatus = "Waiting for response";
+                Thread thread = new Thread(() -> {
+                    while (true) {
+                        if (!startGameStatus.equals("Waiting for response")) {
+                            break;
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (startGameStatus.equals("Game Started")) {
+                        Platform.runLater(() -> {
+                            try {
+                                alertMaker.showAlert();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                        RequestMessage requestMessage1 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                        requestMessage1.setToken(Game.getLoggedInUser().getUsername());
+                        ClientHandler.client.request(requestMessage1);
+                        System.out.println("YOOOOHOOOOOOOOO");
+                        //TODO : Start the game
+
+                        Platform.runLater(() ->{
+                            try {
+                                new GameView().start(Game.stage);
+
+                            } catch (Exception e) {
+                                try {
+                                    new GameView().start(Game.stage);
+
+                                } catch (Exception w) {
+                                    try {
+                                        new GameView().start(Game.stage);
+
+                                    } catch (Exception q) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            }
+                        });
+
+                    } else {
+                        Platform.runLater(() -> {
+                            AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.GAME_REQUEST_REJECTED.toString());
+                            alertMaker1.showAlert();
+                        });
+                    }
+                });
+                thread.start();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            alertMaker.showAlert();
+        }
     }
 }
