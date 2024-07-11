@@ -47,4 +47,12 @@ public class MainViewController {
             throw new RuntimeException(e);
         }
     }
+
+    public void goToEliminationCup(MouseEvent mouseEvent) {
+        try {
+            new EliminationCupMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -21,7 +21,6 @@
 }
 
 .button-no-background {
-    -fx-font-size: 16px;
     -fx-font-family: "Cambria"; /* Font family */
     -fx-background-color: transparent; /* Remove background color */
     -fx-background-insets: 0; /* Remove background insets */

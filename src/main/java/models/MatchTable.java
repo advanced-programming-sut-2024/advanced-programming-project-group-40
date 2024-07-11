@@ -1,6 +1,6 @@
 package models;
 
-import controllers.MenuController.GameMenuController;
+import controllers.GameMenuController;
 import enums.Ability;
 import enums.Factions;
 import enums.Origin;
@@ -23,7 +23,7 @@ public class MatchTable {
     private int round = 1;
     private Date date;
     private final LeaderEffects leaderEffects = new LeaderEffects();
-
+    private boolean publicGame;
     private int firstPlayerCurrentPoint;
     private int secondPlayerCurrentPoint;
     private final ArrayList<Integer> firstPlayerRowPoints = new ArrayList<>(Arrays.asList(0, 0, 0));
@@ -57,13 +57,14 @@ public class MatchTable {
     private boolean isFirstPlayerLeaderUsed = false;
     private boolean isSecondPlayerLeaderUsed = false;
 
-
-    public MatchTable(User firstPlayer, User secondPlayer,GameMenuController gameMenuController) {
+    private boolean isMatchRandom = false;
+    public MatchTable(User firstPlayer, User secondPlayer, GameMenuController gameMenuController, boolean publicGame) {
         this.gameMenuController = gameMenuController;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
         firstPlayerDeckCards.addAll(firstPlayer.getDeckCards());
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
+        this.publicGame = publicGame;
         initializeMatchTable();
     }
 
@@ -336,6 +337,14 @@ public class MatchTable {
 
     public ArrayList<Integer> getSecondPlayerRowPoints() {
         return secondPlayerRowPoints;
+    }
+
+    public boolean isPublicGame() {
+        return publicGame;
+    }
+
+    public void setPublicGame(boolean publicGame) {
+        this.publicGame = publicGame;
     }
 
     //gives some random card without removing them from the deck

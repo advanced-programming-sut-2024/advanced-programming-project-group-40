@@ -2,6 +2,7 @@ package Server;
 
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
+import Server.Messages.MessageType;
 import Server.Messages.ServerMessages;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,8 +12,11 @@ import models.Game;
 import views.GameView;
 import views.ViewController.PreGameViewController;
 import views.ViewController.GameViewController;
+import views.ViewController.PreGameViewController;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
@@ -115,6 +119,9 @@ public class Client {
     public ServerMessages getUser(GetUserMessage getUserMessage) {
         return getServerMessage(getUserMessage);
     }
+    public ServerMessages elimination(EliminationMessage eliminationMessage) {
+        return getServerMessage(eliminationMessage);
+    }
 
     public ServerMessages getListOfNames(GetListOfNamesMessage getListOfNamesMessage) {
         return getServerMessage(getListOfNamesMessage);
@@ -134,22 +141,22 @@ public class Client {
     }
 
     public void update(UpdateMessage updateMessage) {
-        if (updateThread != null)
-            stopUpdateThread();
-        startUpdateThread(updateMessage.getSubType());
+//        if (updateThread != null)
+//            updateThread.;
+        startUpdateThread(updateMessage);
     }
 
-    private void startUpdateThread(MessageSubType messageSubType) {
-        AtomicBoolean isInGame = new AtomicBoolean(false);
+    private void startUpdateThread(UpdateMessage updateMessage) {
         updateThread = new Thread(() -> {
             while (true) {
-                UpdateMessage updateMessage = new UpdateMessage(Game.getLoggedInUser().getUsername(), messageSubType);
                 ServerMessages serverMessages = getServerMessage(updateMessage);
+                MessageSubType messageSubType = updateMessage.getSubType();
                 if (serverMessages == null) {
                     try {
                         System.out.println("Server is not responding");
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         e.printStackTrace();
                     }
                     continue;
@@ -167,6 +174,7 @@ public class Client {
                                 alert.setHeaderText("Game Request");
                                 alert.setContentText("Game Request from " + serverMessages.getAdditionalInfo());
                                 alert.showAndWait();
+                                System.out.println(Game.getLoggedInUser().getUsername());
                                 if (alert.getResult().getText().equals("OK")) {
                                     PreGameViewController.startGameStatus = "Game Started";
                                     AcceptRejectRequest requestMessage = new AcceptRejectRequest(serverMessages.getAdditionalInfo(), true);
@@ -179,10 +187,10 @@ public class Client {
                                         throw new RuntimeException(e);
                                     }
                                     endConnection();
-                                    isInGame.set(true);
-                                    //update(new UpdateMessage(Game.getLoggedInUser().getUsername(),MessageSubType.GAME_UPDATE));
-                                    System.out.println("came to play you fucker");
-                                    updateThread.interrupt();
+                                    RequestMessage requestMessage1 = new RequestMessage(Game.getLoggedInUser().getUsername(), Game.getLoggedInUser().getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                                    establishConnection();
+                                    sendMessage(gsonAgent.toJson(requestMessage1));
+                                    endConnection();
                                     //TODO: Start the game
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
@@ -199,6 +207,7 @@ public class Client {
                         }
 
                     }
+                    //TODO
                     switch (messageSubType) {
                         case GAME_UPDATE -> {
                             if (Objects.equals(serverMessages.getAdditionalInfo(), "finished")) {
@@ -213,18 +222,20 @@ public class Client {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                     e.printStackTrace();
                 }
             }
         });
+        updateThread.setDaemon(true);
         updateThread.start();
-        if (isInGame.get()) update(new UpdateMessage(Game.getLoggedInUser().getUsername(),MessageSubType.GAME_UPDATE));
     }
 
     private void finishGame() {
         //todo
     }
-    public void clickedOnCard(ClickedOnCardMessages messages){
+
+    public void clickedOnCard(ClickedOnCardMessages messages) {
         getServerMessage(messages);
 
     }
@@ -233,6 +244,7 @@ public class Client {
         ServerMessages serverMessages =getServerMessage(messages);
         return serverMessages.getAdditionalInfo();
     }
+
     private void stopUpdateThread() {
         updateThread.interrupt();
     }

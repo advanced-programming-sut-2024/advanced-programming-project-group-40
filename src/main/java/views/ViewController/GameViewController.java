@@ -1,11 +1,9 @@
 package views.ViewController;
 
 
-import Server.Client;
 import Server.ClientHandler;
 import Server.Messages.Client.GetUserMessage;
 import Server.Models.GameBoardVisualData;
-import controllers.MenuController.GameMenuController;
 import enums.Ability;
 import enums.Origin;
 import javafx.application.Platform;

@@ -1,12 +1,8 @@
 
 package models.UserInputHandler;
 
-import controllers.MenuController.GameMenuController;
-import javafx.css.Match;
-import models.MatchTable;
 import models.cards.Card;
 
-import javafx.scene.input.MouseEvent;
 import views.ViewController.GameViewController;
 
 public class ClickCommand extends Command {

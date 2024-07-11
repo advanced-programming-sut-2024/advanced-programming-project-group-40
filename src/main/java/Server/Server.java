@@ -4,11 +4,12 @@ import Server.DataBase.SQLDataBase;
 import Server.Messages.Client.*;
 import Server.Messages.MessageSubType;
 import Server.Messages.ServerMessages;
+import Server.Services.EliminationCup.EliminationCup;
+import Server.Services.EliminationCup.Match;
 import Server.Models.GameBoardVisualData;
 import Server.Services.RequestService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import controllers.MenuController.GameMenuController;
 import enums.AlertInfo.messages.LoginMenuMessages;
 import enums.AlertInfo.messages.ProfileMenuMessages;
 import models.MatchTable;
@@ -17,7 +18,10 @@ import models.User;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Random;
 
 public class Server extends Thread {
     private static ServerSocket serverSocket;
@@ -27,10 +31,14 @@ public class Server extends Thread {
     private static final ArrayList<Socket> connections = new ArrayList<>();
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final RequestService requestService = RequestService.getInstance();
+    private static final EliminationCup eliminationService = EliminationCup.getInstance();
+
     private static final HashMap<String, String> requestedGames = new HashMap<>();
+    private static final HashMap<String, Boolean> onlineStatus = new HashMap<>();
     private static final ArrayList<MatchTable> matchTables = new ArrayList<>();
     private static SQLDataBase sqlDataBase;
     private static boolean requestSent = false;
+    private static final ArrayList<String> usersInGame = new ArrayList<>();
 
     private static void setupServer() {
         try {
@@ -110,6 +118,8 @@ public class Server extends Thread {
                     return gsonAgent.fromJson(clientStr, ChangeMatchTableDataMessages.class);
                 case CLICKED_ON_CARD:
                     return gsonAgent.fromJson(clientStr, ClickedOnCardMessages.class);
+                case ELIMINATION:
+                    return gsonAgent.fromJson(clientStr, EliminationMessage.class);
                 default:
                     return null;
             }
@@ -188,7 +198,21 @@ public class Server extends Thread {
 
                             break;
                         case GAME_REQUEST:
-                            requestedGames.put(requestMessage.getOriginUsername(), requestMessage.getDestinationUsername());
+                            requestedGames.put(requestMessage.getDestinationUsername(), requestMessage.getOriginUsername());
+                            break;
+                        case CHECK_ONLINE:
+                            serverMessage = new ServerMessages(onlineStatus.get(requestMessage.getDestinationUsername()), "");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            break;
+                        case ADD_TO_USERS_IN_GAME:
+                            usersInGame.add(requestMessage.getOriginUsername());
+                            break;
+                        case REMOVE_FROM_USERS_IN_GAME:
+                            usersInGame.remove(requestMessage.getOriginUsername());
+                            break;
+                        case CHECK_IN_GAME:
+                            serverMessage = new ServerMessages(usersInGame.contains(requestMessage.getOriginUsername()), "");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             break;
                     }
                     break;
@@ -229,6 +253,35 @@ public class Server extends Thread {
                     }
                     sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                     break;
+                case ELIMINATION:
+                    EliminationMessage eliminationMessage = (EliminationMessage) clientMessage;
+                    switch (eliminationMessage.getSubType()) {
+                        case JOIN_ELIMINATION:
+                            // todo update
+                            eliminationService.addPlayer(eliminationMessage.getUsername());
+                            break;
+                        case GET_MATCH_ELIMINATION:
+                            Match match = eliminationService.getMatchByGroupNumber(eliminationMessage.getNumber());
+                            if (match == null) {
+                                serverMessage = new ServerMessages(false, "match not found");
+                            } else {
+                                String namesToJson = gson.toJson(match);
+                                serverMessage = new ServerMessages(true, namesToJson);
+                            }
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                            break;
+                        case IS_STARTED_ELIMINATION:
+                            if (eliminationService.isEliminationStarted())
+                                serverMessage = new ServerMessages(true, "started");
+                                else
+                                serverMessage = new ServerMessages(false, "not yet");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
+                             break;
+                        case START_ELIMINATION:
+                            // todo go to pre Game if user is online and in menus
+                            break;
+                    }
+                    break;
                 case ADD_CARD:
                     AddRemoveCardMessage addCardMessage = (AddRemoveCardMessage) clientMessage;
                     user = getUserByUsername(addCardMessage.getToken());
@@ -268,6 +321,8 @@ public class Server extends Thread {
                 case UPDATE:
                     UpdateMessage updateMessage = (UpdateMessage) clientMessage;
                     user = getUserByUsername(updateMessage.getOriginUsername());
+                    assert user != null;
+                    onlineStatus.put(user.getUsername(), true);
                     MessageSubType subType = updateMessage.getSubType();
                     switch (subType) {
                         case PREGAME_UPDATE:
@@ -298,6 +353,10 @@ public class Server extends Thread {
                                 serverMessage = new ServerMessages(false, "no request");
                                 sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             }
+                            break;
+                        case MAIN_MENU_UPDATE:
+                            ServerMessages serverMessages = new ServerMessages(true, "Main Menu Updated");
+                            sendBuffer.writeUTF(gsonAgent.toJson(serverMessages));
                             break;
                         case RESET_GAME_REQUEST:
                             requestSent = false;
@@ -392,6 +451,23 @@ public class Server extends Thread {
     public static void main(String[] args) {
         sqlDataBase = SQLDataBase.getInstance();
         allUsers.addAll(sqlDataBase.getAllUsers());
+        for (User user : allUsers) {
+            requestedGames.put(user.getUsername(), "");
+            onlineStatus.put(user.getUsername(), false);
+        }
+        Thread makeAllUsersOffline = new Thread(() -> {
+            while (true) {
+                for (String username : onlineStatus.keySet()) {
+                    onlineStatus.put(username, false);
+                }
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        makeAllUsersOffline.start();
         try {
             Server.setupServer();
             Server server1 = new Server();

@@ -3,12 +3,12 @@ package views.ViewController;
 
 import Server.ClientHandler;
 import Server.Messages.Client.AddRemoveCardMessage;
+import Server.Messages.Client.RequestMessage;
 import Server.Messages.Client.UpdateMessage;
 import Server.Messages.MessageSubType;
 import controllers.DataSaver;
-import controllers.MenuController.GameMenuController;
 import controllers.MenuController.PreGameMenuController;
-import controllers.Utilities;
+import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.PreGameMenuMessages;
 import enums.Factions;
 import enums.cards.LeaderInfo;
@@ -26,7 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.AlertMaker;
 import models.Game;
-import models.MatchTable;
 import models.User;
 import models.cards.*;
 import views.GameView;
@@ -107,6 +106,7 @@ public class PreGameViewController {
     private boolean changeLeaderClicked = false;
     private User loggedInUser = Game.getLoggedInUser();
     public static String startGameStatus = "";
+    private boolean publicGame;
 
     @FXML
     private static void loadDeck(ArrayList<String> deckCards) {
@@ -164,9 +164,7 @@ public class PreGameViewController {
         selectedCardFlowPane.setVgap(8);
         setUpCards();
         System.out.println(Game.getLoggedInUser().getUsername());
-        Platform.runLater(() -> {
-            ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
-        });
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.PREGAME_UPDATE));
     }
 
     private void setUpCards() {
@@ -512,9 +510,29 @@ public class PreGameViewController {
 
     @FXML
     private void startGame(MouseEvent mouseEvent) {
+        AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PRE_GAME.toString(), PreGameMenuMessages.PUBLIC_GAME.toString());
+        alert.showAlert();
+        if (alert.isOK())
+            publicGame = true;
+        else
+            publicGame = false;
         saveData();
         AlertMaker alertMaker = PreGameMenuController.checkCompetitorData(competitorUsername.getText());
         if (alertMaker.getAlertType().equals(Alert.AlertType.INFORMATION)) {
+            RequestMessage requestMessage = new RequestMessage(loggedInUser.getUsername(), competitorUsername.getText(), MessageSubType.CHECK_ONLINE);
+            boolean isOnline = ClientHandler.client.request(requestMessage).wasSuccessfull();
+            if (!isOnline) {
+                AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_NOT_ONLINE.toString());
+                alertMaker1.showAlert();
+                return;
+            }
+            RequestMessage requestMessage2 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.CHECK_IN_GAME);
+            boolean isInGame = ClientHandler.client.request(requestMessage2).wasSuccessfull();
+            if (isInGame) {
+                AlertMaker alertMaker1 = new AlertMaker(Alert.AlertType.ERROR, "Game Request", PreGameMenuMessages.USER_IN_GAME.toString());
+                alertMaker1.showAlert();
+                return;
+            }
             saveData();
             try {
                 PreGameMenuController.startGame(competitorUsername.getText());
@@ -539,6 +557,8 @@ public class PreGameViewController {
                                 throw new RuntimeException(e);
                             }
                         });
+                        RequestMessage requestMessage1 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                        ClientHandler.client.request(requestMessage1);
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game
 
@@ -585,5 +605,8 @@ public class PreGameViewController {
         setUpSelectedCards();
         setUpLabels();
         setUpLeadersImages();
+    }
+
+    public void startRandomGame(MouseEvent mouseEvent) {
     }
 }

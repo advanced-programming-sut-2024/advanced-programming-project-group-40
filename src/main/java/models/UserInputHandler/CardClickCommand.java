@@ -3,10 +3,7 @@ package models.UserInputHandler;
 import Server.ClientHandler;
 import Server.Messages.Client.ClickedOnCardMessages;
 import Server.Models.GameBoardVisualData;
-import controllers.MenuController.GameMenuController;
 import models.cards.Card;
-
-import views.ViewController.GameViewController;
 
 public class CardClickCommand extends Command {
     private final Card card;
