@@ -59,6 +59,7 @@ public class MatchTable {
     private boolean isSecondPlayerLeaderUsed = false;
 
     private boolean isMatchRandom = false;
+    private String reaction;
 
     public MatchTable(User firstPlayer, User secondPlayer, GameMenuController gameMenuController, boolean publicGame) {
         this.gameMenuController = gameMenuController;
@@ -68,6 +69,14 @@ public class MatchTable {
         secondPlayerDeckCards.addAll(secondPlayer.getDeckCards());
         this.publicGame = publicGame;
         initializeMatchTable();
+    }
+
+    public String getReaction() {
+        return reaction;
+    }
+
+    public void setReaction(String reaction) {
+        this.reaction = reaction;
     }
 
     public GameMenuController getGameMenuController() {

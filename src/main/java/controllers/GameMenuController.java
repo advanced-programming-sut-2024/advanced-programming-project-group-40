@@ -364,10 +364,9 @@ public class GameMenuController {
 
     public  GameBoardVisualData sendDataWithReaction(String Recation) {
         matchTable.updatePoints();
-        GameBoardVisualData gameBoardVisualData = new GameBoardVisualData(matchTable
+        matchTable.setReaction(Recation);
+        return new GameBoardVisualData(matchTable
                 , false, false, false, false, false);
-        gameBoardVisualData.setRecation(Recation);
-        return gameBoardVisualData;
     }
 
     public  GameBoardVisualData sendDataWithMessage(Message message) {

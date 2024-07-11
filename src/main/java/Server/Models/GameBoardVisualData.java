@@ -73,6 +73,7 @@ public class GameBoardVisualData {
         this.isRedRider = isRedRider;
         this.isKingOfWildHunt = isKingOfWildHunt;
         this.isImperialMajesty = isImperialMajesty;
+        this.Recation = matchTable.getReaction();
     }
 
     private void InitializeArrays(MatchTable matchTable) {
