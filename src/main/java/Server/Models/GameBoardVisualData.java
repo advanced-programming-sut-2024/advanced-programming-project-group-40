@@ -3,13 +3,19 @@ package Server.Models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import enums.cards.*;
+import models.Chat.Message;
+import models.Chat.PublicChat;
+import models.Chat.ReplyData;
 import models.MatchTable;
-import models.User;
 import models.cards.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GameBoardVisualData {
+    String firstPlayerUserName;
+    String secondPlayerUserName;
+
     ArrayList<CardInfo> firstPlayerInPlay = new ArrayList<>();
     ArrayList<CardInfo> secondPlayerInPlay = new ArrayList<>();
     ArrayList<CardInfo> firstPlayerDiscard = new ArrayList<>();
@@ -44,13 +50,34 @@ public class GameBoardVisualData {
 
     String firstPlayerFaction;
     String secondPlayerFaction;
+    boolean isDestroyer;
+    boolean isMedic;
+    boolean isRedRider;
+    boolean isKingOfWildHunt;
+    boolean isImperialMajesty;
+    String Recation;
 
-    public GameBoardVisualData(MatchTable matchTable) {
+    String username;
+    String message;
+    boolean isReply;
+    String userName;
+    String time;
+    boolean isThereAMessage = false;
+
+    public GameBoardVisualData(MatchTable matchTable, boolean isDestroyer, boolean isMedic, boolean isRedRider, boolean isKingOfWildHunt, boolean isImperialMajesty) {
         InitializeArrays(matchTable);
         InitializeVariables(matchTable);
+
+        this.isDestroyer = isDestroyer;
+        this.isMedic = isMedic;
+        this.isRedRider = isRedRider;
+        this.isKingOfWildHunt = isKingOfWildHunt;
+        this.isImperialMajesty = isImperialMajesty;
+        this.Recation = matchTable.getReaction();
     }
 
     private void InitializeArrays(MatchTable matchTable) {
+
         fillInfoArray(firstPlayerInPlay, matchTable.getFirstPlayerInPlayCards());
         fillInfoArray(secondPlayerInPlay, matchTable.getSecondPlayerInPlayCards());
 
@@ -70,6 +97,7 @@ public class GameBoardVisualData {
         fillInfoArray(secondPlayerSiege, matchTable.getSecondPlayerSiegeRow());
 
         fillInfoArray(weather, matchTable.getSpellCards());
+
     }
 
     private void InitializeVariables(MatchTable matchTable) {
@@ -93,14 +121,24 @@ public class GameBoardVisualData {
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 0));
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 1));
         secondPlayerPoints.add(matchTable.getPlayerRowScore(1, 2));
-        firstPlayerNickName = matchTable.getFirstPlayer().getNickname();
-        secondPlayerNickName = matchTable.getSecondPlayer().getNickname();
+        firstPlayerNickName = matchTable.getFirstPlayer().getUsername();
+        secondPlayerNickName = matchTable.getSecondPlayer().getUsername();
         firstPlayerFaction = matchTable.getFirstPlayer().getFaction().name;
         secondPlayerFaction = matchTable.getSecondPlayer().getFaction().name;
         isFirstPlayerTurn = matchTable.isFirstPlayerTurn();
         isMatchFinished = matchTable.isMatchFinished();
+        firstPlayerUserName = matchTable.getFirstPlayer().getUsername();
+        secondPlayerUserName = matchTable.getSecondPlayer().getUsername();
+
     }
 
+    public String getFirstPlayerUserName() {
+        return firstPlayerUserName;
+    }
+
+    public String getSecondPlayerUserName() {
+        return secondPlayerUserName;
+    }
 
     //////////////////////////Serializations
     public String toJSON() {
@@ -118,6 +156,81 @@ public class GameBoardVisualData {
     }
     /////////////////////////////////
 
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isReply() {
+        return isReply;
+    }
+
+    public void setReply(boolean reply) {
+        isReply = reply;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getTime() {
+
+        return time;
+    }
+
+    public boolean isThereAMessage() {
+        return isThereAMessage;
+    }
+
+    public void setTime(String time) {
+        isThereAMessage = true;
+        this.time = time;
+    }
+
+    public String getReaction() {
+        return Recation;
+    }
+
+    public void setRecation(String Recation) {
+        this.Recation = Recation;
+    }
+
+
+    public boolean isDestroyer() {
+        return isDestroyer;
+    }
+
+    public boolean isImperialMajesty() {
+        return isImperialMajesty;
+    }
+
+    public boolean isMedic() {
+        return isMedic;
+    }
+
+    public boolean isRedRider() {
+        return isRedRider;
+    }
+
+    public boolean isKingOfWildHunt() {
+        return isKingOfWildHunt;
+    }
 
     //getters
     public Card getBoost(int userID, int Row) {
@@ -228,8 +341,13 @@ public class GameBoardVisualData {
     }
 
     public Card getLeader(int userID) {
-        if (userID == 0) return new Leader(firstPlayerLeader);
-        else return new Leader(secondPlayerLeader);
+        if (userID == 0) {
+            if (firstPlayerLeader == null) return null;
+            return new Leader(firstPlayerLeader);
+        } else {
+            if (secondPlayerLeader == null) return null;
+            return new Leader(secondPlayerLeader);
+        }
     }
 
 
@@ -250,6 +368,21 @@ public class GameBoardVisualData {
         return cards;
     }
 
+    public static Card getCardsFromEnum(CardInfo cardInfo) {
+        Card card = null;
+        if (cardInfo instanceof UnitCardInfo unitCardInfo) {
+            card = new UnitCard(unitCardInfo);
+        }
+        if (cardInfo instanceof SpecialCardInfo specialCardInfo) {
+            card = new SpecialCard(specialCardInfo);
+        }
+        if (cardInfo instanceof HeroInfo heroInfo) {
+            card = new Hero(heroInfo);
+        }
+
+        return card;
+    }
+
     private static void fillInfoArray(ArrayList<CardInfo> infoArray, ArrayList<Card> cardArray) {
         if (!cardArray.isEmpty()) {
             for (Card card : cardArray) {
@@ -258,7 +391,7 @@ public class GameBoardVisualData {
         }
     }
 
-    private static CardInfo getCardInfoFromCard(Card card) {
+    public static CardInfo getCardInfoFromCard(Card card) {
         CardInfo cardInfo = null;
         if (card instanceof UnitCard unitCard) {
             cardInfo = unitCard.getUnitCardInfo();

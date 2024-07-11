@@ -112,7 +112,7 @@
                         <Image url="@../images/Icnos/GameHistory.png" />
                     </image>
                 </ImageView>
-                <ImageView fitHeight="31.0" fitWidth="24.0" layoutX="551.0" layoutY="74.0" onMouseClicked="#GameRequest" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="31.0" fitWidth="24.0" layoutX="551.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/Icnos/GameRequest.png" />
                     </image>
@@ -129,7 +129,7 @@
                 <content>
                     <HBox prefHeight="450.0" prefWidth="927.0" styleClass="Something">
                         <children>
-                            <VBox fx:id="friends" prefHeight="700.0" prefWidth="136.0" styleClass="Something">
+                            <VBox fx:id="friends" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="136.0" styleClass="Something">
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="131.0" styleClass="Something">
                                         <center>
@@ -213,5 +213,10 @@
             </Label>
             <TextField fx:id="targetUser" layoutX="465.0" layoutY="72.0" prefHeight="18.0" prefWidth="94.0" />
         </Pane>
+        <ImageView fitHeight="35.0" fitWidth="31.0" layoutX="25.0" layoutY="645.0" onMouseClicked="#openTerminal" pickOnBounds="true" preserveRatio="true" styleClass="back">
+            <image>
+                <Image url="@../images/Icnos/terminal.png" />
+            </image>
+        </ImageView>
     </children>
 </AnchorPane>

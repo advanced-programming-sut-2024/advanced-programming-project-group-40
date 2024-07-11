@@ -1,25 +1,26 @@
 package views.ViewController;
 
-import Mail.CodeAuthorization;
 import controllers.MenuController.LoginMenuController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.AlertMaker;
 import models.Game;
 import models.User;
 import views.ForgetPasswordMenu;
 import views.MainMenu;
 import views.SignUpMenu;
-
-import java.util.Objects;
+import views.TerminalView;
 
 public class LoginViewController {
     public TextField authorizationCode;
     public VBox userPassVbox;
     public VBox authorizationVbox;
+    public ScrollPane terminal;
     @FXML
     private TextField username;
     @FXML
@@ -27,11 +28,14 @@ public class LoginViewController {
 
     public void initialize() {
         authorizationVbox.setVisible(false);
+
     }
 
     public void signInClicked() {
         if (username.getText().equals("a") && password.getText().equals("a")) {
             Game.setLoggedInUser(new User("a", "a", "ahay@ahay.com", "ahay"));
+        } else if (username.getText().equals("kian") && password.getText().equals("k")) {
+            Game.setLoggedInUser(new User("kian", "k", "ahay@ahay.com", "ahay"));
         } else {
             AlertMaker alert = LoginMenuController.signIn(username.getText(), password.getText());
             if (alert.getAlertType().equals(Alert.AlertType.ERROR)) {
@@ -81,6 +85,14 @@ public class LoginViewController {
         } else {
             authorizationVbox.setVisible(false);
             userPassVbox.setVisible(true);
+        }
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -2,6 +2,10 @@ package controllers.MenuController;
 
 import controllers.MenuController.ChangeInfoController;
 import enums.AlertInfo.AlertHeader;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+
 import enums.AlertInfo.messages.ChangeInfoMenuMessages;
 import javafx.scene.control.Alert;
 import models.AlertMaker;
@@ -93,3 +97,4 @@ class ChangeInfoControllerTest {
         assertFalse(ChangeInfoController.correctPassword("wrongPassword"));
     }
 }
+

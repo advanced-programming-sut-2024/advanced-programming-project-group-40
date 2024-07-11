@@ -4,6 +4,8 @@ import enums.Ability;
 import enums.Factions;
 import enums.Unit;
 
+import java.util.Objects;
+
 public enum HeroInfo implements CardInfo {
     Cerys("Cerys", "/Assets/Cards/Plane/skellige_cerys.jpg", "/Assets/Cards/Detailed/skellige_cerys.jpg", 10, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.MUSTER),
     Kambi("Kambi", "/Assets/Cards/Plane/skellige_kambi.jpg", "/Assets/Cards/Detailed/skellige_kambi.jpg", 11, Unit.CLOSE_COMBAT, Factions.SKELLIGE, Ability.TRANSFORMER),
@@ -52,4 +54,5 @@ public enum HeroInfo implements CardInfo {
     public String getType() {
         return "hero";
     }
+
 }

@@ -1,25 +1,25 @@
 package models.UserInputHandler;
 
-import controllers.MenuController.GameMenuController;
+import Server.ClientHandler;
+import Server.Messages.Client.ClickedOnCardMessages;
+import Server.Models.GameBoardVisualData;
 import models.cards.Card;
 
-import views.ViewController.GameViewController;
-
 public class CardClickCommand extends Command {
-    private Card card = null;
-
-
-    /////////////////
-    private GameViewController gameViewController;
-
-    public CardClickCommand(Card card, GameViewController gameViewController) {
+    private final Card card;
+private final boolean isSelectable;
+private final String parentID;
+    public CardClickCommand(Card card,boolean isSelectable,String parentID) {
         this.card = card;
-        this.gameViewController = gameViewController;
+        this.isSelectable = isSelectable;
+        this.parentID = parentID;
     }
 
 
     @Override
     public void excute() {
-        GameMenuController.ClickedOnCard(card, gameViewController);
+        ClickedOnCardMessages messages = new ClickedOnCardMessages(GameBoardVisualData.getCardInfoFromCard(card).toString(),isSelectable,parentID);
+        ClientHandler.client.clickedOnCard(messages);
+        //GameMenuController.ClickedOnCard(GameBoardVisualData.getCardInfoFromCard(card),isSelectable,parentID);
     }
 }

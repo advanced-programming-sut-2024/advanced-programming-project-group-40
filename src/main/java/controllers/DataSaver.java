@@ -33,7 +33,8 @@ public class DataSaver {
             }
             return users;
         } catch (Exception ignored) {
-            return null;
+            System.out.println(ignored.getMessage());
+            return new ArrayList<>();
         }
     }
 

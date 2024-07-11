@@ -31,4 +31,10 @@ public class ChangeInfoController extends UserInfoController {
         return password.equals(Game.getLoggedInUser().getPassword());
     }
 
+    public static void changePassword(User user, String password) {
+        if (isPasswordValid(password)) {
+            user.setPassword(password);
+        }
+    }
+
 }

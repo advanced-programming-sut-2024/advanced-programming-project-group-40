@@ -1,6 +1,8 @@
 package views.ViewController;
 
 
+import Server.Messages.MessageSubType;
+import controllers.MenuController.PreGameMenuController;
 import controllers.MenuController.ProfileMenuController;
 import controllers.Utilities;
 import enums.AlertInfo.AlertHeader;
@@ -20,10 +22,7 @@ import javafx.stage.WindowEvent;
 import models.AlertMaker;
 import models.Game;
 import models.User;
-import views.ChangeInfoMenu;
-import views.GameHistory;
-import views.MainMenu;
-import views.TargetProfile;
+import views.*;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -54,14 +53,6 @@ public class ProfileViewController {
     private Label lost;
 
 
-    public void goToLoginMenu(MouseEvent mouseEvent) {
-        try {
-            new MainMenu().start(Game.stage);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void initialize() {
         User user = Game.getLoggedInUser();
         username.setText(user.getUsername());
@@ -77,15 +68,17 @@ public class ProfileViewController {
     }
 
     public void fillChart() {
-//        String username=Game.getLoggedInUser().getUsername();
-//        fillVBox(friends,Utilities.ge);
-//        fillRequestVBox(requests, Game.getLoggedInUser().getRequests());
-//        fillVBox(sent, Game.getLoggedInUser().getRequestsHasSent());
-//        fillVBox(sent, Game.getLoggedInUser().getRejectedRequests());
-//
-//        fillRequestVBox(gameRequest, Game.getLoggedInUser().getGameRequests());
-//        fillVBox(gameSent, Game.getLoggedInUser().getGameRequestsHasSent());
-//        fillVBox(gameSent, Game.getLoggedInUser().getGameRejectedRequests());
+        String username = Game.getLoggedInUser().getUsername();
+        ArrayList<String> names = Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FRIENDS));
+        fillVBox(friends, names, "white");
+        fillRequestVBox(requests, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_FOLLOW_REQUESTS)));
+        fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_FOLLOW_REQUESTS)), "white");
+        fillVBox(sent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_REQUESTS)), "red");
+
+        fillRequestVBox(gameRequest, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_GAME_REQUEST)));
+        fillVBox(gameSent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_PENDING_GAME_REQUEST)), "white");
+        fillVBox(gameSent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_ACCEPTED_GAME_REQUESTS)), "green");
+        fillVBox(gameSent, Objects.requireNonNull(Utilities.getListOfNames(username, MessageSubType.GET_REJECTED_GAME_REQUEST)), "red");
     }
 
 
@@ -126,17 +119,17 @@ public class ProfileViewController {
         AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
         alertMaker.showAlert();
         if (alertMaker.isOK())
-            ProfileMenuController.sendRequest(targetUser.getText());
+            Utilities.sendRequest(Game.getLoggedInUser().getUsername(), targetUser.getText(), MessageSubType.SEND_FOLLOW_REQUEST);
     }
 
 
-    private void fillRequestVBox(VBox vBox, ArrayList<User> target) {
-        for (User request : target) {
+    private void fillRequestVBox(VBox vBox, ArrayList<String> target) {
+        for (String request : target) {
             ImageView imageView2 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/reject.png")).toExternalForm()));
             ImageView imageView1 = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/Icnos/accept.png")).toExternalForm()));
 
             // Create the Label
-            Label label = new Label(request.getUsername());
+            Label label = new Label(request);
             label.setPrefHeight(16.0);
             label.setPrefWidth(116.0);
             label.setFont(new Font(14.0));
@@ -168,45 +161,80 @@ public class ProfileViewController {
         }
     }
 
-    private void handleClick(MouseEvent event, VBox vBox, Label label, ImageView accept, ImageView reject, User request) {
+    private void handleClick(MouseEvent event, VBox vBox, Label label, ImageView accept, ImageView reject, String request) {
         ImageView clickedImageView = (ImageView) event.getSource();
         if (vBox.equals(requests)) {
             if (clickedImageView.equals(accept)) {
-                Game.getLoggedInUser().getFrineds().add(request);
-                request.getFrineds().add(Game.getLoggedInUser());
-//                fillVBox(friends, Game.getLoggedInUser().getFrineds());
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_FOLLOW_REQUEST);
             } else {
-                request.getRejectedRequests().add(Game.getLoggedInUser());
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_FOLLOW_REQUEST);
             }
-            request.getRequestsHasSent().remove(Game.getLoggedInUser());
-            Game.getLoggedInUser().getRequests().remove(request);
         } else {
             if (clickedImageView.equals(accept)) {
-                // todo start game here
-
+                // todo ask ----------------------------------------------------------------
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.ACCEPT_GAME_REQUEST);
+                AlertMaker alert = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
+                alert.showAlert();
+                // todo request user to pre game
+                goToPreGame(request);
             } else {
+                Utilities.sendRequest(request, Game.getLoggedInUser().getUsername(), MessageSubType.REJECT_GAME_REQUEST);
             }
-
         }
         vBox.getChildren().remove(label.getParent());
     }
 
 
-    private void fillVBox(VBox vBox, ArrayList<String> target) {
-        // todo for sent & game sent
+    private void fillVBox(VBox vBox, ArrayList<String> target, String color) {
         for (String request : target) {
             // Create the Label
             Label label = new Label(request);
             label.setPrefHeight(16.0);
             label.setPrefWidth(116.0);
             label.setFont(new Font(14.0));
-//            label.setOnMouseClicked(event -> handleClick(event,label));
+            label.setCenterShape(true);
+            label.setOnMouseClicked(event -> sendGameRequest(request));
+            if (color.equals("red"))
+                label.setStyle("-fx-text-fill: red");
+            if (color.equals("green"))
+                label.setStyle("-fx-text-fill: green");
+
 
             vBox.getChildren().add(label);
         }
     }
 
-
-    public void GameRequest(MouseEvent mouseEvent) {
+    public void sendGameRequest(String request) {
+        AlertMaker alertMaker = new AlertMaker(Alert.AlertType.CONFIRMATION, AlertHeader.PROFILE_MENU.toString(), ProfileMenuMessages.SEND_REQUEST.toString());
+        alertMaker.showAlert();
+        if (alertMaker.isOK()) {
+            Utilities.sendRequest(Game.getLoggedInUser().getUsername(), request, MessageSubType.SEND_GAME_REQUEST);
+        }
     }
+
+    private void goToPreGame(String requestName) {
+        PreGameMenuController.setSpecificUser(requestName);
+        try {
+            new PreGameMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void goToLoginMenu(MouseEvent mouseEvent) {
+        try {
+            new MainMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

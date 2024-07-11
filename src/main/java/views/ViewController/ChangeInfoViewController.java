@@ -4,13 +4,17 @@ import controllers.MenuController.ChangeInfoController;
 import enums.AlertInfo.messages.ChangeInfoMenuMessages;
 import enums.AlertInfo.messages.SignUpMenuMessages;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
-import views.ChangeInfoMenu;
 import views.ProfileMenu;
+import views.TerminalView;
 
 import java.util.HashMap;
 
@@ -121,6 +125,13 @@ public class ChangeInfoViewController {
     public void back(MouseEvent mouseEvent) {
         try {
             new ProfileMenu().start(Game.stage);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

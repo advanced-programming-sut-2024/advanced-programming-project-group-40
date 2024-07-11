@@ -4,20 +4,19 @@ import controllers.Generator;
 import controllers.MenuController.SignUpMenuController;
 import enums.AlertInfo.AlertHeader;
 import enums.AlertInfo.messages.SignUpMenuMessages;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+import javafx.stage.Stage;
 import models.AlertMaker;
 import models.ErrorMaker;
 import models.Game;
 import views.LoginMenu;
 import views.SecurityQuestionMenu;
+import views.TerminalView;
 
 import java.util.HashMap;
 
@@ -190,5 +189,13 @@ public class SignUpViewController {
 
     public static void setRandomPass(String randomPass) {
         randomPass = randomPass;
+    }
+
+    public void openTerminal(MouseEvent mouseEvent) {
+        try {
+            new TerminalView().start(new Stage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,5 +1,8 @@
 package views;
 
+import Server.ClientHandler;
+import Server.Messages.Client.UpdateMessage;
+import Server.Messages.MessageSubType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -16,7 +19,8 @@ public class MainMenu extends PlayMenu {
     @Override
     public void start(Stage stage) throws Exception {
         Game.stage = stage;
-        Pane pane = FXMLLoader.load(MainMenu.class.getResource("/FXML/MainMenuFXML.fxml"));
+        ClientHandler.client.update(new UpdateMessage(Game.getLoggedInUser().getUsername(), MessageSubType.MAIN_MENU_UPDATE));
+        Pane pane = FXMLLoader.load(Objects.requireNonNull(MainMenu.class.getResource("/FXML/MainMenuFXML.fxml")));
         stage.setScene(new Scene(pane));
         stage.show();
     }

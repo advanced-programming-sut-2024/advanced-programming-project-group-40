@@ -1,6 +1,5 @@
 package models.actions;
 
-import controllers.MenuController.GameMenuController;
 import enums.Origin;
 import enums.Unit;
 import enums.cards.SpecialCardInfo;
@@ -93,7 +92,7 @@ public abstract class LeaderActions {
     }
 
     private static void hisImperialMajesty() {
-        GameMenuController.MakeHisImperialMajestyWindow(matchTable.isFirstPlayerTurn());
+        matchTable.getGameMenuController().MakeHisImperialMajestyWindow();
     }
 
     private static void emperorOfNilfgaard() {
@@ -142,16 +141,31 @@ public abstract class LeaderActions {
     }
 
     private static void kingOfTheWildHunt() {
-        GameMenuController.MakeKingOfWildHuntWindow(matchTable.isFirstPlayerTurn());
+        matchTable.getGameMenuController().MakeKingOfWildHuntWindow();
     }
 
     private static void destroyerOfWorlds() {
-        GameMenuController.MakeDestroyerOfWorldsWindow(matchTable.isFirstPlayerTurn());
+        if (matchTable.isFirstPlayerTurn()) {
+            ArrayList<Card> cardsToKill = new ArrayList<>(
+                    MatchTable.randomSelectedCards(matchTable.getFirstPlayerInPlayCards(), 2)
+            );
+            for (Card card : cardsToKill) {
+                matchTable.addToDeadCards(0, new CardWrapper(card, Origin.FIRSTPLAYER_INPLAY));
+            }
+        } else {
+            ArrayList<Card> cardsToKill = new ArrayList<>(
+                    MatchTable.randomSelectedCards(matchTable.getSecondPlayerInPlayCards(), 2)
+            );
+            for (Card card : cardsToKill) {
+                matchTable.addToDeadCards(1, new CardWrapper(card, Origin.SECONDPLAYER_INPLAY));
+            }
+        }
+        matchTable.getGameMenuController().MakeDestroyerOfWorldsWindow();
 
     }
 
     private static void commanderOfTheRedRiders() {
-        GameMenuController.MakeCommanderOfRedRidersWindow(matchTable.isFirstPlayerTurn());
+        matchTable.getGameMenuController().MakeCommanderOfRedRidersWindow();
     }
 
     private static void theTreacherous() {

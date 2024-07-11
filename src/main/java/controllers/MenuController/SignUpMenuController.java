@@ -31,6 +31,7 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
         SignUpMessages signUpMessages = new SignUpMessages(Game.getLoggedInUser());
+        signUpMessages.setToken(Game.getLoggedInUser().getUsername());
         ClientHandler.client.signUp(signUpMessages);
         DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());
@@ -45,5 +46,8 @@ public class SignUpMenuController extends UserInfoController {
     public static boolean checkLink(String email) {
         LinkAuthorization.sendLink(email);
         return LinkAuthorization.verifyLink();
+    }
+    public static boolean isUserValid(User user) {
+        return isUsernameValid(user.getUsername()) && isEmailValid(user.getEmail()) && isPasswordValid(user.getPassword());
     }
 }
