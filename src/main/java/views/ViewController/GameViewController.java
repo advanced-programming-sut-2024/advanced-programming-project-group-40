@@ -367,385 +367,388 @@ public class GameViewController extends PlayMenu implements Initializable {
     }
 
     public void update() {
-        if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-        if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-        if (visualData.isMedic()) MakeMedicWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-        if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-        if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
-        if (visualData.getReaction() != null) {
-            ReactionInput.setText(visualData.getReaction());
+        Platform.runLater(() -> {
+            if (visualData.isDestroyer()) MakeDestroyerOfWorldsWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isRedRider()) MakeCommanderOfRedRidersWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isMedic()) MakeMedicWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isImperialMajesty()) MakeHisImperialMajestyWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.isKingOfWildHunt()) MakeKingOfWildHuntWindow(isFirstPlayerMainUser == visualData.isFirstPlayerTurn());
+            if (visualData.getReaction() != null) {
+                ReactionInput.setText(visualData.getReaction());
 
-            Thread removeMessageThread = new Thread(() -> {
-                try {
+                Thread removeMessageThread = new Thread(() -> {
+                    try {
 
-                    Thread.sleep(5000);
-                    Platform.runLater(() -> messageInput.setText(""));
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            removeMessageThread.start();
+                        Thread.sleep(5000);
+                        Platform.runLater(() -> messageInput.setText(""));
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+                removeMessageThread.start();
 
 
-        }
-        if (visualData.isThereAMessage()) {
-            HBox hBox = new HBox();
-            if (visualData.isReply()) {
-                if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
-                    hBox.setAlignment(Pos.CENTER_RIGHT);
-                    hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."replyingTo:\{visualData.getUserName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
-                            "-fx-background-radius: 20px;"
-                            + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5, 10, 5, 10));
-                    hBox.getChildren().add(textFlow);
-                    vboxMessages.getChildren().add(hBox);
+            }
+            if (visualData.isThereAMessage()) {
+                HBox hBox = new HBox();
+                if (visualData.isReply()) {
+                    if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
+                        hBox.setAlignment(Pos.CENTER_RIGHT);
+                        hBox.setPadding(new Insets(5, 5, 5, 10));
+                        Text text = new Text(STR."replyingTo:\{visualData.getUserName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                        TextFlow textFlow = new TextFlow(text);
+                        textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                                "-fx-background-radius: 20px;"
+                                + "-fx-color-label-visible: rgb(239,242,255);");
+                        textFlow.setPadding(new Insets(5, 10, 5, 10));
+                        hBox.getChildren().add(textFlow);
+                        vboxMessages.getChildren().add(hBox);
+                    } else {
+                        hBox.setAlignment(Pos.CENTER_LEFT);
+                        hBox.setPadding(new Insets(5, 5, 5, 10));
+                        Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
+                        TextFlow textFlow = new TextFlow(text);
+                        textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                                "-fx-background-radius: 20px;"
+                                + "-fx-color-label-visible: rgb(239,242,255);");
+                        textFlow.setPadding(new Insets(5, 10, 5, 10));
+                        hBox.getChildren().add(textFlow);
+                        vboxMessages.getChildren().add(hBox);
+                    }
+
                 } else {
-                    hBox.setAlignment(Pos.CENTER_LEFT);
-                    hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."replyingTo:\\{visualData.getMessage().replyData().userName()}\n\{visualData.getTime()} \{visualData.getUsername()}:\{visualData.getMessage()}");
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
-                            "-fx-background-radius: 20px;"
-                            + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5, 10, 5, 10));
-                    hBox.getChildren().add(textFlow);
-                    vboxMessages.getChildren().add(hBox);
+                    if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
+                        hBox.setAlignment(Pos.CENTER_RIGHT);
+                        hBox.setPadding(new Insets(5, 5, 5, 10));
+                        Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
+                        TextFlow textFlow = new TextFlow(text);
+                        textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
+                                "-fx-background-radius: 20px;"
+                                + "-fx-color-label-visible: rgb(239,242,255);");
+                        textFlow.setPadding(new Insets(5, 10, 5, 10));
+                        hBox.getChildren().add(textFlow);
+                        vboxMessages.getChildren().add(hBox);
+                    } else {
+                        hBox.setAlignment(Pos.CENTER_LEFT);
+                        hBox.setPadding(new Insets(5, 5, 5, 10));
+                        Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
+                        TextFlow textFlow = new TextFlow(text);
+                        textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
+                                "-fx-background-radius: 20px;"
+                                + "-fx-color-label-visible: rgb(239,242,255);");
+                        textFlow.setPadding(new Insets(5, 10, 5, 10));
+                        hBox.getChildren().add(textFlow);
+                        vboxMessages.getChildren().add(hBox);
+                    }
+
+                }
+            }
+            if (isFirstPlayerMainUser) {
+                if (visualData.getLeader(0) != null) {
+                    if (firstPlayerLeaderImage != null) {
+                        if (firstPlayerLeaderImage.getChildren().isEmpty()) {
+                            firstPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
+                        }
+                    }
+                }
+                if (visualData.getLeader(1) != null) {
+                    if (secondPlayerLeaderImage != null) {
+                        if (secondPlayerLeaderImage.getChildren().isEmpty()) {
+                            secondPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
+                        }
+                    }
                 }
 
-            } else {
-                if (Objects.equals(visualData.getNickName(0), visualData.getUsername())) {
-                    hBox.setAlignment(Pos.CENTER_RIGHT);
-                    hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(212,232,242); " +
-                            "-fx-background-radius: 20px;"
-                            + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5, 10, 5, 10));
-                    hBox.getChildren().add(textFlow);
-                    vboxMessages.getChildren().add(hBox);
+
+                if (visualData.getCrystals(0) == 2) {
+                    firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                } else if (visualData.getCrystals(0) == 1) {
+                    firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
                 } else {
-                    hBox.setAlignment(Pos.CENTER_LEFT);
-                    hBox.setPadding(new Insets(5, 5, 5, 10));
-                    Text text = new Text(STR."\{visualData.getTime()} \{visualData.getUsername()}\n:\{visualData.getMessage()}");
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(15,125,242); " +
-                            "-fx-background-radius: 20px;"
-                            + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5, 10, 5, 10));
-                    hBox.getChildren().add(textFlow);
-                    vboxMessages.getChildren().add(hBox);
+                    firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
                 }
 
-            }
-        }
-        if (isFirstPlayerMainUser) {
-            if (visualData.getLeader(0) != null) {
-                if (firstPlayerLeaderImage != null) {
-                    if (firstPlayerLeaderImage.getChildren().isEmpty()) {
-                        firstPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
+
+                if (visualData.getCrystals(1) == 2) {
+                    secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                } else if (visualData.getCrystals(1) == 1) {
+                    secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+                } else {
+                    secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+                }
+
+
+                firstplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerDeck").size()}");
+                secondplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerDeck").size()}");
+                firstPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerInPlay").size()}");
+                secondPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerInPlay").size()}");
+                FirstPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(0, 0)}");
+                FirstPlayerRangedNum.setText(STR."\{visualData.getRowPoints(0, 1)}");
+                FirstPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(0, 2)}");
+                SecondPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(1, 0)}");
+                SecondPlayerRangedNum.setText(STR."\{visualData.getRowPoints(1, 1)}");
+                SecondPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(1, 2)}");
+                firstPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(0)}");
+                secondPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(1)}");
+
+                if (visualData.getBoost(0, 0) != null) {
+                    firstplayerclosecombatspecial.getChildren().clear();
+                    firstplayerclosecombatspecial.getChildren().add(visualData.getBoost(0, 0));
+                }
+                if (visualData.getBoost(0, 1) != null) {
+                    firstplayerrangedspecial.getChildren().clear();
+                    firstplayerrangedspecial.getChildren().add(visualData.getBoost(0, 1));
+                }
+                if (visualData.getBoost(0, 2) != null) {
+                    firstplayersiegespecial.getChildren().clear();
+                    firstplayersiegespecial.getChildren().add(visualData.getBoost(0, 2));
+                }
+
+                if (visualData.getBoost(1, 0) != null) {
+                    secondplayerclosecombatspecial.getChildren().clear();
+                    secondplayerclosecombatspecial.getChildren().add(visualData.getBoost(1, 0));
+                }
+                if (visualData.getBoost(1, 1) != null) {
+                    secondplayerrangedspecial.getChildren().clear();
+                    secondplayerrangedspecial.getChildren().add(visualData.getBoost(1, 1));
+                }
+                if (visualData.getBoost(1, 2) != null) {
+                    secondplayersiegespecial.getChildren().clear();
+                    secondplayersiegespecial.getChildren().add(visualData.getBoost(1, 2));
+                }
+                //f inplay
+
+                if (!(visualData.getCardArrayByArrayName("firstPlayerInPlay").isEmpty() &&
+                        Hand.getChildren().isEmpty())) {
+                    Hand.getChildren().clear();
+                    Hand.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerInPlay"));
+                }
+                //fs
+                if (!(visualData.getCardArrayByArrayName("firstPlayerCC").isEmpty() &&
+                        firstPlayerCloseCombat.getChildren().isEmpty())) {
+                    firstPlayerCloseCombat.getChildren().clear();
+                    firstPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerCC"));
+                }
+                //fr
+                if (!(visualData.getCardArrayByArrayName("firstPlayerRanged").isEmpty() &&
+                        firstPlayerRanged.getChildren().isEmpty())) {
+                    firstPlayerRanged.getChildren().clear();
+                    firstPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerRanged"));
+                }
+                //fs
+                if (!(visualData.getCardArrayByArrayName("firstPlayerSiege").isEmpty() &&
+                        firstPlayerSiege.getChildren().isEmpty())) {
+                    firstPlayerSiege.getChildren().clear();
+                    firstPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerSiege"));
+                }
+                //sc
+                if (!(visualData.getCardArrayByArrayName("secondPlayerCC").isEmpty() &&
+                        secondPlayerCloseCombat.getChildren().isEmpty())) {
+                    secondPlayerCloseCombat.getChildren().clear();
+                    secondPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerCC"));
+                }
+                //sr
+                if (!(visualData.getCardArrayByArrayName("secondPlayerRanged").isEmpty() &&
+                        secondPlayerRanged.getChildren().isEmpty())) {
+                    secondPlayerRanged.getChildren().clear();
+                    secondPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerRanged"));
+                }
+                //ss
+                if (!(visualData.getCardArrayByArrayName("secondPlayerSiege").isEmpty() &&
+                        secondPlayerSiege.getChildren().isEmpty())) {
+                    secondPlayerSiege.getChildren().clear();
+                    secondPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerSiege"));
+                }
+                if (!(visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty() &&
+                        firstPlayerDiscard.getChildren().isEmpty())) {
+                    firstPlayerDiscard.getChildren().clear();
+                    if (!visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty()) {
+                        firstPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("firstPlayerDiscard").getLast());
                     }
                 }
-            }
-            if (visualData.getLeader(1) != null) {
-                if (secondPlayerLeaderImage != null) {
-                    if (secondPlayerLeaderImage.getChildren().isEmpty()) {
-                        secondPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
+                if (!(visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty() &&
+                        secondPlayerDiscard.getChildren().isEmpty())) {
+                    secondPlayerDiscard.getChildren().clear();
+                    if (!visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty()) {
+                        secondPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("secondPlayerDiscard").getLast());
                     }
                 }
-            }
 
-
-            if (visualData.getCrystals(0) == 2) {
-                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-            } else if (visualData.getCrystals(0) == 1) {
-                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
-            } else {
-                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
+                secondPlayerName.setText(STR."\{visualData.getNickName(0)}");
+                firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
+                firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
+                secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
             }
-
-
-            if (visualData.getCrystals(1) == 2) {
-                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-            } else if (visualData.getCrystals(1) == 1) {
-                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
-            } else {
-                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
-            }
-
-
-            firstplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerDeck").size()}");
-            secondplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerDeck").size()}");
-            firstPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerInPlay").size()}");
-            secondPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerInPlay").size()}");
-            FirstPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(0, 0)}");
-            FirstPlayerRangedNum.setText(STR."\{visualData.getRowPoints(0, 1)}");
-            FirstPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(0, 2)}");
-            SecondPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(1, 0)}");
-            SecondPlayerRangedNum.setText(STR."\{visualData.getRowPoints(1, 1)}");
-            SecondPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(1, 2)}");
-            firstPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(0)}");
-            secondPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(1)}");
-
-            if (visualData.getBoost(0, 0) != null) {
-                firstplayerclosecombatspecial.getChildren().clear();
-                firstplayerclosecombatspecial.getChildren().add(visualData.getBoost(0, 0));
-            }
-            if (visualData.getBoost(0, 1) != null) {
-                firstplayerrangedspecial.getChildren().clear();
-                firstplayerrangedspecial.getChildren().add(visualData.getBoost(0, 1));
-            }
-            if (visualData.getBoost(0, 2) != null) {
-                firstplayersiegespecial.getChildren().clear();
-                firstplayersiegespecial.getChildren().add(visualData.getBoost(0, 2));
-            }
-
-            if (visualData.getBoost(1, 0) != null) {
-                secondplayerclosecombatspecial.getChildren().clear();
-                secondplayerclosecombatspecial.getChildren().add(visualData.getBoost(1, 0));
-            }
-            if (visualData.getBoost(1, 1) != null) {
-                secondplayerrangedspecial.getChildren().clear();
-                secondplayerrangedspecial.getChildren().add(visualData.getBoost(1, 1));
-            }
-            if (visualData.getBoost(1, 2) != null) {
-                secondplayersiegespecial.getChildren().clear();
-                secondplayersiegespecial.getChildren().add(visualData.getBoost(1, 2));
-            }
-            //f inplay
-
-            if (!(visualData.getCardArrayByArrayName("firstPlayerInPlay").isEmpty() &&
-                    Hand.getChildren().isEmpty())) {
-                Hand.getChildren().clear();
-                Hand.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerInPlay"));
-            }
-            //fs
-            if (!(visualData.getCardArrayByArrayName("firstPlayerCC").isEmpty() &&
-                    firstPlayerCloseCombat.getChildren().isEmpty())) {
-                firstPlayerCloseCombat.getChildren().clear();
-                firstPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerCC"));
-            }
-            //fr
-            if (!(visualData.getCardArrayByArrayName("firstPlayerRanged").isEmpty() &&
-                    firstPlayerRanged.getChildren().isEmpty())) {
-                firstPlayerRanged.getChildren().clear();
-                firstPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerRanged"));
-            }
-            //fs
-            if (!(visualData.getCardArrayByArrayName("firstPlayerSiege").isEmpty() &&
-                    firstPlayerSiege.getChildren().isEmpty())) {
-                firstPlayerSiege.getChildren().clear();
-                firstPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerSiege"));
-            }
-            //sc
-            if (!(visualData.getCardArrayByArrayName("secondPlayerCC").isEmpty() &&
-                    secondPlayerCloseCombat.getChildren().isEmpty())) {
-                secondPlayerCloseCombat.getChildren().clear();
-                secondPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerCC"));
-            }
-            //sr
-            if (!(visualData.getCardArrayByArrayName("secondPlayerRanged").isEmpty() &&
-                    secondPlayerRanged.getChildren().isEmpty())) {
-                secondPlayerRanged.getChildren().clear();
-                secondPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerRanged"));
-            }
-            //ss
-            if (!(visualData.getCardArrayByArrayName("secondPlayerSiege").isEmpty() &&
-                    secondPlayerSiege.getChildren().isEmpty())) {
-                secondPlayerSiege.getChildren().clear();
-                secondPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerSiege"));
-            }
-            if (!(visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty() &&
-                    firstPlayerDiscard.getChildren().isEmpty())) {
-                firstPlayerDiscard.getChildren().clear();
-                if (!visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty()) {
-                    firstPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("firstPlayerDiscard").getLast());
-                }
-            }
-            if (!(visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty() &&
-                    secondPlayerDiscard.getChildren().isEmpty())) {
-                secondPlayerDiscard.getChildren().clear();
-                if (!visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty()) {
-                    secondPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("secondPlayerDiscard").getLast());
-                }
-            }
-
-            secondPlayerName.setText(STR."\{visualData.getNickName(0)}");
-            firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
-            firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
-            secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-        }
-        else {
-            if (visualData.getLeader(1) != null) {
-                if (firstPlayerLeaderImage != null) {
-                    if (firstPlayerLeaderImage.getChildren().isEmpty()) {
-                        firstPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
+            else {
+                if (visualData.getLeader(1) != null) {
+                    if (firstPlayerLeaderImage != null) {
+                        if (firstPlayerLeaderImage.getChildren().isEmpty()) {
+                            firstPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
+                        }
                     }
                 }
-            }
-            if (visualData.getLeader(0) != null) {
-                if (secondPlayerLeaderImage != null) {
-                    if (secondPlayerLeaderImage.getChildren().isEmpty()) {
-                        secondPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
+                if (visualData.getLeader(0) != null) {
+                    if (secondPlayerLeaderImage != null) {
+                        if (secondPlayerLeaderImage.getChildren().isEmpty()) {
+                            secondPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
+                        }
                     }
                 }
-            }
 
 
-            if (visualData.getCrystals(1) == 2) {
-                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-            } else if (visualData.getCrystals(1) == 1) {
-                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                if (visualData.getCrystals(1) == 2) {
+                    firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                } else if (visualData.getCrystals(1) == 1) {
+                    firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
-            } else {
-                firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                } else {
+                    firstPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    firstPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
-            }
-
-
-            if (visualData.getCrystals(0) == 2) {
-                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-            } else if (visualData.getCrystals(0) == 1) {
-                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
-            } else {
-                secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-                secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
-            }
-
-
-            firstplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerDeck").size()}");
-            secondplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerDeck").size()}");
-            firstPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerInPlay").size()}");
-            secondPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerInPlay").size()}");
-            FirstPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(1, 0)}");
-            FirstPlayerRangedNum.setText(STR."\{visualData.getRowPoints(1, 1)}");
-            FirstPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(1, 2)}");
-            SecondPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(0, 0)}");
-            SecondPlayerRangedNum.setText(STR."\{visualData.getRowPoints(0, 1)}");
-            SecondPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(0, 2)}");
-            firstPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(1)}");
-            secondPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(0)}");
-
-            if (visualData.getBoost(1, 0) != null) {
-                firstplayerclosecombatspecial.getChildren().clear();
-                firstplayerclosecombatspecial.getChildren().add(visualData.getBoost(1, 0));
-            }
-            if (visualData.getBoost(1, 1) != null) {
-                firstplayerrangedspecial.getChildren().clear();
-                firstplayerrangedspecial.getChildren().add(visualData.getBoost(1, 1));
-            }
-            if (visualData.getBoost(1, 2) != null) {
-                firstplayersiegespecial.getChildren().clear();
-                firstplayersiegespecial.getChildren().add(visualData.getBoost(1, 2));
-            }
-
-            if (visualData.getBoost(0, 0) != null) {
-                secondplayerclosecombatspecial.getChildren().clear();
-                secondplayerclosecombatspecial.getChildren().add(visualData.getBoost(0, 0));
-            }
-            if (visualData.getBoost(0, 1) != null) {
-                secondplayerrangedspecial.getChildren().clear();
-                secondplayerrangedspecial.getChildren().add(visualData.getBoost(0, 1));
-            }
-            if (visualData.getBoost(0, 2) != null) {
-                secondplayersiegespecial.getChildren().clear();
-                secondplayersiegespecial.getChildren().add(visualData.getBoost(0, 2));
-            }
-            //f inplay
-
-            if (!(visualData.getCardArrayByArrayName("secondPlayerInPlay").isEmpty() &&
-                    Hand.getChildren().isEmpty())) {
-                Hand.getChildren().clear();
-                Hand.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerInPlay"));
-            }
-            //fs
-            if (!(visualData.getCardArrayByArrayName("secondPlayerCC").isEmpty() &&
-                    firstPlayerCloseCombat.getChildren().isEmpty())) {
-                firstPlayerCloseCombat.getChildren().clear();
-                firstPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerCC"));
-            }
-            //fr
-            if (!(visualData.getCardArrayByArrayName("secondPlayerRanged").isEmpty() &&
-                    firstPlayerRanged.getChildren().isEmpty())) {
-                firstPlayerRanged.getChildren().clear();
-                firstPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerRanged"));
-            }
-            //fs
-            if (!(visualData.getCardArrayByArrayName("secondPlayerSiege").isEmpty() &&
-                    firstPlayerSiege.getChildren().isEmpty())) {
-                firstPlayerSiege.getChildren().clear();
-                firstPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerSiege"));
-            }
-            //sc
-            if (!(visualData.getCardArrayByArrayName("firstPlayerCC").isEmpty() &&
-                    secondPlayerCloseCombat.getChildren().isEmpty())) {
-                secondPlayerCloseCombat.getChildren().clear();
-                secondPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerCC"));
-            }
-            //sr
-            if (!(visualData.getCardArrayByArrayName("firstPlayerRanged").isEmpty() &&
-                    secondPlayerRanged.getChildren().isEmpty())) {
-                secondPlayerRanged.getChildren().clear();
-                secondPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerRanged"));
-            }
-            //ss
-            if (!(visualData.getCardArrayByArrayName("firstPlayerSiege").isEmpty() &&
-                    secondPlayerSiege.getChildren().isEmpty())) {
-                secondPlayerSiege.getChildren().clear();
-                secondPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerSiege"));
-            }
-            if (!(visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty() &&
-                    firstPlayerDiscard.getChildren().isEmpty())) {
-                firstPlayerDiscard.getChildren().clear();
-                if (!visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty()) {
-                    firstPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("secondPlayerDiscard").getLast());
                 }
-            }
-            if (!(visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty() &&
-                    secondPlayerDiscard.getChildren().isEmpty())) {
-                secondPlayerDiscard.getChildren().clear();
-                if (!visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty()) {
-                    secondPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("firstPlayerDiscard").getLast());
+
+
+                if (visualData.getCrystals(0) == 2) {
+                    secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                } else if (visualData.getCrystals(0) == 1) {
+                    secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_red.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
+                } else {
+                    secondPLayerCrystal1.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+                    secondPLayerCrystal2.setBackground(new Background(new BackgroundImage(new Image(Card.class.getResource("/Assets/InfoHolder/ruby_grey.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
                 }
+
+
+                firstplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerDeck").size()}");
+                secondplayerdeckamount.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerDeck").size()}");
+                firstPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("firstPlayerInPlay").size()}");
+                secondPlayerRemainingCards.setText(STR."\{visualData.getCardArrayByArrayName("secondPlayerInPlay").size()}");
+                FirstPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(1, 0)}");
+                FirstPlayerRangedNum.setText(STR."\{visualData.getRowPoints(1, 1)}");
+                FirstPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(1, 2)}");
+                SecondPlayerCloseCombatNum.setText(STR."\{visualData.getRowPoints(0, 0)}");
+                SecondPlayerRangedNum.setText(STR."\{visualData.getRowPoints(0, 1)}");
+                SecondPlayerSiegeNum.setText(STR."\{visualData.getRowPoints(0, 2)}");
+                firstPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(1)}");
+                secondPlayerTotalScore.setText(STR."\{visualData.getTotalPoints(0)}");
+
+                if (visualData.getBoost(1, 0) != null) {
+                    firstplayerclosecombatspecial.getChildren().clear();
+                    firstplayerclosecombatspecial.getChildren().add(visualData.getBoost(1, 0));
+                }
+                if (visualData.getBoost(1, 1) != null) {
+                    firstplayerrangedspecial.getChildren().clear();
+                    firstplayerrangedspecial.getChildren().add(visualData.getBoost(1, 1));
+                }
+                if (visualData.getBoost(1, 2) != null) {
+                    firstplayersiegespecial.getChildren().clear();
+                    firstplayersiegespecial.getChildren().add(visualData.getBoost(1, 2));
+                }
+
+                if (visualData.getBoost(0, 0) != null) {
+                    secondplayerclosecombatspecial.getChildren().clear();
+                    secondplayerclosecombatspecial.getChildren().add(visualData.getBoost(0, 0));
+                }
+                if (visualData.getBoost(0, 1) != null) {
+                    secondplayerrangedspecial.getChildren().clear();
+                    secondplayerrangedspecial.getChildren().add(visualData.getBoost(0, 1));
+                }
+                if (visualData.getBoost(0, 2) != null) {
+                    secondplayersiegespecial.getChildren().clear();
+                    secondplayersiegespecial.getChildren().add(visualData.getBoost(0, 2));
+                }
+                //f inplay
+
+                if (!(visualData.getCardArrayByArrayName("secondPlayerInPlay").isEmpty() &&
+                        Hand.getChildren().isEmpty())) {
+                    Hand.getChildren().clear();
+                    Hand.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerInPlay"));
+                }
+                //fs
+                if (!(visualData.getCardArrayByArrayName("secondPlayerCC").isEmpty() &&
+                        firstPlayerCloseCombat.getChildren().isEmpty())) {
+                    firstPlayerCloseCombat.getChildren().clear();
+                    firstPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerCC"));
+                }
+                //fr
+                if (!(visualData.getCardArrayByArrayName("secondPlayerRanged").isEmpty() &&
+                        firstPlayerRanged.getChildren().isEmpty())) {
+                    firstPlayerRanged.getChildren().clear();
+                    firstPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerRanged"));
+                }
+                //fs
+                if (!(visualData.getCardArrayByArrayName("secondPlayerSiege").isEmpty() &&
+                        firstPlayerSiege.getChildren().isEmpty())) {
+                    firstPlayerSiege.getChildren().clear();
+                    firstPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("secondPlayerSiege"));
+                }
+                //sc
+                if (!(visualData.getCardArrayByArrayName("firstPlayerCC").isEmpty() &&
+                        secondPlayerCloseCombat.getChildren().isEmpty())) {
+                    secondPlayerCloseCombat.getChildren().clear();
+                    secondPlayerCloseCombat.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerCC"));
+                }
+                //sr
+                if (!(visualData.getCardArrayByArrayName("firstPlayerRanged").isEmpty() &&
+                        secondPlayerRanged.getChildren().isEmpty())) {
+                    secondPlayerRanged.getChildren().clear();
+                    secondPlayerRanged.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerRanged"));
+                }
+                //ss
+                if (!(visualData.getCardArrayByArrayName("firstPlayerSiege").isEmpty() &&
+                        secondPlayerSiege.getChildren().isEmpty())) {
+                    secondPlayerSiege.getChildren().clear();
+                    secondPlayerSiege.getChildren().addAll(visualData.getCardArrayByArrayName("firstPlayerSiege"));
+                }
+                if (!(visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty() &&
+                        firstPlayerDiscard.getChildren().isEmpty())) {
+                    firstPlayerDiscard.getChildren().clear();
+                    if (!visualData.getCardArrayByArrayName("secondPlayerDiscard").isEmpty()) {
+                        firstPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("secondPlayerDiscard").getLast());
+                    }
+                }
+                if (!(visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty() &&
+                        secondPlayerDiscard.getChildren().isEmpty())) {
+                    secondPlayerDiscard.getChildren().clear();
+                    if (!visualData.getCardArrayByArrayName("firstPlayerDiscard").isEmpty()) {
+                        secondPlayerDiscard.getChildren().add(visualData.getCardArrayByArrayName("firstPlayerDiscard").getLast());
+                    }
+                }
+
+                secondPlayerName.setText(STR."\{visualData.getNickName(1)}");
+                firstPlayerName.setText(STR."\{visualData.getNickName(0)}");
+                firstPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
+                secondPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
+
             }
 
-            secondPlayerName.setText(STR."\{visualData.getNickName(1)}");
-            firstPlayerName.setText(STR."\{visualData.getNickName(0)}");
-            firstPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-            secondPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
+            //spell
+            if (!(visualData.getCardArrayByArrayName("weather").isEmpty() &&
+                    spellCards.getChildren().isEmpty())) {
+                spellCards.getChildren().clear();
+                spellCards.getChildren().addAll(visualData.getCardArrayByArrayName("weather"));
+            }
+            InitiateCardEvents();
+            if (visualData.isMatchFinished()) {
+                System.out.println("sock these nuts");
+            }
+        });
 
-        }
-
-        //spell
-        if (!(visualData.getCardArrayByArrayName("weather").isEmpty() &&
-                spellCards.getChildren().isEmpty())) {
-            spellCards.getChildren().clear();
-            spellCards.getChildren().addAll(visualData.getCardArrayByArrayName("weather"));
-        }
-        InitiateCardEvents();
-        if (visualData.isMatchFinished()) {
-            System.out.println("sock these nuts");
-        }
     }
 
     public void secondPlayerSiegeClicked() {
