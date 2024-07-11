@@ -76,14 +76,14 @@ public class Client {
         }
     }
 
-    private void sendMessage(String message) {
+    private synchronized void sendMessage(String message) {
         try {
             sendBuffer.writeUTF(message);
         } catch (Exception e) {
         }
     }
 
-    private String receiveResponse() {
+    private synchronized String receiveResponse() {
         try {
             return receiveBuffer.readUTF();
         } catch (IOException e) {
@@ -131,7 +131,7 @@ public class Client {
         return getServerMessage(requestMessage);
     }
 
-    private ServerMessages getServerMessage(ClientMessages clientMessages) {
+    private synchronized ServerMessages getServerMessage(ClientMessages clientMessages) {
         establishConnection();
         sendMessage(gsonAgent.toJson(clientMessages));
         String response = receiveResponse();
@@ -258,7 +258,7 @@ public class Client {
         getServerMessage(messages);
 
     }
-    public String sendCommand(String command){
+    public synchronized String sendCommand(String command){
         ChangeMatchTableDataMessages messages = new ChangeMatchTableDataMessages(command);
         ServerMessages serverMessages =getServerMessage(messages);
         return serverMessages.getAdditionalInfo();
