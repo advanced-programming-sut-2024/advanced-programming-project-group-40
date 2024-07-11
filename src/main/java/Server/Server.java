@@ -374,7 +374,6 @@ public class Server extends Thread {
                                 requestSent = false;
                                 break;
                             case GAME_UPDATE:
-                                System.out.println(updateMessage.getToken() + " updating game");
                                 User user1 = getUserByUsername(updateMessage.getToken());
                                 MatchTable matchTable = null;
                                 for (MatchTable matchTable1 : matchTables) {
@@ -401,7 +400,7 @@ public class Server extends Thread {
                             User user2 = getUserByUsername(acceptRejectRequest.getToken());
                             user1.createDeckCards();
                             user2.createDeckCards();
-                            MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(), true);
+                            MatchTable matchTable = new MatchTable(user1, user2, new GameMenuController(), acceptRejectRequest.isAccept());
                             matchTable.getGameMenuController().setMatchTable(matchTable);
                             matchTables.add(matchTable);
                             GameBoardVisualData a = new GameBoardVisualData(matchTable

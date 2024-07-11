@@ -174,8 +174,6 @@ public class GameMenuController {
 
 
     public  GameBoardVisualData initiateDeck() {
-        //matchTable.getFirstPlayer().getMatchesPlayed().add(matchTable);
-        //matchTable.getSecondPlayer().getMatchesPlayed().add(matchTable);
         matchTable.initilizeTable();
         return sendData(false, false, false, false, false);
     }
