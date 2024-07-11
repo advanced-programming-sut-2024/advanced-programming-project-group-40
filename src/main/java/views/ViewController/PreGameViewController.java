@@ -594,4 +594,7 @@ public class PreGameViewController {
         setUpLabels();
         setUpLeadersImages();
     }
+
+    public void startRandomGame(MouseEvent mouseEvent) {
+    }
 }
