@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import models.Game;
 import views.GameView;
+import views.ViewController.PreGameViewController;
 import views.ViewController.GameViewController;
 import views.ViewController.PreGameViewController;
 
@@ -20,6 +21,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class Client {
     private Socket socket;
@@ -48,6 +51,7 @@ public class Client {
         this.gsonAgent = builder.create();
         this.serverIP = serverIP;
         this.serverPort = serverPort;
+
     }
 
     private boolean establishConnection() {
@@ -150,6 +154,8 @@ public class Client {
     }
 
     public void update(UpdateMessage updateMessage) {
+//        if (updateThread != null)
+//            updateThread.;
         startUpdateThread(updateMessage);
     }
 
@@ -288,4 +294,10 @@ public class Client {
         }
         return serverMessages.getAdditionalInfo();
     }
+
+//    public void stopUpdateThread() {
+//        updateThread.;
+//    }
+
+
 }
