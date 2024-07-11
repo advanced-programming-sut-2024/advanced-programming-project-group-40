@@ -425,7 +425,6 @@ public class Server extends Thread {
                                 break;
                             }
                         }
-                        assert matchTable != null;
                         matchTable.getGameMenuController().sendCommand(changeMessage.getMessage());
                         GameBoardVisualData visualData = new GameBoardVisualData(matchTable
                                 , false, false, false, false, false);
