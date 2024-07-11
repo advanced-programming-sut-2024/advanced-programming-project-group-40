@@ -31,6 +31,7 @@ public class SignUpMenuController extends UserInfoController {
         Game.getLoggedInUser().setSecurityAnswer(answer);
         Game.addNewUser(Game.getLoggedInUser());
         SignUpMessages signUpMessages = new SignUpMessages(Game.getLoggedInUser());
+        signUpMessages.setToken(Game.getLoggedInUser().getUsername());
         ClientHandler.client.signUp(signUpMessages);
         DataSaver.saveUsers();
         return new AlertMaker(Alert.AlertType.INFORMATION, AlertHeader.SIGN_UP.toString(), SignUpMenuMessages.SIGNED_UP_SUCCESSFULLY.toString());

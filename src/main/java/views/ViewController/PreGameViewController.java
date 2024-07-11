@@ -558,6 +558,7 @@ public class PreGameViewController {
                             }
                         });
                         RequestMessage requestMessage1 = new RequestMessage(loggedInUser.getUsername(), loggedInUser.getUsername(), MessageSubType.ADD_TO_USERS_IN_GAME);
+                        requestMessage1.setToken(Game.getLoggedInUser().getUsername());
                         ClientHandler.client.request(requestMessage1);
                         System.out.println("YOOOOHOOOOOOOOO");
                         //TODO : Start the game

@@ -149,6 +149,7 @@ public class Client {
     private void startUpdateThread(UpdateMessage updateMessage) {
         updateThread = new Thread(() -> {
             while (true) {
+                updateMessage.setToken(Game.getLoggedInUser().getUsername());
                 ServerMessages serverMessages = getServerMessage(updateMessage);
                 MessageSubType messageSubType = updateMessage.getSubType();
                 MessageType messageType = updateMessage.getType();
