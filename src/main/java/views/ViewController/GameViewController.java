@@ -177,7 +177,8 @@ public class GameViewController extends PlayMenu implements Initializable {
         emptyMessage();
         chat.hbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
         chat.vbarPolicyProperty().setValue(ScrollPane.ScrollBarPolicy.NEVER);
-        setVisualData(ClientHandler.client.sendCommand("initiateDeck"));
+        String a = ClientHandler.client.sendCommand("initiateDeck");
+        setVisualData(a);
         isFirstPlayerMainUser = Objects.equals(Game.getLoggedInUser().getUsername(), visualData.getUsername());
     }
 

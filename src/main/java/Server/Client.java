@@ -198,6 +198,13 @@ public class Client {
                                             throw new RuntimeException(e);
                                         }
                                         //TODO: Start the game
+                                        Platform.runLater(() ->{
+                                            try {
+                                                new GameView().start(Game.stage);
+                                            } catch (Exception e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        });
                                     }
                                 } else {
                                     PreGameViewController.startGameStatus = "Game Request Declined";
@@ -220,6 +227,11 @@ public class Client {
                             if (Objects.equals(serverMessages.getAdditionalInfo(), "finished")) {
                                 finishGame();
                             } else {
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
                                 gameViewController.setVisualData(serverMessages.getAdditionalInfo());
                             }
                         }
