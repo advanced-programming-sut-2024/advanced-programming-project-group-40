@@ -34,7 +34,9 @@ import models.cards.Card;
 import models.cards.Hero;
 import models.cards.SpecialCard;
 import models.cards.UnitCard;
+import views.GameView;
 import views.Main;
+import views.MainMenu;
 import views.PlayMenu;
 
 import java.net.URL;
@@ -454,24 +456,22 @@ public class GameViewController extends PlayMenu implements Initializable {
                 }
             }
             if (!(visualData.isOnline1()&& visualData.isOnline2())){
-                MakeFuckOffedFromLineWindow();
+                MakeFuckedOffFromLineWindow();
                 System.out.println("someone got fucked off the line");
 
             }
             if (isFirstPlayerMainUser) {
                 if (visualData.getLeader(0) != null) {
-                    if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {
                             firstPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
                         }
-                    }
+
                 }
                 if (visualData.getLeader(1) != null) {
-                    if (secondPlayerLeaderImage != null) {
                         if (secondPlayerLeaderImage.getChildren().isEmpty()) {
                             secondPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
                         }
-                    }
+
                 }
 
 
@@ -603,20 +603,19 @@ public class GameViewController extends PlayMenu implements Initializable {
                 firstPlayerName.setText(STR."\{visualData.getNickName(1)}");
                 firstPlayerFaction.setText(STR."\{visualData.getFaction(0)}");
                 secondPlayerFaction.setText(STR."\{visualData.getFaction(1)}");
-            } else {
+            }
+            else {
                 if (visualData.getLeader(1) != null) {
-                    if (firstPlayerLeaderImage != null) {
                         if (firstPlayerLeaderImage.getChildren().isEmpty()) {
                             firstPlayerLeaderImage.getChildren().add(visualData.getLeader(1));
                         }
-                    }
+
                 }
                 if (visualData.getLeader(0) != null) {
-                    if (secondPlayerLeaderImage != null) {
                         if (secondPlayerLeaderImage.getChildren().isEmpty()) {
                             secondPlayerLeaderImage.getChildren().add(visualData.getLeader(0));
                         }
-                    }
+
                 }
 
 
@@ -904,13 +903,28 @@ public class GameViewController extends PlayMenu implements Initializable {
         InitiateCardEvents(hBox);
     }
 
-    public void MakeFuckOffedFromLineWindow() {
+    public void MakeFuckedOffFromLineWindow() {
         tempStage.setHeight(140);
         tempStage.setWidth(800);
         tempStage.setResizable(false);
         Label hBox = new Label();
-        hBox.setText("user disconnected from game");
-        Scene scene = new Scene(hBox);
+        Button button = new Button();
+        button.setLayoutX(60);
+        button.setLayoutY(60);
+        button.setText("click to go back to menu");
+        button.setOnMouseClicked(mouseEvent -> {
+            Platform.runLater(()->{
+                try {
+                    new MainMenu().start(Game.stage);
+
+                } catch (Exception q) {
+                    throw new RuntimeException(q);
+                }
+            });
+        });
+        hBox.setText("user disconnected from game. YOU WON!");
+        Pane pane1 = new Pane(hBox,button);
+        Scene scene = new Scene(pane1);
 
         tempStage.setScene(scene);
         tempStage.show();
