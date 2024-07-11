@@ -207,6 +207,9 @@ public class Server extends Thread {
                             serverMessage = new ServerMessages(usersInGame.contains(requestMessage.getOriginUsername()), "");
                             sendBuffer.writeUTF(gsonAgent.toJson(serverMessage));
                             break;
+                        case GET_ALL_GAMES_IN_PLAY:
+                            // todo madyar
+                            break;
                     }
                     break;
                 case GET_LIST_OF_NAMES:

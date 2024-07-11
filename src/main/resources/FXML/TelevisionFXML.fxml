@@ -18,7 +18,7 @@
                                 <children>
                                     <BorderPane prefHeight="47.0" prefWidth="131.0" styleClass="Something">
                                         <center>
-                                            <Label text="player 1" BorderPane.alignment="CENTER">
+                                            <Label text="Player 1" BorderPane.alignment="CENTER">
                                                 <font>
                                                     <Font name="System Bold" size="20.0" />
                                                 </font>
